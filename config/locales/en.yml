@@ -1,10 +1,30 @@
 en:
+  dashboards:
+    show:
+      sign_out: "Sign out"
+
   date:
     formats:
       default:
         "%m/%d/%Y"
       with_weekday:
         "%a %m/%d/%y"
+
+  flashes:
+    sign_in_failed: "Failed to sign in"
+    sign_in_required: "Sign in with Namely"
+    sign_in_succeeded: "Welcome, %{name}"
+    signed_out: "Signed out"
+
+  helpers:
+    submit:
+      namely_authentication:
+        submit: "Sign in through Namely"
+
+  simple_form:
+    labels:
+      namely_authentication:
+        subdomain: Subdomain
 
   time:
     formats:

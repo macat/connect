@@ -10,6 +10,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |file| require file }
 module Features
   # Extend this module in spec/support/features/*.rb
   include Formulaic::Dsl
+  include TranslationHelpers
 end
 
 RSpec.configure do |config|

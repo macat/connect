@@ -11,6 +11,7 @@ gem "flutie"
 gem "high_voltage"
 gem "i18n-tasks"
 gem "jquery-rails"
+gem "namely", github: "namely/ruby-client"
 gem "neat", "~> 1.5.1"
 gem "newrelic_rpm", ">= 3.7.3"
 gem "normalize-rails", "~> 3.0.0"
@@ -39,12 +40,14 @@ group :development, :test do
 end
 
 group :test do
+  gem "capybara_discoball", github: "thoughtbot/capybara_discoball"
   gem "capybara-webkit", ">= 1.2.0"
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"
   gem "shoulda-matchers", require: false
   gem "timecop"
+  gem "vcr"
   gem "webmock"
 end
 
