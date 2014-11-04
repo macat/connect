@@ -1,6 +1,8 @@
 en:
   dashboards:
     show:
+      connect: "Connect"
+      edit: "Edit"
       sign_out: "Sign out"
 
   date:
@@ -18,11 +20,16 @@ en:
 
   helpers:
     submit:
+      jobvite_connection:
+        update: "Connect"
       namely_authentication:
         submit: "Sign in through Namely"
 
   simple_form:
     labels:
+      jobvite_connection:
+        api_key: "API key"
+        secret: "Secret"
       namely_authentication:
         subdomain: Subdomain
 

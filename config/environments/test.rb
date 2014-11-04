@@ -38,4 +38,7 @@ Rails.application.configure do
   config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { host: 'www.example.com' }
+
+  require Rails.root.join("spec/support/features/session_backdoor")
+  config.middleware.use SessionBackdoor
 end

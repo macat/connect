@@ -1,0 +1,21 @@
+require "rails_helper"
+
+describe JobviteConnection do
+  describe "associations" do
+    it { should belong_to(:user) }
+  end
+
+  describe "#connected?" do
+    it "returns true when the api_key and secret are set" do
+      jobvite_connection = described_class.new(api_key: "a", secret: "b")
+
+      expect(jobvite_connection).to be_connected
+    end
+
+    it "returns false when the api_key or secret is missing" do
+      expect(described_class.new).not_to be_connected
+      expect(described_class.new(api_key: "a")).not_to be_connected
+      expect(described_class.new(secret: "b")).not_to be_connected
+    end
+  end
+end

@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 20141105201452) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "jobvite_connections", force: true do |t|
+    t.string   "api_key"
+    t.string   "secret"
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "jobvite_connections", ["user_id"], name: "index_jobvite_connections_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false

@@ -1,1 +1,13 @@
 <%= button_to t(".sign_out"), session_path, method: :delete %>
+
+<ul>
+  <li>
+    Jobvite
+    <% if @jobvite_connection.connected? %>
+      <%= @jobvite_connection.api_key %>
+      <%= link_to t('.edit'), edit_jobvite_connection_path %>
+    <% else %>
+      <%= link_to t('.connect'), edit_jobvite_connection_path %>
+    <% end %>
+  </li>
+</ul>
