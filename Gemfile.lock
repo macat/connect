@@ -279,6 +279,7 @@ DEPENDENCIES
   rails (= 4.1.6)
   rails_12factor
   recipient_interceptor
+  rest_client
   rspec-rails (~> 3.0.0)
   sass-rails (~> 4.0.3)
   shoulda-matchers

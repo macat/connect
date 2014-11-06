@@ -10,4 +10,7 @@ VCR.configure do |c|
   c.filter_sensitive_data("<CLIENT_SECRET>") do
     Rails.configuration.namely_client_secret
   end
+
+  c.filter_sensitive_data("<JOBVITE_KEY>") { ENV.fetch("TEST_JOBVITE_KEY") }
+  c.filter_sensitive_data("<JOBVITE_SECRET>") { ENV.fetch("TEST_JOBVITE_SECRET") }
 end

@@ -4,6 +4,7 @@ en:
       connect: "Connect"
       disconnect: "Disconnect"
       edit: "Edit"
+      import_now: "Import now"
       sign_out: "Sign out"
 
   date:
@@ -34,6 +35,14 @@ en:
   jobvite_connections:
     edit:
       title: "Edit Jobvite connection"
+
+  jobvite_import:
+    status:
+      candidates_imported:
+        one: "%{count} candidate imported"
+        other: "%{count} candidates imported"
+      jobvite_error: "Jobvite error: %{message}"
+      not_connected: "No connected Jobvite account"
 
   simple_form:
     labels:

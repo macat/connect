@@ -9,6 +9,7 @@ ignore_unused:
   - activerecord.*
   - date.*
   - helpers.submit.*
+  - jobvite_import.status.*
   - simple_form.*
   - time.*
   - titles.*

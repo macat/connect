@@ -5,6 +5,7 @@
       <%= @jobvite_connection.api_key %>
       <div class="actions">
         <%= link_to t("dashboards.show.edit"), edit_jobvite_connection_path, class: "button" %>
+        <%= button_to t("dashboards.show.import_now"), jobvite_imports_path %>
         <%= button_to t("dashboards.show.disconnect"), jobvite_connection_path, method: :delete %>
       </div>
     <% else %>
