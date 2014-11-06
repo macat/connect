@@ -12,6 +12,11 @@ class JobviteConnectionsController < ApplicationController
     end
   end
 
+  def destroy
+    current_user.jobvite_connection.disconnect
+    redirect_to dashboard_path
+  end
+
   private
 
   def jobvite_connection_params

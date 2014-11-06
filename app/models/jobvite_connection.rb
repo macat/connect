@@ -4,4 +4,11 @@ class JobviteConnection < ActiveRecord::Base
   def connected?
     api_key.present? && secret.present?
   end
+
+  def disconnect
+    update(
+      api_key: nil,
+      secret: nil
+    )
+  end
 end

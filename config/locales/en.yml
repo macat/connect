@@ -2,6 +2,7 @@ en:
   dashboards:
     show:
       connect: "Connect"
+      disconnect: "Disconnect"
       edit: "Edit"
       sign_out: "Sign out"
 
