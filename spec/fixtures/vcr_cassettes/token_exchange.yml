@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://sales14.namely.com/api/v1/oauth2/token?redirect_uri=http://localhost:7000/session/create
+    uri: https://sales14.namely.com/api/v1/oauth2/token?redirect_uri=http://localhost:7000/session/oauth_callback
     body:
       encoding: US-ASCII
-      string: client_id=<CLIENT_ID>&client_secret=<CLIENT_SECRET>&grant_type=authorization_code&code=f457b513691c5c47b8abdcb757becf6d
+      string: client_id=<CLIENT_ID>&client_secret=<CLIENT_SECRET>&grant_type=authorization_code&code=8fb22f5a26e609c92db3305a2775ba20
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -27,9 +27,9 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 06 Nov 2014 16:14:20 GMT
+      - Thu, 06 Nov 2014 17:14:41 GMT
       Etag:
-      - '"35c2d15694789bf19a18a9b2c135f02f"'
+      - '"04dfa2b2213c7d3cc43505718970089c"'
       Pragma:
       - no-cache
       Server:
@@ -42,21 +42,21 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - be464e5e-8505-4483-8a57-8626aecbf7fb
+      - df5852f7-012a-4004-9df3-2982f4931ad7
       X-Runtime:
-      - '0.074162'
+      - '0.056831'
       Content-Length:
       - '141'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"access_token":"1059e6b20b9b38a4c57c4543016ce9b4","refresh_token":"7fca37f20845d4a02eed0da6a90a9ed8","token_type":"bearer","expires_in":899}'
+      string: '{"access_token":"5a3281a47625670442fa9acf12b39df6","refresh_token":"7d6bd8b6d600875f7f0f693349093fe5","token_type":"bearer","expires_in":899}'
     http_version: 
-  recorded_at: Thu, 06 Nov 2014 16:14:19 GMT
+  recorded_at: Thu, 06 Nov 2014 17:14:41 GMT
 - request:
     method: get
-    uri: https://sales14.namely.com/api/v1/profiles/me?access_token=1059e6b20b9b38a4c57c4543016ce9b4
+    uri: https://sales14.namely.com/api/v1/profiles/me?access_token=5a3281a47625670442fa9acf12b39df6
     body:
       encoding: US-ASCII
       string: ''
@@ -79,7 +79,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 06 Nov 2014 16:14:20 GMT
+      - Thu, 06 Nov 2014 17:14:41 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -92,9 +92,9 @@ http_interactions:
       X-Rack-Cache:
       - miss
       X-Request-Id:
-      - a084a496-9fac-4566-b87b-bcc0c91fa7c4
+      - a846bdfd-948f-4022-acbe-8c18ba3e9dc5
       X-Runtime:
-      - '0.036564'
+      - '0.026540'
       Content-Length:
       - '175'
       Connection:
@@ -107,5 +107,5 @@ http_interactions:
         mjnrE4bwONDk02WiwdNGepvr0YRIvUOrs3NU1rgMZ/xnKerQR0JK+QOgJHPX
         L9W4awbLup4LsJowZ5A+OYJuW8B3sON8/ZE/Uav38Ani9PPE3QAAAA==
     http_version: 
-  recorded_at: Thu, 06 Nov 2014 16:14:19 GMT
+  recorded_at: Thu, 06 Nov 2014 17:14:41 GMT
 recorded_with: VCR 2.9.3
