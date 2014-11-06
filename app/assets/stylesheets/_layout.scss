@@ -1,0 +1,24 @@
+header {
+  background: #f7f7f7;
+}
+header .inner {
+  @include outer-container;
+  padding: 1em;
+
+  h1 {
+    float: left;
+  }
+
+  .user {
+    float: right;
+  }
+}
+
+#flash_notice {
+  @extend %flash-success;
+}
+
+#content {
+  @include outer-container;
+  padding: 1em;
+}

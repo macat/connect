@@ -1,0 +1,9 @@
+a.button {
+  @extend %button;
+  vertical-align: bottom;
+}
+
+form.button_to,
+form.button_to > div {
+  display: inline;
+}

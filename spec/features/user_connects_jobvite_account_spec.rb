@@ -8,7 +8,7 @@ feature "User connects jobvite account" do
 
     visit dashboard_path(as: user)
 
-    expect(page).not_to have_content t("dashboards.show.edit")
+    expect(page).not_to have_link t("dashboards.show.edit")
 
     click_link t("dashboards.show.connect")
     fill_in field("jobvite_connection.api_key"), with: jobvite_api_key
@@ -16,7 +16,7 @@ feature "User connects jobvite account" do
     click_button button("jobvite_connection.update")
 
     expect(page).to have_content jobvite_api_key
-    expect(page).to have_content t("dashboards.show.edit")
-    expect(page).not_to have_content t("dashboards.show.connect")
+    expect(page).to have_link t("dashboards.show.edit")
+    expect(page).not_to have_link t("dashboards.show.connect")
   end
 end

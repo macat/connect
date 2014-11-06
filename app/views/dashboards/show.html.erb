@@ -1,14 +1,16 @@
-<%= button_to t("dashboards.show.sign_out"), session_path, method: :delete %>
-
-<ul>
+<ul id="apps">
   <li>
-    Jobvite
+    <h2>Jobvite</h2>
     <% if @jobvite_connection.connected? %>
       <%= @jobvite_connection.api_key %>
-      <%= link_to t("dashboards.show.edit"), edit_jobvite_connection_path %> |
-      <%= link_to t("dashboards.show.disconnect"), jobvite_connection_path, method: :delete %>
+      <div class="actions">
+        <%= link_to t("dashboards.show.edit"), edit_jobvite_connection_path, class: "button" %>
+        <%= button_to t("dashboards.show.disconnect"), jobvite_connection_path, method: :delete %>
+      </div>
     <% else %>
-      <%= link_to t("dashboards.show.connect"), edit_jobvite_connection_path %>
+      <div class="actions">
+        <%= link_to t("dashboards.show.connect"), edit_jobvite_connection_path, class: "button" %>
+      </div>
     <% end %>
   </li>
 </ul>

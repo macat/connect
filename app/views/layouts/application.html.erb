@@ -9,8 +9,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= body_class %>">
-  <%= render "flashes" -%>
-  <%= yield %>
-  <%= render "javascript" %>
+  <header>
+    <div class="inner">
+      <h1><%= title %></h1>
+      <% if logged_in? %>
+        <div class="user">
+          <%= button_to t("dashboards.show.sign_out"), session_path, method: :delete %>
+        </div>
+      <% end %>
+    </div>
+  </header>
+  <section id="content">
+    <%= render "flashes" -%>
+    <%= yield %>
+    <%= render "javascript" %>
+  </section>
 </body>
 </html>

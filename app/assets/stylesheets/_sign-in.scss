@@ -1,0 +1,23 @@
+form.sign-in {
+  font-size: 1.5em;
+  padding: 2em 0;
+
+  input {
+    width: auto;
+    text-align: right;
+  }
+
+  div.input,
+  input {
+    display: inline;
+  }
+
+  label {
+    position: absolute;
+    left: -99999px;
+  }
+
+  input[type=submit] {
+    margin-left: 1em;
+  }
+}

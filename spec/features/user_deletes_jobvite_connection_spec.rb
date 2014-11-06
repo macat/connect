@@ -12,11 +12,11 @@ feature "User deletes Jobvite connection" do
 
     visit dashboard_path(as: user)
 
-    expect(page).to have_content t("dashboards.show.disconnect")
+    expect(page).to have_button t("dashboards.show.disconnect")
 
-    click_link t("dashboards.show.disconnect")
+    click_button t("dashboards.show.disconnect")
 
-    expect(page).not_to have_content t("dashboards.show.disconnect")
-    expect(page).to have_content t("dashboards.show.connect")
+    expect(page).not_to have_button t("dashboards.show.disconnect")
+    expect(page).to have_link t("dashboards.show.connect")
   end
 end
