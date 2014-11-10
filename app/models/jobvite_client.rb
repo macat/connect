@@ -78,12 +78,8 @@ class JobviteClient
         sc: connection.secret,
         start: start,
         count: number_per_page,
-        wflowstate: hired_workflow_state,
+        wflowstate: connection.hired_workflow_state,
       }
-    end
-
-    def hired_workflow_state
-      "Offer Accepted"
     end
 
     def last_page?

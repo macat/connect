@@ -5,6 +5,10 @@ describe JobviteConnection do
     it { should belong_to(:user) }
   end
 
+  describe "validations" do
+    it { should validate_presence_of(:hired_workflow_state) }
+  end
+
   describe "#connected?" do
     it "returns true when the api_key and secret are set" do
       jobvite_connection = described_class.new(api_key: "a", secret: "b")

@@ -48,6 +48,7 @@ en:
     labels:
       jobvite_connection:
         api_key: "API key"
+        hired_workflow_state: "Workflow state of hired candidates"
         secret: "Secret"
       namely_authentication:
         subdomain: Subdomain

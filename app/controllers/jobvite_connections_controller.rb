@@ -20,6 +20,10 @@ class JobviteConnectionsController < ApplicationController
   private
 
   def jobvite_connection_params
-    params.require(:jobvite_connection).permit(:api_key, :secret)
+    params.require(:jobvite_connection).permit(
+      :api_key,
+      :hired_workflow_state,
+      :secret,
+    )
   end
 end

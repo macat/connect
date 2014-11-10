@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105201452) do
+ActiveRecord::Schema.define(version: 20141110201425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,9 +35,10 @@ ActiveRecord::Schema.define(version: 20141105201452) do
   create_table "jobvite_connections", force: true do |t|
     t.string   "api_key"
     t.string   "secret"
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",                                         null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "hired_workflow_state", default: "Offer Accepted", null: false
   end
 
   add_index "jobvite_connections", ["user_id"], name: "index_jobvite_connections_on_user_id", using: :btree

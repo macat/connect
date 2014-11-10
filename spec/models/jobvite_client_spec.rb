@@ -5,7 +5,11 @@ describe JobviteClient do
     context "when the API request is successful" do
       it "fetches recent hires from the Jobvite API" do
         stub_request(:get, "https://api.jobvite.com/api/v2/candidate").
-          with(query: hash_including("api" => "MY_API_KEY", "sc" => "MY_SECRET")).
+          with(query: hash_including(
+            "api" => "MY_API_KEY",
+            "sc" => "MY_SECRET",
+            "wflowstate" => "Hired",
+          )).
           to_return(
             body: sample_response(
               first_name: "Dade",
@@ -18,6 +22,7 @@ describe JobviteClient do
           "JobviteConnection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
+          hired_workflow_state: "Hired",
         )
         client = described_class.new(connection)
 
@@ -67,6 +72,7 @@ describe JobviteClient do
           "JobviteConnection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
+          hired_workflow_state: "Offer Accepted",
         )
         client = described_class.new(connection)
 
@@ -88,6 +94,7 @@ describe JobviteClient do
           "JobviteConnection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
+          hired_workflow_state: "Offer Accepted",
         )
         client = described_class.new(connection)
 
