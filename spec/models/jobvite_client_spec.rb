@@ -15,6 +15,8 @@ describe JobviteClient do
               first_name: "Dade",
               last_name: "Murphy",
               email: "crash.override@example.com",
+              start_date: DateTime.new(2014, 1, 1),
+              gender: "male",
             ),
             headers: { "Content-Type" => "application/json" },
           )
@@ -33,6 +35,8 @@ describe JobviteClient do
         expect(first_hire.first_name).to eq "Dade"
         expect(first_hire.last_name).to eq "Murphy"
         expect(first_hire.email).to eq "crash.override@example.com"
+        expect(first_hire.start_date).to eq DateTime.new(2014, 1, 1)
+        expect(first_hire.gender).to eq "male"
       end
     end
 
@@ -116,7 +120,7 @@ describe JobviteClient do
         "customField": [],
         "disposition": null,
         "eId": "pN0gfhw4",
-        "gender": "Undefined",
+        "gender": "#{values.fetch(:gender, "Undefined")}",
         "hireDate": 1415088000000,
         "job": {
           "company": null,
@@ -134,7 +138,7 @@ describe JobviteClient do
         "race": "Decline to Self Identify",
         "source": "Eugene Belford",
         "sourceType": "Recruiter",
-        "startDate": 1415865600000,
+        "startDate": #{values.fetch(:start_date, DateTime.now).to_i * 1000},
         "status": null,
         "veteranStatus": "Undefined"
       },

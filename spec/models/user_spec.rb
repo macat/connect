@@ -45,4 +45,23 @@ describe User do
       expect(jobvite_connection.user_id).to eq user.id
     end
   end
+
+  describe "#namely_connection" do
+    it "returns a Namely::Connection configured to use the user's credentials" do
+      namely_connection = double("Namely::Connection")
+      allow(Namely::Connection).to receive(:new).and_return(namely_connection)
+      user = described_class.new(
+        access_token: "MY_ACCESS_TOKEN",
+        subdomain: "ellingsonmineral",
+      )
+
+      result = user.namely_connection
+
+      expect(result).to eq namely_connection
+      expect(Namely::Connection).to have_received(:new).with(
+        access_token: "MY_ACCESS_TOKEN",
+        subdomain: "ellingsonmineral",
+      )
+    end
+  end
 end

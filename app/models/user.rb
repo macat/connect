@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
   def jobvite_connection
     super || JobviteConnection.create(user: self)
   end
+
+  def namely_connection
+    Namely::Connection.new(access_token: access_token, subdomain: subdomain)
+  end
 end

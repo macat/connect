@@ -21,15 +21,97 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '791'
+      - '800'
       Date:
-      - Thu, 06 Nov 2014 22:17:13 GMT
+      - Tue, 11 Nov 2014 21:26:49 GMT
       Server:
       - Jobvite
     body:
       encoding: UTF-8
-      string: '{"total":1,"candidates":[{"address":"","address2":"","application":{"comments":null,"customField":[],"disposition":"Hired","eId":"pN0gfhw4","gender":"Undefined","hireDate":1415088000000,"job":{"company":null,"customField":null,"department":null,"eId":null,"hiringManagers":null,"location":null,"recruiters":null,"requisitionId":null,"subsidiaryId":null,"title":null},"lastUpdatedDate":1415088000000,"race":"Decline
-        to Self Identify","source":"Attila Maczak","sourceType":"Recruiter","startDate":1415865600000,"status":null,"veteranStatus":"Undefined"},"city":"","companyName":"","country":"","eId":"edO1Ggwt","email":"beardsly@example.com","firstName":"Beardsly","homePhone":"","lastName":"McDog","location":",  ","postalCode":null,"state":"","title":"","workPhone":"","workStatus":"None"}]}'
+      string: '{"total":1,"candidates":[{"address":"","address2":"","application":{"comments":null,"customField":[],"disposition":"Hired","eId":"pN0gfhw4","gender":"Undefined","hireDate":1415088000000,"job":{"company":null,"customField":null,"department":null,"eId":null,"hiringManagers":null,"location":null,"recruiters":null,"requisitionId":null,"subsidiaryId":null,"title":null},"lastUpdatedDate":1415692800000,"race":"Decline
+        to Self Identify","source":"Attila Maczak","sourceType":"Recruiter","startDate":1415865600000,"status":null,"veteranStatus":"Undefined"},"city":"","companyName":"","country":"","eId":"edO1Ggwt","email":"beardsly.jobvite5@example.com","firstName":"Beardsly","homePhone":"","lastName":"McDog","location":",  ","postalCode":null,"state":"","title":"","workPhone":"","workStatus":"None"}]}'
     http_version: 
-  recorded_at: Thu, 06 Nov 2014 22:17:14 GMT
+  recorded_at: Tue, 11 Nov 2014 21:26:49 GMT
+- request:
+    method: post
+    uri: https://sales14.namely.com/api/v1/profiles
+    body:
+      encoding: UTF-8
+      string: '{"profiles":[{"first_name":"Beardsly","last_name":"McDog","email":"beardsly.jobvite5@example.com","user_status":"active","start_date":"2014-11-13"}],"access_token":"d05b6444979cd6782a509b2f49fba015"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '199'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 11 Nov 2014 21:26:50 GMT
+      Server:
+      - nginx
+      Status:
+      - 200 OK
+      Strict-Transport-Security:
+      - max-age=31536000
+      - max-age=31536000; includeSubDomains;
+      Vary:
+      - Accept-Encoding
+      X-Rack-Cache:
+      - invalidate, pass
+      X-Request-Id:
+      - cd99a38b-8d08-467e-8d80-265d4c80614d
+      X-Runtime:
+      - '0.592949'
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAA7VXS2/jNhD+Kwud46wkK07sU1HsqUBPTU/FgqDEkc2aIlWS
+        cuIN/N87fCmSrQQFij0kML8Zzgznrbes16rlAky2++st4yzbZeypyKv103ZV
+        rQH/sWa7eqpotao3Rb0utpSxcpPdZdBRLpC9BqqZEef7v1V94hYefoFX2vUC
+        7hvVIV/LtbFE0g6Q+dfIjLig7/DvzTe1R2wwoImx1A5oT8YlbSw/gWPm8ojQ
+        W4ZKiOVWgDt4c/O2zPPHdrtC055W1YZuV1u2hVVel+uHZvuwzmmDEuKl7E95
+        lOpFfvlN1V+ePXa53GW8o3ukykGIu6zjjAlItuHdXkMLWgObYD/DkCC1OVC5
+        B6KBGiWTTegUbQmj1l0tiq/F+muZFxXKY9AjadCQqD42vVBnAOINcy8AjcKo
+        IClqiNVchR+qbXkDBCmSyKGrQc9wxjU0qJtTMcP7g5IwQ1r6OjtjAvRUnkmn
+        ai4i60F1s6uBNkUch3MqJpoGY4rkgngu07nh9jxxjw2vDecfvB/Z1CCtPo/E
+        SzLv5+pwGQsMPTro6Db7wq1Nvm1pA7VSx3DiEoXvNe3CkRoDFuMhMSk7kBZr
+        8/tddoQzQa5ZiATtrepJuDAlNEr3SjuDG6y4GQlF6j3I5ozxkRZLbOr8G2K0
+        HUyST1oOgk1g5rUMxqruhmZAuNyZU4PPPF0ouScWXq9ZRgEf0KgQaCd3bcsd
+        zYFjdRj+IyUV1dxitqdWEjTiu5hzQjidAINBpbliYqqOMo0MPxiYRvPeciVT
+        7E4K5bv8Vkc+to0JLFQKw43l6GliXxSxBw2QHvo6dfOVCzh6aAJNfmKmDt2o
+        vhmwQ0lLXAu5MXkRNFRQfXZlcMa2LM6Edi6P5wKbMf9De4npHe4u96qDGpy0
+        JD6AZ8tIreQQI+Z/Xt3DhlaQU3zyrOFlkYglIm/AmJaqJeZAdUoJTzJW8yM2
+        F+3LPcLlZzrKiQ5STOAPtZQfaVkwdv2Z6vXHOtbLOqolHdWo4wr+UHq1IP0A
+        VNgD9g7fJmuQgC2TT+K5nCvEnns/3P745sbZuxTCZatSPWFjEf9HbJAwEXni
+        BrOa9ILKCSp46/SaAZ3UTC1A3++xX4YcJAT7AnYCcUtb4HbBCPA4Y7EEWGjl
+        weiR8ILtG+scWuywGk5otDPS99TAqeEfIqNNrTB0nDShuDo+K1QcCK+z83WB
+        1gNDQ3FLQbezJvjRDQ6fy1ZhFxHxkb0y3BsT/JqsQf81fuCQNjWwKejlYPpg
+        3+yIdb2zhQU2R8bVzRmi9MiH29P02aoHOUlQBznz8M47OFoZKfX4Ui6RQH2S
+        hykZzbjFMby0xx335OLrneG3GTTs5HcYrAPO/Ij1qblMvBFiTj0B/MMBECPy
+        DtwwHwa0BVudwbbYpLK7AmeX4jhBH8pUjvGwwNZANAF/LJDdBHH7Pe9wHbDl
+        Mhy7OtragaWuMmP2FGHrcZWAu+1lsoenz4b72R4cy3TEjKvWkTUu2SNb+O64
+        jMvSbL9//yApi7KsPtubcahqP9hzt/eEldNdLB4dgDPGpSJ1IXbNbpU/rIrN
+        c1HuqmJXVvePD9tVXu3yHOUMPbtm3qzKzXOZ7zz//dNTNTJzgyO1pYNAZqsH
+        wJdSP4GT0WtcOYb//mng/J8+xb5fLv8CEcjmDZsNAAA=
+    http_version: 
+  recorded_at: Tue, 11 Nov 2014 21:26:50 GMT
 recorded_with: VCR 2.9.3

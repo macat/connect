@@ -2,7 +2,11 @@ require "rails_helper"
 
 feature "User imports jobvite candidates" do
   scenario "successfully" do
-    user = create(:user)
+    user = create(
+      :user,
+      access_token: ENV.fetch("TEST_NAMELY_ACCESS_TOKEN"),
+      subdomain: ENV.fetch("TEST_NAMELY_SUBDOMAIN"),
+    )
     jobvite_connection = create(
       :jobvite_connection,
       user: user,
