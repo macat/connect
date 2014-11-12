@@ -42,6 +42,7 @@ en:
         one: "%{count} candidate imported"
         other: "%{count} candidates imported"
       jobvite_error: "Jobvite error: %{message}"
+      namely_error: "Namely error: %{message}"
       not_connected: "No connected Jobvite account"
 
   simple_form:

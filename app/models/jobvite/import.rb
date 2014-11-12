@@ -34,6 +34,8 @@ module Jobvite
       set_status(:candidates_imported, count: recent_hires.length)
     rescue Jobvite::Client::Error => e
       set_status(:jobvite_error, message: e.message)
+    rescue Namely::FailedRequestError => e
+      set_status(:namely_error, message: e.message)
     end
 
     def recent_hires

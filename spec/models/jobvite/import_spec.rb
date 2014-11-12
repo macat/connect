@@ -39,7 +39,6 @@ describe Jobvite::Import do
           jobvite_connection: double("jobvite_connection", connected?: true),
           namely_connection: double("Namely::Connection"),
         )
-        recent_hires = [double("hire")]
         jobvite_client = double("jobvite_client")
         allow(jobvite_client).
           to receive(:recent_hires).
@@ -56,6 +55,34 @@ describe Jobvite::Import do
         expect(import.status).to eq t(
           "jobvite_import.status.jobvite_error",
           message: "Everything is broken",
+        )
+      end
+    end
+
+    context "when the Namely API request fails" do
+      it "sets the status to the Namely error message" do
+        user = double(
+          "user",
+          jobvite_connection: double("jobvite_connection", connected?: true),
+          namely_connection: double("Namely::Connection"),
+        )
+        recent_hires = [double("hire")]
+        jobvite_client = double("jobvite_client", recent_hires: recent_hires)
+        namely_importer = double("NamelyImporter")
+        allow(namely_importer).
+          to receive(:import).
+          and_raise(Namely::FailedRequestError, "A Namely error")
+        import = described_class.new(
+          user,
+          jobvite_client: jobvite_client,
+          namely_importer: namely_importer,
+        )
+
+        import.import
+
+        expect(import.status).to eq t(
+          "jobvite_import.status.namely_error",
+          message: "A Namely error",
         )
       end
     end
