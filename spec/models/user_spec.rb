@@ -64,4 +64,41 @@ describe User do
       )
     end
   end
+
+  describe "#fresh_access_token" do
+    context "when the access token is still valid" do
+      it "returns the old access token" do
+        user = build(
+          :user,
+          access_token_expiry: 5.minutes.from_now
+        )
+        old_access_token = user.access_token
+
+        token = user.fresh_access_token
+
+        expect(token).to eq old_access_token
+      end
+    end
+
+    context "when the access token has expired" do
+      it "refreshes the access token and returns the new one" do
+        old_access_token = "my-old-access-token"
+        new_access_token = "my-new-access-token"
+        user = build(
+          :user,
+          access_token: old_access_token,
+          access_token_expiry: 5.minutes.ago,
+        )
+        authenticator = double(
+          "authenticator",
+          refresh_access_token:  {"access_token" => new_access_token}
+        )
+
+        token = user.fresh_access_token(authenticator)
+
+        expect(token).to eq new_access_token
+        expect(user.access_token).to eq new_access_token
+      end
+    end
+  end
 end

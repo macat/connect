@@ -8,5 +8,6 @@ FactoryGirl.define do
     subdomain "some-company"
     sequence(:access_token) { |n| "access-token-#{n}" }
     sequence(:refresh_token) { |n| "refresh-token-#{n}" }
+    access_token_expiry { 15.minutes.from_now }
   end
 end
