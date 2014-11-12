@@ -8,7 +8,16 @@ module Jobvite
         user_status: "active",
         start_date: jobvite_candidate.start_date,
         gender: namely_genders[jobvite_candidate.gender],
+        namely_identifier_field => identifier(jobvite_candidate),
       }.select { |key, value| value.present? }
+    end
+
+    def namely_identifier_field
+      :jobvite_id
+    end
+
+    def identifier(jobvite_candidate)
+      jobvite_candidate.e_id
     end
 
     private

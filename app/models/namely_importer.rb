@@ -3,10 +3,16 @@ class NamelyImporter
     new(*args).import
   end
 
-  def initialize(recent_hires:, namely_connection:, attribute_mapper:)
+  def initialize(
+    recent_hires:,
+    namely_connection:,
+    attribute_mapper:,
+    duplicate_filter: NamelyDuplicateFilter
+  )
     @recent_hires = recent_hires
     @namely_connection = namely_connection
     @attribute_mapper = attribute_mapper
+    @duplicate_filter = duplicate_filter
   end
 
   def import
@@ -19,10 +25,18 @@ class NamelyImporter
 
   private
 
-  attr_reader :recent_hires, :namely_connection, :attribute_mapper
+  attr_reader :recent_hires, :namely_connection, :attribute_mapper, :duplicate_filter
 
   def recent_hire_namely_attributes
-    recent_hires.map { |recent_hire| attribute_mapper.call(recent_hire) }
+    unique_recent_hires.map { |recent_hire| attribute_mapper.call(recent_hire) }
+  end
+
+  def unique_recent_hires
+    duplicate_filter.filter(
+      recent_hires,
+      namely_connection: namely_connection,
+      attribute_mapper: attribute_mapper,
+    )
   end
 
   def namely_profiles

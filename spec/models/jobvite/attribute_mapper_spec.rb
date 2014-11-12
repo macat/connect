@@ -20,6 +20,7 @@ describe Jobvite::AttributeMapper do
         email: "crash.override@example.com",
         user_status: "active",
         start_date: "2014-01-02",
+        jobvite_id: "edO1Ggwt",
       )
     end
 
@@ -36,6 +37,7 @@ describe Jobvite::AttributeMapper do
       expected_mapping.each do |jobvite_gender, namely_gender|
         jobvite_candidate = double(
           "jobvite_candidate",
+          e_id: "edO1Ggwt",
           first_name: "Sam",
           last_name: "Smith",
           email: "user@example.com",
@@ -53,6 +55,7 @@ describe Jobvite::AttributeMapper do
       mapper = described_class.new
       jobvite_candidate = double(
         "jobvite_candidate",
+        e_id: "edO1Ggwt",
         first_name: "Kate",
         last_name: "Libby",
         email: "acid.burn@example.com",
@@ -63,6 +66,23 @@ describe Jobvite::AttributeMapper do
       result = mapper.call(jobvite_candidate)
 
       expect(result).not_to have_key(:start_date)
+    end
+  end
+
+  describe "#namely_identifier_field" do
+    it "returns the custom Namely profile field that stores the Jobvite ID" do
+      mapper = described_class.new
+
+      expect(mapper.namely_identifier_field).to eq :jobvite_id
+    end
+  end
+
+  describe "#identifier" do
+    it "returns the Jobvite ID of a given candidate" do
+      jobvite_candidate = double("jobvite_candidate", e_id: "MY_UNIQUE_ID")
+      mapper = described_class.new
+
+      expect(mapper.identifier(jobvite_candidate)).to eq "MY_UNIQUE_ID"
     end
   end
 end
