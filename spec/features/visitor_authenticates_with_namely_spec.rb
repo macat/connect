@@ -6,7 +6,7 @@ feature "Visitor authenticates with Namely" do
       request = Rack::Request.new(env)
       redirect_uri = "%{base_uri}?code=%{code}&state=%{state}" % {
         base_uri: request["redirect_uri"],
-        code: ENV.fetch("NAMELY_AUTH_CODE"),
+        code: ENV.fetch("TEST_NAMELY_AUTH_CODE"),
         state: request["state"],
       }
       Rack::Response.new([], 302, { "Location" => redirect_uri }).to_a
