@@ -8,8 +8,10 @@ module Jobvite
         user_status: "active",
         start_date: jobvite_candidate.start_date,
         gender: namely_genders[jobvite_candidate.gender],
-      }
+      }.select { |key, value| value.present? }
     end
+
+    private
 
     def namely_genders
       { "Male" => "male", "Female" => "female" }.tap do |genders|

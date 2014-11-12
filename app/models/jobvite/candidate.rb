@@ -7,7 +7,9 @@ module Jobvite
     end
 
     def start_date
-      Date.strptime(start_date_unix_timestamp.to_s, "%s").iso8601
+      if has_start_date?
+        Date.strptime(start_date_unix_timestamp.to_s, "%s").iso8601
+      end
     end
 
     def gender
@@ -15,6 +17,10 @@ module Jobvite
     end
 
     private
+
+    def has_start_date?
+      application["startDate"].present?
+    end
 
     def start_date_unix_timestamp
       application["startDate"] / 1000

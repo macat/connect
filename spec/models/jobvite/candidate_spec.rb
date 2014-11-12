@@ -12,6 +12,14 @@ describe Jobvite::Candidate do
 
       expect(candidate.start_date).to eq Date.today.iso8601
     end
+
+    it "returns nil when there is no start date" do
+      candidate = described_class.new("application" => {
+        "startDate" => nil
+      })
+
+      expect(candidate.start_date).to be_nil
+    end
   end
 
   describe "#gender" do

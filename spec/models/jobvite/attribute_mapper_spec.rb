@@ -46,5 +46,21 @@ describe Jobvite::AttributeMapper do
         expect(mapper.call(jobvite_candidate).fetch(:gender)).to eq namely_gender
       end
     end
+
+    it "doesn't include a start date if Jobvite didn't provide one" do
+      mapper = described_class.new
+      jobvite_candidate = double(
+        "jobvite_candidate",
+        first_name: "Kate",
+        last_name: "Libby",
+        email: "acid.burn@example.com",
+        start_date: nil,
+        gender: "Female",
+      )
+
+      result = mapper.call(jobvite_candidate)
+
+      expect(result).not_to have_key(:start_date)
+    end
   end
 end
