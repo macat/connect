@@ -10,7 +10,7 @@ describe Jobvite::AttributeMapper do
         email: "crash.override@example.com",
         first_name: "Dade",
         last_name: "Murphy",
-        start_date: DateTime.new(2014, 1, 2),
+        start_date: "2014-01-02",
         gender: "Undefined",
       )
 
@@ -40,7 +40,7 @@ describe Jobvite::AttributeMapper do
           first_name: "Sam",
           last_name: "Smith",
           email: "user@example.com",
-          start_date: DateTime.now,
+          start_date: Date.today.iso8601,
           gender: jobvite_gender,
         )
         expect(mapper.call(jobvite_candidate).fetch(:gender)).to eq namely_gender

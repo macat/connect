@@ -7,12 +7,17 @@ module Jobvite
     end
 
     def start_date
-      unix_timestamp = application["startDate"] / 1000
-      DateTime.strptime(unix_timestamp.to_s, "%s")
+      Date.strptime(start_date_unix_timestamp.to_s, "%s").iso8601
     end
 
     def gender
       application["gender"]
+    end
+
+    private
+
+    def start_date_unix_timestamp
+      application["startDate"] / 1000
     end
   end
 end

@@ -35,8 +35,6 @@ describe Jobvite::Client do
         expect(first_hire.first_name).to eq "Dade"
         expect(first_hire.last_name).to eq "Murphy"
         expect(first_hire.email).to eq "crash.override@example.com"
-        expect(first_hire.start_date).to eq DateTime.new(2014, 1, 1)
-        expect(first_hire.gender).to eq "male"
       end
     end
 

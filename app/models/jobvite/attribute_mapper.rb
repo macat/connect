@@ -6,7 +6,7 @@ module Jobvite
         last_name: jobvite_candidate.last_name,
         email: jobvite_candidate.email,
         user_status: "active",
-        start_date: jobvite_candidate.start_date.to_date.iso8601,
+        start_date: jobvite_candidate.start_date,
         gender: namely_genders[jobvite_candidate.gender],
       }
     end
