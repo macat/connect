@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   private
 
-  def refresh_access_token(authenticator = authenticator)
+  def refresh_access_token(authenticator)
     tokens = authenticator.refresh_access_token(
       redirect_uri: Rails.configuration.namely_authentication_redirect_uri,
       refresh_token: refresh_token,
