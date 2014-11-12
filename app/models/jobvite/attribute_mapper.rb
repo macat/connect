@@ -14,9 +14,7 @@ module Jobvite
     private
 
     def namely_genders
-      { "Male" => "male", "Female" => "female" }.tap do |genders|
-        genders.default = "not specified"
-      end
+      { "Male" => "male", "Female" => "female" }
     end
   end
 end

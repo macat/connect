@@ -20,7 +20,6 @@ describe Jobvite::AttributeMapper do
         email: "crash.override@example.com",
         user_status: "active",
         start_date: "2014-01-02",
-        gender: "not specified",
       )
     end
 
@@ -29,9 +28,9 @@ describe Jobvite::AttributeMapper do
       expected_mapping = {
         "Male" => "male",
         "Female" => "female",
-        "Declined to Self Identify" => "not specified",
-        "Undefined" => "not specified",
-        "UNEXPECTED VALUE" => "not specified",
+        "Declined to Self Identify" => nil,
+        "Undefined" => nil,
+        "UNEXPECTED VALUE" => nil,
       }
 
       expected_mapping.each do |jobvite_gender, namely_gender|
@@ -43,7 +42,10 @@ describe Jobvite::AttributeMapper do
           start_date: Date.today.iso8601,
           gender: jobvite_gender,
         )
-        expect(mapper.call(jobvite_candidate).fetch(:gender)).to eq namely_gender
+
+        result = mapper.call(jobvite_candidate)
+
+        expect(result[:gender]).to eq namely_gender
       end
     end
 
