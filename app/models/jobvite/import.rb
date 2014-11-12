@@ -3,19 +3,17 @@ module Jobvite
     attr_reader :status
 
     def initialize(
-      connection,
-      namely_connection:,
+      user,
       jobvite_client: Jobvite::Client,
       namely_importer: NamelyImporter
     )
-      @connection = connection
+      @user = user
       @jobvite_client = jobvite_client
       @namely_importer = namely_importer
-      @namely_connection = namely_connection
     end
 
     def import
-      if connection.connected?
+      if jobvite_connection.connected?
         import_recent_hires
       else
         set_status(:not_connected)
@@ -24,7 +22,8 @@ module Jobvite
 
     private
 
-    attr_reader :connection, :jobvite_client, :namely_importer, :namely_connection
+    attr_reader :jobvite_client, :namely_importer, :user
+    delegate :jobvite_connection, :namely_connection, to: :user
 
     def import_recent_hires
       namely_importer.import(
@@ -38,7 +37,7 @@ module Jobvite
     end
 
     def recent_hires
-      @recent_hires ||= jobvite_client.recent_hires(connection)
+      @recent_hires ||= jobvite_client.recent_hires(jobvite_connection)
     end
 
     def set_status(key, options = {})
