@@ -50,7 +50,8 @@ describe User do
     it "returns a Namely::Connection configured to use the user's credentials" do
       namely_connection = double("Namely::Connection")
       allow(Namely::Connection).to receive(:new).and_return(namely_connection)
-      user = described_class.new(
+      user = build(
+        :user,
         access_token: "MY_ACCESS_TOKEN",
         subdomain: "ellingsonmineral",
       )
