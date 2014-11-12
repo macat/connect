@@ -15,6 +15,7 @@ class Session
     ).tap do |user|
       user.update!(
         access_token: access_token,
+        access_token_expiry: access_token_expiry.seconds.from_now,
         refresh_token: refresh_token,
         first_name: namely_user.first_name,
         last_name: namely_user.last_name,
@@ -35,6 +36,10 @@ class Session
 
   def access_token
     tokens.fetch("access_token")
+  end
+
+  def access_token_expiry
+    tokens.fetch("expires_in").to_i
   end
 
   def refresh_token

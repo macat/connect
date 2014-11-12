@@ -16,10 +16,12 @@ describe Session do
   describe "#user" do
     context "for a new User" do
       it "creates and returns a User" do
+        expiry_time = Time.current + expiry_time_in_seconds.seconds
         authenticator = authenticator_double(
           namely_user_id: "a-namely-user",
           access_token: "my-access-token",
           refresh_token: "my-refresh-token",
+          expires_in: expiry_time_in_seconds,
         )
         session = described_class.new(
           authenticator,
@@ -32,6 +34,7 @@ describe Session do
         expect(user.namely_user_id).to eq "a-namely-user"
         expect(user.subdomain).to eq "my-subdomain"
         expect(user.access_token).to eq "my-access-token"
+        expect(user.access_token_expiry).to be_within(1.second).of(expiry_time)
         expect(user.refresh_token).to eq "my-refresh-token"
         expect(user.first_name).to eq "Eugene"
         expect(user.last_name).to eq "Belford"
@@ -50,6 +53,7 @@ describe Session do
 
     context "for a returning User" do
       it "updates and returns a User" do
+        expiry_time = Time.current + expiry_time_in_seconds.seconds
         existing_user = create(
           :user,
           namely_user_id: "a-namely-user",
@@ -60,6 +64,7 @@ describe Session do
         authenticator = authenticator_double(
           namely_user_id: existing_user.namely_user_id,
           access_token: "new-access-token",
+          expires_in: expiry_time_in_seconds,
           refresh_token: "new-refresh-token",
         )
         session = described_class.new(
@@ -73,12 +78,18 @@ describe Session do
         existing_user.reload
         expect(user).to eq existing_user
         expect(existing_user.access_token).to eq "new-access-token"
+        expect(user.access_token_expiry).to be_within(1.second).of(expiry_time)
         expect(existing_user.refresh_token).to eq "new-refresh-token"
       end
     end
   end
 
-  def authenticator_double(namely_user_id:, access_token:, refresh_token:)
+  def authenticator_double(
+        namely_user_id:,
+        access_token:,
+        refresh_token:,
+        expires_in:
+      )
     namely_profile = double(
       "Profile",
       id: namely_user_id,
@@ -89,11 +100,15 @@ describe Session do
       "Namely::Authenticator",
       retrieve_tokens: {
         "access_token" => access_token,
-        "expires_in" => 899,
+        "expires_in" => expires_in,
         "refresh_token" => refresh_token,
         "token_type" => "bearer",
       },
       current_user: namely_profile,
     )
+  end
+
+  def expiry_time_in_seconds
+    899
   end
 end
