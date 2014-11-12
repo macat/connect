@@ -10,8 +10,10 @@ class NamelyImporter
   end
 
   def import
-    recent_hires.each do |recent_hire|
-      namely_profiles.create!(attribute_mapper.call(recent_hire))
+    recent_hire_namely_attributes.each do |attrs|
+      if valid_attributes?(attrs)
+        namely_profiles.create!(attrs)
+      end
     end
   end
 
@@ -19,7 +21,15 @@ class NamelyImporter
 
   attr_reader :recent_hires, :namely_connection, :attribute_mapper
 
+  def recent_hire_namely_attributes
+    recent_hires.map { |recent_hire| attribute_mapper.call(recent_hire) }
+  end
+
   def namely_profiles
     namely_connection.profiles
+  end
+
+  def valid_attributes?(attrs)
+    attrs[:email].present?
   end
 end
