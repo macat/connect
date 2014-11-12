@@ -1,7 +1,5 @@
 module Jobvite
   class Import
-    attr_reader :status
-
     def initialize(
       user,
       jobvite_client: Jobvite::Client,
@@ -16,7 +14,7 @@ module Jobvite
       if jobvite_connection.connected?
         import_recent_hires
       else
-        set_status(:not_connected)
+        I18n.t("status.not_connected")
       end
     end
 
@@ -31,19 +29,14 @@ module Jobvite
         namely_connection: namely_connection,
         attribute_mapper: AttributeMapper.new,
       )
-      set_status(:candidates_imported, count: recent_hires.length)
     rescue Jobvite::Client::Error => e
-      set_status(:jobvite_error, message: e.message)
+      I18n.t("status.jobvite_error", message: e.message)
     rescue Namely::FailedRequestError => e
-      set_status(:namely_error, message: e.message)
+      I18n.t("status.namely_error", message: e.message)
     end
 
     def recent_hires
       @recent_hires ||= jobvite_client.recent_hires(jobvite_connection)
-    end
-
-    def set_status(key, options = {})
-      @status = I18n.t(key, options.merge(scope: "jobvite_import.status"))
     end
   end
 end

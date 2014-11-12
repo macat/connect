@@ -16,10 +16,10 @@ class NamelyImporter
   end
 
   def import
-    recent_hire_namely_attributes.each do |attrs|
-      if valid_attributes?(attrs)
-        namely_profiles.create!(attrs)
-      end
+    result = ImportResult.new(attribute_mapper)
+    unique_recent_hires.inject(result) do |status, recent_hire|
+      status[recent_hire] = try_importing(attribute_mapper.call(recent_hire))
+      status
     end
   end
 
@@ -27,8 +27,17 @@ class NamelyImporter
 
   attr_reader :recent_hires, :namely_connection, :attribute_mapper, :duplicate_filter
 
-  def recent_hire_namely_attributes
-    unique_recent_hires.map { |recent_hire| attribute_mapper.call(recent_hire) }
+  def try_importing(attrs)
+    if valid_attributes?(attrs)
+      begin
+        namely_profiles.create!(attrs)
+        I18n.t("status.success")
+      rescue Namely::FailedRequestError => e
+        I18n.t("status.namely_error", message: e.message)
+      end
+    else
+      I18n.t("status.missing_required_field")
+    end
   end
 
   def unique_recent_hires

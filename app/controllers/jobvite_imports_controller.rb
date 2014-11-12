@@ -1,7 +1,7 @@
 class JobviteImportsController < ApplicationController
   def create
     jobvite_import = Jobvite::Import.new(current_user)
-    jobvite_import.import
-    redirect_to dashboard_path, notice: jobvite_import.status
+    status = jobvite_import.import
+    redirect_to dashboard_path, notice: status
   end
 end

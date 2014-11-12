@@ -7,15 +7,22 @@ module Jobvite
     end
 
     def import
-      @status = users.inject({}) do |status, user|
-        import = Import.new(user)
-        import.import
-        status.merge(user.id => import.status)
+      result = ImportResult.new(UserAttributeMapper.new)
+      users.inject(result) do |status, user|
+        status[user] = Import.new(user).import
+        status
       end
     end
 
     private
 
     attr_reader :users
+
+    class UserAttributeMapper
+      def readable_name(user)
+        "User #{user.namely_user_id} (#{user.subdomain})"
+      end
+    end
+    private_constant :UserAttributeMapper
   end
 end

@@ -85,4 +85,19 @@ describe Jobvite::AttributeMapper do
       expect(mapper.identifier(jobvite_candidate)).to eq "MY_UNIQUE_ID"
     end
   end
+
+  describe "#readable_name" do
+    it "returns a human-readable representation of the candidate" do
+      jobvite_candidate = double(
+        "jobvite_candidate",
+        first_name: "Kate",
+        last_name: "Libby",
+        e_id: "MY_UNIQUE_ID",
+      )
+      mapper = described_class.new
+
+      expect(mapper.readable_name(jobvite_candidate)).
+        to eq "Kate Libby (MY_UNIQUE_ID)"
+    end
+  end
 end

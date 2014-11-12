@@ -20,6 +20,14 @@ module Jobvite
       jobvite_candidate.e_id
     end
 
+    def readable_name(jobvite_candidate)
+      [
+        jobvite_candidate.first_name,
+        jobvite_candidate.last_name,
+        "(#{identifier(jobvite_candidate)})",
+      ].join(" ")
+    end
+
     private
 
     def namely_genders

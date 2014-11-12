@@ -37,15 +37,6 @@ en:
     edit:
       title: "Edit Jobvite connection"
 
-  jobvite_import:
-    status:
-      candidates_imported:
-        one: "%{count} candidate imported"
-        other: "%{count} candidates imported"
-      jobvite_error: "Jobvite error: %{message}"
-      namely_error: "Namely error: %{message}"
-      not_connected: "No connected Jobvite account"
-
   simple_form:
     labels:
       jobvite_connection:
@@ -57,6 +48,13 @@ en:
     placeholders:
       namely_authentication:
         subdomain: yourcompany
+
+  status:
+    jobvite_error: "Jobvite error: %{message}"
+    missing_required_field: "Missing required field"
+    namely_error: "Namely error: %{message}"
+    not_connected: "No connected Jobvite account"
+    success: "Imported successfully!"
 
   time:
     formats:

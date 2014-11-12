@@ -11,17 +11,20 @@ describe Jobvite::Import do
         )
         recent_hires = [double("hire")]
         jobvite_client = double("jobvite_client", recent_hires: recent_hires)
-        namely_importer = double("NamelyImporter", import: true)
+        expected_status = double("status")
+        namely_importer = double(
+          "NamelyImporter",
+          import: expected_status,
+        )
         import = described_class.new(
           user,
           jobvite_client: jobvite_client,
           namely_importer: namely_importer,
         )
 
-        import.import
+        status = import.import
 
-        expect(import.status).
-          to eq t("jobvite_import.status.candidates_imported", count: 1)
+        expect(status).to eq expected_status
         expect(jobvite_client).to have_received(:recent_hires).
           with(user.jobvite_connection)
         expect(namely_importer).to have_received(:import).with(
@@ -50,10 +53,10 @@ describe Jobvite::Import do
           namely_importer: namely_importer,
         )
 
-        import.import
+        status = import.import
 
-        expect(import.status).to eq t(
-          "jobvite_import.status.jobvite_error",
+        expect(status).to eq t(
+          "status.jobvite_error",
           message: "Everything is broken",
         )
       end
@@ -78,10 +81,10 @@ describe Jobvite::Import do
           namely_importer: namely_importer,
         )
 
-        import.import
+        status = import.import
 
-        expect(import.status).to eq t(
-          "jobvite_import.status.namely_error",
+        expect(status).to eq t(
+          "status.namely_error",
           message: "A Namely error",
         )
       end
@@ -95,10 +98,10 @@ describe Jobvite::Import do
           namely_connection: double("Namely::Connection"),
         )
         import = described_class.new(user)
+        status = nil
 
-        expect { import.import }.not_to raise_exception
-
-        expect(import.status).to eq t("jobvite_import.status.not_connected")
+        expect { status = import.import }.not_to raise_exception
+        expect(status).to eq t("status.not_connected")
       end
     end
   end

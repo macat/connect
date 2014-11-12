@@ -5,12 +5,13 @@ describe NamelyImporter do
     it "creates a Namely profile for each recent hire" do
       namely_connection = namely_connection_double
       recent_hires_with_dupes = double("recent_hires_with_dupes")
-      recent_hires = [double(
+      candidate = double(
         "recent_hire",
         name_the_first: "Dade",
         name_the_last: "Murphy",
         email: "crash.override@example.com",
-      )]
+      )
+      recent_hires = [candidate]
       duplicate_filter = double("duplicate_filter", filter: recent_hires)
       attribute_mapper = Proc.new do |original|
         {
@@ -26,7 +27,7 @@ describe NamelyImporter do
         duplicate_filter: duplicate_filter,
       )
 
-      importer.import
+      status = importer.import
 
       expect(namely_connection.profiles).to have_received(:create!).with(
         first_name: "Dade",
@@ -38,12 +39,17 @@ describe NamelyImporter do
         namely_connection: namely_connection,
         attribute_mapper: attribute_mapper,
       )
+      expect(status).to be_an ImportResult
+      expect(status[candidate]).to eq t("status.success")
     end
 
-    it "ignores recent hires with no email address" do
+    it "flags recent hires with no email address" do
       namely_connection = namely_connection_double
       recent_hires = [{ first_name: "Dade", last_name: "Murphy", email: "" }]
       duplicate_filter = double("duplicate_filter", filter: recent_hires)
+
+      candidate = { first_name: "Dade", last_name: "Murphy", email: "" }
+      recent_hires = [candidate]
       importer = described_class.new(
         recent_hires: recent_hires,
         namely_connection: namely_connection,
@@ -51,9 +57,11 @@ describe NamelyImporter do
         duplicate_filter: duplicate_filter,
       )
 
-      importer.import
+      status = importer.import
 
       expect(namely_connection.profiles).not_to have_received(:create!)
+      expect(status).to be_an ImportResult
+      expect(status[candidate]).to eq t("status.missing_required_field")
     end
   end
 
