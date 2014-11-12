@@ -1,6 +1,6 @@
 class JobviteImportsController < ApplicationController
   def create
-    jobvite_import = JobviteImport.new(
+    jobvite_import = Jobvite::Import.new(
       jobvite_connection,
       namely_connection: current_user.namely_connection,
     )

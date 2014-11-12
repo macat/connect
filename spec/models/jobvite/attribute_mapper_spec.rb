@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe JobviteImport::AttributeMapper do
+describe Jobvite::AttributeMapper do
   describe "#call" do
     it "transforms a Jobvite candidate into a Hash appropriate for the Namely API" do
       mapper = described_class.new

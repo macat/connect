@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe JobviteClient do
+describe Jobvite::Client do
   describe "#recent_hires" do
     context "when the API request is successful" do
       it "fetches recent hires from the Jobvite API" do
@@ -21,7 +21,7 @@ describe JobviteClient do
             headers: { "Content-Type" => "application/json" },
           )
         connection = double(
-          "JobviteConnection",
+          "jobvite_connection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
           hired_workflow_state: "Hired",
@@ -73,7 +73,7 @@ describe JobviteClient do
             headers: { "Content-Type" => "application/json" },
           )
         connection = double(
-          "JobviteConnection",
+          "jobvite_connection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
           hired_workflow_state: "Offer Accepted",
@@ -95,7 +95,7 @@ describe JobviteClient do
             headers: { "Content-Type" => "application/json" },
           )
         connection = double(
-          "JobviteConnection",
+          "jobvite_connection",
           api_key: "MY_API_KEY",
           secret: "MY_SECRET",
           hired_workflow_state: "Offer Accepted",

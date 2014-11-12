@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe JobviteConnection do
+describe Jobvite::Connection do
   describe "associations" do
     it { should belong_to(:user) }
   end

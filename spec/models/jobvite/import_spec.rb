@@ -1,13 +1,13 @@
 require "rails_helper"
 
-describe JobviteImport do
+describe Jobvite::Import do
   describe "#import" do
-    context "with a connected JobviteConnection" do
+    context "with a connected Jobvite::Connection" do
       it "passes hired Jobvite candidates to the NamelyImporter and set the status" do
-        connection = double("JobviteConnection", connected?: true)
+        connection = double("jobvite_connection", connected?: true)
         namely_connection = double("Namely::Connection")
         recent_hires = [double("hire")]
-        jobvite_client = double("JobviteClient", recent_hires: recent_hires)
+        jobvite_client = double("jobvite_client", recent_hires: recent_hires)
         namely_importer = double("NamelyImporter", import: true)
         import = described_class.new(
           connection,
@@ -24,20 +24,20 @@ describe JobviteImport do
         expect(namely_importer).to have_received(:import).with(
           recent_hires: recent_hires,
           namely_connection: namely_connection,
-          attribute_mapper: instance_of(JobviteImport::AttributeMapper),
+          attribute_mapper: instance_of(Jobvite::AttributeMapper),
         )
       end
     end
 
     context "when the Jobvite API request fails" do
       it "sets the status to the Jobvite error message" do
-        connection = double("JobviteConnection", connected?: true)
+        connection = double("jobvite_connection", connected?: true)
         namely_connection = double("Namely::Connection")
         recent_hires = [double("hire")]
-        jobvite_client = double("JobviteClient")
+        jobvite_client = double("jobvite_client")
         allow(jobvite_client).
           to receive(:recent_hires).
-          and_raise(JobviteClient::Error, "Everything is broken")
+          and_raise(Jobvite::Client::Error, "Everything is broken")
         namely_importer = double("NamelyImporter")
         import = described_class.new(
           connection,
@@ -55,9 +55,9 @@ describe JobviteImport do
       end
     end
 
-    context "with a disconnected JobviteConnection" do
+    context "with a disconnected Jobvite::Connection" do
       it "does nothing and sets an appropriate status" do
-        connection = double("JobviteConnection", connected?: false)
+        connection = double("jobvite_connection", connected?: false)
         import = described_class.new(
           connection,
           namely_connection: double("Namely::Connection"),

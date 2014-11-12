@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :jobvite_connection do
+  factory :jobvite_connection, class: "Jobvite::Connection" do
     user
   end
 

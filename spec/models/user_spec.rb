@@ -27,7 +27,7 @@ describe User do
   end
 
   describe "#jobvite_connection" do
-    it "returns the existing JobviteConnection when one exists" do
+    it "returns the existing Jobvite::Connection when one exists" do
       user = create(:user)
 
       jobvite_connection = create(:jobvite_connection, user: user)
@@ -35,12 +35,12 @@ describe User do
       expect(user.jobvite_connection).to eq jobvite_connection
     end
 
-    it "creates a new JobviteConnection when one doesn't exist" do
+    it "creates a new Jobvite::Connection when one doesn't exist" do
       user = create(:user)
 
       jobvite_connection = user.jobvite_connection
 
-      expect(jobvite_connection).to be_a JobviteConnection
+      expect(jobvite_connection).to be_a Jobvite::Connection
       expect(jobvite_connection).to be_persisted
       expect(jobvite_connection.user_id).to eq user.id
     end

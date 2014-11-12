@@ -1,4 +1,4 @@
-class JobviteImport
+module Jobvite
   class AttributeMapper
     def call(jobvite_candidate)
       {
