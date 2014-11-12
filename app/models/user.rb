@@ -10,7 +10,10 @@ class User < ActiveRecord::Base
   end
 
   def namely_connection
-    Namely::Connection.new(access_token: access_token, subdomain: subdomain)
+    Namely::Connection.new(
+      access_token: fresh_access_token,
+      subdomain: subdomain,
+    )
   end
 
   def fresh_access_token(authenticator = authenticator)
