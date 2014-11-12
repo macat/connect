@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/namely/ruby-client.git
-  revision: d5270e67e1f2e5d8c5a860315a0602c084080e15
+  revision: 4672dceea549cb3959ac356f3e5bc0aef3908022
   specs:
     namely (0.0.1)
       backports
