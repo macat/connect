@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     access_token
   end
 
+  def access_token_expires_in=(seconds)
+    self.access_token_expiry = seconds.to_i.seconds.from_now
+  end
+
   private
 
   def refresh_access_token(authenticator)
@@ -32,6 +36,7 @@ class User < ActiveRecord::Base
       subdomain: subdomain,
     )
     self.access_token = tokens.fetch("access_token")
+    self.access_token_expires_in = tokens.fetch("expires_in")
     save
   end
 

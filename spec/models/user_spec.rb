@@ -85,6 +85,7 @@ describe User do
       it "refreshes the access token and returns the new one" do
         old_access_token = "my-old-access-token"
         new_access_token = "my-new-access-token"
+        expiry_time = 899
         user = build(
           :user,
           access_token: old_access_token,
@@ -92,14 +93,31 @@ describe User do
         )
         authenticator = double(
           "authenticator",
-          refresh_access_token:  {"access_token" => new_access_token}
+          refresh_access_token:  {
+            "access_token" => new_access_token,
+            "expires_in" => expiry_time.to_s,
+          }
         )
 
         token = user.fresh_access_token(authenticator)
 
         expect(token).to eq new_access_token
         expect(user.access_token).to eq new_access_token
+        expect(user.access_token_expiry).
+          to be_within(1.second).of(expiry_time.seconds.from_now)
       end
+    end
+  end
+
+  describe "#access_token_expires_in" do
+    it "sets the expiry time that many seconds in the future" do
+      expiry_time = 899
+      user = build(:user)
+
+      user.access_token_expires_in = expiry_time
+
+      expect(user.access_token_expiry).
+        to be_within(1.second).of(expiry_time.seconds.from_now)
     end
   end
 end
