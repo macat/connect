@@ -37,6 +37,10 @@ en:
     edit:
       title: "Edit Jobvite connection"
 
+  jobvite_imports:
+    create:
+      title: "Import results"
+
   simple_form:
     labels:
       jobvite_connection:

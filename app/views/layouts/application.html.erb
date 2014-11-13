@@ -11,7 +11,7 @@
 <body class="<%= body_class %>">
   <header>
     <div class="inner">
-      <h1><%= title %></h1>
+      <h1><%= link_to title, dashboard_path %></h1>
       <% if logged_in? %>
         <div class="user">
           <%= button_to t("dashboards.show.sign_out"), session_path, method: :delete %>
