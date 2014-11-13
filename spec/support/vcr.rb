@@ -13,4 +13,6 @@ VCR.configure do |c|
 
   c.filter_sensitive_data("<JOBVITE_KEY>") { ENV.fetch("TEST_JOBVITE_KEY") }
   c.filter_sensitive_data("<JOBVITE_SECRET>") { ENV.fetch("TEST_JOBVITE_SECRET") }
+  c.filter_sensitive_data("<ACCESS_TOKEN>") { ENV.fetch("TEST_NAMELY_ACCESS_TOKEN") }
+  c.filter_sensitive_data("<AUTH_CODE>") { ENV.fetch("TEST_NAMELY_AUTH_CODE") }
 end

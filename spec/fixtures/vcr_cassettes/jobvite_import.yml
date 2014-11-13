@@ -21,23 +21,26 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '800'
+      - '852'
       Date:
-      - Tue, 11 Nov 2014 21:26:49 GMT
+      - Thu, 13 Nov 2014 19:16:49 GMT
       Server:
       - Jobvite
     body:
       encoding: UTF-8
-      string: '{"total":1,"candidates":[{"address":"","address2":"","application":{"comments":null,"customField":[],"disposition":"Hired","eId":"pN0gfhw4","gender":"Undefined","hireDate":1415088000000,"job":{"company":null,"customField":null,"department":null,"eId":null,"hiringManagers":null,"location":null,"recruiters":null,"requisitionId":null,"subsidiaryId":null,"title":null},"lastUpdatedDate":1415692800000,"race":"Decline
-        to Self Identify","source":"Attila Maczak","sourceType":"Recruiter","startDate":1415865600000,"status":null,"veteranStatus":"Undefined"},"city":"","companyName":"","country":"","eId":"edO1Ggwt","email":"beardsly.jobvite5@example.com","firstName":"Beardsly","homePhone":"","lastName":"McDog","location":",  ","postalCode":null,"state":"","title":"","workPhone":"","workStatus":"None"}]}'
+      string: '{"total":1,"candidates":[{"address":"","address2":"","application":{"comments":null,"customField":[],"disposition":null,"eId":"p3ezghwS","gender":"Undefined","hireDate":1415865600000,"job":{"company":"Namely
+        Partner","customField":[],"department":"","eId":"optQZfwr","hiringManagers":null,"location":"San
+        Mateo","recruiters":null,"requisitionId":"ABC123","subsidiaryId":"fnV9Vfw6","title":"Senior
+        VP of cake"},"lastUpdatedDate":1415865600000,"race":"Decline to Self Identify","source":"George
+        Brocklehurst","sourceType":"Recruiter","startDate":1420099200000,"status":null,"veteranStatus":"Undefined"},"city":"","companyName":"","country":"","eId":"eyN0HgwN","email":"the.real.plague.1995@example.com","firstName":"Eugene","homePhone":"","lastName":"Belford","location":",  ","postalCode":null,"state":"","title":"","workPhone":"","workStatus":"None"}]}'
     http_version: 
-  recorded_at: Tue, 11 Nov 2014 21:26:49 GMT
+  recorded_at: Thu, 13 Nov 2014 19:16:48 GMT
 - request:
     method: post
     uri: https://sales14.namely.com/api/v1/profiles
     body:
       encoding: UTF-8
-      string: '{"profiles":[{"first_name":"Beardsly","last_name":"McDog","email":"beardsly.jobvite5@example.com","user_status":"active","start_date":"2014-11-13"}],"access_token":"d05b6444979cd6782a509b2f49fba015"}'
+      string: '{"profiles":[{"first_name":"Eugene","last_name":"Belford","email":"the.real.plague.1995@example.com","user_status":"active","start_date":"2015-01-01"}],"access_token":"<ACCESS_TOKEN>"}'
     headers:
       Accept:
       - application/json
@@ -46,7 +49,7 @@ http_interactions:
       Content-Type:
       - application/json
       Content-Length:
-      - '199'
+      - '202'
       User-Agent:
       - Ruby
   response:
@@ -61,9 +64,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 11 Nov 2014 21:26:50 GMT
+      - Thu, 13 Nov 2014 19:16:49 GMT
       Server:
-      - nginx
+      - nginx/1.6.2
       Status:
       - 200 OK
       Strict-Transport-Security:
@@ -74,9 +77,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - cd99a38b-8d08-467e-8d80-265d4c80614d
+      - 4b9c283f-2960-4f4e-9d43-dd9deebcbcd2
       X-Runtime:
-      - '0.592949'
+      - '0.582132'
       Transfer-Encoding:
       - chunked
       Connection:
@@ -84,34 +87,34 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Tue, 11 Nov 2014 21:26:50 GMT
+  recorded_at: Thu, 13 Nov 2014 19:16:49 GMT
 recorded_with: VCR 2.9.3
