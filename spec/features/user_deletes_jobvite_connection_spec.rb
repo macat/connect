@@ -5,9 +5,9 @@ feature "User deletes Jobvite connection" do
     user = create(:user)
     jobvite_connection = create(
       :jobvite_connection,
+      :connected,
       user: user,
-      api_key: "12345",
-      secret: "abcde"
+      found_namely_field: true,
     )
 
     visit dashboard_path(as: user)

@@ -9,7 +9,14 @@
     margin-right: 1em;
   }
 
+  p.warning {
+    float: right;
+    color: #d00;
+    font-weight: bold;
+  }
+
   div.actions {
     float: right;
+    clear: right;
   }
 }
