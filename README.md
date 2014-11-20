@@ -1,4 +1,4 @@
-# Namely Connect
+# Namely Integrations
 
 Simple web app for connecting external apps with Namely.
 
@@ -8,9 +8,16 @@ Planned integrations:
 
 ## Getting set up
 
+Install qt
+
+```sh
+brew install qt
+```
+
 Set up the application environment, dependencies, and databases:
 
 ```sh
+
 bin/setup
 ```
 
