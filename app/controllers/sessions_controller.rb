@@ -30,40 +30,24 @@ class SessionsController < ApplicationController
   private
 
   def new_session
+    p params
     Session.new(
-      authenticator,
+      authenticator(params.fetch(:state)),
       code: params.fetch(:code),
       subdomain: params.fetch(:state),
     )
   end
 
   def namely_authentication_url
-    authenticator.authorization_code_url(
-      host: namely_host,
-      protocol: namely_protocol,
-      redirect_uri: session_oauth_callback_url,
-      state: namely_subdomain,
-    )
+    authenticator(namely_subdomain).authorization_code_url(session_oauth_callback_url)
   end
 
-  def authenticator
-    Namely::Authenticator.new(
-      client_id: Rails.configuration.namely_client_id,
-      client_secret: Rails.configuration.namely_client_secret,
-    )
+  def authenticator(subdomain)
+    Authenticator.new(subdomain)
   end
 
   def namely_subdomain
     params.require(:namely_authentication).fetch(:subdomain)
   end
 
-  def namely_host
-    Rails.configuration.namely_authentication_domain % {
-      subdomain: namely_subdomain,
-    }
-  end
-
-  def namely_protocol
-    Rails.configuration.namely_authentication_protocol
-  end
 end

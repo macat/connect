@@ -28,11 +28,7 @@ class Session
   attr_reader :authenticator, :code, :subdomain, :user_model
 
   def namely_user
-    @namely_user ||= authenticator.current_user(
-      access_token: access_token,
-      host: namely_host,
-      protocol: Rails.configuration.namely_authentication_protocol,
-    )
+    @namely_user ||= authenticator.current_user(access_token)
   end
 
   def access_token
@@ -48,17 +44,7 @@ class Session
   end
 
   def tokens
-    @tokens ||= authenticator.retrieve_tokens(
-      code: code,
-      host: namely_host,
-      protocol: Rails.configuration.namely_authentication_protocol,
-      redirect_uri: Rails.configuration.namely_authentication_redirect_uri,
-    )
+    @tokens ||= authenticator.retrieve_tokens(code)
   end
 
-  def namely_host
-    Rails.configuration.namely_authentication_domain % {
-      subdomain: subdomain,
-    }
-  end
 end
