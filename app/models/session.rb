@@ -30,7 +30,8 @@ class Session
   def namely_user
     @namely_user ||= authenticator.current_user(
       access_token: access_token,
-      subdomain: subdomain,
+      host: namely_host,
+      protocol: Rails.configuration.namely_authentication_protocol,
     )
   end
 
@@ -49,8 +50,15 @@ class Session
   def tokens
     @tokens ||= authenticator.retrieve_tokens(
       code: code,
-      subdomain: subdomain,
+      host: namely_host,
+      protocol: Rails.configuration.namely_authentication_protocol,
       redirect_uri: Rails.configuration.namely_authentication_redirect_uri,
     )
+  end
+
+  def namely_host
+    Rails.configuration.namely_authentication_domain % {
+      subdomain: subdomain,
+    }
   end
 end
