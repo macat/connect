@@ -51,3 +51,17 @@ rake jobvite:import
 
 This task can be invoked by a cron job or otherwise scheduled to regularly
 import newly hired candidates.
+
+## Development
+
+### Pull Requests
+
+#### Tags
+
+We tag pull requests, so their state is obvious. The following tags should be used in the subject as [TAG] My contribution.
+
+* WIP - Work In Progress. The pull request will change, and there is no need to review it yet.
+* RFC - Request For Comment. The request is ready for +1s (:+1:) and/or comments.
+* RDY - The request is ready to be merged. The request must have received at least 2 +1s (:+1:) (approvals) from other developers before being marked RDY. 
+
+NOTE: When you approve a pull request (ie, give a +1), please add a short comment about your decision.
