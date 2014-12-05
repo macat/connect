@@ -3,7 +3,6 @@ en:
     show:
       connect: "Connect"
       disconnect: "Disconnect"
-      edit: "Edit"
       import_now: "Import now"
       sign_out: "Sign out"
       missing_namely_field: "You need to add a '%{name}' field to your Namely account to avoid importing the same person multiple times"
@@ -21,12 +20,17 @@ en:
     sign_in_succeeded: "Welcome, %{name}"
     signed_out: "Signed out"
 
+  subheader:
+    slogan: "Connect different systems to automatically create profiles in Namely. We are working hard add more 3rd parties. Please check back soon or contact your account manager for more information."
+
   helpers:
     submit:
       jobvite_connection:
         update: "Connect"
       namely_authentication:
         submit: "Sign in"
+    link_to: 
+      connections: 'CONNECTIONS'
 
   homepages:
     show:
@@ -35,11 +39,16 @@ en:
 
   jobvite_connections:
     edit:
-      title: "Edit Jobvite connection"
+      title: "Jobvite"
 
   jobvite_imports:
     create:
-      title: "Import results"
+      title_successful: "You have successfully imported the following:"
+      title_unsuccessful: "There currently aren't any profiles to import"
+      employee_title: "Employee Name"
+      key_title: "Key"
+      contact_number_title: "Contact Number"
+      email_address_title: "Email Address"
 
   simple_form:
     labels:
