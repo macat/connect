@@ -7,3 +7,14 @@ form.button_to,
 form.button_to > div {
   display: inline;
 }
+
+form.form-inline { 
+  .control-group { 
+    display: inline-block;
+
+    .controls { 
+      display: inline-block;
+    }
+  }
+}
+

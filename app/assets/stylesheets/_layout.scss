@@ -1,12 +1,17 @@
 header {
-  background: #14212D;
-  border-bottom: 5px solid #186BB7;
+  background: $darkblue;
+  border-bottom: 5px solid $lightblue;
+  font-weight: bold;
+  line-height: 26px;
 }
 
 header .inner {
   @include outer-container;
   padding: 1em;
 
+  a {
+    color: $lightblue;
+  }
 
   .logo {
     float: left;
@@ -20,6 +25,9 @@ header .inner {
 
   .user {
     float: right;
+    .fa {
+      color: $lightblue;
+    }
   }
 }
 
@@ -31,4 +39,17 @@ header .inner {
 #content {
   @include outer-container;
   padding: 1em;
+
+  #subheader {
+    margin: 40px 0 40px 0;
+
+    h1 {
+      font-size: 36px;
+      color: $grey;
+    }
+
+    p {
+      font-size: 16px 22px;
+    }
+  }
 }
