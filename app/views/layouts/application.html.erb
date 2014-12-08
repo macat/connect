@@ -18,9 +18,7 @@
         </div>
         <div class="user">
           <% if logged_in? %>
-            <div class="btn with-icon for-removal">
-              <%= link_to t("dashboards.show.sign_out"), session_path, method: :delete %>
-            </div>
+            <%= fa_icon "sign-out", text: link_to(t("dashboards.show.sign_out"), session_path, method: :delete) %>
         </div>
       <% end %>
       </div>
