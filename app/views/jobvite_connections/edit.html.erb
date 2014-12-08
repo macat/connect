@@ -1,8 +1,27 @@
+<span>
+  <a href="<%= url_for(dashboard_path) %>">
+    <%= fa_icon "caret-left" %> 
+    <%= t("helpers.link_to.connections") %>
+  </a>
+</span>
 <h2><%= t(".title") %></h2>
+<p><%= t(".slogan") %></p>
 
 <%= simple_form_for @jobvite_connection do |f| %>
-  <%= f.input :api_key %>
-  <%= f.input :secret %>
-  <%= f.input :hired_workflow_state %>
-  <%= f.submit %>
+  <div class="stacked">
+    <div class="form-row">
+      <%= f.input :api_key %>
+    </div>
+    <div class="form-row">
+      <%= f.input :secret %>
+    </div>
+    <div class="form-rown">
+      <%= f.input :hired_workflow_state %>
+    </div>
+  </div>
+  <div class="right-control">
+    <%= button_tag(type: 'submit', class: 'button') do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+  </div>
 <% end %>
