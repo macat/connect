@@ -1,18 +1,28 @@
 header {
-  background: #f7f7f7;
+  background: #14212D;
+  border-bottom: 5px solid #186BB7;
 }
+
 header .inner {
   @include outer-container;
   padding: 1em;
 
-  h1 {
+
+  .logo {
     float: left;
+    .icon {
+      background: transparent url('logo.svg') no-repeat;
+      width: 37px;
+      height: 40px;
+      background-size: 40px 37px;
+    }
   }
 
   .user {
     float: right;
   }
 }
+
 
 #flash_notice {
   @extend %flash-success;
