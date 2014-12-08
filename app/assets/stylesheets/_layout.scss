@@ -1,3 +1,7 @@
+body { 
+  font-size: 0.8em;
+}
+
 header {
   background: $darkblue;
   border-bottom: 5px solid $lightblue;
@@ -40,6 +44,7 @@ header .inner {
   @include outer-container;
   padding: 1em;
 
+
   #subheader {
     margin: 40px 0 40px 0;
 
@@ -53,3 +58,4 @@ header .inner {
     }
   }
 }
+

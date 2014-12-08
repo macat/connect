@@ -13,19 +13,24 @@
     <tr>
       <% if @jobvite_connection.connected? %>
         <td>
-          <%= fa_icon "minus-check", class: "connected", text: "Jobvite" %>
-          <strong><%= @jobvite_connection.api_key %></strong>
+          <%= fa_icon "check-circle", class: "connected", text: "Jobvite" %>
+          <p><%= @jobvite_connection.api_key %></p>
         </td>
         <% if @jobvite_connection.missing_namely_field? %>
           <td>
             <%= t(".missing_namely_field", name: @jobvite_connection.required_namely_field) %>
           </td>
+        <% else %>
+          <td></td>
         <% end %>
         <td>
           <%= button_to t("dashboards.show.import_now"), jobvite_imports_path, class: 'button' %>
         </td>
         <td>
-          <%= button_to t("dashboards.show.disconnect"), jobvite_connection_path, method: :delete, class: 'button button-orange' %>
+          <a href="<%= url_for(jobvite_connection_path) %>" class="orange" data-method="delete" rel="nofollow">
+            <%= fa_icon "times", class: "orange" %>
+            <%= t("dashboards.show.disconnect") %>
+          </a>
         </td>
       <% else %>
         <td>
