@@ -16,6 +16,14 @@ module Jobvite
       application["gender"]
     end
 
+    def name 
+      "#{application["first_name"]} #{application["last_name"]}"
+    end
+
+    def contact_number 
+      home_phone || work_phone || cell_phone
+    end
+
     private
 
     def has_start_date?
