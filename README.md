@@ -1,5 +1,7 @@
 # Namely Integrations
 
+[![Code Climate](https://codeclimate.com/github/namely/connect/badges/gpa.svg)](https://codeclimate.com/github/namely/connect)
+
 Simple web app for connecting external apps with Namely.
 
 Planned integrations:
