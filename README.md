@@ -1,4 +1,4 @@
-# Namely Integrations
+# Namely Connect
 
 Simple web app for connecting external apps with Namely.
 
