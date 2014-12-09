@@ -1,4 +1,4 @@
-# Namely Integrations
+# Namely Connect
 
 [![Code Climate](https://codeclimate.com/github/namely/connect/badges/gpa.svg)](https://codeclimate.com/github/namely/connect)
 
