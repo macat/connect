@@ -1,0 +1,53 @@
+.-n-actions {
+  box-sizing: border-box;
+  text-align: right;
+  padding: 20px;
+  border-top: 1px solid $grey-15;
+  margin-top: 40px;
+  display: inline-block;
+  width: 100%;
+
+  .-n-btn {
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .-n-actions-col {
+    float: left;
+    width: 50%;
+
+    &:first-child {
+      text-align: left;
+    }
+
+    .-n-btn {
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &.-n-actions-right {
+    float: right;
+  }
+
+  &.-n-actions-left {
+    float: left;
+  }
+
+  &.-n-actions-right, &.-n-actions-left {
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+  }
+
+  &.-n-actions-without-borders {
+    border: 0;
+    margin: 0;
+  }
+}

@@ -1,0 +1,43 @@
+form.stacked, .form.stacked {
+
+  label {
+    display: block;
+    padding-left: 7px;
+    line-height: inherit;
+    font-weight: normal;
+    float: none;
+    text-transform: capitalize;
+    font-size: 14px;
+    color: $grey-50;
+
+    abbr {
+      color: $orange;
+      border: none;
+    }
+
+    + input, + select {
+      display: block;
+      margin-top: 0 !important;
+    }
+  }
+
+  .form-row {
+    clear: both;
+    margin-bottom: 10px;
+    margin-top: 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .select {
+      display: inline-block;
+    }
+
+    .history {
+      display: none;
+    }
+  }
+}
+
+@import 'fields';

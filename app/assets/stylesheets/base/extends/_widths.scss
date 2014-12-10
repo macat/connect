@@ -1,0 +1,22 @@
+%variable-widths {
+
+  &.full {
+    width: 100% !important;
+  }
+
+  &.majority {
+    width: 80%;
+  }
+
+  &.half {
+    width: 50%;
+  }
+
+  &.quarter {
+    width: 25%;
+  }
+
+  &.fifth {
+    width: 20%;
+  }
+}

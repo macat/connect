@@ -1,5 +1,11 @@
-body { 
-  font-size: 0.8em;
+body,
+button,
+input,
+textarea {
+  color: $grey-75;
+  line-height: 1.375;
+
+  @include transition(border-color $default-duration $default-ease-function, background-color $default-duration $default-ease-function);
 }
 
 header {
@@ -7,18 +13,11 @@ header {
   border-bottom: 5px solid $lightblue;
   font-weight: bold;
   line-height: 26px;
-}
-
-header .inner {
-  @include outer-container;
-  padding: 1em;
-
-  a {
-    color: $lightblue;
-  }
 
   .logo {
     float: left;
+    padding-top: 5px;
+
     .icon {
       background: transparent url('logo.svg') no-repeat;
       width: 37px;
@@ -27,35 +26,31 @@ header .inner {
     }
   }
 
-  .user {
-    float: right;
-    .fa {
-      color: $lightblue;
+  section {
+
+    &:last-child {
+      text-align: right;
+
+      a {
+        line-height: 40px !important;
+      }
     }
   }
 }
 
+#subheader {
+  border-bottom: 1px solid $grey-25;
+  padding: 40px 0 40px;
+  margin-bottom: 20px;
+
+  + section {
+
+    form {
+      padding-top: 20px;
+    }
+  }
+}
 
 #flash_notice {
   @extend %flash-success;
 }
-
-#content {
-  @include outer-container;
-  padding: 1em;
-
-
-  #subheader {
-    margin: 40px 0 40px 0;
-
-    h1 {
-      font-size: 36px;
-      color: $grey;
-    }
-
-    p {
-      font-size: 16px 22px;
-    }
-  }
-}
-

@@ -1,0 +1,136 @@
+
+input,
+textarea {
+  background: $light-blue;
+  border: $light-blue 1px solid;
+  color: $grey-95;
+}
+
+select {
+  background: $white;
+  border: $grey-15 1px solid;
+  color: $grey-50;
+  height: 29px;
+
+  &:disabled {
+    color: $grey-50;
+    background-image: url("../images/down_grey.svg");
+    cursor: default;
+  }
+}
+
+select,
+input,
+textarea {
+  border-radius: $default-border-radius;
+  font-size: 16px;
+  text-indent: 0;
+  line-height: 22px;
+  padding: 3px 4px 2px 7px;
+  margin: 0;
+  color: $grey-75;
+  outline: none;
+  display: inline-block;
+}
+
+select {
+  @include appearance(none);
+  cursor: pointer;
+  position: relative;
+  display: inline;
+  padding-right: 30px;
+}
+
+label {
+  cursor: pointer;
+}
+
+legend {
+  border: 0;
+  *margin-left: -7px;
+  padding: 0;
+}
+
+button,
+input,
+textarea {
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+button:active,
+.button:active {
+  position: relative;
+}
+
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+input[type='file'] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+/* Consistent box sizing and appearance  */
+input[type="checkbox"] {
+  display: inline;
+  width: 25px;
+}
+
+input[type="search"] {
+  @include box-sizing(content-box);
+  -webkit-appearance: textfield;
+}
+
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type="url"],
+input[type="search"],
+input.input-field,
+textarea {
+  @include box-sizing(border-box);
+  padding: 5px 4px 3px 6px;
+
+  @include placeholder {
+    color: $grey-50;
+  }
+
+  @extend %variable-widths;
+}
+
+form {
+
+  textarea, input[type="email"], input[type="password"], input[type="text"] {
+
+    @include transition(border-color $default-duration $default-ease-function);
+    @include placeholder {
+      color: $grey-50;
+    }
+    &:focus, &.on {
+      background-color: $light-blue;
+      border-color: $grey-25;
+      color: $grey-75;
+    }
+
+    &.justify-right {
+      text-align: right;
+
+      @include placeholder {
+        text-align: right;
+      }
+    }
+  }
+}

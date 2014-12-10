@@ -1,33 +1,16 @@
-a.button {
-  @extend %button;
-  vertical-align: bottom;
-}
-
-form.button_to,
-form.button_to > div {
-  display: inline;
-}
-
-form.form-inline { 
-  .control-group { 
-    display: inline-block;
-
-    .controls { 
+form.form-inline {
+  .form-row {
+    .control-group {
       display: inline-block;
+
+      .controls {
+        display: inline-block;
+      }
+
+      &:last-child {
+        float: right;
+        margin-right: 40px;
+      }
     }
-  }
-}
-
-form {
-  .right-control { 
-    float: right;
-  }
-
-  .stacked { 
-    margin: 20px 0 20px 0;
-    padding: 40px 0 40px 0;
-    border-bottom: 1px solid $lightgrey;
-    border-top: 1px solid $lightgrey;
-
   }
 }
