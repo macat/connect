@@ -4,19 +4,22 @@
   <h1><%= t(".title") %></h2>
   <p><%= t(".slogan") %></p>
 </section>
+
+<section>
+  <%= simple_form_for @jobvite_connection, html: {class: 'stacked'} do |f| %>
     <div class="form-row">
-      <%= f.input :api_key %>
+      <%= f.input :api_key, placeholder: 'API Key', input_html: {class: 'half'} %>
     </div>
     <div class="form-row">
-      <%= f.input :secret %>
+      <%= f.input :secret, placeholder: 'Secret', input_html: {class: 'half'} %>
     </div>
     <div class="form-rown">
-      <%= f.input :hired_workflow_state %>
+      <%= f.input :hired_workflow_state, input_html: {class: 'half'} %>
     </div>
-  </div>
-  <div class="right-control">
-    <%= button_tag(type: 'submit', class: 'button') do %>
-      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
-    <% end %>
-  </div>
-<% end %>
+    <div class="-n-actions">
+      <%= button_tag(type: 'submit', class: '-n-btn') do %>
+        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
