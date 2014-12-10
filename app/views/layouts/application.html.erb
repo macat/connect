@@ -10,22 +10,27 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <header>
-      <div class="inner">
-        <div class="logo">
-          <a href="<%= url_for(root_path) %>" id="logo">
-            <div class="icon"></div>
-          </a>
-        </div>
-        <div class="user">
-          <% if logged_in? %>
-            <%= fa_icon "sign-out", text: link_to(t("dashboards.show.sign_out"), session_path, method: :delete) %>
-        </div>
-      <% end %>
+    <header class='layout-outer'>
+      <div class="layout layout-split">
+        <section>
+          <div class="logo">
+            <a href="<%= url_for(root_path) %>" id="logo">
+              <div class="icon"></div>
+            </a>
+          </div>
+        </section>
+
+        <% if logged_in? %>
+          <section>
+            <%= link_to session_path, method: :delete, class: '-n-btn -n-btn-link -n-btn-sm -n-btn-secondary' do %>
+              <%= fa_icon "sign-out" %><%= t("dashboards.show.sign_out") %>
+            <% end %>
+          </section>
+        <% end %>
       </div>
     </header>
 
-    <div id="content">
+    <div class="layout layout-2b">
       <%= render "flashes" -%>
       <%= yield %>
       <%= render "javascript" %>
