@@ -1,14 +1,17 @@
 <%= render "subheader" %>
-
-<%= simple_form_for :namely_authentication, method: :get, url: new_session_path, :html => { class: 'form-inline' } do |f| %>
-  <div class="control-group">
-    <%= t(".sign_in.prompt") %>
-  </div>
-  <div class="control-group">
-    <%= f.input_field :subdomain %>
-  </div>
-  <strong>.namely.com</strong>
-  <div class="control-group">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+<section>
+  <%= simple_form_for :namely_authentication, method: :get, url: new_session_path, :html => { class: 'form-inline' } do |f| %>
+    <div class='form-row'>
+      <div class="control-group">
+        <%= t(".sign_in.prompt") %>
+      </div>
+      <div class="control-group">
+        <%= f.input_field :subdomain, class: 'justify-right' %>
+      </div>
+      .namely.com
+      <div class="control-group">
+        <%= f.button :submit, class: '-n-btn' %>
+      </div>
+    </div>
+  <% end %>
+</section>
