@@ -1,9 +1,9 @@
 <% render 'subnav' %>
-<h2><%= t(".title") %></h2>
-<p><%= t(".slogan") %></p>
 
-<%= simple_form_for @jobvite_connection do |f| %>
-  <div class="stacked">
+<section id="subheader">
+  <h1><%= t(".title") %></h2>
+  <p><%= t(".slogan") %></p>
+</section>
     <div class="form-row">
       <%= f.input :api_key %>
     </div>
