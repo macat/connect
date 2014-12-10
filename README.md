@@ -1,7 +1,7 @@
 # Namely Connect
 
 [![Code Climate](https://codeclimate.com/github/namely/connect/badges/gpa.svg)](https://codeclimate.com/github/namely/connect)
-[![Circle CI](https://circleci.com/gh/namely/connect.svg?style=svg)](https://circleci.com/gh/namely/connect)
+[![Circle CI](https://circleci.com/gh/namely/connect.svg?style=svg&circle-token=07c371714354bf58f4d2af8e0d92d793b5998880)](https://circleci.com/gh/namely/connect)
 
 Simple web app for connecting external apps with Namely.
 
