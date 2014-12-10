@@ -7,4 +7,4 @@ deployment:
     branch: master
     codedeploy:
       Connect:
-        deployment_group: production
+        deployment_group: Production
