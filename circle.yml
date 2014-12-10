@@ -1,0 +1,10 @@
+machine:
+  services:
+    - postgresql
+
+deployment:
+  staging:
+    branch: master
+    codedeploy:
+      Connect:
+        deployment_group: production
