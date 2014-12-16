@@ -3,8 +3,7 @@ machine:
     - postgresql
 
 deployment:
-  staging:
+  production:
     branch: master
-    codedeploy:
-      Connect:
-        deployment_group: Production
+    heroku:
+      appname: namely-connect
