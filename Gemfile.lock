@@ -43,9 +43,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     addressable (2.3.6)
-    airbrake (4.1.0)
-      builder
-      multi_json
     arel (5.0.1.20140414130214)
     awesome_print (1.2.0)
     backports (3.6.3)
@@ -139,7 +136,6 @@ GEM
       bourbon (>= 3.1)
       sass (~> 3.2.19)
     netrc (0.7.9)
-    newrelic_rpm (3.9.6.257)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     normalize-rails (3.0.1)
@@ -253,7 +249,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake
   awesome_print
   bourbon (~> 3.2.1)
   byebug
@@ -274,7 +269,6 @@ DEPENDENCIES
   launchy
   namely!
   neat (~> 1.5.1)
-  newrelic_rpm (>= 3.7.3)
   normalize-rails (~> 3.0.0)
   pg
   pry-rails
