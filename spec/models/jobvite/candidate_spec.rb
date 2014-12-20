@@ -30,4 +30,43 @@ describe Jobvite::Candidate do
       expect(candidate.gender).to eq gender
     end
   end
+
+  describe '#name' do 
+    it 'returns the full from the application information' do 
+      first_name = "Roger" 
+      last_name = "Rult" 
+
+      candidate = described_class.new("application" => { "first_name" => first_name, "last_name" => last_name}) 
+
+      expect(candidate.name).to eql "#{first_name} #{last_name}"
+    end
+  end
+
+  describe '#contact_number' do 
+    let(:candidate) { described_class.new(application) } 
+
+    context 'when just a home number is present' do 
+      let(:application) { { "home_phone" => "888-888-8888" } }
+
+      it 'returns the number' do 
+        expect(candidate.contact_number).to eql "888-888-8888"
+      end
+    end
+
+    context 'when just a work number is present' do 
+      let(:application) { { "work_phone" => "889-888-8888" } }
+
+      it 'returns the number' do 
+        expect(candidate.contact_number).to eql "889-888-8888"
+      end
+    end
+
+    context 'when just a mobile number is present' do 
+      let(:application) { {"cell_phone" => "887-888-8888"} }
+
+      it 'returns the number' do 
+        expect(candidate.contact_number).to eql "887-888-8888"
+      end
+    end
+  end
 end

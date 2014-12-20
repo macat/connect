@@ -15,6 +15,12 @@ class ImportResult
     end.join
   end
 
+  def to_a 
+    results.map do |candidate, result| 
+      candidate
+    end
+  end
+
   private
 
   attr_reader :attribute_mapper, :results

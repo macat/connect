@@ -21,7 +21,7 @@ feature "Visitor authenticates with Namely" do
 
     VCR.use_cassette("token_exchange") do
       visit root_path
-      fill_in field("namely_authentication.subdomain"), with: "sales14"
+      fill_in "namely_authentication[subdomain]", with: "sales14"
       click_button button("namely_authentication.submit")
 
       expect(page.current_path).to eq dashboard_path

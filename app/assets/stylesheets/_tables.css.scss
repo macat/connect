@@ -1,0 +1,21 @@
+.table-imports { 
+  margin: 40px 0 0 0;
+}
+
+table { 
+  td { 
+    margin: 20px 0 20px 0;
+
+    a.orange { 
+      color: orange;
+    }
+
+    .disconnected { 
+      color: yellow;
+    }
+
+    .connected { 
+      color: green;
+    }
+  }
+}

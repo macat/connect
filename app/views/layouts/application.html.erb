@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="ROBOTS" content="NOODP" />
-  <meta name="viewport" content="initial-scale=1" />
-  <title><%= title %></title>
-  <%= stylesheet_link_tag :application, media: "all" %>
-  <%= csrf_meta_tags %>
-</head>
-<body class="<%= body_class %>">
-  <header>
-    <div class="inner">
-      <h1><%= link_to title, dashboard_path %></h1>
-      <% if logged_in? %>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="ROBOTS" content="NOODP" />
+    <meta name="viewport" content="initial-scale=1" />
+    <title><%= title %></title>
+    <%= stylesheet_link_tag :application, media: "all" %>
+    <link href="http://fonts.googleapis.com/css?family=Open Sans" rel='stylesheet' type="text/css">
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header>
+      <div class="inner">
+        <div class="logo">
+          <a href="<%= url_for(root_path) %>" id="logo">
+            <div class="icon"></div>
+          </a>
+        </div>
         <div class="user">
-          <%= button_to t("dashboards.show.sign_out"), session_path, method: :delete %>
+          <% if logged_in? %>
+            <%= fa_icon "sign-out", text: link_to(t("dashboards.show.sign_out"), session_path, method: :delete) %>
         </div>
       <% end %>
+      </div>
+    </header>
+
+    <div id="content">
+      <%= render "flashes" -%>
+      <%= yield %>
+      <%= render "javascript" %>
     </div>
-  </header>
-  <section id="content">
-    <%= render "flashes" -%>
-    <%= yield %>
-    <%= render "javascript" %>
-  </section>
-</body>
+
+  </body>
 </html>

@@ -1,0 +1,9 @@
+machine:
+  services:
+    - postgresql
+
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: namely-connect
