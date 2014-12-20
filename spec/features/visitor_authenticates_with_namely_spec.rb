@@ -4,12 +4,16 @@ feature "Visitor authenticates with Namely" do
   class FakeNamely
     def call(env)
       request = Rack::Request.new(env)
-      redirect_uri = "%{base_uri}?code=%{code}&state=%{state}" % {
-        base_uri: request["redirect_uri"],
-        code: ENV.fetch("TEST_NAMELY_AUTH_CODE"),
-        state: request["state"],
-      }
-      Rack::Response.new([], 302, { "Location" => redirect_uri }).to_a
+      if request.path == "/api/v1/oauth2/authorize"
+        redirect_uri = "%{base_uri}?code=%{code}&state=%{state}" % {
+          base_uri: request["redirect_uri"],
+          code: ENV.fetch("TEST_NAMELY_AUTH_CODE", 'test'),
+          state: request["state"],
+        }
+        return Rack::Response.new([], 302, { "Location" => redirect_uri }).to_a
+      else request.path == "/api/v1/oauth2/token"
+        return Rack::Response.new([JSON.dump({access_token: ENV['TEST_NAMELY_ACCESS_TOKEN'], expires_in: 1111111})], 200).to_a
+      end
     end
   end
 
@@ -21,7 +25,7 @@ feature "Visitor authenticates with Namely" do
 
     VCR.use_cassette("token_exchange") do
       visit root_path
-      fill_in "namely_authentication[subdomain]", with: "sales14"
+      fill_in "namely_authentication[subdomain]", with: ENV['TEST_NAMELY_SUBDOMAIN']
       click_button button("namely_authentication.submit")
 
       expect(page.current_path).to eq dashboard_path
