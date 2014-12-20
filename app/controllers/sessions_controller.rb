@@ -30,7 +30,6 @@ class SessionsController < ApplicationController
   private
 
   def new_session
-    p params
     Session.new(
       authenticator(params.fetch(:state)),
       code: params.fetch(:code),
