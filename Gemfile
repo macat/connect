@@ -47,7 +47,6 @@ group :test do
   gem "launchy"
   gem "shoulda-matchers", require: false
   gem "timecop"
-  gem "vcr"
   gem "webmock"
   gem 'rspec_junit_formatter', github: 'circleci/rspec_junit_formatter'
 end
