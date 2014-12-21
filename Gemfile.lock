@@ -119,8 +119,8 @@ GEM
     hike (1.2.3)
     honeybadger (1.16.6)
       json
-    i18n (0.6.11)
-    i18n-tasks (0.7.8)
+    i18n (0.7.0)
+    i18n-tasks (0.7.10)
       activesupport
       easy_translate (>= 0.5.0)
       erubis
@@ -187,6 +187,10 @@ GEM
       mail
     rest_client (1.8.2)
       netrc (~> 0.7.7)
+    rspec (3.1.0)
+      rspec-core (~> 3.1.0)
+      rspec-expectations (~> 3.1.0)
+      rspec-mocks (~> 3.1.0)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
