@@ -39,4 +39,8 @@ class User < ActiveRecord::Base
   def access_token_expired?
     Time.current > access_token_expiry
   end
+
+  def authenticator
+    Authenticator.new(subdomain)
+  end
 end

@@ -9,8 +9,7 @@ feature "User visits their dashboard" do
   end
   let(:fixture_file) { "fields_without_jobvite" }
   before do
-    stub_request(:get, "#{ api_host }/api/v1/profiles/fields")
-      .with(query: {access_token: ENV['TEST_NAMELY_ACCESS_TOKEN'] })
+    stub_request(:get, /.*api\/v1\/profiles\/fields/)
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/#{ fixture_file }.json"))
   end
   context "with a Jobvite connection, but no Jobvite field on Namely" do
