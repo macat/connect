@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/circleci/rspec_junit_formatter.git
+  revision: 7b098c8ab2ac5e5f78190b51629ed6d67a9de4d1
+  specs:
+    rspec_junit_formatter (0.2.0)
+      builder (< 4)
+      rspec (>= 2, < 4)
+      rspec-core (!= 2.12.0)
+
+GIT
   remote: git://github.com/namely/ruby-client.git
   revision: 53abdc06e22c14fec05966fd7ceba80340addc2c
   specs:
@@ -178,6 +187,10 @@ GEM
       mail
     rest_client (1.8.2)
       netrc (~> 0.7.7)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
     rspec-core (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.4)
@@ -281,6 +294,7 @@ DEPENDENCIES
   recipient_interceptor
   rest_client
   rspec-rails (~> 3.0.0)
+  rspec_junit_formatter!
   sass-rails (~> 4.0.3)
   shoulda-matchers
   simple_form
