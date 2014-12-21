@@ -35,7 +35,6 @@ feature "User imports jobvite candidates" do
 
     visit dashboard_path(as: user)
     click_button t("dashboards.show.import_now")
-    page.save_page("a.html")
 
     expect(page).to have_content t("jobvite_imports.create.title_successful")
   end
