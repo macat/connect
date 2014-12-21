@@ -75,7 +75,6 @@ feature "Visitor authenticates with Namely" do
     fill_in "namely_authentication[subdomain]", with: ENV['TEST_NAMELY_SUBDOMAIN']
     click_button button("namely_authentication.submit")
 
-    page.save_screenshot("a.jpg")
     expect(page.current_path).to eq dashboard_path
     expect(page).to have_content "Test Test"
   end
