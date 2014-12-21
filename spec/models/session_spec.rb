@@ -42,7 +42,7 @@ describe Session do
         expect(authenticator).to have_received(:retrieve_tokens).with(
           code: "my-code",
           subdomain: "my-subdomain",
-          redirect_uri: Rails.configuration.namely_authentication_redirect_uri,
+          redirect_uri: Rails.configuration.namely_api_redirect_uri,
         )
         expect(authenticator).to have_received(:current_user).with(
           access_token: "my-access-token",

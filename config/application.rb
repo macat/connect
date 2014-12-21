@@ -43,7 +43,9 @@ module Connect
 
     config.namely_authentication_domain = ENV.fetch("NAMELY_DOMAIN", "%{subdomain}.namely.com")
     config.namely_authentication_protocol = ENV.fetch("NAMELY_PROTOCOL", "https")
-    config.namely_authentication_redirect_uri = "http://#{ENV.fetch("HOST")}/session/oauth_callback"
+    config.namely_api_redirect_uri = "http://#{ENV.fetch("HOST")}/session/oauth_callback"
+    config.namely_api_domain = ENV.fetch("NAMELY_DOMAIN", "%{subdomain}.namely.com")
+    config.namely_api_protocol = ENV.fetch("NAMELY_PROTOCOL", "https")
     config.namely_client_id = ENV.fetch("NAMELY_CLIENT_ID")
     config.namely_client_secret = ENV.fetch("NAMELY_CLIENT_SECRET")
   end
