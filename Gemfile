@@ -49,8 +49,10 @@ group :test do
   gem "timecop"
   gem "vcr"
   gem "webmock"
+  gem 'rspec_junit_formatter', github: 'circleci/rspec_junit_formatter'
 end
 
 group :staging, :production do
   gem 'rails_12factor'
+  gem 'honeybadger'
 end
