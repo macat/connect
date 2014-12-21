@@ -78,4 +78,9 @@ feature "Visitor authenticates with Namely" do
     expect(page.current_path).to eq dashboard_path
     expect(page).to have_content "Test Test"
   end
+
+  after(:all) do
+    Rails.configuration.namely_authentication_domain = ENV.fetch("NAMELY_DOMAIN", "%{subdomain}.namely.com")
+    Rails.configuration.namely_authentication_protocol = ENV.fetch("NAMELY_PROTOCOL", "https")
+  end
 end
