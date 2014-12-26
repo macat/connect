@@ -13,6 +13,15 @@ class Session
       namely_user_id: namely_user.id,
       subdomain: subdomain,
     ).tap do |user|
+      user_update_credentials(user)
+    end
+  end
+
+  private
+
+  attr_reader :authenticator, :code, :subdomain, :user_model
+
+  def user_update_credentials(user)
       user.update!(
         access_token: access_token,
         access_token_expires_in: access_token_expiry,
@@ -20,12 +29,7 @@ class Session
         first_name: namely_user.first_name,
         last_name: namely_user.last_name,
       )
-    end
   end
-
-  private
-
-  attr_reader :authenticator, :code, :subdomain, :user_model
 
   def namely_user
     @namely_user ||= authenticator.current_user(access_token)
