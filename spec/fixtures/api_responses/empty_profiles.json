@@ -1,0 +1,19 @@
+{
+  "profiles": [],
+  "meta": {
+    "count": 0,
+    "status": 200
+  },
+  "links": {
+    "profiles.job_title": {
+      "type": "job_titles"
+    },
+    "profiles.image": {
+      "type": "files"
+    }
+  },
+  "linked": {
+    "job_titles": [],
+    "files": []
+  }
+}

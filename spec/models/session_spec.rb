@@ -39,15 +39,8 @@ describe Session do
         expect(user.first_name).to eq "Eugene"
         expect(user.last_name).to eq "Belford"
         expect(user).to be_persisted
-        expect(authenticator).to have_received(:retrieve_tokens).with(
-          code: "my-code",
-          subdomain: "my-subdomain",
-          redirect_uri: Rails.configuration.namely_authentication_redirect_uri,
-        )
-        expect(authenticator).to have_received(:current_user).with(
-          access_token: "my-access-token",
-          subdomain: "my-subdomain",
-        )
+        expect(authenticator).to have_received(:retrieve_tokens).with("my-code")
+        expect(authenticator).to have_received(:current_user).with("my-access-token")
       end
     end
 

@@ -36,7 +36,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "pry-rails"
-  gem "rspec-rails", "~> 3.0.0"
+  gem "rspec-rails", "~> 3.1.0"
 end
 
 group :test do
@@ -47,7 +47,6 @@ group :test do
   gem "launchy"
   gem "shoulda-matchers", require: false
   gem "timecop"
-  gem "vcr"
   gem "webmock"
   gem 'rspec_junit_formatter', github: 'circleci/rspec_junit_formatter'
 end
