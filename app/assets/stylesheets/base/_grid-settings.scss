@@ -12,3 +12,131 @@ $large-screen: em(860);
 
 $medium-screen-up: new-breakpoint(min-width $medium-screen 4);
 $large-screen-up: new-breakpoint(min-width $large-screen 8);
+
+@import 'neat-helpers';
+
+
+$grid-columns: 12;
+$column: 62px;
+$gutter: 20px;
+
+
+@import 'neat';
+
+
+.layout-outer, .layout {
+
+}
+
+.layout-outer {
+  width: 100%;
+  position: relative;
+}
+
+.layout {
+  @include outer-container;
+  max-width: 964px;
+  width: auto;
+
+  @media (min-width: 1200px) {
+    max-width: 1060px;
+  }
+
+  @media (max-width: 980px) {
+    max-width: 700px;
+  }
+
+
+  > section {
+    padding: 0;
+    margin: 0;
+    background: none;
+  }
+
+  &.demo {
+    margin-top: 20px;
+
+  }
+
+  &.layout-full {
+
+    > section {
+      @include span-columns(12);
+      @include omega;
+    }
+  }
+
+  &.layout-split {
+
+    > section {
+      @include span-columns(6);
+
+      &:last-child {
+        @include omega;
+      }
+    }
+  }
+
+  &.layout-1 {
+
+    > aside {
+      @include span-columns(3);
+
+      &:last-child {
+        @include omega;
+      }
+    }
+
+    > section {
+      @include span-columns(6);
+    }
+
+  }
+
+  &.layout-2a {
+
+  }
+
+  &.layout-2b {
+
+  }
+
+  &.layout-4 {
+
+    > section {
+      padding-right: 20px;
+    }
+
+    > aside {
+      @include omega;
+    }
+  }
+
+  &.layout-1, &.layout-2a, &.layout-4 {
+
+    > aside {
+      @include span-columns(3)
+    }
+  }
+
+  &.layout-1, &.layout-2a {
+
+    > aside {
+
+      &:first-child {
+        padding-right: 20px;
+      }
+
+      &:last-child {
+        @include omega;
+      }
+    }
+  }
+
+  &.layout-2a, &.layout-2b, &.layout-4 {
+
+    > section {
+      @include span-columns(9);
+    }
+  }
+}
