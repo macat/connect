@@ -30,7 +30,7 @@ en:
       namely_authentication:
         submit: "Sign in"
     link_to: 
-      connections: 'CONNECTIONS'
+      connections: 'Back To Connections'
 
   homepages:
     show:
