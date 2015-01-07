@@ -19,7 +19,7 @@ describe Authenticator do
   describe "#retrieve_tokens" do
     before do
       stub_request(:post, "https://#{ subdomain }.namely.com/api/v1/oauth2/token")
-        .with(query: {redirect_uri: "http://#{ ENV['HOST'] }/session/oauth_callback"})
+        .with(query: {redirect_uri: "#{ ENV['HOST'] }/session/oauth_callback"})
         .to_return(status: 200, body: JSON.dump(tokens))
     end
 
