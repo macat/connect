@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_one :icims_connection, class_name: "Icims::Connection"
 
   def full_name
-    [first_name, last_name].compact.join(" ")
+    UserPresenter.new(self).full_name
   end
 
   def jobvite_connection
