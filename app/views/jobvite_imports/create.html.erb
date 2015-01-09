@@ -5,32 +5,30 @@
   <strong><%= t(".title_unsuccessful") %></strong>
 <% else %>
   <strong><%= t(".title_successful") %></strong>
-  <div class="table-imports">
-    <table>
-      <thead>
-        <tr>
-          <th><%= t(".employee_title") %></th>
-          <th><%= t(".key_title") %></th>
-          <th><%= t(".contact_number_title") %></th>
-          <th><%= t(".email_address_title") %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @candidates.each do |candidate| %>
-          <td>
-            <%= "#{candidate.first_name} #{candidate.last_name}" %>
-          </td>
-          <td>
-            <%= candidate.e_id %>
-          </td>
-          <td>
-            <%= candidate.contact_number %>
-          </td>
-          <td>
-            <%= candidate.email %>
-          </td>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".employee_title") %></th>
+        <th><%= t(".key_title") %></th>
+        <th><%= t(".contact_number_title") %></th>
+        <th><%= t(".email_address_title") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @candidates.each do |candidate| %>
+        <td>
+          <%= "#{candidate.first_name} #{candidate.last_name}" %>
+        </td>
+        <td>
+          <%= candidate.e_id %>
+        </td>
+        <td>
+          <%= candidate.contact_number %>
+        </td>
+        <td>
+          <%= candidate.email %>
+        </td>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
