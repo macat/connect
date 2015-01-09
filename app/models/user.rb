@@ -1,9 +1,12 @@
+require_relative '../connect/users/user_with_full_name' 
+require_relative '../connect/users/access_token_freshner' 
+
 class User < ActiveRecord::Base
   has_one :jobvite_connection, class_name: "Jobvite::Connection"
   has_one :icims_connection, class_name: "Icims::Connection"
 
   def full_name
-    UserPresenter.new(self).full_name
+    Connect::Users::UserWithFullName.new(self).full_name
   end
 
   def jobvite_connection
@@ -22,6 +25,7 @@ class User < ActiveRecord::Base
   end
 
   def fresh_access_token(authenticator = authenticator)
+    Connect::Users::AccessTokenFreshner.new(self).fresh_access_token
     if access_token_expired?
       refresh_access_token(authenticator)
     end
