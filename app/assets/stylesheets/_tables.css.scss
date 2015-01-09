@@ -6,6 +6,13 @@ table {
     tr {
       border-bottom: 1px solid $grey-15;
 
+      th { 
+        padding: 20px 0;
+        border: 0;
+        margin: 0;
+
+      }
+
       td {
         padding: 20px 0;
         border: 0;
