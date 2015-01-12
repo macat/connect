@@ -91,13 +91,15 @@ describe User do
           access_token: old_access_token,
           access_token_expiry: 5.minutes.ago,
         )
-        authenticator = double(
-          "authenticator",
-          refresh_access_token:  {
-            "access_token" => new_access_token,
-            "expires_in" => expiry_time.to_s,
-          }
-        )
+        tokens = {"access_token" => new_access_token,
+                  "expires_in" => expiry_time}
+        namely_authenticator = double(:namely_authenticator, 
+                                      refresh_access_token: tokens)
+                                      
+        stub_const("Namely::Authenticator", double(:namely_authenticator_class, 
+                                                   new: namely_authenticator))
+                        
+        authenticator = Authenticator.new(user.subdomain)
 
         token = user.fresh_access_token(authenticator)
 

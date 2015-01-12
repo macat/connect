@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   private
 
   def refresh_access_token(authenticator)
-    tokens = authenticator.refresh_access_token
+    tokens = authenticator.refresh_access_token(refresh_token)
     self.access_token = tokens.fetch("access_token")
     self.access_token_expires_in = tokens.fetch("expires_in")
     save
