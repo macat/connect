@@ -17,7 +17,7 @@
     <tbody>
       <% @candidates.each do |candidate| %>
         <td>
-          <%= "#{candidate.first_name} #{candidate.last_name}" %>
+          <%= candidate.name %>
         </td>
         <td>
           <%= candidate.e_id %>
