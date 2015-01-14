@@ -17,7 +17,7 @@ module Jobvite
     end
 
     def name 
-      "#{application["first_name"]} #{application["last_name"]}"
+      "#{self["first_name"]} #{self["last_name"]}"
     end
 
     def contact_number 

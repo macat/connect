@@ -16,18 +16,20 @@
     </thead>
     <tbody>
       <% @candidates.each do |candidate| %>
-        <td>
-          <%= "#{candidate.first_name} #{candidate.last_name}" %>
-        </td>
-        <td>
-          <%= candidate.e_id %>
-        </td>
-        <td>
-          <%= candidate.contact_number %>
-        </td>
-        <td>
-          <%= candidate.email %>
-        </td>
+        <tr>
+          <td>
+            <%= candidate.name %>
+          </td>
+          <td>
+            <%= candidate.e_id %>
+          </td>
+          <td>
+            <%= candidate.contact_number %>
+          </td>
+          <td>
+            <%= candidate.email %>
+          </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
