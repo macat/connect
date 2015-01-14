@@ -36,7 +36,7 @@ describe Jobvite::Candidate do
       first_name = "Roger" 
       last_name = "Rult" 
 
-      candidate = described_class.new("application" => { "first_name" => first_name, "last_name" => last_name}) 
+      candidate = described_class.new({"first_name" => first_name, "last_name" => last_name}) 
 
       expect(candidate.name).to eql "#{first_name} #{last_name}"
     end
