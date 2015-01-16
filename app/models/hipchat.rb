@@ -1,0 +1,3 @@
+module Hipchat
+
+end
