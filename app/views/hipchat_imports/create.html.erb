@@ -1,6 +1,6 @@
 <%= render 'subnav' %>
 
-<h1>Jobvite</h1>
+<h1>Hipchat Import</h1>
 <% if @imported_profiles.empty? %>
   <strong><%= t(".title_unsuccessful") %></strong>
 <% else %>
@@ -9,8 +9,6 @@
     <thead>
       <tr>
         <th><%= t(".employee_title") %></th>
-        <th><%= t(".key_title") %></th>
-        <th><%= t(".contact_number_title") %></th>
         <th><%= t(".email_address_title") %></th>
       </tr>
     </thead>
@@ -18,7 +16,7 @@
       <% @imported_profiles.each do |profile| %>
         <tr>
           <td>
-            <%= profile.name %>
+            <%= profile.first_name %> <%= profile.last_name %>
           </td>
           <td>
             <%= profile.email %>

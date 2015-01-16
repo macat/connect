@@ -10,8 +10,15 @@ module Hipchat
     end
 
     def create_user(name:, email:)
+      Rails.logger.info("......")
+      Rails.logger.info({name: name, email: email})
       payload = JSON.dump({name: name, email: email})
-      response = http.post("/v2/user", payload, {"Authorization" => "Bearer #{ token }"})
+      response = http.post("/v2/user", payload, {
+        "Authorization" => "Bearer #{ token }",
+        "Content-Type" => "application/json"
+      })
+      Rails.logger.info(response)
+      Rails.logger.info(response.body)
       JSON.parse(response.body)["id"]
     end
 
@@ -29,7 +36,11 @@ module Hipchat
     def user_ids
       response = http.get("/v2/user", {"Authorization" => "Bearer #{ token }"})
       content = JSON.parse(response.body)
-      content["items"].map { |item| item["id"] }
+      if content.has_key?("items")
+        content["items"].map { |item| item["id"] }
+      else
+        []
+      end
     end
 
     def http
