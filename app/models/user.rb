@@ -1,5 +1,6 @@
 require_relative '../connect/users/user_with_full_name' 
 require_relative '../connect/users/access_token_freshner' 
+require_relative '../connect/users/token_expiry' 
 
 class User < ActiveRecord::Base
   has_one :jobvite_connection, class_name: "Jobvite::Connection"
@@ -28,13 +29,9 @@ class User < ActiveRecord::Base
     Connect::Users::AccessTokenFreshner.fresh_access_token(self)
   end
 
-  def access_token_expires_in=(seconds)
-    self.access_token_expiry = seconds.to_i.seconds.from_now
-  end
-
   def save_token_info(access_token, access_token_expires_in)
     self.access_token = access_token
-    self.access_token_expires_in = access_token_expires_in
+    self.access_token_expiry = Connect::Users::TokenExpiry.for(access_token_expires_in)
     save
   end
 end

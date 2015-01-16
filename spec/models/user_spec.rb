@@ -46,18 +46,6 @@ describe User do
     end
   end
 
-  describe "#access_token_expires_in" do
-    it "sets the expiry time that many seconds in the future" do
-      expiry_time = 899
-      user = build(:user)
-
-      user.access_token_expires_in = expiry_time
-
-      expect(user.access_token_expiry).
-        to be_within(1.second).of(expiry_time.seconds.from_now)
-    end
-  end
-
   describe '#save_token_info' do 
     let(:user) { create :user }
 
