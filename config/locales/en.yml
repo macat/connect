@@ -55,6 +55,13 @@ en:
       contact_number_title: "Contact Number"
       email_address_title: "Email Address"
 
+  hipchat_imports:
+    create:
+      title_successful: "You have successfully imported the following:"
+      title_unsuccessful: "There currently aren't any users to import"
+      employee_title: "Employee Name"
+      email_address_title: "Email Address"
+
   simple_form:
     labels:
       jobvite_connection:

@@ -4,6 +4,8 @@ module Hipchat
       new(*args).import
     end
 
+    attr_reader :token, :namely_connection
+
     def initialize(token:, namely_connection:)
       @token = token
       @namely_connection = namely_connection
@@ -15,6 +17,7 @@ module Hipchat
       new_emails = namely_emails - hipchat_emails
       new_profiles = namely_profiles.find_all { |profile| new_emails.include?(profile.email) }
       import_users(new_profiles)
+      new_profiles
     end
 
     private
@@ -28,7 +31,7 @@ module Hipchat
     end
 
     def namely_profiles
-      @namely_emails ||= namely_connection.namely_profiles
+      @namely_emails ||= namely_connection.profiles.all
     end
 
     def hipchat_users
