@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'timecop'
-require 'active_support/time'
 
 describe Connect::Users::AccessTokenFreshner do
   describe '.fresh_access_token' do
