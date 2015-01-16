@@ -24,32 +24,17 @@ class User < ActiveRecord::Base
     )
   end
 
-  def fresh_access_token(authenticator = authenticator)
-    Connect::Users::AccessTokenFreshner.new(self).fresh_access_token
-    if access_token_expired?
-      refresh_access_token(authenticator)
-    end
-    access_token
+  def fresh_access_token
+    Connect::Users::AccessTokenFreshner.fresh_access_token(self)
   end
 
   def access_token_expires_in=(seconds)
     self.access_token_expiry = seconds.to_i.seconds.from_now
   end
 
-  private
-
-  def refresh_access_token(authenticator)
-    tokens = authenticator.refresh_access_token(refresh_token)
-    self.access_token = tokens.fetch("access_token")
-    self.access_token_expires_in = tokens.fetch("expires_in")
+  def save_token_info(access_token, access_token_expires_in)
+    self.access_token = access_token
+    self.access_token_expires_in = access_token_expires_in
     save
-  end
-
-  def access_token_expired?
-    Time.current > access_token_expiry
-  end
-
-  def authenticator
-    Authenticator.new(subdomain)
   end
 end
