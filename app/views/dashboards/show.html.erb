@@ -2,7 +2,7 @@
 <section>
   <table>
     <tbody>
-      <tr>
+      <tr class="connection-jobvite">
         <% if @jobvite_connection.connected? %>
           <td>
             <%= fa_icon "check-circle", class: "connected", text: "Jobvite" %>
@@ -37,7 +37,7 @@
           </td>
         <% end %>
       </tr>
-      <tr>
+      <tr class="connection-hipchat">
         <% if current_user.hipchat_connection.connected? %>
           <td>
             <%= fa_icon "check-circle", class: "connected", text: "Hipchat" %>
