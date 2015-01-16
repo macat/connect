@@ -46,56 +46,6 @@ describe User do
     end
   end
 
-  describe "#fresh_access_token" do
-    context "when the access token is still valid" do
-      it "returns the old access token" do
-        user = build(
-          :user,
-          access_token_expiry: 5.minutes.from_now
-        )
-        old_access_token = user.access_token
-
-        token = user.fresh_access_token
-
-        expect(token).to eq old_access_token
-      end
-    end
-
-    context "when the access token has expired" do
-      it "refreshes the access token and returns the new one" do
-        old_access_token = "my-old-access-token"
-        new_access_token = "my-new-access-token"
-        expiry_time = 899
-        user = build(
-          :user,
-          access_token: old_access_token,
-          access_token_expiry: 5.minutes.ago,
-        )
-        tokens = {
-          "access_token" => new_access_token,
-          "expires_in" => expiry_time,
-        }
-        namely_authenticator = double(
-          :namely_authenticator,
-          refresh_access_token: tokens,
-        )
-        stub_const(
-          "Namely::Authenticator",
-          double(:namely_authenticator_class, new: namely_authenticator),
-        )
-
-        authenticator = Authenticator.new(user.subdomain)
-
-        token = user.fresh_access_token(authenticator)
-
-        expect(token).to eq new_access_token
-        expect(user.access_token).to eq new_access_token
-        expect(user.access_token_expiry).
-          to be_within(1.second).of(expiry_time.seconds.from_now)
-      end
-    end
-  end
-
   describe "#access_token_expires_in" do
     it "sets the expiry time that many seconds in the future" do
       expiry_time = 899
@@ -105,6 +55,16 @@ describe User do
 
       expect(user.access_token_expiry).
         to be_within(1.second).of(expiry_time.seconds.from_now)
+    end
+  end
+
+  describe '#save_token_info' do 
+    let(:user) { create :user }
+
+    it 'saves new access token and access token expires in info' do 
+      user.save_token_info('new_token', 'new_time')
+
+      expect(user.access_token).to eql 'new_token'
     end
   end
 end
