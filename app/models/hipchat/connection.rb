@@ -5,5 +5,9 @@ module Hipchat
     def connected?
       api_key.present?
     end
+
+    def disconnect
+      update(api_key: nil)
+    end
   end
 end
