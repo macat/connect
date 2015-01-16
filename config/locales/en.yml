@@ -41,6 +41,10 @@ en:
     edit:
       title: "Jobvite"
       slogan: "Please fill out the following fields to connect to this application."
+  hipchat_connections:
+    edit:
+      title: "Hipchat"
+      slogan: "Please fill out the following fields to connect to this application."
 
   jobvite_imports:
     create:
