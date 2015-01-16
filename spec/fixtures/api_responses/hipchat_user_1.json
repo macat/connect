@@ -1,0 +1,33 @@
+{
+  "created": "2012-11-26T15:51:31+00:00",
+  "email": "test1@example.com",
+  "group": {
+    "id": 30021,
+    "links": {
+      "self": "https://api.hipchat.com/v2/group/30021"
+    },
+    "name": "Namely"
+  },
+  "id": 1,
+  "is_deleted": false,
+  "is_group_admin": true,
+  "is_guest": false,
+  "last_active": "1421423508",
+  "links": {
+    "self": "https://api.hipchat.com/v2/user/1"
+  },
+  "mention_name": "Test1",
+  "name": "Test 1",
+  "photo_url": "https://s3.amazonaws.com/uploads.hipchat.com/photos/195715/fry8ko5edyyjjap_125.gif",
+  "presence": {
+    "client": {
+      "type": "http://hipchat.com/client/mac",
+      "version": "151"
+    },
+    "is_online": true,
+    "show": "chat"
+  },
+  "timezone": "US/Eastern",
+  "title": "Software Engineer",
+  "xmpp_jid": "30021_1@chat.hipchat.com"
+}

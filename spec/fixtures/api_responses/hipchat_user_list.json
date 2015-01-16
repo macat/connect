@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "links": {
+        "self": "https://api.hipchat.com/v2/user/1"
+      },
+      "mention_name": "Test1",
+      "name": "Test 1"
+    },
+    {
+      "id": 2,
+      "links": {
+        "self": "https://api.hipchat.com/v2/user/2"
+      },
+      "mention_name": "Test2",
+      "name": "Test 2"
+    }
+  ],
+  "links": {
+    "self": "https://api.hipchat.com/v2/user"
+  },
+  "maxResults": 100,
+  "startIndex": 0
+}
