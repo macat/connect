@@ -1,6 +1,7 @@
 require "webmock/rspec"
 require 'delegate'
 require_relative '../app/connect/users/user_with_full_name'
+require_relative '../app/connect/users/access_token_freshner'
 
 # http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
