@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_one :jobvite_connection, class_name: "Jobvite::Connection"
+  has_one :hipchat_connection, class_name: "Hipchat::Connection"
 
   def full_name
     [first_name, last_name].compact.join(" ")
@@ -8,6 +9,11 @@ class User < ActiveRecord::Base
   def jobvite_connection
     super || Jobvite::Connection.create(user: self)
   end
+
+  def hipchat_connection
+    super || Hipchat::Connection.create(user: self)
+  end
+
 
   def namely_connection
     Namely::Connection.new(
