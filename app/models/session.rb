@@ -1,3 +1,5 @@
+require_relative '../connect/users/token_expiry' 
+
 class Session
   delegate :id, to: :user, prefix: true
 
@@ -24,7 +26,7 @@ class Session
   def user_update_credentials(user)
       user.update!(
         access_token: access_token,
-        access_token_expires_in: access_token_expiry,
+        access_token_expiry: Connect::Users::TokenExpiry.for(access_token_expiry),
         refresh_token: refresh_token,
         first_name: namely_user.first_name,
         last_name: namely_user.last_name,
