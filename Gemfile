@@ -24,6 +24,7 @@ gem "title"
 gem "uglifier"
 gem "unicorn"
 gem "font-awesome-rails"
+gem "wisper"
 
 group :development do
   gem "spring"
@@ -37,6 +38,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.1.0"
+  gem 'wisper-rspec', require: false
 end
 
 group :test do
