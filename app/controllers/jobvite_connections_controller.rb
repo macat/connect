@@ -1,3 +1,5 @@
+require_relative '../connect/jobvite/connection_updater' 
+
 class JobviteConnectionsController < ApplicationController
   def edit
     @jobvite_connection = current_user.jobvite_connection
