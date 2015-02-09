@@ -39,7 +39,7 @@ module Jobvite
         if json_response.has_key?("errors")
           raise Error, json_response["errors"]["messages"].to_sentence
         else
-          json_response.fetch("candidates").map { |hash| Candidate.new(hash) }
+          json_response.fetch("candidates", {}).map { |hash| Candidate.new(hash) }
         end
       end
 
@@ -76,7 +76,7 @@ module Jobvite
       end
 
       def last_page?
-        json_response.fetch("total") < next_page_start
+        json_response.fetch("total", 0) < next_page_start
       end
 
       def next_page_start
