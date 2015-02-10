@@ -36,6 +36,30 @@ describe Jobvite::Client do
         expect(first_hire.last_name).to eq "Murphy"
         expect(first_hire.email).to eq "crash.override@example.com"
       end
+
+      context "when the json response doesn't have candidates" do 
+        it 'returns an empty list of candidates' do 
+          stub_request(:get, "https://api.jobvite.com/api/v2/candidate").
+            with(query: hash_including(
+              "api" => "MY_API_KEY",
+              "sc" => "MY_SECRET",
+              "wflowstate" => "Hired",
+          )).
+          to_return(
+            body: '{"persons": []}',
+            headers: { "Content-Type" => "application/json" },
+          )
+
+          connection = double(
+            "jobvite_connection",
+            api_key: "MY_API_KEY",
+            secret: "MY_SECRET",
+            hired_workflow_state: "Hired",
+          )
+          client = described_class.new(connection) 
+          expect(client.recent_hires.size).to eql 0
+        end
+      end
     end
 
     context "when the number of candidates spans more than one page" do
