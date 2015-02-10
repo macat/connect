@@ -17,7 +17,8 @@ class ImportResult
 
   def to_a 
     results.map do |candidate, result| 
-      candidate
+      {candidate: candidate, 
+       result: result}
     end
   end
 
