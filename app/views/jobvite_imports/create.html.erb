@@ -1,9 +1,9 @@
 <%= render 'subnav' %>
 
-<h1>Jobvite</h1>
-<% if @candidates.empty? %>
+<% if @jobvite_imports_presenter.imported_candidates.empty? %>
   <strong><%= t(".title_unsuccessful") %></strong>
 <% else %>
+  <h1>Jobvite: Successfully Imported Candidates</h1>
   <strong><%= t(".title_successful") %></strong>
   <table>
     <thead>
