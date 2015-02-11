@@ -13,9 +13,11 @@ module Jobvite
     end
 
     def not_imported_candidates
-      import_results.to_a.map do |import_result|
-        format_error_message(import_result) if import_result[:result] =~ /error/i
-      end.compact
+      @not_imported_candidates ||= import_results.to_a.select do |import_result|
+        import_result[:result] =~ /error/i
+      end.map do |import_result|
+        format_error_message(import_result)
+      end
     end
 
     private
