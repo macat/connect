@@ -44,12 +44,14 @@ en:
 
   jobvite_imports:
     create:
-      title_successful: "You have successfully imported the following:"
-      title_unsuccessful: "There currently aren't any profiles to import"
+      imported_successfully: "You have successfully imported the following:"
+      empty_successful_imports: "Currently there aren't any profiles to import"
+      not_imported_successfully: "You haven't import the following:"
       employee_title: "Employee Name"
       key_title: "Key"
       contact_number_title: "Contact Number"
       email_address_title: "Email Address"
+      reason: "Reason"
 
   simple_form:
     labels:
