@@ -5,9 +5,11 @@ module Jobvite
     end
 
     def imported_candidates
-      import_results.to_a.map do |import_result|
-        import_result[:candidate] if import_result[:result] == I18n.t("status.success")
-      end.compact
+      @imported_candidates ||= import_results.to_a.select do |import_result|
+        import_result[:result] == I18n.t("status.success")
+      end.map do |import_result| 
+        import_result[:candidate]
+      end
     end
 
     def not_imported_candidates
