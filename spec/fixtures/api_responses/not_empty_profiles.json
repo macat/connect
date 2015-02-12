@@ -1,0 +1,40 @@
+{
+  "profiles": [
+    {
+      "id":"83809753-615b-44ee-914b-3821fe2ee7ae",
+      "first_name": "EXAMPLE FIRST NAME",
+      "last_name": "EXAMPLE Last NAME",
+      "email": "EXAMPLEEMAIL@EXAMPLE.COM",
+      "user_status":"active",
+      "start_date":"07/18/2013",
+      "departure_date":"",
+      "gender": "Male",
+      "marital_status":"Single",
+      "job_title":
+      {
+        "id":"0c601728-2658-4677-a22b-1c8653b431ae",
+        "title":"CEO"
+      },
+      "home":
+      {
+        "address1": "111 Example Lane",
+        "address2": "Apt ExampleB",
+        "city": "ExampleVille",
+        "country_id":"a valid id from the /countries API endpoint",
+        "state_id":"a valid subdivision id for your country form the /countries endpoint",
+        "zip": "11111"
+      },
+      "office":
+      {
+        "address1": "111 Business Drive",
+        "address2": "Office 666",
+        "city": "Exampleville CBD",
+        "country_id":"a valid id from the /countries API endpoint",
+        "state_id":"a valid subdivision id for your country form the /countries endpoint",
+        "zip": "11222"
+      },
+      "resume": "7718fa0b-1920-4b12-89aa-028dd2855feb",
+      "image": {}
+    }
+  ]
+}

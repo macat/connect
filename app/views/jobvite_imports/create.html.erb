@@ -1,10 +1,10 @@
 <%= render 'subnav' %>
 
-<h1>Jobvite</h1>
-<% if @candidates.empty? %>
-  <strong><%= t(".title_unsuccessful") %></strong>
+<h1>Jobvite</h1> 
+<% if @jobvite_imports_presenter.imported_candidates.empty? %>
+  <strong><%= t(".empty_successful_imports") %></strong>
 <% else %>
-  <strong><%= t(".title_successful") %></strong>
+  <strong><%= t(".imported_successfully") %></strong>
   <table>
     <thead>
       <tr>
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @candidates.each do |candidate| %>
+      <% @jobvite_imports_presenter.imported_candidates.each do |candidate| %>
         <tr>
           <td>
             <%= candidate.name %>
@@ -28,6 +28,42 @@
           </td>
           <td>
             <%= candidate.email %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<hr />
+<% unless @jobvite_imports_presenter.not_imported_candidates.empty? %>
+  <strong><%= t(".not_imported_successfully") %></strong>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".employee_title") %></th>
+        <th><%= t(".key_title") %></th>
+        <th><%= t(".contact_number_title") %></th>
+        <th><%= t(".email_address_title") %></th>
+        <th><%= t(".reason") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @jobvite_imports_presenter.not_imported_candidates.each do |import_result| %>
+        <tr>
+          <td>
+            <%= import_result[:candidate].name %>
+          </td>
+          <td>
+            <%= import_result[:candidate].e_id %>
+          </td>
+          <td>
+            <%= import_result[:candidate].contact_number %>
+          </td>
+          <td>
+            <%= import_result[:candidate].email %>
+          </td>
+          <td>
+            <%= import_result[:result] %>
           </td>
         </tr>
       <% end %>

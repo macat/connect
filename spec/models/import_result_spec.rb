@@ -33,16 +33,20 @@ describe ImportResult do
     end
   end
 
-  describe '#to_a' do 
-    it 'returns a list of candidates' do 
-      result = described_class.new(attribute_mapper_double) 
+  describe '#to_a' do
+    it 'returns a list of candidates' do
+      result = described_class.new(attribute_mapper_double)
       candidate_one = { first_name: "Mike" }
-      candidate_two = { first_name: "Nolan" } 
+      candidate_two = { first_name: "Nolan" }
 
-      result[candidate_one] = candidate_one
-      result[candidate_two] = candidate_two
+      result[candidate_one] = :failure
+      result[candidate_two] = :success
 
-      expect(result.to_a).to eql [candidate_one, candidate_two]
+      expect(result.to_a).to eql [{:candidate=>{:first_name=>"Mike"},
+                                   :result=>:failure},
+                                   {:candidate=>{:first_name=>"Nolan"},
+                                    :result=>:success}]
+
     end
   end
 
