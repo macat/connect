@@ -1,6 +1,6 @@
 module Connect
   module Users
-    class AccessTokenFreshner
+    class AccessTokenFreshener
       def self.fresh_access_token(user)
         new(user).fresh_access_token
       end

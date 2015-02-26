@@ -8,7 +8,7 @@ require 'wisper'
 require 'wisper/rspec/matchers'
 
 require_relative '../app/connect/users/user_with_full_name'
-require_relative '../app/connect/users/access_token_freshner'
+require_relative '../app/connect/users/access_token_freshener'
 require_relative '../app/connect/users/token_expiry'
 
 require_relative '../app/connect/jobvite/connection_updater'
