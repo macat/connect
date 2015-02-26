@@ -1,5 +1,5 @@
 require_relative '../connect/users/user_with_full_name' 
-require_relative '../connect/users/access_token_freshner' 
+require_relative '../connect/users/access_token_freshener' 
 require_relative '../connect/users/token_expiry' 
 
 class User < ActiveRecord::Base
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def fresh_access_token
-    Connect::Users::AccessTokenFreshner.fresh_access_token(self)
+    Connect::Users::AccessTokenFreshener.fresh_access_token(self)
   end
 
   def save_token_info(access_token, access_token_expires_in)

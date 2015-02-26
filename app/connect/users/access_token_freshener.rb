@@ -12,8 +12,10 @@ module Connect
       def fresh_access_token
         if access_token_expired?
           refresh_access_token
-          user.save_token_info(refreshed_access_token,
-                               refreshed_expires_in)
+          user.save_token_info(
+            refreshed_access_token,
+           refreshed_expires_in
+          )
         end
         user.access_token
       end
