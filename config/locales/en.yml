@@ -25,11 +25,13 @@ en:
 
   helpers:
     submit:
+      icims_connection:
+        update: "Connect"
       jobvite_connection:
         update: "Connect"
       namely_authentication:
         submit: "Sign in"
-    link_to: 
+    link_to:
       connections: 'Back To Connections'
 
   homepages:
@@ -55,6 +57,9 @@ en:
 
   simple_form:
     labels:
+      icims_connection:
+        password: "Password"
+        username: "Username"
       jobvite_connection:
         api_key: "API key"
         hired_workflow_state: "Workflow state of hired candidates"

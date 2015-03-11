@@ -3,6 +3,7 @@ require "rails_helper"
 describe User do
   describe "associations" do
     it { should have_one(:jobvite_connection) }
+    it { should have_one(:icims_connection) }
   end
 
   describe "#full_name" do
@@ -91,14 +92,19 @@ describe User do
           access_token: old_access_token,
           access_token_expiry: 5.minutes.ago,
         )
-        tokens = {"access_token" => new_access_token,
-                  "expires_in" => expiry_time}
-        namely_authenticator = double(:namely_authenticator, 
-                                      refresh_access_token: tokens)
-                                      
-        stub_const("Namely::Authenticator", double(:namely_authenticator_class, 
-                                                   new: namely_authenticator))
-                        
+        tokens = {
+          "access_token" => new_access_token,
+          "expires_in" => expiry_time,
+        }
+        namely_authenticator = double(
+          :namely_authenticator,
+          refresh_access_token: tokens,
+        )
+        stub_const(
+          "Namely::Authenticator",
+          double(:namely_authenticator_class, new: namely_authenticator),
+        )
+
         authenticator = Authenticator.new(user.subdomain)
 
         token = user.fresh_access_token(authenticator)

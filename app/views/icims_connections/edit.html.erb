@@ -1,0 +1,13 @@
+<%= simple_form_for @icims_connection, html: { class: "stacked" } do |f| %>
+  <div class="form-row">
+    <%= f.input :username, placeholder: "Username", input_html: { class: "half" } %>
+  </div>
+  <div class="form-row">
+    <%= f.input :password, placeholder: "Password", input_html: { class: "half" } %>
+  </div>
+  <div class="-n-actions">
+    <%= button_tag(type: "submit", class: "-n-btn") do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+  </div>
+<% end %>

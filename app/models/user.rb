@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_one :jobvite_connection, class_name: "Jobvite::Connection"
+  has_one :icims_connection, class_name: "Icims::Connection"
 
   def full_name
     [first_name, last_name].compact.join(" ")
@@ -7,6 +8,10 @@ class User < ActiveRecord::Base
 
   def jobvite_connection
     super || Jobvite::Connection.create(user: self)
+  end
+
+  def icims_connection
+    super || Icims::Connection.create(user: self)
   end
 
   def namely_connection

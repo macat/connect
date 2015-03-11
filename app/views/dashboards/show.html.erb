@@ -2,27 +2,25 @@
 <section>
   <table>
     <tbody>
-      <tr>
+      <tr class="jobvite-account">
         <% if @jobvite_connection.connected? %>
           <td>
             <%= fa_icon "check-circle", class: "connected", text: "Jobvite" %>
             <p><%= @jobvite_connection.api_key %></p>
           </td>
-          <% if @jobvite_connection.missing_namely_field? %>
-            <td>
+          <td>
+            <% if @jobvite_connection.missing_namely_field? %>
               <%= t(".missing_namely_field", name: @jobvite_connection.required_namely_field) %>
-            </td>
-          <% else %>
-            <td></td>
-          <% end %>
+            <% end %>
+          </td>
           <td>
             <%= button_to t("dashboards.show.import_now"), jobvite_imports_path, class: '-n-btn' %>
           </td>
           <td>
-            <a href="<%= url_for(jobvite_connection_path) %>" class="-n-btn -n-btn-sm -n-btn-danger -n-btn-link" data-method="delete" rel="nofollow">
+            <%= link_to jobvite_connection_path, class: "-n-btn -n-btn-sm -n-btn-danger -n-btn-link", method: :delete, rel: "nofollow" do %>
               <%= fa_icon "times" %>
               <%= t("dashboards.show.disconnect") %>
-            </a>
+            <% end %>
           </td>
         <% else %>
           <td>
@@ -31,11 +29,21 @@
           <td></td>
           <td></td>
           <td>
-            <a href="<%= url_for(edit_jobvite_connection_path) %>" class="-n-btn -n-btn-sm">
+            <%= link_to edit_jobvite_connection_path, class: "-n-btn -n-btn-sm" do %>
               <%= fa_icon "plug", text: t("dashboards.show.connect") %>
-            </a>
+            <% end %>
           </td>
         <% end %>
+      </tr>
+
+      <tr class="icims-account">
+        <td>
+          <% if !@icims_connection.connected? %>
+            <%= link_to edit_icims_connection_path, class: "-n-btn -n-btn-sm" do %>
+              <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+            <% end %>
+          <% end %>
+        </td>
       </tr>
     </tbody>
   </table>
