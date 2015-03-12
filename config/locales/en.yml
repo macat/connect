@@ -39,6 +39,14 @@ en:
       sign_in:
         prompt: "Sign in using"
 
+  icims_imports:
+    create:
+      imported_successfully: "You have successfully imported the following:"
+      employee_title: "Employee Name"
+      key_title: "Key"
+      contact_number_title: "Contact Number"
+      email_address_title: "Email Address"
+
   jobvite_connections:
     edit:
       title: "Jobvite"
@@ -58,6 +66,7 @@ en:
   simple_form:
     labels:
       icims_connection:
+        customer_id: "Customer ID"
         password: "Password"
         username: "Username"
       jobvite_connection:
@@ -71,7 +80,7 @@ en:
         subdomain: yourcompany
 
   status:
-    jobvite_error: "Jobvite error: %{message}"
+    client_error: "Service error: %{message}"
     missing_required_field: "Missing required field"
     namely_error: "Namely error: %{message}"
     not_connected: "No connected Jobvite account"

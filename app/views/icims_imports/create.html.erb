@@ -1,0 +1,29 @@
+<strong><%= t(".imported_successfully") %></strong>
+<table>
+  <thead>
+    <tr>
+      <th><%= t(".employee_title") %></th>
+      <th><%= t(".key_title") %></th>
+      <th><%= t(".contact_number_title") %></th>
+      <th><%= t(".email_address_title") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @icims_candidates.each do |candidate| %>
+      <tr>
+        <td>
+          <%= candidate.name %>
+        </td>
+        <td>
+          <%= candidate.e_id %>
+        </td>
+        <td>
+          <%= candidate.contact_number %>
+        </td>
+        <td>
+          <%= candidate.email %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

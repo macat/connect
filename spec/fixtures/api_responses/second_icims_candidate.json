@@ -1,0 +1,19 @@
+{
+  "hiredate": "2013-04-30",
+  "startdate": "2013-05-03",
+  "folder": {
+    "id": "D32006",
+    "value": "Cand:Unreviewed",
+    "formattedvalue": "Cand:Unreviewed"
+  },
+  "email": "gforge@example.com",
+  "lastname": "Foreman",
+  "links": [
+    {
+      "title": "The current profile being viewed.",
+      "rel": "self",
+      "url": "https:\/\/api.icims.com\/customers\/2187\/people\/8988"
+    }
+  ],
+  "firstname": "George"
+}

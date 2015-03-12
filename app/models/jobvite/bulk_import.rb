@@ -9,7 +9,7 @@ module Jobvite
     def import
       result = ImportResult.new(UserAttributeMapper.new)
       users.inject(result) do |status, user|
-        status[user] = Import.new(user).import
+        status[user] = new_importer(user).import
         status
       end
     end
@@ -17,6 +17,18 @@ module Jobvite
     private
 
     attr_reader :users
+
+    def new_importer(user)
+      Importer.new(
+        user,
+        connection: user.jobvite_connection,
+        client: Client.new(user.jobvite_connection),
+        namely_importer: NamelyImporter.new(
+          attribute_mapper: AttributeMapper.new,
+          namely_connection: user.namely_connection,
+        )
+      )
+    end
 
     class UserAttributeMapper
       def readable_name(user)

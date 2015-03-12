@@ -21,13 +21,12 @@ describe NamelyImporter do
         }
       end
       importer = described_class.new(
-        recent_hires: recent_hires_with_dupes,
         namely_connection: namely_connection,
         attribute_mapper: attribute_mapper,
         duplicate_filter: duplicate_filter,
       )
 
-      status = importer.import
+      status = importer.import(recent_hires_with_dupes)
 
       expect(namely_connection.profiles).to have_received(:create!).with(
         first_name: "Dade",
@@ -51,13 +50,12 @@ describe NamelyImporter do
       candidate = { first_name: "Dade", last_name: "Murphy", email: "" }
       recent_hires = [candidate]
       importer = described_class.new(
-        recent_hires: recent_hires,
         namely_connection: namely_connection,
         attribute_mapper: -> (original) { original },
         duplicate_filter: duplicate_filter,
       )
 
-      status = importer.import
+      status = importer.import(recent_hires)
 
       expect(namely_connection.profiles).not_to have_received(:create!)
       expect(status).to be_an ImportResult

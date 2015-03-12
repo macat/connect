@@ -1,16 +1,16 @@
 require "rails_helper"
 
-describe Jobvite::Import do
+describe Importer do
   describe "#import" do
-    context "with a connected Jobvite::Connection" do
-      it "passes hired Jobvite candidates to the NamelyImporter and set the status" do
+    context "with a connected" do
+      it "passes hired candidates to the NamelyImporter and set the status" do
         user = double(
           "user",
-          jobvite_connection: double("jobvite_connection", connected?: true),
           namely_connection: double("Namely::Connection"),
         )
+        connection = double("connection", connected?: true)
         recent_hires = [double("hire")]
-        jobvite_client = double("jobvite_client", recent_hires: recent_hires)
+        client = double("client", recent_hires: recent_hires)
         expected_status = double("status")
         namely_importer = double(
           "NamelyImporter",
@@ -18,45 +18,42 @@ describe Jobvite::Import do
         )
         import = described_class.new(
           user,
-          jobvite_client: jobvite_client,
+          client: client,
+          connection: connection,
           namely_importer: namely_importer,
         )
 
         status = import.import
 
         expect(status).to eq expected_status
-        expect(jobvite_client).to have_received(:recent_hires).
-          with(user.jobvite_connection)
-        expect(namely_importer).to have_received(:import).with(
-          recent_hires: recent_hires,
-          namely_connection: user.namely_connection,
-          attribute_mapper: instance_of(Jobvite::AttributeMapper),
-        )
+        expect(client).to have_received(:recent_hires)
+        expect(namely_importer).to have_received(:import).with(recent_hires)
       end
     end
 
-    context "when the Jobvite API request fails" do
-      it "sets the status to the Jobvite error message" do
+    context "when the request fails" do
+      it "sets the status to error message" do
         user = double(
           "user",
-          jobvite_connection: double("jobvite_connection", connected?: true),
           namely_connection: double("Namely::Connection"),
         )
-        jobvite_client = double("jobvite_client")
-        allow(jobvite_client).
+        connection = double("connection", connected?: true)
+        client = double("client", class: Icims::Client)
+        allow(client).
           to receive(:recent_hires).
-          and_raise(Jobvite::Client::Error, "Everything is broken")
+          and_raise(Icims::Client::Error, "Everything is broken")
         namely_importer = double("NamelyImporter")
         import = described_class.new(
           user,
-          jobvite_client: jobvite_client,
+          client: client,
+          connection: connection,
           namely_importer: namely_importer,
         )
 
         status = import.import
 
         expect(status).to eq t(
-          "status.jobvite_error",
+          "status.client_error",
           message: "Everything is broken",
         )
       end
@@ -66,18 +63,23 @@ describe Jobvite::Import do
       it "sets the status to the Namely error message" do
         user = double(
           "user",
-          jobvite_connection: double("jobvite_connection", connected?: true),
           namely_connection: double("Namely::Connection"),
         )
         recent_hires = [double("hire")]
-        jobvite_client = double("jobvite_client", recent_hires: recent_hires)
+        connection = double("connection", connected?: true)
+        client = double(
+          "client",
+          recent_hires: recent_hires,
+          class: Icims::Client
+        )
         namely_importer = double("NamelyImporter")
         allow(namely_importer).
           to receive(:import).
           and_raise(Namely::FailedRequestError, "A Namely error")
         import = described_class.new(
           user,
-          jobvite_client: jobvite_client,
+          client: client,
+          connection: connection,
           namely_importer: namely_importer,
         )
 
@@ -90,17 +92,21 @@ describe Jobvite::Import do
       end
     end
 
-    context "with a disconnected Jobvite::Connection" do
+    context "with a disconnected" do
       it "does nothing and sets an appropriate status" do
         user = double(
           "user",
-          jobvite_connection: double("jobvite_connection", connected?: false),
           namely_connection: double("Namely::Connection"),
         )
-        import = described_class.new(user)
+        importer = described_class.new(
+          user,
+          client: double("client"),
+          connection: double("connection", connected?: false),
+          namely_importer: double("namely_importer")
+        )
         status = nil
 
-        expect { status = import.import }.not_to raise_exception
+        expect { status = importer.import }.not_to raise_exception
         expect(status).to eq t("status.not_connected")
       end
     end

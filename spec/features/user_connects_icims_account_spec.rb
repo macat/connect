@@ -13,6 +13,7 @@ feature "User connects iCIMS account" do
 
     fill_in field("icims_connection.username"), with: "username"
     fill_in field("icims_connection.password"), with: "password"
+    fill_in field("icims_connection.customer_id"), with: 1
     click_button button("icims_connection.update")
 
     within(".icims-account") do

@@ -1,7 +1,18 @@
 class JobviteImportsController < ApplicationController
   def create
-    jobvite_import = Jobvite::Import.new(current_user)
     @jobvite_imports_presenter = Jobvite::ImportsPresenter.
-      new(jobvite_import.import)
+      new(importer.import)
+  end
+
+  private
+
+  def importer
+    build_importer(
+      connection: current_user.jobvite_connection,
+      client: Jobvite::Client.new(current_user.jobvite_connection),
+      namely_importer: namely_importer(
+        attribute_mapper: Jobvite::AttributeMapper.new,
+      )
+    )
   end
 end

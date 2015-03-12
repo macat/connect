@@ -15,7 +15,7 @@
             <% end %>
           </td>
           <td>
-            <%= button_to t("dashboards.show.import_now"), jobvite_imports_path, class: '-n-btn' %>
+            <%= button_to t("dashboards.show.import_now"), jobvite_imports_path, class: "-n-btn" %>
           </td>
           <td>
             <%= render "disconnect_button", path: jobvite_connection_path %>
@@ -41,11 +41,20 @@
             <p><%= @icims_connection.username %></p>
           </td>
           <td>
+          </td>
+          <td>
+            <%= button_to t("dashboards.show.import_now"), icims_imports_path, class: "-n-btn" %>
+          </td>
+          <td>
             <%= render "disconnect_button", path: icims_connection_path %>
           </td>
         <% else %>
           <td>
             <%= fa_icon "minus-circle", class: "disconnected", text: "iCIMS" %>
+          </td>
+          <td>
+          </td>
+          <td>
           </td>
           <td>
             <%= link_to edit_icims_connection_path, class: "-n-btn -n-btn-sm" do %>

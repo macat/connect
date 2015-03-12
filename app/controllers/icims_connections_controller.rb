@@ -21,6 +21,7 @@ class IcimsConnectionsController < ApplicationController
 
   def icims_connection_params
     params.require(:icims_connection).permit(
+      :customer_id,
       :password,
       :username,
     )

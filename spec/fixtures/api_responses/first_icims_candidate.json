@@ -1,0 +1,55 @@
+{
+  "hiredate": "2013-04-30",
+  "startdate": "2013-05-03",
+  "folder": {
+    "id": "D32006",
+    "value": "Cand:Unreviewed",
+    "formattedvalue": "Cand:Unreviewed"
+  },
+  "email": "jtiberiusd@example.com",
+  "lastname": "Doe",
+  "links": [
+    {
+      "title": "The current profile being viewed.",
+      "rel": "self",
+      "url": "https:\/\/api.icims.com\/customers\/2187\/people\/8986"
+    }
+  ],
+  "firstname": "Jane",
+  "addresses": [
+    {
+      "addresscounty": "New York",
+      "addresstype": {
+        "id": "D84002",
+        "value": "Home",
+        "formattedvalue": "Home"
+      },
+      "addresscountry": {
+        "id": "D41001",
+        "value": "United States",
+        "abbrev": "US"
+      },
+      "addresszip": "10001",
+      "addressstreet1": "123 Abc St",
+      "entry": 4128,
+      "addressstate": {
+        "id": "D41001035",
+        "value": "New York",
+        "abbrev": "NY"
+      },
+      "addresscity": "New York"
+    }
+  ],
+  "phones": [
+    {
+      "phonetype": {
+        "id": "D83005",
+        "value": "Pager",
+        "formattedvalue": "Pager"
+      },
+      "phonenumber": "302-555-5555",
+      "phoneextension": "5",
+      "entry": 5305
+    }
+  ]
+}

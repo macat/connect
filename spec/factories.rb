@@ -3,6 +3,7 @@ FactoryGirl.define do
     user
 
     trait :connected do
+      customer_id 2187
       username "crashoverride"
       password "riscisgood"
     end
