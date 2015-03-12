@@ -1,26 +1,25 @@
 require "rails_helper"
 
-feature "User deletes Jobvite connection" do
+feature "User deletes iCIMS connection" do
   scenario "successfully" do
     user = create(:user)
     create(
-      :jobvite_connection,
+      :icims_connection,
       :connected,
       user: user,
-      found_namely_field: true,
     )
 
     visit dashboard_path(as: user)
 
-    within(".jobvite-account") do
+    within(".icims-account") do
       expect(page).to have_button t("dashboards.show.disconnect")
     end
 
-    within(".jobvite-account") do
+    within(".icims-account") do
       click_button t("dashboards.show.disconnect")
     end
 
-    within(".jobvite-account") do
+    within(".icims-account") do
       expect(page).not_to have_button t("dashboards.show.disconnect")
       expect(page).to have_link t("dashboards.show.connect")
     end

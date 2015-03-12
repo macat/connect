@@ -21,4 +21,19 @@ describe Icims::Connection do
       expect(described_class.new(password: "password")).not_to be_connected
     end
   end
+
+  describe "#disconnect" do
+    it "sets the username and password to nil" do
+      icims_connection = create(
+        :icims_connection,
+        username: "crashoverride",
+        password: "riscisgood",
+      )
+
+      icims_connection.disconnect
+
+      expect(icims_connection.username).to be_nil
+      expect(icims_connection.password).to be_nil
+    end
+  end
 end

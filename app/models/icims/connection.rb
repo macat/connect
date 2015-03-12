@@ -5,5 +5,12 @@ module Icims
     def connected?
       username.present? && password.present?
     end
+
+    def disconnect
+      update(
+        password: nil,
+        username: nil,
+      )
+    end
   end
 end

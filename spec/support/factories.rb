@@ -1,4 +1,13 @@
 FactoryGirl.define do
+  factory :icims_connection, class: "Icims::Connection" do
+    user
+
+    trait :connected do
+      username "crashoverride"
+      password "riscisgood"
+    end
+  end
+
   factory :jobvite_connection, class: "Jobvite::Connection" do
     user
 

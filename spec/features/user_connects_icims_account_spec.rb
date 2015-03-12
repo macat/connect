@@ -15,7 +15,6 @@ feature "User connects iCIMS account" do
     fill_in field("icims_connection.password"), with: "password"
     click_button button("icims_connection.update")
 
-
     within(".icims-account") do
       expect(page).to have_no_link t("dashboards.show.connect")
     end

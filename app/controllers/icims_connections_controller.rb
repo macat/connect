@@ -12,6 +12,11 @@ class IcimsConnectionsController < ApplicationController
     end
   end
 
+  def destroy
+    current_user.icims_connection.disconnect
+    redirect_to dashboard_path
+  end
+
   private
 
   def icims_connection_params

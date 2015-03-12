@@ -28,7 +28,7 @@ describe Jobvite::Connection do
       jobvite_connection = create(
         :jobvite_connection,
         api_key: "a",
-        secret: "b"
+        secret: "b",
       )
 
       jobvite_connection.disconnect

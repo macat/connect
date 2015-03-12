@@ -1,4 +1,5 @@
 <%= render "subheader" %>
+
 <section>
   <table>
     <tbody>
@@ -17,10 +18,7 @@
             <%= button_to t("dashboards.show.import_now"), jobvite_imports_path, class: '-n-btn' %>
           </td>
           <td>
-            <%= link_to jobvite_connection_path, class: "-n-btn -n-btn-sm -n-btn-danger -n-btn-link", method: :delete, rel: "nofollow" do %>
-              <%= fa_icon "times" %>
-              <%= t("dashboards.show.disconnect") %>
-            <% end %>
+            <%= render "disconnect_button", path: jobvite_connection_path %>
           </td>
         <% else %>
           <td>
@@ -37,13 +35,24 @@
       </tr>
 
       <tr class="icims-account">
-        <td>
-          <% if !@icims_connection.connected? %>
+        <% if @icims_connection.connected? %>
+          <td>
+            <%= fa_icon "check-circle", class: "connected", text: "iCIMS" %>
+            <p><%= @icims_connection.username %></p>
+          </td>
+          <td>
+            <%= render "disconnect_button", path: icims_connection_path %>
+          </td>
+        <% else %>
+          <td>
+            <%= fa_icon "minus-circle", class: "disconnected", text: "iCIMS" %>
+          </td>
+          <td>
             <%= link_to edit_icims_connection_path, class: "-n-btn -n-btn-sm" do %>
               <%= fa_icon "plug", text: t("dashboards.show.connect") %>
             <% end %>
-          <% end %>
-        </td>
+          </td>
+        <% end %>
       </tr>
     </tbody>
   </table>
