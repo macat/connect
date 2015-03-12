@@ -5,5 +5,6 @@ machine:
 deployment:
   production:
     branch: master
-    heroku:
-      appname: namely-connect
+    commands:
+      - git push git@heroku.com:namely-connect.git $CIRCLE_SHA1:master
+      - heroku run rake db:migrate --app namely-connect
