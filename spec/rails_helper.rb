@@ -1,4 +1,5 @@
 ENV["RAILS_ENV"] = "test"
+ENV["SHOW_FEATURE"] = "true"
 
 require File.expand_path("../../config/environment", __FILE__)
 

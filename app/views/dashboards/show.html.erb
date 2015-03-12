@@ -33,7 +33,7 @@
           </td>
         <% end %>
       </tr>
-
+      <% if ENV["SHOW_FEATURE"] %>
       <tr class="icims-account">
         <% if @icims_connection.connected? %>
           <td>
@@ -54,6 +54,7 @@
           </td>
         <% end %>
       </tr>
+      <% end %>
     </tbody>
   </table>
 </section>
