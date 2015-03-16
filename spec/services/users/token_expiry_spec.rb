@@ -1,6 +1,6 @@
 require 'spec_helper' 
 
-describe Connect::Users::TokenExpiry do 
+describe Users::TokenExpiry do 
   describe '.for' do 
     let(:expiry_time) { 899 }
 

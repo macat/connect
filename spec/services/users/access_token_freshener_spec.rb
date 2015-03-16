@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Connect::Users::AccessTokenFreshener do
+describe Users::AccessTokenFreshener do
   describe '.fresh_access_token' do
     let(:user) do
       double :user,
