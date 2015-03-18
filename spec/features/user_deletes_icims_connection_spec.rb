@@ -7,6 +7,7 @@ feature "User deletes iCIMS connection" do
       :icims_connection,
       :connected,
       user: user,
+      found_namely_field: true,
     )
 
     visit dashboard_path(as: user)

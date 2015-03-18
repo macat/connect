@@ -41,6 +41,9 @@
             <p><%= @icims_connection.username %></p>
           </td>
           <td>
+            <% if @icims_connection.missing_namely_field? %>
+              <%= t(".missing_namely_field", name: @icims_connection.required_namely_field) %>
+            <% end %>
           </td>
           <td>
             <%= button_to t("dashboards.show.import_now"), icims_imports_path, class: "-n-btn" %>

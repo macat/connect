@@ -21,7 +21,7 @@ feature "User imports icims people" do
       to_return(status: 200, body: File.read("spec/fixtures/api_responses/empty_profiles.json"))
 
     user = create(:user)
-    create(:icims_connection, :connected, user: user)
+    create(:icims_connection, :connected, user: user, found_namely_field: true)
 
     visit dashboard_path(as: user)
     within(".icims-account") do
