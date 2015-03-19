@@ -38,6 +38,7 @@ feature "User imports icims people" do
 
   def stub_first_person_results
     stub_request(:get, "https://api.icims.com/customers/2187/people/8986").
+      with(query: { fields: required_fields }).
       to_return(
         body: File.read("spec/fixtures/api_responses/first_icims_candidate.json")
       )
@@ -45,8 +46,13 @@ feature "User imports icims people" do
 
   def stub_second_person_results
     stub_request(:get, "https://api.icims.com/customers/2187/people/8988").
+      with(query: { fields: required_fields }).
       to_return(
         body: File.read("spec/fixtures/api_responses/second_icims_candidate.json")
       )
+  end
+
+  def required_fields
+    ["email", "firstname", "gender", "lastname", "startdate"].join(",")
   end
 end

@@ -66,13 +66,30 @@ module Icims
       def get_candidate_request(person_id)
         RestClient::Request.new(
           method: :get,
-          url: "#{connection.api_url}/people/#{person_id}",
-          headers: authorized_params,
+          url: person_url(person_id),
+          headers: authorized_params.merge(
+            params: { fields: required_person_fields },
+          ),
         )
       end
 
       def candidate(person_id)
-        JSON.parse(get_candidate(person_id))
+        JSON.parse(get_candidate(person_id)).
+          merge("id" => person_id)
+      end
+
+      def person_url(person_id)
+        "#{connection.api_url}/people/#{person_id}"
+      end
+
+      def required_person_fields
+        [
+          "email",
+          "firstname",
+          "gender",
+          "lastname",
+          "startdate",
+        ].join(",")
       end
 
       def authorized_params
