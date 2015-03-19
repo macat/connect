@@ -41,18 +41,42 @@ module Icims
       attr_reader :connection
 
       def search_people
-        RestClient.post(
-          "#{connection.api_url}/search/people",
-          { data: search_params }.merge(authorized_params),
+        AuthorizedRequest.new(
+          request: search_people_request,
+          connection: connection,
+        ).execute
+      end
+
+      def search_people_request
+        RestClient::Request.new(
+          method: :post,
+          url: "#{connection.api_url}/search/people",
+          data: search_params,
+          headers: authorized_params,
         )
+      end
+
+      def get_candidate(person_id)
+        AuthorizedRequest.new(
+          connection: connection,
+          request: get_candidate_request(person_id)
+        ).execute
+      end
+
+      def get_candidate_request(person_id)
+        RestClient::Request.new(
+          method: :get,
+          url: "#{connection.api_url}/people/#{person_id}",
+          headers: authorized_params,
+        )
+      end
+
+      def candidate(person_id)
+        JSON.parse(get_candidate(person_id))
       end
 
       def authorized_params
         { key: connection.key }
-      end
-
-      def get_candidate(person_id)
-        JSON.parse(RestClient.get("#{connection.api_url}/people/#{person_id}"))
       end
 
       def all_candidates
@@ -61,7 +85,7 @@ module Icims
 
       def map_candidates
         all_candidates.fetch("searchResults", []).map do |hash|
-          Candidate.new(get_candidate(hash["id"]).merge(hash))
+          Candidate.new(candidate(hash["id"]).merge(hash))
         end
       end
 

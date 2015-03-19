@@ -4,52 +4,59 @@ describe Icims::Client do
   describe "#recent_hires" do
     context "when the API request is successful" do
       it "fetches recent hires from the iCIMS API" do
-        stub_request(:post, "#{api_url}/search/people").
-          with(body: hash_including(
-            "key" => "MY_KEY",
-          )).
-          to_return(body: search_results)
-        stub_request(:get, "#{api_url}/people/8986").
-          to_return(
-            body: sample_response(
-              firstname: "Dade",
-              lastname: "Murphy",
-              email: "crash.override@example.com",
-            ),
-            headers: { "Content-Type" => "application/json" },
-          )
-        connection = double(
-          "icims_connection",
-          key: "MY_KEY",
-          api_url: api_url,
-        )
-        client = described_class.new(connection)
-
-        recent_hires = client.recent_hires
-
-        first_hire = recent_hires.first
-        expect(recent_hires.length).to eq 1
-        expect(first_hire.firstname).to eq "Dade"
-        expect(first_hire.lastname).to eq "Murphy"
-        expect(first_hire.email).to eq "crash.override@example.com"
-      end
-
-      context "when the json response doesn't have candidates" do
-        it "returns an empty list of candidates" do
+        Timecop.freeze do
           stub_request(:post, "#{api_url}/search/people").
-            with(body: hash_including("key" => "MY_KEY")).
+            with(headers: { "Authorization" => hexdigest_matcher }).
+            to_return(body: search_results)
+          stub_request(:get, "#{api_url}/people/8986").
             to_return(
-              body: '{"searchResults": []}',
+              body: sample_response(
+                firstname: "Dade",
+                lastname: "Murphy",
+                email: "crash.override@example.com",
+              ),
               headers: { "Content-Type" => "application/json" },
             )
-
           connection = double(
             "icims_connection",
             key: "MY_KEY",
             api_url: api_url,
+            username: "USERNAME",
           )
           client = described_class.new(connection)
-          expect(client.recent_hires.size).to eql 0
+
+          recent_hires = client.recent_hires
+
+          first_hire = recent_hires.first
+          expect(recent_hires.length).to eq 1
+          expect(first_hire).to have_attributes(
+            email: "crash.override@example.com",
+            firstname: "Dade",
+            lastname: "Murphy",
+          )
+        end
+      end
+
+      context "when the json response doesn't have candidates" do
+        it "returns an empty list of candidates" do
+          Timecop.freeze do
+            stub_request(:post, "#{api_url}/search/people").
+              with(headers: { "Authorization" => hexdigest_matcher }).
+              to_return(
+                body: '{"searchResults": []}',
+                headers: { "Content-Type" => "application/json" },
+              )
+            connection = double(
+              "icims_connection",
+              key: "MY_KEY",
+              api_url: api_url,
+              username: "USERNAME",
+            )
+
+            client = described_class.new(connection)
+
+            expect(client.recent_hires).to be_empty
+          end
         end
       end
     end
@@ -66,6 +73,7 @@ describe Icims::Client do
           "icims_connection",
           key: "MY_KEY",
           api_url: api_url,
+          username: "USERNAME",
         )
         client = described_class.new(connection)
 
@@ -99,6 +107,10 @@ describe Icims::Client do
         phonenumber: "302-555-5555",
       ],
     }.merge(values).to_json
+  end
+
+  def hexdigest_matcher
+    /[a-f0-9]+/
   end
 
   def api_url
