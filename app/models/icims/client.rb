@@ -14,12 +14,12 @@ module Icims
     end
 
     def recent_hires
-      CandidateSearch.all(connection)
+      CandidateMapper.all(connection)
     end
 
     private
 
-    class CandidateSearch
+    class CandidateMapper
       def self.all(connection)
         new(connection).candidates
       end
@@ -39,22 +39,6 @@ module Icims
       private
 
       attr_reader :connection
-
-      def search_people
-        AuthorizedRequest.new(
-          request: search_people_request,
-          connection: connection,
-        ).execute
-      end
-
-      def search_people_request
-        RestClient::Request.new(
-          method: :post,
-          url: "#{connection.api_url}/search/people",
-          data: search_params,
-          headers: authorized_params,
-        )
-      end
 
       def get_candidate(person_id)
         AuthorizedRequest.new(
@@ -97,7 +81,7 @@ module Icims
       end
 
       def all_candidates
-        @all_candidate ||= JSON.parse(search_people)
+        @all_candidate ||= CandidateSearch.new(connection: connection).all
       end
 
       def map_candidates
@@ -105,18 +89,7 @@ module Icims
           Candidate.new(candidate(hash["id"]).merge(hash))
         end
       end
-
-      def search_params
-        {
-          filters: [
-            {
-              name: "person.employeeinfo.hiredate",
-              operator: "=",
-            }
-          ]
-        }
-      end
     end
-    private_constant :CandidateSearch
+    private_constant :CandidateMapper
   end
 end
