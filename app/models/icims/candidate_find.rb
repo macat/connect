@@ -34,7 +34,6 @@ module Icims
         method: :get,
         url: person_url(person_id),
         headers: {
-          key: connection.key,
           params: { fields: required_person_fields },
         },
       )

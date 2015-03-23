@@ -27,7 +27,6 @@ module Icims
         method: :post,
         url: "#{connection.api_url}/search/people",
         data: search_params,
-        headers: { key: connection.key },
       )
     end
 

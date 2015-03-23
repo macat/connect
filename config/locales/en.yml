@@ -67,7 +67,7 @@ en:
     labels:
       icims_connection:
         customer_id: "Customer ID"
-        password: "Password"
+        key: "HMAC Key"
         username: "Username"
       jobvite_connection:
         api_key: "API key"
