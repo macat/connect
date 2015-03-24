@@ -88,7 +88,7 @@ describe Icims::Client do
   end
 
   def required_fields
-    ["email", "firstname", "gender", "lastname", "startdate"].join(",")
+    Icims::CandidateFind::REQUIRED_FIELDS.join(",")
   end
 
   def search_results

@@ -5,6 +5,7 @@ module Icims
       "firstname",
       "gender",
       "lastname",
+      "phones",
       "startdate",
     ]
 

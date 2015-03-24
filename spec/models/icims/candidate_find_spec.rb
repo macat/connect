@@ -44,6 +44,6 @@ describe Icims::CandidateFind do
   end
 
   def required_fields
-    ["email", "firstname", "gender", "lastname", "startdate"].join(",")
+    described_class::REQUIRED_FIELDS.join(",")
   end
 end

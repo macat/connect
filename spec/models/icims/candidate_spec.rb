@@ -23,7 +23,7 @@ describe Icims::Candidate do
   end
 
   describe "#name" do
-    it "returns the full from the application information" do
+    it "returns the full name from candidate information" do
       first_name = "Roger"
       last_name = "Rult"
 
@@ -37,14 +37,35 @@ describe Icims::Candidate do
   end
 
   describe "#contact_number" do
-    let(:candidate) { described_class.new(application) }
-
     context "when just a home number is present" do
-      let(:application) { { "phonenumber" => "888-888-8888" } }
-
       it "returns the number" do
-        expect(candidate.contact_number).to eql "888-888-8888"
+        candidate = described_class.new("phones" => phone_numbers)
+        expect(candidate.contact_number).to eq "888-888-8888"
       end
+    end
+
+    context "when no numbers are present" do
+      it "returns nothing" do
+        candidate = described_class.new({})
+        expect(candidate.contact_number).to be_nil
+      end
+    end
+
+    def phone_numbers
+      [
+        {
+          "phonetype" => {
+            "value" => "Home",
+          },
+          "phonenumber" => "888-888-8888",
+        },
+        {
+          "phonetype" => {
+            "value" => "Work",
+          },
+          "phonenumber" => "302-555-5555",
+        },
+      ]
     end
   end
 end

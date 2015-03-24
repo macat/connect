@@ -17,10 +17,21 @@ module Icims
     end
 
     def contact_number
-      phonenumber
+      phone_numbers["Home"] || phone_numbers["Work"] || phone_numbers["Mobile"]
     end
 
     private
+
+    def phone_numbers
+      @phone_numbers ||= phones.inject({}) do |hash, phone|
+        hash[phone["phonetype"]["value"]] = phone["phonenumber"]
+        hash
+      end
+    end
+
+    def phones
+      @phones || []
+    end
 
     def has_start_date?
       startdate.present?

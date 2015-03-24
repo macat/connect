@@ -53,6 +53,6 @@ feature "User imports icims people" do
   end
 
   def required_fields
-    ["email", "firstname", "gender", "lastname", "startdate"].join(",")
+    Icims::CandidateFind::REQUIRED_FIELDS.join(",")
   end
 end
