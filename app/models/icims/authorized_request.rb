@@ -1,12 +1,13 @@
 module Icims
   class AuthorizedRequest < SimpleDelegator
-    alias request __getobj__
     HMAC_SHA256_HEADER = "x-icims-v1-hmac-sha256"
 
     def initialize(connection:, request:)
       super(request)
       @connection = connection
     end
+
+    alias :request :__getobj__
 
     def headers
       @headers ||= {
@@ -55,7 +56,7 @@ module Icims
         headers: headers.merge(
           "Authorization" => authorization_header,
         ),
-        data: payload,
+        payload: payload,
       ).execute
     end
 
@@ -65,7 +66,7 @@ module Icims
 
     def canonical_headers
       headers.map do |header, value|
-        [header, value].join(": ")
+        [header, value].join(":")
       end.sort.join("\n")
     end
 
@@ -85,6 +86,10 @@ module Icims
       uri.query
     end
 
+    def payload
+      @payload ||= request.payload.to_s
+    end
+
     def uri
       URI.parse(url)
     end
@@ -94,7 +99,7 @@ module Icims
     end
 
     def hashed_payload
-      digest.hexdigest(payload.to_s)
+      digest.hexdigest(payload)
     end
   end
 end

@@ -26,7 +26,7 @@ module Icims
       RestClient::Request.new(
         method: :post,
         url: "#{connection.api_url}/search/people",
-        data: search_params,
+        payload: search_params.to_json,
       )
     end
 

@@ -118,10 +118,10 @@ describe Icims::AuthorizedRequest do
       #{request.method.upcase}
       /or-ya-know
       fields=stuff
-      content-type: application/json
-      host: api.icims.com
-      x-icims-content-sha256: #{authorized_request(request).headers["x-icims-content-sha256"]}
-      x-icims-date: #{authorized_request(request).headers["x-icims-date"]}
+      content-type:application/json
+      host:api.icims.com
+      x-icims-content-sha256:#{authorized_request(request).headers["x-icims-content-sha256"]}
+      x-icims-date:#{authorized_request(request).headers["x-icims-date"]}
 
       content-type;host;x-icims-content-sha256;x-icims-date
     REQUEST
