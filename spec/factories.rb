@@ -7,6 +7,10 @@ FactoryGirl.define do
       username "crashoverride"
       key "riscisgood"
     end
+
+    trait :with_namely_field do
+      found_namely_field true
+    end
   end
 
   factory :jobvite_connection, class: "Jobvite::Connection" do

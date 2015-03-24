@@ -41,11 +41,14 @@ en:
 
   icims_imports:
     create:
-      imported_successfully: "You have successfully imported the following:"
-      employee_title: "Employee Name"
-      key_title: "Key"
       contact_number_title: "Contact Number"
       email_address_title: "Email Address"
+      employee_title: "Employee Name"
+      empty_successful_imports: "Currently there aren't any profiles to import"
+      imported_successfully: "You have successfully imported the following:"
+      key_title: "Key"
+      not_imported_successfully: "You did not import the following:"
+      reason: "Reason"
 
   jobvite_connections:
     edit:
@@ -56,7 +59,7 @@ en:
     create:
       imported_successfully: "You have successfully imported the following:"
       empty_successful_imports: "Currently there aren't any profiles to import"
-      not_imported_successfully: "You haven't import the following:"
+      not_imported_successfully: "You did not import the following:"
       employee_title: "Employee Name"
       key_title: "Key"
       contact_number_title: "Contact Number"

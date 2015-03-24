@@ -1,7 +1,6 @@
 class JobviteImportsController < ApplicationController
   def create
-    @jobvite_imports_presenter = Jobvite::ImportsPresenter.
-      new(importer.import)
+    @jobvite_imports_presenter = ImportsPresenter.new(importer.import)
   end
 
   private

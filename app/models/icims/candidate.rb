@@ -20,6 +20,10 @@ module Icims
       phone_numbers["Home"] || phone_numbers["Work"] || phone_numbers["Mobile"]
     end
 
+    def to_partial_path
+      "icims_imports/candidate"
+    end
+
     private
 
     def phone_numbers

@@ -1,29 +1,57 @@
-<strong><%= t(".imported_successfully") %></strong>
-<table>
-  <thead>
-    <tr>
-      <th><%= t(".employee_title") %></th>
-      <th><%= t(".key_title") %></th>
-      <th><%= t(".contact_number_title") %></th>
-      <th><%= t(".email_address_title") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @icims_candidates.each do |candidate| %>
+<%= render "subnav" %>
+
+<h1>Icims</h1>
+<% if @icims_imports_presenter.imported_candidates.empty? %>
+  <strong><%= t(".empty_successful_imports") %></strong>
+<% else %>
+  <strong><%= t(".imported_successfully") %></strong>
+  <table>
+    <thead>
       <tr>
-        <td>
-          <%= candidate.name %>
-        </td>
-        <td>
-          <%= candidate.e_id %>
-        </td>
-        <td>
-          <%= candidate.contact_number %>
-        </td>
-        <td>
-          <%= candidate.email %>
-        </td>
+        <th><%= t(".employee_title") %></th>
+        <th><%= t(".key_title") %></th>
+        <th><%= t(".contact_number_title") %></th>
+        <th><%= t(".email_address_title") %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <%= render @icims_imports_presenter.imported_candidates %>
+    </tbody>
+  </table>
+<% end %>
+<hr />
+<% unless @icims_imports_presenter.not_imported_candidates.empty? %>
+  <strong><%= t(".not_imported_successfully") %></strong>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t(".employee_title") %></th>
+        <th><%= t(".key_title") %></th>
+        <th><%= t(".contact_number_title") %></th>
+        <th><%= t(".email_address_title") %></th>
+        <th><%= t(".reason") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @icims_imports_presenter.not_imported_candidates.each do |import_result| %>
+        <tr>
+          <td>
+            <%= import_result[:candidate].name %>
+          </td>
+          <td>
+            <%= import_result[:candidate].e_id %>
+          </td>
+          <td>
+            <%= import_result[:candidate].contact_number %>
+          </td>
+          <td>
+            <%= import_result[:candidate].email %>
+          </td>
+          <td>
+            <%= import_result[:result] %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

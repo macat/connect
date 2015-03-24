@@ -1,13 +1,9 @@
 class IcimsImportsController < ApplicationController
   def create
-    @icims_candidates = imported_candidates
+    @icims_imports_presenter = ImportsPresenter.new(importer.import)
   end
 
   private
-
-  def imported_candidates
-    importer.import.to_a.map { |t| t[:candidate] }
-  end
 
   def importer
     build_importer(
