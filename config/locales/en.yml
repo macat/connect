@@ -39,6 +39,11 @@ en:
       sign_in:
         prompt: "Sign in using"
 
+  icims_connections:
+    edit:
+      title: "iCIMS"
+      slogan: "Please fill out the following fields to connect to this application."
+
   icims_imports:
     create:
       contact_number_title: "Contact Number"
