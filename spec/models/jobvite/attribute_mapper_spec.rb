@@ -27,8 +27,8 @@ describe Jobvite::AttributeMapper do
     it "maps genders correctly" do
       mapper = described_class.new
       expected_mapping = {
-        "Male" => "male",
-        "Female" => "female",
+        "Male" => "Male",
+        "Female" => "Female",
         "Declined to Self Identify" => nil,
         "Undefined" => nil,
         "UNEXPECTED VALUE" => nil,

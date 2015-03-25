@@ -7,7 +7,7 @@ module Jobvite
         email: jobvite_candidate.email,
         user_status: "active",
         start_date: jobvite_candidate.start_date,
-        gender: namely_genders[jobvite_candidate.gender],
+        gender: namely_gender(jobvite_candidate.gender),
         namely_identifier_field => identifier(jobvite_candidate),
       }.select { |key, value| value.present? }
     end
@@ -30,8 +30,8 @@ module Jobvite
 
     private
 
-    def namely_genders
-      { "Male" => "male", "Female" => "female" }
+    def namely_gender(jobvite_gender)
+      ["Male", "Female"].detect { |gender| gender == jobvite_gender }
     end
   end
 end

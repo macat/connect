@@ -7,7 +7,7 @@ module Icims
         email: icims_candidate.email,
         user_status: "active",
         start_date: icims_candidate.start_date,
-        gender: namely_genders[icims_candidate.gender],
+        gender: namely_gender(icims_candidate.gender),
         namely_identifier_field => identifier(icims_candidate),
       }.select { |_, value| value.present? }
     end
@@ -26,8 +26,8 @@ module Icims
 
     private
 
-    def namely_genders
-      { "Female" => "female", "Male" => "male" }
+    def namely_gender(icims_gender)
+      ["Male", "Female"].detect { |gender| gender == icims_gender }
     end
   end
 end
