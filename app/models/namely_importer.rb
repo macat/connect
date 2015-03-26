@@ -1,4 +1,6 @@
 class NamelyImporter
+  REQUIRED_FIELDS = %i(email)
+
   def self.import(*args)
     new(*args).import
   end
@@ -29,12 +31,19 @@ class NamelyImporter
     if valid_attributes?(attrs)
       begin
         namely_profiles.create!(attrs)
-        I18n.t("status.success")
+        SuccessfulCandidateImport.new
       rescue Namely::FailedRequestError => e
-        I18n.t("status.namely_error", message: e.message)
+        FailedCandidateImport.new(
+          error: I18n.t("status.namely_error", message: e.message)
+        )
       end
     else
-      I18n.t("status.missing_required_field")
+      FailedCandidateImport.new(
+        error: I18n.t(
+          "status.missing_required_field",
+          message: missing_fields_message(attrs),
+        )
+      )
     end
   end
 
@@ -51,6 +60,16 @@ class NamelyImporter
   end
 
   def valid_attributes?(attrs)
-    attrs[:email].present?
+    missing_fields(attrs).none?
+  end
+
+  def missing_fields(attrs)
+    REQUIRED_FIELDS.select do |field|
+      attrs[field].blank?
+    end
+  end
+
+  def missing_fields_message(attrs)
+    missing_fields(attrs).join(", ")
   end
 end

@@ -11,8 +11,15 @@ class ImportsPresenter
 
   def not_imported_candidates
     @not_imported_candidates ||= errored_results.map do |import_result|
-      format_error_message(import_result)
+      FailedImportCandidatePresenter.new(
+        import_result[:candidate],
+        import_result[:result].error,
+      )
     end
+  end
+
+  def errors
+    import_results.error
   end
 
   private
@@ -21,18 +28,13 @@ class ImportsPresenter
 
   def successful_results
     import_results.to_a.select do |import_result|
-      import_result[:result] == I18n.t("status.success")
+      import_result[:result].success?
     end
   end
 
   def errored_results
     import_results.to_a.select do |import_result|
-      import_result[:result] =~ /error/i
+      !import_result[:result].success?
     end
-  end
-
-  def format_error_message(import_result)
-    import_result[:result] = import_result[:result].split(":")[-1]
-    import_result
   end
 end

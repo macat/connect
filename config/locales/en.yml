@@ -89,10 +89,9 @@ en:
 
   status:
     client_error: "Service error: %{message}"
-    missing_required_field: "Missing required field"
-    namely_error: "Namely error: %{message}"
-    not_connected: "No connected Jobvite account"
-    success: "Imported successfully!"
+    missing_required_field: "Missing required fields [%{message}]"
+    namely_error: "%{message}"
+    not_connected: "No connected account"
 
   time:
     formats:

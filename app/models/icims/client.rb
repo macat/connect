@@ -29,11 +29,9 @@ module Icims
       end
 
       def candidates
-        if all_candidates.has_key?("errors")
-          raise Error, all_candidates["errors"]
-        else
-          map_candidates
-        end
+        map_candidates
+      rescue => e
+        raise Error, e.message
       end
 
       private

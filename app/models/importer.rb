@@ -16,7 +16,7 @@ class Importer
     if connection.connected?
       import_recent_hires
     else
-      I18n.t("status.not_connected")
+      FailedImport.new(error: I18n.t("status.not_connected"))
     end
   end
 
@@ -28,9 +28,9 @@ class Importer
   def import_recent_hires
     namely_importer.import(recent_hires)
   rescue client.class::Error => e
-    I18n.t("status.client_error", message: e.message)
+    FailedImport.new(error: I18n.t("status.client_error", message: e.message))
   rescue Namely::FailedRequestError => e
-    I18n.t("status.namely_error", message: e.message)
+    FailedImport.new(error:I18n.t("status.namely_error", message: e.message))
   end
 
   def recent_hires

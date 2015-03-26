@@ -39,7 +39,7 @@ describe NamelyImporter do
         attribute_mapper: attribute_mapper,
       )
       expect(status).to be_an ImportResult
-      expect(status[candidate]).to eq t("status.success")
+      expect(status[candidate]).to be_success
     end
 
     it "flags recent hires with no email address" do
@@ -59,7 +59,8 @@ describe NamelyImporter do
 
       expect(namely_connection.profiles).not_to have_received(:create!)
       expect(status).to be_an ImportResult
-      expect(status[candidate]).to eq t("status.missing_required_field")
+      expect(status[candidate].error).
+        to eq t("status.missing_required_field", message: "email")
     end
   end
 

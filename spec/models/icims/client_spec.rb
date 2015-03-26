@@ -68,10 +68,7 @@ describe Icims::Client do
     context "when the API request fails" do
       it "raises an exception" do
         stub_request(:post, "#{icims_customer_api_url}/search/people").
-          to_return(
-            body: '{"errors":[{"errorMessage":"an error message","errorCode":26}]}',
-            headers: { "Content-Type" => "application/json" },
-          )
+          to_return(status: 401)
 
         connection = double(
           "icims_connection",

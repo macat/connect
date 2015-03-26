@@ -61,6 +61,31 @@ feature "User imports icims people" do
     expect(page).to have_content t("icims_imports.create.not_imported_successfully")
   end
 
+  scenario "fails to import candidates due to error" do
+    stub_request(:post, "https://api.icims.com/customers/2187/search/people").
+      to_return(status: 500)
+
+    user = create(:user)
+    create(
+      :icims_connection,
+      :with_namely_field,
+      key: "KEY",
+      customer_id: 2187,
+      user: user,
+      username: "USERNAME",
+    )
+
+    visit dashboard_path(as: user)
+    within(".icims-account") do
+      click_button t("dashboards.show.import_now")
+    end
+
+    expect(page).to have_content t(
+      "status.client_error",
+      message: "500 Internal Server Error",
+    )
+  end
+
   def stub_person_search
     stub_request(:post, "https://api.icims.com/customers/2187/search/people").
       to_return(body: File.read("spec/fixtures/api_responses/icims_search_candidates.json"))

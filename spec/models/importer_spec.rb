@@ -52,9 +52,8 @@ describe Importer do
 
         status = import.import
 
-        expect(status).to eq t(
-          "status.client_error",
-          message: "Everything is broken",
+        expect(status.error).to eq(
+          t("status.client_error",message: "Everything is broken")
         )
       end
     end
@@ -85,9 +84,8 @@ describe Importer do
 
         status = import.import
 
-        expect(status).to eq t(
-          "status.namely_error",
-          message: "A Namely error",
+        expect(status.error).to eq(
+          t("status.namely_error", message: "A Namely error")
         )
       end
     end
@@ -107,7 +105,7 @@ describe Importer do
         status = nil
 
         expect { status = importer.import }.not_to raise_exception
-        expect(status).to eq t("status.not_connected")
+        expect(status.error).to eq(t("status.not_connected"))
       end
     end
   end

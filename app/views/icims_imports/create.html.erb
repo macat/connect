@@ -1,7 +1,9 @@
 <%= render "subnav" %>
 
 <h1>iCIMS</h1>
-<% if @icims_imports_presenter.imported_candidates.empty? %>
+<strong><%= @icims_imports_presenter.errors %></strong>
+
+<% if @icims_imports_presenter.imported_candidates.blank? %>
   <strong><%= t(".empty_successful_imports") %></strong>
 <% else %>
   <strong><%= t(".imported_successfully") %></strong>
@@ -20,7 +22,7 @@
   </table>
 <% end %>
 <hr />
-<% unless @icims_imports_presenter.not_imported_candidates.empty? %>
+<% if @icims_imports_presenter.not_imported_candidates.present? %>
   <strong><%= t(".not_imported_successfully") %></strong>
   <table>
     <thead>
@@ -33,22 +35,22 @@
       </tr>
     </thead>
     <tbody>
-      <% @icims_imports_presenter.not_imported_candidates.each do |import_result| %>
+      <% @icims_imports_presenter.not_imported_candidates.each do |candidate| %>
         <tr>
           <td>
-            <%= import_result[:candidate].name %>
+            <%= candidate.name %>
           </td>
           <td>
-            <%= import_result[:candidate].e_id %>
+            <%= candidate.id %>
           </td>
           <td>
-            <%= import_result[:candidate].contact_number %>
+            <%= candidate.contact_number %>
           </td>
           <td>
-            <%= import_result[:candidate].email %>
+            <%= candidate.email %>
           </td>
           <td>
-            <%= import_result[:result] %>
+            <%= candidate.error %>
           </td>
         </tr>
       <% end %>

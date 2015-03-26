@@ -15,11 +15,14 @@ class ImportResult
     end.join
   end
 
-  def to_a 
-    results.map do |candidate, result| 
-      {candidate: candidate, 
-       result: result}
+  def to_a
+    results.map do |candidate, result|
+      { candidate: candidate, result: result }
     end
+  end
+
+  def error
+    nil
   end
 
   private
