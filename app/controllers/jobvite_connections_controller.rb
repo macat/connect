@@ -5,16 +5,16 @@ class JobviteConnectionsController < ApplicationController
 
   def update
     @jobvite_connection = current_user.jobvite_connection
-    connection_updater = Jobvite::ConnectionUpdater.
-      new(@jobvite_connection)
-
-    connection_updater.on(:connection_updated_successfully) do
-      redirect_to dashboard_path
-    end
-
-    connection_updater.on(:connection_updated_unsuccessfully) do
-      render :edit
-    end
+    Jobvite::ConnectionUpdater.new(
+      jobvite_connection_params, 
+      @jobvite_connection).update(
+        success: ->() {
+          redirect_to dashboard_path
+        }, 
+        failure: ->() {
+          render :edit
+        }
+      )
   end
 
   def destroy

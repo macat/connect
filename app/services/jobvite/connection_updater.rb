@@ -1,23 +1,22 @@
 module Connect
   module Jobvite
     class ConnectionUpdater
-      include Wisper::Publisher
-
-      def initialize(connection)
+      def initialize(attributes, connection)
         @connection = connection
+        @attributes = attributes
       end
 
-      def update(attributes)
+      def update(success:,failure:)
         if connection.update(attributes)
-          broadcast :connection_updated_successfully
+          success.call
         else 
-          broadcast :connection_updated_unsuccessfully
+          failure.call
         end
       end
 
       private
 
-      attr_reader :connection
+      attr_reader :connection, :attributes
     end
   end
 end

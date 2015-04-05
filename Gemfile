@@ -24,7 +24,6 @@ gem "title"
 gem "uglifier"
 gem "unicorn"
 gem "font-awesome-rails"
-gem "wisper"
 
 group :development do
   gem "spring"
