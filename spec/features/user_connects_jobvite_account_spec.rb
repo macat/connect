@@ -23,8 +23,6 @@ feature "User connects jobvite account" do
     fill_in field("jobvite_connection.secret"), with: "abcde"
     click_button button("jobvite_connection.update")
 
-    within(".jobvite-account") do
-      expect(page).not_to have_link t("dashboards.show.connect")
-    end
+    expect(page).not_to have_link t("dashboards.show.connect")
   end
 end
