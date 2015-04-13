@@ -8,7 +8,7 @@ require_relative '../app/services/users/user_with_full_name'
 require_relative '../app/services/users/access_token_freshener'
 require_relative '../app/services/users/token_expiry'
 
-require_relative '../app/services/jobvite/connection_updater'
+require_relative '../app/services/jobvites/connection_updater'
 
 # http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
