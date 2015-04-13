@@ -6,27 +6,6 @@ describe User do
     it { should have_one(:icims_connection) }
   end
 
-  describe "#full_name" do
-    it "combines the first and last names" do
-      user = described_class.new(first_name: "Kate", last_name: "Libby")
-
-      expect(user.full_name).to eq "Kate Libby"
-    end
-
-    context "when only one name is set" do
-      it "returns that name" do
-        expect(described_class.new(first_name: "Kate").full_name).to eq "Kate"
-        expect(described_class.new(last_name: "Libby").full_name).to eq "Libby"
-      end
-    end
-
-    context "when no names are set" do
-      it "returns the empty string" do
-        expect(described_class.new.full_name).to eq ""
-      end
-    end
-  end
-
   describe "#jobvite_connection" do
     it "returns the existing Jobvite::Connection when one exists" do
       user = create(:user)
@@ -67,65 +46,13 @@ describe User do
     end
   end
 
-  describe "#fresh_access_token" do
-    context "when the access token is still valid" do
-      it "returns the old access token" do
-        user = build(
-          :user,
-          access_token_expiry: 5.minutes.from_now
-        )
-        old_access_token = user.access_token
+  describe '#save_token_info' do 
+    let(:user) { create :user }
 
-        token = user.fresh_access_token
+    it 'saves new access token and access token expires in info' do 
+      user.save_token_info('new_token', 'new_time')
 
-        expect(token).to eq old_access_token
-      end
-    end
-
-    context "when the access token has expired" do
-      it "refreshes the access token and returns the new one" do
-        old_access_token = "my-old-access-token"
-        new_access_token = "my-new-access-token"
-        expiry_time = 899
-        user = build(
-          :user,
-          access_token: old_access_token,
-          access_token_expiry: 5.minutes.ago,
-        )
-        tokens = {
-          "access_token" => new_access_token,
-          "expires_in" => expiry_time,
-        }
-        namely_authenticator = double(
-          :namely_authenticator,
-          refresh_access_token: tokens,
-        )
-        stub_const(
-          "Namely::Authenticator",
-          double(:namely_authenticator_class, new: namely_authenticator),
-        )
-
-        authenticator = Authenticator.new(user.subdomain)
-
-        token = user.fresh_access_token(authenticator)
-
-        expect(token).to eq new_access_token
-        expect(user.access_token).to eq new_access_token
-        expect(user.access_token_expiry).
-          to be_within(1.second).of(expiry_time.seconds.from_now)
-      end
-    end
-  end
-
-  describe "#access_token_expires_in" do
-    it "sets the expiry time that many seconds in the future" do
-      expiry_time = 899
-      user = build(:user)
-
-      user.access_token_expires_in = expiry_time
-
-      expect(user.access_token_expiry).
-        to be_within(1.second).of(expiry_time.seconds.from_now)
+      expect(user.access_token).to eql 'new_token'
     end
   end
 end
