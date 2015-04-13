@@ -1,17 +1,16 @@
 module Connect
   module Jobvite
     class ConnectionUpdater
+      class UpdateFailed < StandardError; end
+
       def initialize(attributes, connection)
         @connection = connection
         @attributes = attributes
       end
 
-      def update(success:,failure:)
-        if connection.update(attributes)
-          success.call
-        else 
-          failure.call
-        end
+      def update
+        raise UpdateFailed.new unless connection.update(attributes)
+        true
       end
 
       private
