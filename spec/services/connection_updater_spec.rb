@@ -1,6 +1,6 @@
 require 'spec_helper' 
 
-describe Jobvites::ConnectionUpdater do 
+describe ConnectionUpdater do 
   let(:jobvite_connection_repository) { double :repository }
   subject(:service) { described_class.new(attributes, jobvite_connection_repository) }
 
@@ -31,7 +31,7 @@ describe Jobvites::ConnectionUpdater do
           with(attributes) { false }
         expect{ 
           service.update 
-        }.to raise_error(Jobvites::ConnectionUpdater::UpdateFailed)
+        }.to raise_error(ConnectionUpdater::UpdateFailed)
       end
     end
   end
