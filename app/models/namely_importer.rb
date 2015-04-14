@@ -30,7 +30,7 @@ class NamelyImporter
   def try_importing(attrs)
     if valid_attributes?(attrs)
       begin
-        namely_profiles.send_later(:create!, attrs)
+        namely_profiles.delay.create!(attrs)
         SuccessfulCandidateImport.new
       rescue Namely::FailedRequestError => e
         FailedCandidateImport.new(
