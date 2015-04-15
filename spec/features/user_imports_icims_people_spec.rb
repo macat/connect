@@ -33,8 +33,7 @@ feature "User imports icims people" do
 
   scenario "successfully with failed import candidates" do
     stub_person_search
-    stub_first_person_results
-    stub_second_person_results
+    stub_incomplete_people_results
 
     stub_request(:post, "#{ api_host }/api/v1/profiles")
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/empty_profiles.json"))
@@ -104,6 +103,20 @@ feature "User imports icims people" do
       with(query: { fields: required_fields }).
       to_return(
         body: File.read("spec/fixtures/api_responses/second_icims_candidate.json")
+      )
+  end
+
+  def stub_incomplete_people_results
+    stub_request(:get, "https://api.icims.com/customers/2187/people/8986").
+      with(query: { fields: required_fields }).
+      to_return(
+        body: File.read("spec/fixtures/api_responses/incomplete_icims_candidate.json")
+      )
+
+    stub_request(:get, "https://api.icims.com/customers/2187/people/8988").
+      with(query: { fields: required_fields }).
+      to_return(
+        body: File.read("spec/fixtures/api_responses/incomplete_icims_candidate.json")
       )
   end
 

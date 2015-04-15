@@ -5,4 +5,8 @@ class FailedImportCandidatePresenter < SimpleDelegator
     super(candidate)
     @error = error
   end
+
+  def email
+    try(:email) || "noemail@example.com"
+  end
 end
