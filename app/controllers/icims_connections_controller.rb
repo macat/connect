@@ -1,19 +1,17 @@
 class IcimsConnectionsController < ApplicationController
   def edit
-    @icims_connection = current_user.icims_connection
+    icims_connection
   end
 
   def update
-    @icims_connection = current_user.icims_connection
-    if @icims_connection.update(icims_connection_params)
-      redirect_to dashboard_path
-    else
-      render :edit
-    end
+    ConnectionUpdater.new(icims_connection_params, icims_connection).update
+    redirect_to dashboard_path
+  rescue ConnectionUpdater::UpdateFailed
+    render :edit
   end
 
   def destroy
-    current_user.icims_connection.disconnect
+    icims_connection.disconnect
     redirect_to dashboard_path
   end
 
@@ -25,5 +23,9 @@ class IcimsConnectionsController < ApplicationController
       :key,
       :username,
     )
+  end
+
+  def icims_connection
+    @icims_connection ||= current_user.icims_connection
   end
 end

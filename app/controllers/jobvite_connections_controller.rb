@@ -1,19 +1,17 @@
 class JobviteConnectionsController < ApplicationController
   def edit
-    @jobvite_connection = current_user.jobvite_connection
+    jobvite_connection
   end
 
   def update
-    @jobvite_connection = current_user.jobvite_connection
-    Jobvites::ConnectionUpdater.
-      new(jobvite_connection_params, @jobvite_connection).update
+    ConnectionUpdater.new(jobvite_connection_params, jobvite_connection).update
     redirect_to dashboard_path
-  rescue Jobvites::ConnectionUpdater::FailedUpdate
+  rescue ConnectionUpdater::FailedUpdate
     render :edit
   end
 
   def destroy
-    current_user.jobvite_connection.disconnect
+    jobvite_connection.disconnect
     redirect_to dashboard_path
   end
 
@@ -25,5 +23,9 @@ class JobviteConnectionsController < ApplicationController
       :hired_workflow_state,
       :secret,
     )
+  end
+
+  def jobvite_connection
+    @jobvite_connection ||= current_user.jobvite_connection
   end
 end
