@@ -36,6 +36,7 @@ describe Session do
         expect(user.access_token).to eq "my-access-token"
         expect(user.access_token_expiry).to be_within(1.second).of(expiry_time)
         expect(user.refresh_token).to eq "my-refresh-token"
+        expect(user.email).to eq "corgilover1965@example.com"
         expect(user.first_name).to eq "Eugene"
         expect(user.last_name).to eq "Belford"
         expect(user).to be_persisted
@@ -86,6 +87,7 @@ describe Session do
     namely_profile = double(
       "Profile",
       id: namely_user_id,
+      email: "corgilover1965@example.com",
       first_name: "Eugene",
       last_name: "Belford",
     )

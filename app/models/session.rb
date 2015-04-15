@@ -26,6 +26,7 @@ class Session
         access_token: access_token,
         access_token_expiry: Users::TokenExpiry.for(access_token_expiry),
         refresh_token: refresh_token,
+        email: namely_user.email,
         first_name: namely_user.first_name,
         last_name: namely_user.last_name,
       )
