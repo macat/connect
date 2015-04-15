@@ -127,6 +127,9 @@ GEM
       addressable (~> 2.3)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mailgun_rails (0.6.6)
+      rails (>= 3.2.13)
+      rest-client (>= 1.6.7)
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.2)
@@ -279,6 +282,7 @@ DEPENDENCIES
   i18n-tasks
   jquery-rails
   launchy
+  mailgun_rails (~> 0.6.6)
   namely
   neat (~> 1.5.1)
   normalize-rails (~> 3.0.0)

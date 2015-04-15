@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-ruby "2.1.5"
 
 gem "rails", "4.1.6"
 gem "bourbon", "~> 3.2.1"
@@ -24,6 +23,7 @@ gem "title"
 gem "uglifier"
 gem "unicorn"
 gem "font-awesome-rails"
+gem 'mailgun_rails', '~> 0.6.6'
 
 group :development do
   gem "spring"
