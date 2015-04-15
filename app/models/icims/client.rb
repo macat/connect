@@ -17,7 +17,15 @@ module Icims
       CandidateMapper.all(connection)
     end
 
+    def candidate(person_id)
+      Candidate.new(find_icims_candidate(person_id))
+    end
+
     private
+
+    def find_icims_candidate(person_id)
+      CandidateFind.new(connection).find(person_id).merge("id" => person_id)
+    end
 
     class CandidateMapper
       def self.all(connection)

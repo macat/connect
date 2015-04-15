@@ -15,5 +15,11 @@ RSpec.configure do |config|
     end
   end
 
+  config.around(:each, type: :request) do |example|
+    run_background_jobs_immediately do
+      example.run
+    end
+  end
+
   config.include BackgroundJobs
 end

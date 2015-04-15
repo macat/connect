@@ -33,5 +33,6 @@ FactoryGirl.define do
     access_token ENV.fetch("TEST_NAMELY_ACCESS_TOKEN")
     sequence(:refresh_token) { |n| "refresh-token-#{n}" }
     access_token_expiry { 15.minutes.from_now }
+    email "integrationlover@example.com"
   end
 end

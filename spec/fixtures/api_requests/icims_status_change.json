@@ -1,0 +1,32 @@
+{
+  "systemId": "13437",
+  "eventType": "WorkFlowStatusChangeEvent",
+  "links": [
+    {
+      "url": "https:\/\/api.icims.com\/customers\/2187\/applicantworkflows\/13437",
+      "rel": "applicantWorkflow",
+      "title": "Applicant Workflow"
+    },
+    {
+      "url": "https:\/\/api.icims.com\/customers\/2187\/jobs\/4442",
+      "rel": "job",
+      "title": "Job Profile"
+    },
+    {
+      "url": "https:\/\/api.icims.com\/customers\/2187\/people\/9166",
+      "rel": "person",
+      "title": "Person Profile"
+    },
+    {
+      "url": "https:\/\/api.icims.com\/customers\/2187\/people\/9059",
+      "rel": "user",
+      "title": "Posting User"
+    }
+  ],
+  "personId": "9166",
+  "userId": "9059",
+  "jobId": "4442",
+  "customerId": "2187",
+  "oldStatus": "1753",
+  "newStatus": "20786"
+}

@@ -23,6 +23,10 @@ class NamelyImporter
     end
   end
 
+  def single_import(candidate)
+    try_importing(attribute_mapper.call(candidate))
+  end
+
   private
 
   attr_reader :namely_connection, :attribute_mapper, :duplicate_filter

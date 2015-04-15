@@ -55,6 +55,10 @@ en:
       not_imported_successfully: "You did not import the following:"
       reason: "Reason"
 
+  icims_candidate_import_mailer:
+    successful_import:
+      subject: "%{name} successfully added to Namely"
+
   jobvite_connections:
     edit:
       title: "Jobvite"

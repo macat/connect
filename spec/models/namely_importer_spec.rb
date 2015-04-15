@@ -61,6 +61,34 @@ describe NamelyImporter do
     end
   end
 
+  describe "#single_import" do
+    it "imports a single user" do
+      namely_connection = namely_connection_double
+      candidate = double(
+        "recent_hire",
+        name_the_first: "Dade",
+        name_the_last: "Murphy",
+        email: "crash.override@example.com",
+      )
+      attribute_mapper = Proc.new do |original|
+        {
+          first_name: original.name_the_first,
+          last_name: original.name_the_last,
+          email: original.email,
+        }
+      end
+      importer = described_class.new(
+        namely_connection: namely_connection,
+        attribute_mapper: attribute_mapper,
+      )
+
+      status = importer.single_import(candidate)
+
+      expect(namely_connection.profiles).to have_received(:delay)
+      expect(status).to be_success
+    end
+  end
+
   def namely_connection_double
     profile = double("Namely::Model")
     profiles = double("Namely::Collection", delay: (double :ct, create!: profile))
