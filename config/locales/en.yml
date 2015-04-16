@@ -63,7 +63,9 @@ en:
 
   icims_candidate_retry_imports:
     show:
+      retry: "To retry this import refresh this url or use the link provided in your email"
       successful: "You have successfully imported %{name}"
+      unsuccessful: "Not able to import %{name}"
 
   jobvite_connections:
     edit:

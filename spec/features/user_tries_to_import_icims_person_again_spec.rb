@@ -26,16 +26,14 @@ feature "user tries to import icims person again" do
 
   scenario "fails to create a new user in namely" do
     stub_incomplete_person_results
-    user_with_icims_connection
+    user = user_with_icims_connection
 
-    post icims_candidate_imports_path, data: import_data
+    visit icims_candidate_retry_import_path(9166, as: user)
 
-    expect(response.body).to be_blank
-    expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("icims_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
-    expect(sent_email.body).
-      to include(icims_candidate_retry_import_path(9166))
+    expect(page).
+      to have_content(t("icims_candidate_retry_imports.show.unsuccessful", name: candidate_name))
+    expect(page).
+      to have_content(t("icims_candidate_retry_imports.show.retry"))
   end
 
   def stub_person_results
