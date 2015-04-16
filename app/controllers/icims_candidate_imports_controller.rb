@@ -6,9 +6,11 @@ class IcimsCandidateImportsController < ApplicationController
     import = namely_importer.single_import(candidate)
 
     if import.success?
-      IcimsCandidateImportMailer.delay.successful_import(user, candidate)
-      render text: nil
+      mailer.delay.successful_import(user, candidate)
+    else
+      mailer.delay.unsuccessful_import(user, candidate, import)
     end
+    render text: nil
   end
 
   private
@@ -18,6 +20,10 @@ class IcimsCandidateImportsController < ApplicationController
       namely_connection: user.namely_connection,
       attribute_mapper: Icims::AttributeMapper.new,
     )
+  end
+
+  def mailer
+    IcimsCandidateImportMailer
   end
 
   def connection
