@@ -61,6 +61,10 @@ en:
     unsuccessful_import:
       subject: "Unable to add %{name} to Namely"
 
+  icims_candidate_retry_imports:
+    show:
+      successful: "You have successfully imported %{name}"
+
   jobvite_connections:
     edit:
       title: "Jobvite"

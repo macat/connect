@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :icims_imports, only: [:create]
 
   resources :icims_candidate_imports, only: [:create]
+  resources :icims_candidate_retry_imports, only: [:show]
 
   resource :session, only: [:new, :destroy]
   get "/session/oauth_callback", to: "sessions#oauth_callback", as: "session_oauth_callback"

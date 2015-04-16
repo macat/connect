@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "iCIMS new candidate" do
+feature "user tries to import icims person again" do
   let(:api_host) do
     "%{protocol}://%{subdomain}.namely.com" % {
       protocol: Rails.configuration.namely_api_protocol,
@@ -8,9 +8,9 @@ describe "iCIMS new candidate" do
     }
   end
 
-  it "creates new user in namely" do
+  scenario "creates new user in namely" do
     stub_person_results
-    user_with_icims_connection
+    user = user_with_icims_connection
 
     stub_request(:post, "#{api_host}/api/v1/profiles").
       to_return(
@@ -18,15 +18,13 @@ describe "iCIMS new candidate" do
         body: File.read("spec/fixtures/api_responses/not_empty_profiles.json"),
       )
 
-    post icims_candidate_imports_path, data: import_data
+    visit icims_candidate_retry_import_path(9166, as: user)
 
-    expect(response.body).to be_blank
-    expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("icims_candidate_import_mailer.successful_import.subject", name: candidate_name))
+    expect(page).
+      to have_content(t("icims_candidate_retry_imports.show.successful", name: candidate_name))
   end
 
-  it "fails to create a new user in namely" do
+  scenario "fails to create a new user in namely" do
     stub_incomplete_person_results
     user_with_icims_connection
 
@@ -37,7 +35,7 @@ describe "iCIMS new candidate" do
     expect(sent_email.subject).
       to eq(t("icims_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
     expect(sent_email.body).
-      to include(icims_candidate_retry_import_url(9166))
+      to include(icims_candidate_retry_import_path(9166))
   end
 
   def stub_person_results
@@ -49,15 +47,16 @@ describe "iCIMS new candidate" do
   end
 
   def user_with_icims_connection
-    user = create(:user)
-    create(
-      :icims_connection,
-      :with_namely_field,
-      key: "KEY",
-      customer_id: 2187,
-      user: user,
-      username: "USERNAME",
-    )
+    create(:user).tap do |user|
+      create(
+        :icims_connection,
+        :with_namely_field,
+        key: "KEY",
+        customer_id: 2187,
+        user: user,
+        username: "USERNAME",
+      )
+    end
   end
 
   def required_fields
@@ -66,12 +65,6 @@ describe "iCIMS new candidate" do
 
   def sent_email
     @sent_email ||= ActionMailer::Base.deliveries.first
-  end
-
-  def import_data
-    @import_data ||= JSON.parse(
-      File.read("spec/fixtures/api_requests/icims_status_change.json")
-    )
   end
 
   def stub_incomplete_person_results
