@@ -24,6 +24,20 @@ module Icims
       "icims_imports/candidate"
     end
 
+    def home_address
+      HomeAddress.new(addresses).home_address
+    end
+
+    def salary
+      if icims_salary
+        {
+          currency: icims_salary[:currency],
+          date: start_date,
+          yearly_amount: icims_salary[:amount],
+        }
+      end
+    end
+
     private
 
     def phone_numbers
@@ -39,6 +53,10 @@ module Icims
 
     def has_start_date?
       startdate.present?
+    end
+
+    def icims_salary
+      self[:salary]
     end
   end
 end
