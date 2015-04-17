@@ -11,6 +11,7 @@ feature "User connects iCIMS account" do
 
   scenario "successfully" do
     user = create(:user)
+    allow(SecureRandom).to receive(:hex).and_return("api_key")
 
     visit dashboard_path(as: user)
 
@@ -26,6 +27,7 @@ feature "User connects iCIMS account" do
 
     within(".icims-account") do
       expect(page).to have_no_link t("dashboards.show.connect")
+      expect(page).to have_content(icims_candidate_imports_url("api_key"))
     end
   end
 end

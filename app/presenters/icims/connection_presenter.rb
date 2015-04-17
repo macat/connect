@@ -19,7 +19,7 @@ module Icims
     end
 
     def to_partial_path
-      "dashboards/connection"
+      "icims_connections/connection"
     end
   end
 end

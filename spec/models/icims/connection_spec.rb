@@ -2,7 +2,10 @@ require "rails_helper"
 
 describe Icims::Connection do
   describe "associations" do
-    it { should belong_to(:user) }
+    subject { build(:icims_connection) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to validate_uniqueness_of(:api_key) }
   end
 
   describe "#connected?" do

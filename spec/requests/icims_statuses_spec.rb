@@ -10,7 +10,7 @@ describe "iCIMS new candidate" do
 
   it "creates new user in namely" do
     stub_person_results
-    user_with_icims_connection
+    connection = user_with_icims_connection
 
     stub_request(:post, "#{api_host}/api/v1/profiles").
       to_return(
@@ -18,7 +18,7 @@ describe "iCIMS new candidate" do
         body: File.read("spec/fixtures/api_responses/not_empty_profiles.json"),
       )
 
-    post icims_candidate_imports_path, data: import_data
+    post icims_candidate_imports_url(connection.api_key), data: import_data
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
@@ -28,9 +28,9 @@ describe "iCIMS new candidate" do
 
   it "fails to create a new user in namely" do
     stub_incomplete_person_results
-    user_with_icims_connection
+    connection = user_with_icims_connection
 
-    post icims_candidate_imports_path, data: import_data
+    post icims_candidate_imports_url(connection.api_key), data: import_data
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200

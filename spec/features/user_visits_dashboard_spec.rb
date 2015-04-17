@@ -80,9 +80,10 @@ feature "User visits their dashboard" do
 
   context "with a iCIMS connection, and a iCIMS field on Namely" do
     scenario "user can click an import button" do
+      allow(SecureRandom).to receive(:hex).and_return("api_key")
       stub_namely_request("fields_with_icims")
       user = create(:user)
-      create(
+      connection = create(
         :icims_connection,
         :connected,
         user: user,
@@ -96,7 +97,8 @@ feature "User visits their dashboard" do
           "dashboards.show.missing_namely_field",
           name: "icims_id",
         )
-        expect(page).to have_button t("dashboards.show.import_now")
+        expect(page).
+          to have_content(icims_candidate_imports_url(connection.api_key))
       end
     end
   end

@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   resources :jobvite_imports, only: [:create]
   resources :icims_imports, only: [:create]
 
-  resources :icims_candidate_imports, only: [:create]
+  post(
+    "/icims_candidate_imports/:api_key" => "icims_candidate_imports#create",
+    as: :icims_candidate_imports,
+  )
   resources :icims_candidate_retry_imports, only: [:show]
 
   resource :session, only: [:new, :destroy]

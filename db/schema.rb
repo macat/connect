@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415182625) do
+ActiveRecord::Schema.define(version: 20150417152136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20150415182625) do
     t.integer  "customer_id"
     t.boolean  "found_namely_field", default: false, null: false
     t.string   "key"
+    t.string   "api_key"
   end
 
   add_index "icims_connections", ["user_id"], name: "index_icims_connections_on_user_id", using: :btree
