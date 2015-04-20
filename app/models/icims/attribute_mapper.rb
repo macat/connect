@@ -10,7 +10,7 @@ module Icims
         gender: namely_gender(icims_candidate.gender),
         salary: icims_candidate.salary,
         home: icims_candidate.home_address,
-        namely_identifier_field => identifier(icims_candidate),
+        namely_identifier_field => identifier(icims_candidate).to_s,
       }.select { |_, value| value.present? }
     end
 

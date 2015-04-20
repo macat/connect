@@ -1,5 +1,6 @@
 class IcimsCandidateImportsController < ApplicationController
   skip_before_filter :require_login
+  skip_before_filter :verify_authenticity_token
 
   def create
     candidate = Icims::Client.new(connection: connection).candidate(person_id)
@@ -27,7 +28,10 @@ class IcimsCandidateImportsController < ApplicationController
   end
 
   def connection
-    Icims::Connection.find_by(customer_id: customer_id)
+    Icims::Connection.find_by(
+      api_key: params[:api_key],
+      customer_id: customer_id,
+    )
   end
 
   def user
@@ -35,10 +39,10 @@ class IcimsCandidateImportsController < ApplicationController
   end
 
   def customer_id
-    params[:data][:customerId]
+    params[:customerId]
   end
 
   def person_id
-    params[:data][:personId]
+    params[:personId]
   end
 end

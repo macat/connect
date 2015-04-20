@@ -18,7 +18,7 @@ describe "iCIMS new candidate" do
         body: File.read("spec/fixtures/api_responses/not_empty_profiles.json"),
       )
 
-    post icims_candidate_imports_url(connection.api_key), data: import_data
+    post icims_candidate_imports_url(connection.api_key), import_data
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
@@ -30,7 +30,7 @@ describe "iCIMS new candidate" do
     stub_incomplete_person_results
     connection = user_with_icims_connection
 
-    post icims_candidate_imports_url(connection.api_key), data: import_data
+    post icims_candidate_imports_url(connection.api_key), import_data
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
