@@ -28,8 +28,6 @@ describe NamelyImporter do
 
       status = importer.import(recent_hires_with_dupes)
 
-      expect(namely_connection.profiles).to have_received(:delay)
-
       expect(duplicate_filter).to have_received(:filter).with(
         recent_hires_with_dupes,
         namely_connection: namely_connection,
@@ -54,7 +52,6 @@ describe NamelyImporter do
 
       status = importer.import(recent_hires)
 
-      expect(namely_connection.profiles).not_to have_received(:delay)
       expect(status).to be_an ImportResult
       expect(status[candidate].error).
         to eq t("status.missing_required_field", message: "email")
@@ -84,14 +81,13 @@ describe NamelyImporter do
 
       status = importer.single_import(candidate)
 
-      expect(namely_connection.profiles).to have_received(:delay)
       expect(status).to be_success
     end
   end
 
   def namely_connection_double
     profile = double("Namely::Model")
-    profiles = double("Namely::Collection", delay: (double :ct, create!: profile))
+    profiles = double("Namely::Collection", create!: profile)
     double("Namely::Connection", profiles: profiles)
   end
 end

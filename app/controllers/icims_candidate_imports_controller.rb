@@ -11,6 +11,9 @@ class IcimsCandidateImportsController < ApplicationController
     else
       mailer.delay.unsuccessful_import(user, candidate, import)
     end
+  rescue Icims::Client::Error => e
+    mailer.delay.unauthorized_import(user, e.message)
+  ensure
     render text: nil
   end
 

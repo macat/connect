@@ -58,6 +58,8 @@ en:
   icims_candidate_import_mailer:
     successful_import:
       subject: "%{name} successfully added to Namely"
+    unauthorized_import:
+      subject: "You were unable to make this import because you are unauthorized"
     unsuccessful_import:
       subject: "Unable to add %{name} to Namely"
 
