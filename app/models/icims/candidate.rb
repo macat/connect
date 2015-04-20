@@ -31,9 +31,9 @@ module Icims
     def salary
       if icims_salary
         {
-          currency: icims_salary[:currency],
+          currency: icims_salary["currency"],
           date: start_date,
-          yearly_amount: icims_salary[:amount],
+          yearly_amount: icims_salary["amount"].to_s,
         }
       end
     end

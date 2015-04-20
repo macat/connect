@@ -1,6 +1,6 @@
 class IcimsCandidateRetryImportsController < ApplicationController
   def show
-    @candidate = Icims::Client.new(connection: connection).candidate(params[:id])
+    @candidate = Icims::Client.new(connection).candidate(params[:id])
     @import = namely_importer.single_import(@candidate)
   end
 

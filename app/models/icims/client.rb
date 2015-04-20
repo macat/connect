@@ -24,9 +24,11 @@ module Icims
     private
 
     def find_icims_candidate(person_id)
-      CandidateFind.new(connection).find(person_id).merge("id" => person_id)
+      CandidateFind.new(
+        connection: connection,
+      ).find(person_id).merge("id" => person_id)
     rescue => e
-      raise Error, e.message
+      raise Error, e
     end
 
     class CandidateMapper

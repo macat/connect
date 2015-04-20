@@ -37,11 +37,11 @@ describe "iCIMS new candidate" do
     expect(sent_email.subject).
       to eq(t("icims_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
     expect(sent_email.body).
-      to include(icims_candidate_retry_import_url(9166))
+      to include(icims_candidate_retry_import_url(8986))
   end
 
   def stub_person_results
-    stub_request(:get, "https://api.icims.com/customers/2187/people/9166").
+    stub_request(:get, "https://api.icims.com/customers/2187/people/8986").
       with(query: { fields: required_fields }).
       to_return(
         body: File.read("spec/fixtures/api_responses/first_icims_candidate.json")
@@ -75,7 +75,7 @@ describe "iCIMS new candidate" do
   end
 
   def stub_incomplete_person_results
-    stub_request(:get, "https://api.icims.com/customers/2187/people/9166").
+    stub_request(:get, "https://api.icims.com/customers/2187/people/8986").
       with(query: { fields: required_fields }).
       to_return(
         body: File.read("spec/fixtures/api_responses/incomplete_icims_candidate.json")

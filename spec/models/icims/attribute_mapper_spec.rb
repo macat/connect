@@ -12,7 +12,6 @@ describe Icims::AttributeMapper do
         lastname: "Murphy",
         start_date: "2014-01-02",
         gender: "Opt Out",
-        salary: "lots of money",
         home_address: "my home",
       )
 
@@ -23,7 +22,6 @@ describe Icims::AttributeMapper do
         user_status: "active",
         start_date: "2014-01-02",
         home: "my home",
-        salary: "lots of money",
         icims_id: "edO1Ggwt",
       )
     end

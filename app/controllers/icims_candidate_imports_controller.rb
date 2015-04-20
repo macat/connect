@@ -3,7 +3,7 @@ class IcimsCandidateImportsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    candidate = Icims::Client.new(connection: connection).candidate(person_id)
+    candidate = Icims::Client.new(connection).candidate(person_id)
     import = namely_importer.single_import(candidate)
 
     if import.success?
