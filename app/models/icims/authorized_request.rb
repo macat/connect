@@ -50,7 +50,7 @@ module Icims
     end
 
     def execute
-      request = RestClient::Request.new(
+      r = RestClient::Request.new(
         method: request.method,
         url: url,
         headers: headers.merge(
@@ -59,12 +59,12 @@ module Icims
         payload: payload,
       )
       Rails.logger.info("ICIMS request START")
-      Rails.logger.info(request.url)
-      Rails.logger.info(request.method)
-      Rails.logger.info(request.headers)
-      Rails.logger.info(request.payload)
+      Rails.logger.info(r.url)
+      Rails.logger.info(r.method)
+      Rails.logger.info(r.headers)
+      Rails.logger.info(r.payload)
       Rails.logger.info("ICIMS request END")
-      request.execute
+      r.execute
     end
 
     private
