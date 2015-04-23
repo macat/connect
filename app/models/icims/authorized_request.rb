@@ -50,14 +50,21 @@ module Icims
     end
 
     def execute
-      RestClient::Request.new(
+      request = RestClient::Request.new(
         method: request.method,
         url: url,
         headers: headers.merge(
           "Authorization" => authorization_header,
         ),
         payload: payload,
-      ).execute
+      )
+      Rails.logger.info("ICIMS request START")
+      Rails.logger.info(request.url)
+      Rails.logger.info(request.method)
+      Rails.logger.info(request.headers)
+      Rails.logger.info(request.payload)
+      Rails.logger.info("ICIMS request END")
+      request.execute
     end
 
     private
