@@ -64,7 +64,14 @@ module Icims
       Rails.logger.info(r.headers)
       Rails.logger.info(r.payload)
       Rails.logger.info("ICIMS request END")
-      r.execute
+      r.execute do |response, request, result|
+        if response.code == 200
+          response.to_s
+        else
+          Rails.logger.info(response.inspect)
+          raise RestClient::Exception, response
+        end
+      end
     end
 
     private
