@@ -25,10 +25,6 @@ Rails.application.configure do
   # Enable deflate / gzip compression of controller-generated responses
   config.middleware.use Rack::Deflater
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
-
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
@@ -86,5 +82,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: 'connect.com' }
+  config.action_mailer.default_url_options = { host: ENV.fetch('HOST', 'connect.namely.com') }
 end
