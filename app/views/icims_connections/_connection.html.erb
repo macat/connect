@@ -1,31 +1,25 @@
-<tr class="<%= connection.namespace %>-account" %>
+<article class="connection icims-account">
   <% if connection.connected? %>
-    <td>
+    <h3>
       <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
-    </td>
-    <td>
-      <% if connection.missing_namely_field? %>
-        <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
-      <% end %>
-    </td>
-    <td>
-      <% if connection.found_namely_field? %>
-        <%= icims_candidate_imports_url(connection.api_key) %>
-      <% end %>
-    </td>
-    <td>
-      <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
-    </td>
+    </h3>
+    <% if connection.missing_namely_field? %>
+      <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
+    <% end %>
+
+    <% if connection.found_namely_field? %>
+      <%= icims_candidate_imports_url(connection.api_key) %>
+    <% end %>
+    <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
   <% else %>
-    <td>
+    <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm connect" do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+    <h3>
       <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
-    </td>
-    <td></td>
-    <td></td>
-    <td>
-      <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm" do %>
-        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
-      <% end %>
-    </td>
+    </h3>
+    <p>
+    <a href="http://www.icims.com/">iCIMS</a>' Talent Platform is the industry's premier talent acquisition solution that enables HR professionals to manage their organization's entire talent lifecycle from sourcing to recruitment marketing to applicant tracking to onboarding all within a single web-based application.
+    </p>
   <% end %>
-</tr>
+</article>

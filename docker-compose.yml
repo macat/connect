@@ -13,6 +13,12 @@ web:
     NAMELY_CLIENT_ID: client_id
     NAMELY_CLIENT_SECRET: secret
     HOST: http://host
+    TEST_JOBVITE_KEY: aa
+    TEST_JOBVITE_SECRET: aa
+    TEST_NAMELY_ACCESS_TOKEN: aa
+    TEST_NAMELY_AUTH_CODE: aa
+    TEST_NAMELY_SUBDOMAIN: aa
+    TEST_NAMELY_REFRESH_TOKEN: aa
   volumes:
    - .:/connect
   ports:

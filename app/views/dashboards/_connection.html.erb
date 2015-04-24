@@ -1,31 +1,3 @@
-<tr class="<%= connection.namespace %>-account" %>
-  <% if connection.connected? %>
-    <td>
-      <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
-    </td>
-    <td>
-      <% if connection.missing_namely_field? %>
-        <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
-      <% end %>
-    </td>
-    <td>
-      <% if connection.found_namely_field? %>
-        <%= button_to t("dashboards.show.import_now"), polymorphic_path([connection.namespace, :imports]), class: "-n-btn" %>
-      <% end %>
-    </td>
-    <td>
-      <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
-    </td>
-  <% else %>
-    <td>
-      <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
-    </td>
-    <td></td>
-    <td></td>
-    <td>
-      <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm" do %>
-        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
-      <% end %>
-    </td>
-  <% end %>
-</tr>
+<article class="connection">
+  <%= render "#{ connection.namespace }_connections/connection", connection: connection %>
+</article>

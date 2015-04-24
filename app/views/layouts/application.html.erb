@@ -21,7 +21,12 @@
         </section>
 
         <% if logged_in? %>
-          <section>
+          <section class="userbox">
+            <div class="username">
+              <%= link_to_namely(@current_user.subdomain, class: '-n-btn -n-btn-link -n-btn-sm -n-btn-secondary') %>
+              <%= fa_icon "arrow-right" %>
+              <%= @current_user.full_name %>
+            </div>
             <%= link_to session_path, method: :delete, class: '-n-btn -n-btn-link -n-btn-sm -n-btn-secondary' do %>
               <%= fa_icon "sign-out" %><%= t("dashboards.show.sign_out") %>
             <% end %>
@@ -30,7 +35,7 @@
       </div>
     </header>
 
-    <div class="layout layout-2b">
+    <div class="layout">
       <%= render "flashes" -%>
       <%= yield %>
       <%= render "javascript" %>
