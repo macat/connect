@@ -19,7 +19,7 @@ module Jobvite
     end
 
     def to_partial_path
-      "dashboards/connection"
+      "jobvite_connections/connection"
     end
   end
 end

@@ -19,21 +19,23 @@ header {
     padding-top: 5px;
 
     .icon {
-      background: transparent url('logo.png') no-repeat;
-      width: 37px;
+      background: transparent url('logo_full.svg') no-repeat;
+      width: 100px;
       height: 40px;
-      background-size: 40px 37px;
     }
   }
 
-  section {
-
-    &:last-child {
-      text-align: right;
-
-      a {
-        line-height: 40px !important;
-      }
+  section.userbox {
+    float: left;
+    text-align: right;
+    width: 70%;
+    line-height: 44px;
+    font-size: 14px;
+    color: white;
+    
+    .username {
+      display: inline;
+      margin-right: 30px;
     }
   }
 }
@@ -54,3 +56,4 @@ header {
 #flash_notice {
   @extend %flash-success;
 }
+

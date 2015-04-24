@@ -1,0 +1,27 @@
+<article class="connection jobvite-account">
+  <% if connection.connected? %>
+    <h3>
+      <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
+    </h3>
+    <p>
+    Jobvite is the leading recruiting platform for the social web. Today’s fastest-growing companies use applicant tracking,  recruiting CRM and social recruiting software solutions from Jobvite to target the right talent and build the best teams.
+    </p>
+    <% if connection.missing_namely_field? %>
+      <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
+    <% end %>
+    <% if connection.found_namely_field? %>
+      <%= button_to t("dashboards.show.import_now"), polymorphic_path([connection.namespace, :imports]), class: "-n-btn" %>
+    <% end %>
+    <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
+  <% else %>
+    <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm" do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+    <h3>
+      <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
+    </h3>
+    <p>
+    <a href="http://www.jobvite.com/">Jobvite</a> is the leading recruiting platform for the social web. Today’s fastest-growing companies use applicant tracking,  recruiting CRM and social recruiting software solutions from Jobvite to target the right talent and build the best teams.
+    </p>
+  <% end %>
+</article>
