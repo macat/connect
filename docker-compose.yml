@@ -1,0 +1,21 @@
+db:
+  image: postgres:9.4
+  ports:
+   - "5432"
+web:
+  build: .
+  command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  environment:
+    DATABASE_URL: "postgres://postgres:@db:5432/connect_development?pool=10"
+    RAILS_ENV: "development"
+    RACK_ENV: development
+    SECRET_KEY_BASE: development_secret
+    NAMELY_CLIENT_ID: client_id
+    NAMELY_CLIENT_SECRET: secret
+    HOST: http://host
+  volumes:
+   - .:/connect
+  ports:
+   - "3000:3000"
+  links:
+   - db
