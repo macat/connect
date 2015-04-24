@@ -11,23 +11,29 @@ Planned integrations:
 
 ## Getting set up
 
-Install qt
+0. Install Docker & Docker Machine & Docker Compose
 
+osx:
 ```sh
-brew install qt
+brew install docker-compose
 ```
 
-Set up the application environment, dependencies, and databases:
+1. Build docker image
 
 ```sh
-
-bin/setup
+docker-compose build
 ```
 
-Run the tests:
+2. Run all services
 
 ```sh
-rake
+docker-compose up
+```
+
+3. Run the tests:
+
+```sh
+docker-compose run web rake
 ```
 
 When changing feature specs that make API calls, you will need to rebuild one or
@@ -49,7 +55,7 @@ variables in your `.env` file:
 To import newly hired Jobvite candidates for all users, run:
 
 ```sh
-rake jobvite:import
+docker-compose run web rake jobvite:import
 ```
 
 This task can be invoked by a cron job or otherwise scheduled to regularly
