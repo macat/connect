@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423170813) do
+ActiveRecord::Schema.define(version: 20150427183558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 20150423170813) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "greenhouse_connections", force: true do |t|
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "token"
+    t.string   "api_key"
+    t.boolean  "found_namely_field", default: false, null: false
+    t.integer  "user_id",                            null: false
+  end
+
+  add_index "greenhouse_connections", ["user_id"], name: "index_greenhouse_connections_on_user_id", using: :btree
 
   create_table "icims_connections", force: true do |t|
     t.datetime "created_at",                         null: false
@@ -56,6 +67,16 @@ ActiveRecord::Schema.define(version: 20150423170813) do
   end
 
   add_index "jobvite_connections", ["user_id"], name: "index_jobvite_connections_on_user_id", using: :btree
+
+  create_table "slack_connections", force: true do |t|
+    t.string   "token"
+    t.string   "api_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id",    null: false
+  end
+
+  add_index "slack_connections", ["user_id"], name: "index_slack_connections_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.datetime "created_at",                                          null: false

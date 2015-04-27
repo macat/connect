@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryGirl.define do  
   factory :icims_connection, class: "Icims::Connection" do
     user
 
@@ -24,6 +24,20 @@ FactoryGirl.define do
     trait :disconnected do
       api_key nil
       secret nil
+    end
+  end
+
+  factory :greenhouse_connection, class: "Greenhouse::Connection" do
+    user
+
+    trait :connected do
+      api_key "MY_API_KEY"
+      token "MY_TOKEN"
+    end
+
+    trait :disconnected do
+      api_key nil
+      token nil
     end
   end
 
