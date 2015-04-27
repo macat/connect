@@ -20,6 +20,13 @@ RSpec.describe Greenhouse::Connection, :type => :model do
     end
   end
 
+  describe '#api_key' do 
+    it 'generates an api key' do 
+      greenhouse_connection = create :greenhouse_connection
+      expect(greenhouse_connection.api_key).to_not be_nil
+    end
+  end
+
   describe "#missing_namely_field?" do
     it "doesn't check when not connected" do
       greenhouse_connection = described_class.new
