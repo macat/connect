@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resource :jobvite_connection, only: [:edit, :update, :destroy]
   resource :icims_connection, only: [:edit, :update, :destroy]
+  resource :greenhouse_connection, only: [:edit, :update]
 
   resources :jobvite_imports, only: [:create]
 

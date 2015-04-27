@@ -1,0 +1,22 @@
+<article class="connection greenhouse-account">
+  <% if connection.connected? %>
+    <h3>
+      <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
+    </h3>
+    <% if connection.missing_namely_field? %>
+      <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
+    <% end %>
+
+    <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
+  <% else %>
+    <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm connect" do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+    <h3>
+      <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
+    </h3>
+    <p>
+    <a href="http://www.greenhouse.io/">Greenhouse</a> is software to optimize your entire recruiting process. Find better candidates, conduct more focused interviews, and make data-driven hiring decisions.
+    </p>
+  <% end %>
+</article>
