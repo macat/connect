@@ -1,15 +1,49 @@
 require 'rails_helper'
 
 RSpec.describe Greenhouse::Connection, :type => :model do
-  describe '#connected?' do 
-    it 'returns true if token is set' do 
-      connection = create :greenhouse_connection, :connected
-      expect(connection.connected?).to eql true
+  describe "associations" do
+    subject { build(:greenhouse_connection) }
+    it { is_expected.to belong_to(:user) }
+  end
+
+  describe "#connected?" do
+    it "returns true when the username and password are set" do
+      greenhouse_connection = described_class.new(
+        token: "some token"
+      )
+
+      expect(greenhouse_connection).to be_connected
     end
 
-    it 'returns false if token is not set' do 
-      connection = create :greenhouse_connection, :disconnected
-      expect(connection.connected?).to eql false
+    it "returns false when the token is missing" do
+      expect(described_class.new).not_to be_connected
+    end
+  end
+
+  describe "#missing_namely_field?" do
+    it "doesn't check when not connected" do
+      greenhouse_connection = described_class.new
+      allow(greenhouse_connection).to receive(:check_namely_field)
+
+      greenhouse_connection.missing_namely_field?
+
+      expect(greenhouse_connection).not_to have_received(:check_namely_field)
+    end
+
+    it "checks and caches required namely field status" do
+      greenhouse_connection = create(
+        :greenhouse_connection,
+        :connected,
+        found_namely_field: false,
+      )
+      greenhouse_field = double("greenhouse_field", name: "greenhouse_id")
+      allow(greenhouse_connection).
+        to receive_message_chain(:namely_connection, :fields, :all) {
+        [greenhouse_field]
+      }
+
+      expect(greenhouse_connection).not_to be_missing_namely_field
+      expect(greenhouse_connection).to be_found_namely_field
     end
   end
 end
