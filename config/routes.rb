@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     "/icims_candidate_imports/:api_key" => "icims_candidate_imports#create",
     as: :icims_candidate_imports,
   )
+  post(
+    "/greenhouse_candidate_imports/:api_key" => "greenhouse_candidate_imports#create",
+    as: :greenhouse_candidate_imports,
+  )
   resources :icims_candidate_retry_imports, only: [:show]
 
   resource :session, only: [:new, :destroy]
