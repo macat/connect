@@ -7,6 +7,9 @@
       <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
     <% end %>
 
+    <% if connection.found_namely_field? %>
+      <%= greenhouse_candidate_imports_url(connection.api_key) %>
+    <% end %>
     <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
   <% else %>
     <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm connect" do %>
