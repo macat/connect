@@ -31,13 +31,13 @@ FactoryGirl.define do
     user
 
     trait :connected do
-      api_key "MY_API_KEY"
-      token "MY_TOKEN"
+      name "MY NAME"
+      secret_key "MY_TOKEN"
     end
 
     trait :disconnected do
-      api_key nil
-      token nil
+      name nil
+      secret_key nil
     end
   end
 
