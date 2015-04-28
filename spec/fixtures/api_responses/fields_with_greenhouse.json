@@ -354,8 +354,8 @@
     },
     {
       "id": "e0074a51-566c-4d8b-ba00-4aeb10ebbef1",
-      "name": "icims_id",
-      "label": "icims id",
+      "name": "greenhouse_id",
+      "label": "greenhouse id",
       "type": "text",
       "default": false,
       "valid_format_info": "generic text",
