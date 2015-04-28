@@ -1,9 +1,12 @@
 module Greenhouse
   class Connection < ActiveRecord::Base
     belongs_to :user
+    validates :user_id, presence: true
+    validates :secret_key, uniqueness: true
+    before_create :set_secret_key
 
     def connected?
-      token.present?
+      name.present? && secret_key.present?
     end
 
     def missing_namely_field?
@@ -14,6 +17,10 @@ module Greenhouse
 
     def required_namely_field
       "greenhouse_id"
+    end
+
+    def set_secret_key
+      self.secret_key = SecureRandom.hex(20)
     end
 
     private 
