@@ -9,6 +9,9 @@
   <div class="form-row">
     <%= f.input :name, placeholder: "Name", input_html: { class: "half" } %>
   </div>
+  <div class="form-row">
+    <%= f.input :secret_key, disabled: true, placeholder: "Secret Key", input_html: { class: "half" } %>
+  </div>
   <div class="-n-actions">
     <%= button_tag(type: "submit", class: "-n-btn") do %>
       <%= fa_icon "plug", text: t("dashboards.show.connect") %>
