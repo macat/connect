@@ -16,7 +16,7 @@ module Greenhouse
     end
 
     def disconnect
-      update(name: nil, secret_key: nil) 
+      update(name: nil) 
     end
 
     def required_namely_field

@@ -22,8 +22,8 @@ RSpec.describe Greenhouse::Connection, :type => :model do
     end
   end
 
-  describe '#secret_key' do 
-    it 'generates a secret key' do 
+  describe '#secret_key' do
+    it 'generates a secret key' do
       greenhouse_connection = create :greenhouse_connection, :connected
       expect(greenhouse_connection.secret_key).to_not be_nil
     end
@@ -57,18 +57,11 @@ RSpec.describe Greenhouse::Connection, :type => :model do
   end
 
   describe "#disconnect" do
-    let(:greenhouse_connection) { create :greenhouse_connection, 
+    let(:greenhouse_connection) { create :greenhouse_connection,
                                   :connected, name: "crashoverride" }
-    it "sets the name to be nil" do 
+    it "sets the name to be nil" do
       greenhouse_connection.disconnect
       expect(greenhouse_connection.name).to be_nil
     end
-
-    it "sets secret key to be nil" do 
-      greenhouse_connection.disconnect
-      expect(greenhouse_connection.secret_key).to be_nil
-    end
   end
-
-
 end
