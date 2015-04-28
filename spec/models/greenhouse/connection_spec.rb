@@ -9,16 +9,15 @@ RSpec.describe Greenhouse::Connection, :type => :model do
   end
 
   describe "#connected?" do
-    it "returns true when name and secret key are set" do
+    it "returns true when name is set" do
       greenhouse_connection = described_class.new(
-        name: "webhook",
-        secret_key: "some key"
+        name: "webhook"
       )
 
       expect(greenhouse_connection).to be_connected
     end
 
-    it "returns false when the secret key is missing" do
+    it "returns false when name is missing" do
       expect(described_class.new).not_to be_connected
     end
   end
