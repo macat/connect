@@ -68,16 +68,6 @@ ActiveRecord::Schema.define(version: 20150427183558) do
 
   add_index "jobvite_connections", ["user_id"], name: "index_jobvite_connections_on_user_id", using: :btree
 
-  create_table "slack_connections", force: true do |t|
-    t.string   "token"
-    t.string   "api_key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id",    null: false
-  end
-
-  add_index "slack_connections", ["user_id"], name: "index_slack_connections_on_user_id", using: :btree
-
   create_table "users", force: true do |t|
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
