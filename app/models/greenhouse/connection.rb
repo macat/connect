@@ -6,7 +6,7 @@ module Greenhouse
     before_create :set_secret_key
 
     def connected?
-      name.present? && secret_key.present?
+      name.present?
     end
 
     def missing_namely_field?
