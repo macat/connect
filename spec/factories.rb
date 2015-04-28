@@ -39,6 +39,10 @@ FactoryGirl.define do
       name nil
       secret_key nil
     end
+
+    trait :with_namely_field do
+      found_namely_field true
+    end
   end
 
   factory :user do
