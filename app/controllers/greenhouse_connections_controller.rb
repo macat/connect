@@ -1,5 +1,5 @@
 class GreenhouseConnectionsController < ApplicationController
-  def edit 
+  def edit
     greenhouse_connection
   end
 
@@ -10,7 +10,12 @@ class GreenhouseConnectionsController < ApplicationController
     render :edit
   end
 
-  private 
+  def destroy
+    greenhouse_connection.disconnect
+    redirect_to dashboard_path
+  end
+
+  private
 
   def greenhouse_connection_params
     params.require(:greenhouse_connection).permit(:name)
