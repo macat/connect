@@ -143,7 +143,7 @@ feature "User visits their dashboard" do
 
   context "with a Greenhouse connection, and Greenhouse field exists on Namely" do
     scenario "user can see the response url" do
-      allow(SecureRandom).to receive(:hex).and_return("api_key")
+      allow(SecureRandom).to receive(:hex).and_return("secret_key")
       stub_namely_request("fields_with_greenhouse")
       user = create(:user)
       connection = create(
@@ -161,7 +161,7 @@ feature "User visits their dashboard" do
           name: "greenhouse_id",
         )
         expect(page).
-          to have_content(greenhouse_candidate_imports_url(connection.api_key))
+          to have_content(greenhouse_candidate_imports_url(connection.secret_key))
       end
     end
   end
