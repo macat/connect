@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20150427183558) do
   create_table "greenhouse_connections", force: true do |t|
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
-    t.string   "token"
-    t.string   "api_key"
+    t.string   "secret_key"
+    t.string   "name"
     t.boolean  "found_namely_field", default: false, null: false
     t.integer  "user_id",                            null: false
   end
