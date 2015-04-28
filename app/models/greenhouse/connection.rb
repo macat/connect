@@ -15,6 +15,10 @@ module Greenhouse
       end
     end
 
+    def disconnect
+      update(name: nil, secret_key: nil) 
+    end
+
     def required_namely_field
       "greenhouse_id"
     end
@@ -23,7 +27,7 @@ module Greenhouse
       self.secret_key = SecureRandom.hex(20)
     end
 
-    private 
+    private
 
     delegate :namely_connection, to: :user
 
