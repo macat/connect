@@ -8,7 +8,7 @@
     <% end %>
 
     <% if connection.found_namely_field? %>
-      <%= greenhouse_candidate_imports_url(connection.api_key) %>
+      <%= greenhouse_candidate_imports_url(connection.secret_key) %>
     <% end %>
     <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
   <% else %>
