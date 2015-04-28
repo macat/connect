@@ -4,26 +4,29 @@ RSpec.describe Greenhouse::Connection, :type => :model do
   describe "associations" do
     subject { build(:greenhouse_connection) }
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to validate_uniqueness_of(:secret_key) }
   end
 
   describe "#connected?" do
-    it "returns true when the username and password are set" do
+    it "returns true when name and secret key are set" do
       greenhouse_connection = described_class.new(
-        token: "some token"
+        name: "webhook",
+        secret_key: "some key"
       )
 
       expect(greenhouse_connection).to be_connected
     end
 
-    it "returns false when the token is missing" do
+    it "returns false when the secret key is missing" do
       expect(described_class.new).not_to be_connected
     end
   end
 
-  describe '#api_key' do 
-    it 'generates an api key' do 
-      greenhouse_connection = create :greenhouse_connection
-      expect(greenhouse_connection.api_key).to_not be_nil
+  describe '#secret_key' do 
+    it 'generates a secret key' do 
+      greenhouse_connection = create :greenhouse_connection, :connected
+      expect(greenhouse_connection.secret_key).to_not be_nil
     end
   end
 
