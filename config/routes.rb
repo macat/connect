@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     as: :icims_candidate_imports,
   )
   post(
-    "/greenhouse_candidate_imports/:api_key" => "greenhouse_candidate_imports#create",
+    "/greenhouse_candidate_imports/:secret_key" => "greenhouse_candidate_imports#create",
     as: :greenhouse_candidate_imports,
   )
   resources :icims_candidate_retry_imports, only: [:show]
