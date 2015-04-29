@@ -7,7 +7,7 @@ module Greenhouse
     end
 
     def valid?
-      build_signature.include? signature 
+      build_signature == signature 
     end
 
     private 
@@ -17,8 +17,9 @@ module Greenhouse
     end
 
     def build_signature
-      @build_signature = OpenSSL::HMAC.digest(digest, connection.secret_key, 
-                                                   payload).unpack('H*')
+      @build_signature = OpenSSL::HMAC.hexdigest(digest, 
+                                                 connection.secret_key, 
+                                                 payload)
     end
 
     def payload
