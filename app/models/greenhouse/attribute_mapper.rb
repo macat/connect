@@ -1,14 +1,14 @@
 module Greenhouse
   class AttributeMapper
-    def call(greenhouse_candidate)
+    def call(payload)
       {
-        first_name: greenhouse_candidate.candidate.first_name,
-        last_name: greenhouse_candidate.candidate.last_name,
-        email: email_for(greenhouse_candidate),
+        first_name: candidate_for(application_for(payload)).fetch('first_name'),
+        last_name: candidate_for(application_for(payload)).fetch('last_name'),
+        email: email_for(candidate_for(application_for(payload))),
         user_status: "active",
-        start_date: greenhouse_candidate.offer.starts_at,
-        home: home_address_for(greenhouse_candidate),
-        namely_identifier_field => identifier(greenhouse_candidate).to_s,
+        start_date: offer_for(application_for(payload)).fetch('starts_at'),
+        home: home_address_for(candidate_for(application_for(payload))),
+        namely_identifier_field => identifier(application_for(payload)).to_s,
       }.select { |_, value| value.present? }
     end
 
@@ -18,20 +18,32 @@ module Greenhouse
 
     private
 
-    def identifier(candidate)
-      candidate.application.id
+    def candidate_for(payload)
+      payload.fetch('candidate')
     end
 
-    def email_for(candidate)
-      candidate.candidate.email_addresses.find do |email_address|
-        email_address.type == "personal"
-      end.value
+    def identifier(payload)
+      payload.fetch('id')
+    end
+
+    def application_for(payload)
+      payload.fetch('application')
+    end
+
+    def email_for(payload)
+      payload.fetch('email_addresses').find do |email_address|
+        email_address.fetch('type') == "personal"
+      end.fetch('value')
+    end
+
+    def offer_for(payload)
+      payload.fetch('offer')
     end
 
     def home_address_for(candidate)
-      candidate.candidate.addresses.find do |address| 
-        address.type == "home"
-      end.value
+      candidate.fetch('addresses').find do |address| 
+        address.fetch('type') == "home"
+      end.fetch('value')
     end
   end
 end
