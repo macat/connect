@@ -22,6 +22,17 @@ describe "Greenhouse new candidate" do
     expect(response.status).to eql 200
   end
 
+  it 'unauthorize request not comming from greenhouse with valid digest' do 
+    allow_any_instance_of(Greenhouse::ValidRequesterPolicy).to receive(:valid?) { false }
+    post greenhouse_candidate_imports_url(connection.secret_key), 
+      greenhouse_ping, 
+      { 'Signature' => 'sha256 7c051a394b3de31bd493403ca07b96a1e99518321724a882ade6d03a24e0f396' }
+    
+
+    expect(response.body).to be_blank
+    expect(response.status).to eql 401
+  end
+
   it "creates new user in namely" do
     stub_request(:post, "#{api_host}/api/v1/profiles").
       to_return(
@@ -33,13 +44,17 @@ describe "Greenhouse new candidate" do
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
-    #expect(sent_email.subject).
-    #  to eq(t("greenhouse_candidate_import_mailer.successful_import.subject", name: candidate_name))
+    expect(sent_email.subject).
+      to eq(t("greenhouse_candidate_import_mailer.successful_import.subject", name: candidate_name))
   end
 
   def greenhouse_ping
     @greenhouse_ping ||= JSON.parse(
       File.read('spec/fixtures/api_requests/greenhouse_payload_ping.json'))
+  end
+
+  def sent_email
+    @sent_email ||= ActionMailer::Base.deliveries.first
   end
 
   def greenhouse_payload 
