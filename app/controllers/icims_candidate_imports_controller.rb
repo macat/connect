@@ -6,6 +6,6 @@ class IcimsCandidateImportsController < ApplicationController
     Icims::CandidateImporter.new(Icims::Connection, 
                                  IcimsCandidateImportMailer, 
                                  params).import
-    render text: nil
+    render nothing: true
   end
 end
