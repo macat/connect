@@ -36,12 +36,12 @@ module Icims
     end
 
     def user
-      connection.user
+      @user ||= connection.user
     end
 
     def connection
-      @connection_repo.find_by(api_key: api_key,
-                               customer_id: customer_id)
+      @connection ||= @connection_repo.find_by(api_key: api_key,
+                                               customer_id: customer_id)
     end
 
     def namely_importer
