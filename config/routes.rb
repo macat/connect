@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   resource :icims_connection, only: [:edit, :update, :destroy]
 
   resources :jobvite_imports, only: [:create]
-  resources :icims_imports, only: [:create]
 
   post(
     "/icims_candidate_imports/:api_key" => "icims_candidate_imports#create",
