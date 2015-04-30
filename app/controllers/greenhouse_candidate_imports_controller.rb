@@ -2,40 +2,55 @@ class GreenhouseCandidateImportsController < ApplicationController
   skip_before_filter :require_login
   skip_before_filter :verify_authenticity_token
 
-  def create 
-    if is_ping? 
-      if Greenhouse::ValidRequesterPolicy.new(connection, 
+  def create
+    if is_ping?
+      if Greenhouse::ValidRequesterPolicy.new(connection,
                                               signature, params).valid?
-        render text: nil, status: :ok 
+        status = :ok
+      else
+        status = :unauthorized
       end
-    else 
-      namely_importer.single_import(greenhouse_payload)
-      render text: nil, status: :ok
+    else
+      import = namely_importer.single_import(greenhouse_payload)
+      if import.success?
+        mailer.delay.successful_import(user, candidate_name)
+        status = :ok
+      end
     end
+    render text: nil, status: status
   end
 
-  private 
+  private
 
-  def namely_importer 
+  def mailer
+    GreenhouseCandidateImportMailer
+  end
+
+  def namely_importer
     NamelyImporter.new(
       namely_connection: user.namely_connection,
       attribute_mapper: Greenhouse::AttributeMapper.new
     )
   end
 
-  def connection 
+  def connection
     @connection ||= Greenhouse::Connection.find_by(secret_key: secret_key)
   end
 
-  def user 
+  def candidate_name
+    candidate = greenhouse_payload.fetch('application').fetch('candidate')
+    @candidate_name ||= "#{candidate.fetch('first_name')} #{candidate.fetch('last_name')}"
+  end
+
+  def user
     connection.user
   end
 
-  def secret_key 
+  def secret_key
     @secret_key ||= params['secret_key']
   end
 
-  def signature 
+  def signature
     @signature ||= request.headers['Signature']
   end
 
