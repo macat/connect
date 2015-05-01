@@ -37,13 +37,13 @@ module Greenhouse
     end
 
     def offer_for(payload)
-      payload.fetch('offer')
+      payload.fetch('offer', '')
     end
 
     def home_address_for(candidate)
-      candidate.fetch('addresses').find do |address| 
-        address.fetch('type') == "home"
-      end.fetch('value')
+      candidate.fetch('addresses', []).find do |address| 
+        address.fetch('type', '') == "home"
+      end.fetch('value', '')
     end
   end
 end
