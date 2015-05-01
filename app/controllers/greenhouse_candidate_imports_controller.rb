@@ -5,7 +5,8 @@ class GreenhouseCandidateImportsController < ApplicationController
   def create
     if is_ping?
       if Greenhouse::ValidRequesterPolicy.new(connection,
-                                              signature, params).valid?
+                                              signature, 
+                                              greenhouse_candidate_import_params).valid?
         status = :ok
       else
         status = :unauthorized
@@ -54,8 +55,12 @@ class GreenhouseCandidateImportsController < ApplicationController
     @signature ||= request.headers['Signature']
   end
 
+  def greenhouse_candidate_import_params
+    params.fetch(:greenhouse_candidate_import)
+  end
+
   def greenhouse_payload
-    params['payload']
+    greenhouse_candidate_import_params[:payload]
   end
 
   def is_ping?

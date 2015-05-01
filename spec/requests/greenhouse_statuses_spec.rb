@@ -13,22 +13,16 @@ describe "Greenhouse new candidate" do
 
   it 'authorize request comming from greenhouse with valid digest' do 
     allow_any_instance_of(Greenhouse::ValidRequesterPolicy).to receive(:valid?) { true }
-    post greenhouse_candidate_imports_url(connection.secret_key), 
-      greenhouse_ping, 
-      { 'Signature' => 'sha256 7c051a394b3de31bd493403ca07b96a1e99518321724a882ade6d03a24e0f396' }
-    
-
+    post greenhouse_candidate_imports_url(connection.secret_key), {greenhouse_candidate_import: greenhouse_ping}, {"Signature" => "sha256 kdkjadk92929394ajdskfjadf"}
+      
     expect(response.body).to be_blank
     expect(response.status).to eql 200
   end
 
   it 'unauthorize request not comming from greenhouse with valid digest' do 
     allow_any_instance_of(Greenhouse::ValidRequesterPolicy).to receive(:valid?) { false }
-    post greenhouse_candidate_imports_url(connection.secret_key), 
-      greenhouse_ping, 
-      { 'Signature' => 'sha256 7c051a394b3de31bd493403ca07b96a1e99518321724a882ade6d03a24e0f396' }
-    
-
+    post greenhouse_candidate_imports_url(connection.secret_key), {greenhouse_candidate_import: greenhouse_ping}, {"Signature" => "sha256 kdkjadk92929394ajdskfjadf"}
+      
     expect(response.body).to be_blank
     expect(response.status).to eql 401
   end
@@ -40,7 +34,7 @@ describe "Greenhouse new candidate" do
         body: File.read("spec/fixtures/api_responses/not_empty_profiles.json"),
       )
 
-    post greenhouse_candidate_imports_url(connection.secret_key), greenhouse_payload
+    post greenhouse_candidate_imports_url(connection.secret_key), greenhouse_candidate_import: greenhouse_payload
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
