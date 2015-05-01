@@ -37,7 +37,7 @@ module Greenhouse
     end
 
     def offer_for(payload)
-      payload.fetch('offer')
+      payload.fetch('offer', {'starts_at' => ''})
     end
 
     def home_address_for(candidate)

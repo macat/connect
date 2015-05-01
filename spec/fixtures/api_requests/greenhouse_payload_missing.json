@@ -98,29 +98,6 @@
           }
         }
       },
-      "offer": {
-        "id": 13,
-        "version": 2,
-        "created_at": "2014-11-20T22:49:14Z",
-        "sent_at": "2014-11-10",
-        "resolved_at": "2014-11-20T22:49:14Z",
-        "starts_at": "2015-01-23",
-        "custom_fields": {
-          "salary": {
-            "name": "Salary",
-            "type": "currency",
-            "value": {
-              "amount": 80000,
-              "unit": "USD"
-            }
-          },
-          "seasons": {
-            "name": "Seasons",
-            "type": "multi_select",
-            "value": ["Season 1", "Season 2"]
-          }
-        }
-      },
       "opening": {
         "opening_id": "1234-56"
       }

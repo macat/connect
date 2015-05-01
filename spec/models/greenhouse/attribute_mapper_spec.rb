@@ -26,7 +26,6 @@ describe Greenhouse::AttributeMapper do
         last_name: "Smith",
         email: "personal@example.com",
         user_status: "active",
-        start_date: "2015-01-23",
         greenhouse_id: "20",
       )
     end
