@@ -11,7 +11,7 @@ describe Greenhouse::ValidRequesterPolicy do
 
   describe '#valid?' do 
     context 'for valid digest in the high nibble' do 
-      let(:signature) { 'sha256 7c051a394b3de31bd493403ca07b96a1e99518321724a882ade6d03a24e0f396' }
+      let(:signature) { 'sha256 798ffe4edc99af295e2b83e41005ec6be42078f36fd1c3dbcc6183d052e38dba' }
       it { is_expected.to be_truthy }
     end
   end

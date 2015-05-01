@@ -19,11 +19,7 @@ module Greenhouse
     def build_signature
       @build_signature = OpenSSL::HMAC.hexdigest(digest, 
                                                  connection.secret_key, 
-                                                 payload)
-    end
-
-    def payload
-      body.fetch('payload').to_s
+                                                 body.to_json)
     end
 
     attr_reader :connection, :signature_algorithm, :signature, :body
