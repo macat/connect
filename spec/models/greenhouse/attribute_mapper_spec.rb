@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe Greenhouse::AttributeMapper do
+  subject(:mapper) { described_class.new }
   describe "#call" do
     it "transforms a Greenhouse candidate into a Hash appropriate for the Namely API" do
-      mapper = described_class.new
       greenhouse_candidate = JSON.parse(
         File.read('spec/fixtures/api_requests/greenhouse_payload.json'))['payload']
 
@@ -14,6 +14,19 @@ describe Greenhouse::AttributeMapper do
         user_status: "active",
         start_date: "2015-01-23",
         home: "455 Broadway New York, NY 10280",
+        greenhouse_id: "20",
+      )
+    end
+
+    it 'return default values for not mandatory fields' do 
+      greenhouse_candidate = JSON.parse(File.read('spec/fixtures/api_requests/greenhouse_payload_missing.json'))['payload']
+
+      expect(mapper.call(greenhouse_candidate)).to eq(
+        first_name: "Johnny",
+        last_name: "Smith",
+        email: "personal@example.com",
+        user_status: "active",
+        start_date: "2015-01-23",
         greenhouse_id: "20",
       )
     end
