@@ -18,16 +18,36 @@ describe Greenhouse::AttributeMapper do
       )
     end
 
-    it 'return default values for not mandatory fields' do 
-      greenhouse_candidate = JSON.parse(File.read('spec/fixtures/api_requests/greenhouse_payload_missing.json'))['payload']
+    context 'handle missing not mandatory fields' do 
+      it 'return default values when not present in payload' do 
+        greenhouse_candidate = JSON.parse(File.read('spec/fixtures/api_requests/greenhouse_payload_missing.json'))['payload']
 
-      expect(mapper.call(greenhouse_candidate)).to eq(
-        first_name: "Johnny",
-        last_name: "Smith",
-        email: "personal@example.com",
-        user_status: "active",
-        greenhouse_id: "20",
-      )
+        expect(mapper.call(greenhouse_candidate)).to eq(
+          first_name: "Johnny",
+          last_name: "Smith",
+          email: "personal@example.com",
+          user_status: "active",
+          greenhouse_id: "20",
+        )
+      end
+
+      it 'return default values contain nulls' do 
+        greenhouse_candidate = {'application' => {
+          'candidate' => {
+            'first_name' => 'Johnny', 
+            'last_name' => 'Smith', 
+            'email_addresses' => [{'type' => 'personal' ,'value' => 'personal@example.com'}],
+            'addresses' => nil
+          }, 'id' => 'greenhouse_id'}}
+
+        expect(mapper.call(greenhouse_candidate)).to eq(
+          first_name: "Johnny",
+          last_name: "Smith",
+          email: "personal@example.com",
+          user_status: "active",
+          greenhouse_id: "greenhouse_id",
+        )
+      end
     end
   end
 

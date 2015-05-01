@@ -41,10 +41,15 @@ module Greenhouse
     end
 
     def home_address_for(candidate)
-      home_address = candidate.fetch('addresses', []).find do |address| 
-        address.fetch('type') == "home"
-      end || {}
-      home_address.fetch('value', '')
+      home_address = candidate.fetch('addresses', [])
+      if home_address 
+        home_address = home_address.find do |address| 
+          address.fetch('type') == "home"
+        end || {}
+        home_address.fetch('value', '')
+      else 
+        ''
+      end
     end
   end
 end
