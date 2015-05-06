@@ -51,6 +51,10 @@ en:
       title: "Greenhouse"
       slogan: "Please fill out the following fields to connect to this application."
 
+  greenhouse_candidate_import_mailer:
+    successful_import:
+      subject: "%{name} successfully added to Namely"
+
   icims_imports:
     create:
       contact_number_title: "Contact Number"
