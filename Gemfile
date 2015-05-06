@@ -19,6 +19,7 @@ gem "title"
 gem "unicorn"
 gem "font-awesome-rails"
 gem 'mailgun_rails', '~> 0.6.6'
+gem 'jquery-rails'
 
 group :development do
   gem "spring"
