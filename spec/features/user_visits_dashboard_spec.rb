@@ -8,6 +8,22 @@ feature "User visits their dashboard" do
     }
   end
 
+  scenario "user can sign out after" do 
+    stub_namely_request("fields_without_jobvite")
+    user = create(:user)
+    create(
+      :jobvite_connection,
+      :connected,
+      user: user,
+      found_namely_field: false,
+    )
+
+    visit dashboard_path(as: user)
+
+    click_link t("dashboards.show.sign_out")
+    expect(page.current_path).to eql root_path
+  end
+
   context "with a Jobvite connection, but no Jobvite field on Namely" do
     scenario "user is told that the Jobvite field is missing and isn't shown an import button" do
       stub_namely_request("fields_without_jobvite")
