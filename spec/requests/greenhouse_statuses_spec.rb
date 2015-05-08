@@ -58,6 +58,6 @@ describe "Greenhouse new candidate" do
   end
 
   def candidate_name
-    "Jane Doe"
+    "Johnny Smith"
   end
 end
