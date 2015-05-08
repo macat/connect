@@ -54,6 +54,8 @@ en:
   greenhouse_candidate_import_mailer:
     successful_import:
       subject: "%{name} successfully added to Namely"
+    unsuccessful_import:
+      subject: "Unable to add %{name} to Namely"
 
   icims_imports:
     create:
