@@ -22,6 +22,8 @@ module Greenhouse
         import = namely_importer.single_import(greenhouse_payload)
         if import.success?
           mailer.delay.successful_import(user, candidate_name.to_s)
+        else 
+          mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
         end
       end
     end

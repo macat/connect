@@ -68,7 +68,14 @@ describe Greenhouse::CandidatesImporter do
       end
 
       context 'when the import fails' do 
+        let(:importer) { double :importer, success?: false }
+        let(:delay) { double :delay }
         it 'sends an failure email' do 
+          allow_any_instance_of(NamelyImporter).to receive(:single_import).
+            with(params[:payload]) { importer }
+          expect(delay).to receive(:unsuccessful_import).with(user, '', importer)
+
+          candidates_importer.import
         end
       end
     end
