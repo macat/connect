@@ -42,6 +42,20 @@ describe "Greenhouse new candidate" do
       to eq(t("greenhouse_candidate_import_mailer.successful_import.subject", name: candidate_name))
   end
 
+  it "fails to create a new user in namely" do
+    stub_request(:post, "#{api_host}/api/v1/profiles").
+      to_return(
+        status: 200,
+        body: File.read("spec/fixtures/api_responses/empty_profiles.json"),
+      )
+    post greenhouse_candidate_imports_url(connection.secret_key), greenhouse_candidate_import: greenhouse_payload
+
+    expect(response.body).to be_blank
+    expect(response.status).to eq 200
+    expect(sent_email.subject).
+      to eq(t("greenhouse_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
+  end
+
   def greenhouse_ping
     @greenhouse_ping ||= JSON.parse(
       File.read('spec/fixtures/api_requests/greenhouse_payload_ping.json'))
