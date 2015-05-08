@@ -31,9 +31,15 @@ module Greenhouse
     end
 
     def email_for(payload)
-      payload.fetch('email_addresses').find do |email_address|
-        email_address.fetch('type') == "personal"
-      end.fetch('value')
+      email = payload.fetch('email_addresses', [])
+      if email 
+        email = email.find do |email_address|
+          email_address.fetch('type') == "personal"
+        end || {}
+        email.fetch('value')
+      else 
+        ''
+      end
     end
 
     def offer_for(payload)
