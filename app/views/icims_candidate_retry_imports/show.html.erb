@@ -1,7 +1,7 @@
-<% if @import.success? %>
-  <p><%= t(".successful", name: @candidate.name) %></p>
+<% if @candidate_retry_presenter.successful_import? %>
+  <p><%= t(".successful", name: @candidate_retry_presenter.candidate_name) %></p>
 <% else %>
-  <p><%= t(".unsuccessful", name: @candidate.name) %></p>
-  <p><%= @import.error %></p>
+  <p><%= t(".unsuccessful", name: @candidate_retry_presenter.candidate_name) %></p>
+  <p><%= @candidate_retry_presenter.import_error %></p>
   <p><%= t(".retry") %></p>
 <% end %>
