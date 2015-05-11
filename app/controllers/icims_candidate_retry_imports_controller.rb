@@ -4,8 +4,8 @@ class IcimsCandidateRetryImportsController < ApplicationController
                                            IcimsCandidateImportMailer,
                                            params)
     service.import
-    @candidate = service.candidate
-    @import = service.imported_result
+    @candidate_retry_presenter = Icims::CandidateRetryImportsPresenter.new(service.candidate,
+                                                                           service.imported_result)
   end
 
   private
@@ -20,4 +20,5 @@ class IcimsCandidateRetryImportsController < ApplicationController
   def connection
     current_user.icims_connection
   end
+
 end
