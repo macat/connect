@@ -1,20 +1,34 @@
 module Icims
   class CandidateRetryImportsPresenter
+    DEFAULT_ERROR_MESSAGE = 'Check your email for details on errors'
+
     def initialize(candidate, imported_result)
       @candidate = candidate
       @imported_result = imported_result
     end
 
     def successful_import?
-      imported_result.success? || false
+      if imported_result
+        imported_result.success?
+      else
+        false
+      end
     end
 
     def candidate_name
-      candidate.name || ''
+      if candidate
+        candidate.name
+      else
+        ''
+      end
     end
 
     def import_error
-      imported_result.error || 'Check your email for details on errors'
+      if imported_result
+        imported_result.error
+      else
+        DEFAULT_ERROR_MESSAGE
+      end
     end
 
     private
