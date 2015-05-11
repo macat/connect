@@ -1,7 +1,11 @@
 class IcimsCandidateRetryImportsController < ApplicationController
   def show
-    @candidate = Icims::Client.new(connection).candidate(params[:id])
-    @import = namely_importer.single_import(@candidate)
+    service = Icims::CandidateImporter.new(connection,
+                                           IcimsCandidateImportMailer,
+                                           params)
+    service.import
+    @candidate = service.candidate
+    @import = service.imported_result
   end
 
   private
