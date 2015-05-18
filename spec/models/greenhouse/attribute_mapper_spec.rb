@@ -1,4 +1,4 @@
-require "rails_helper"
+require_relative '../../../app/models/greenhouse/attribute_mapper'
 
 describe Greenhouse::AttributeMapper do
   subject(:mapper) { described_class.new }
@@ -18,8 +18,8 @@ describe Greenhouse::AttributeMapper do
       )
     end
 
-    context 'handle missing none mandatory fields' do 
-      it 'return default values when not present in payload' do 
+    context 'handle missing none mandatory fields' do
+      it 'return default values when not present in payload' do
         greenhouse_candidate = JSON.parse(File.read('spec/fixtures/api_requests/greenhouse_payload_missing.json'))['payload']
 
         expect(mapper.call(greenhouse_candidate)).to eq(
@@ -31,11 +31,11 @@ describe Greenhouse::AttributeMapper do
         )
       end
 
-      it 'return default values for address if nil' do 
+      it 'return default values for address if nil' do
         greenhouse_candidate = {'application' => {
           'candidate' => {
-            'first_name' => 'Johnny', 
-            'last_name' => 'Smith', 
+            'first_name' => 'Johnny',
+            'last_name' => 'Smith',
             'email_addresses' => [{'type' => 'personal' ,'value' => 'personal@example.com'}],
             'addresses' => nil
           }, 'id' => 'greenhouse_id'}}
@@ -49,11 +49,11 @@ describe Greenhouse::AttributeMapper do
         )
       end
 
-      it 'return default blank for email if nil' do 
+      it 'return default blank for email if nil' do
         greenhouse_candidate = {'application' => {
           'candidate' => {
-            'first_name' => 'Johnny', 
-            'last_name' => 'Smith', 
+            'first_name' => 'Johnny',
+            'last_name' => 'Smith',
             'email_addresses' => nil,
             'addresses' => nil
           }, 'id' => 'greenhouse_id'}}
