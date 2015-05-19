@@ -1,4 +1,4 @@
-require_relative '../../../app/models/greenhouse/attribute_mapper'
+require 'rails_helper'
 
 describe Greenhouse::AttributeMapper do
   subject(:mapper) { described_class.new }
@@ -15,6 +15,10 @@ describe Greenhouse::AttributeMapper do
         start_date: "2015-01-23",
         home: "455 Broadway New York, NY 10280",
         greenhouse_id: "20",
+        desired_level: 'Senior',
+        favorite_programming_language: 'Rails',
+        approved: true,
+        employment_type: 'Full-time'
       )
     end
 
@@ -28,6 +32,10 @@ describe Greenhouse::AttributeMapper do
           email: "personal@example.com",
           user_status: "active",
           greenhouse_id: "20",
+          desired_level: 'Senior',
+          favorite_programming_language: 'Rails',
+          approved: true,
+          employment_type: 'Full-time'
         )
       end
 

@@ -9,7 +9,7 @@ module Greenhouse
         start_date: offer_for(application_for(payload)).fetch('starts_at'),
         home: home_address_for(candidate_for(application_for(payload))),
         namely_identifier_field => identifier(application_for(payload)).to_s,
-      }.select { |_, value| value.present? }
+      }.merge(identify_fields(payload)).select { |_, value| value.present? }
     end
 
     def namely_identifier_field
@@ -17,6 +17,10 @@ module Greenhouse
     end
 
     private
+
+    def identify_fields(payload)
+      Greenhouse::CustomFieldsIdentifier.identify(payload)
+    end
 
     def candidate_for(payload)
       payload.fetch('candidate')
@@ -32,12 +36,12 @@ module Greenhouse
 
     def email_for(payload)
       email = payload.fetch('email_addresses', [])
-      if email 
+      if email
         email = email.find do |email_address|
           email_address.fetch('type') == "personal"
         end || {}
         email.fetch('value')
-      else 
+      else
         ''
       end
     end
@@ -48,12 +52,12 @@ module Greenhouse
 
     def home_address_for(candidate)
       home_address = candidate.fetch('addresses', [])
-      if home_address 
-        home_address = home_address.find do |address| 
+      if home_address
+        home_address = home_address.find do |address|
           address.fetch('type') == "home"
         end || {}
         home_address.fetch('value', '')
-      else 
+      else
         ''
       end
     end
