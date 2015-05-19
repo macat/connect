@@ -20,9 +20,9 @@ describe Greenhouse::CustomFieldsIdentifier do
     }
   end
 
-  describe '#fields_name' do
+  describe '#field_names' do
     it 'returns the custom field names found' do
-      expect(fields_identifier.fields_name).to eql [:favorite_languages,
+      expect(fields_identifier.field_names).to eql [:favorite_languages,
                                                     :level, :offer]
     end
   end

@@ -12,7 +12,7 @@ module Greenhouse
       custom_fields_for(candidate_node).merge(custom_fields_for(job_node))
     end
 
-    def fields_name
+    def field_names
       to_h.keys
     end
 
