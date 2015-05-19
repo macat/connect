@@ -1,1 +1,9 @@
 You have successfully added <%= @candidate_name %> to Namely
+
+We successfully identified the following custom fields for your payload:
+
+<% @identified_fields.each do |identified_field| %>
+  <%= identified_field.to_s %>
+<% end %>
+
+We are going to import those values as soon as you add them to Namely.

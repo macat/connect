@@ -1,7 +1,8 @@
 class GreenhouseCandidateImportMailer < ApplicationMailer
-  def successful_import(user, candidate_name)
-    @user = user 
-    mail to: @user.email, subject: t(".subject", name: candidate_name) 
+  def successful_import(user, candidate_name, identified_fields)
+    @user = user
+    @identified_fields = identified_fields
+    mail to: @user.email, subject: t(".subject", name: candidate_name)
   end
 
   def unsuccessful_import(user, candidate_name, status)
