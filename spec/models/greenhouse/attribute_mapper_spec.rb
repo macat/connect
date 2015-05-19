@@ -18,7 +18,9 @@ describe Greenhouse::AttributeMapper do
         desired_level: 'Senior',
         favorite_programming_language: 'Rails',
         approved: true,
-        employment_type: 'Full-time'
+        employment_type: 'Full-time',
+        salary: {"amount" => 80000, "unit" => "USD"},
+        seasons: ["Season 1", "Season 2"]
       )
     end
 
