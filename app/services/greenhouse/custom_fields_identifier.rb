@@ -9,7 +9,8 @@ module Greenhouse
     end
 
     def to_h
-      custom_fields_for(candidate_node).merge(custom_fields_for(job_node))
+      custom_fields_for(candidate_node).merge(
+        custom_fields_for(job_node)).merge(custom_fields_for(offer_node))
     end
 
     def field_names
@@ -28,6 +29,10 @@ module Greenhouse
 
     def job_node
       application_node.fetch('job', {})
+    end
+
+    def offer_node
+      application_node.fetch('offer', {})
     end
 
     def custom_fields_for(node)

@@ -15,6 +15,11 @@ describe Greenhouse::CustomFieldsIdentifier do
           'custom_fields' => {
             'offer' => { 'value' => '' }
           }
+        },
+        'offer' => {
+          'custom_fields' => {
+            'another_offer' => { 'value' => '' }
+          }
         }
       }
     }
@@ -23,7 +28,7 @@ describe Greenhouse::CustomFieldsIdentifier do
   describe '#field_names' do
     it 'returns the custom field names found' do
       expect(fields_identifier.field_names).to eql [:favorite_languages,
-                                                    :level, :offer]
+                                                    :level, :offer, :another_offer]
     end
   end
 end
