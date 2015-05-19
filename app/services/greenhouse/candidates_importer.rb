@@ -21,8 +21,10 @@ module Greenhouse
       else
         import = namely_importer.single_import(greenhouse_payload)
         if import.success?
-          mailer.delay.successful_import(user, candidate_name.to_s)
-        else 
+          mailer.delay.successful_import(user,
+                                         candidate_name.to_s,
+                                         identified_custom_fields)
+        else
           mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
         end
       end
@@ -44,6 +46,10 @@ module Greenhouse
 
     def user
       connection.user
+    end
+
+    def identified_custom_fields
+      CustomFieldsIdentifier.new(greenhouse_payload).field_names
     end
 
     def namely_importer
