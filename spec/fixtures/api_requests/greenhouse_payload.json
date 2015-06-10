@@ -18,7 +18,7 @@
         "last_name": "Smith",
         "title": "Previous Title",
         "phone_numbers": [
-          { 
+          {
             "value": "518-555-1212",
             "type": "work"
           },
@@ -28,7 +28,7 @@
           }
         ],
         "email_addresses": [
-          { 
+          {
             "value": "personal@example.com",
             "type": "personal"
           },
@@ -38,7 +38,7 @@
           }
         ],
         "addresses": [
-          { 
+          {
             "value": "455 Broadway New York, NY 10280",
             "type": "home"
           }
@@ -72,13 +72,13 @@
         "close_date": "2014-11-25T22:49:14Z",
         "requisition_id": null,
         "departments": [
-          { // May repeat
+          {
             "id": 7,
             "name": "Technology"
           }
         ],
         "offices": [
-          { // May repeat
+          {
             "id": 13,
             "name": "New York City",
             "location": {
