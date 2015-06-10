@@ -39,21 +39,6 @@ RSpec.describe Greenhouse::Connection, :type => :model do
       expect(greenhouse_connection).not_to have_received(:check_namely_field)
     end
 
-    it "checks and caches required namely field status" do
-      greenhouse_connection = create(
-        :greenhouse_connection,
-        :connected,
-        found_namely_field: false,
-      )
-      greenhouse_field = double("greenhouse_field", name: "greenhouse_id")
-      allow(greenhouse_connection).
-        to receive_message_chain(:namely_connection, :fields, :all) {
-        [greenhouse_field]
-      }
-
-      expect(greenhouse_connection).not_to be_missing_namely_field
-      expect(greenhouse_connection).to be_found_namely_field
-    end
   end
 
   describe "#disconnect" do
