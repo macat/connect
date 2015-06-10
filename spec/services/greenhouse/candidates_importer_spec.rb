@@ -1,5 +1,5 @@
-require_relative '../../../app/policies/greenhouse/valid_requester_policy'
-require_relative '../../../app/services/greenhouse/candidates_importer'
+require_relative "../../../app/policies/greenhouse/valid_requester_policy"
+require_relative "../../../app/services/greenhouse/candidates_importer"
 
 describe Greenhouse::CandidatesImporter do
   let(:mailer) { double :mailer, delay: delay }

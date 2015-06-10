@@ -15,15 +15,16 @@ module Greenhouse
 
     def import
       if is_ping?
-        raise Unauthorized.new unless Greenhouse::ValidRequesterPolicy.
-          new(connection,
-              signature, params).valid?
+        raise Unauthorized.new unless Greenhouse::ValidRequesterPolicy.new(
+          connection,
+          signature, params).valid?
       else
         import = namely_importer.single_import(greenhouse_payload)
         if import.success?
-          mailer.delay.successful_import(user,
-                                         candidate_name.to_s,
-                                         identified_custom_fields)
+          mailer.delay.successful_import(
+            user,
+            candidate_name.to_s,
+            identified_custom_fields)
         else
           mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
         end

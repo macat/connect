@@ -1,4 +1,4 @@
-FactoryGirl.define do  
+FactoryGirl.define do
   factory :icims_connection, class: "Icims::Connection" do
     user
 
