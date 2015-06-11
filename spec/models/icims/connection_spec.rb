@@ -41,31 +41,4 @@ describe Icims::Connection do
       expect(icims_connection.username).to be_nil
     end
   end
-
-  describe "#missing_namely_field?" do
-    it "doesn't check when not connected" do
-      icims_connection = described_class.new
-      allow(icims_connection).to receive(:check_namely_field)
-
-      icims_connection.missing_namely_field?
-
-      expect(icims_connection).not_to have_received(:check_namely_field)
-    end
-
-    it "checks and caches required namely field status" do
-      icims_connection = create(
-        :icims_connection,
-        :connected,
-        found_namely_field: false,
-      )
-      icims_field = double("icims_field", name: "icims_id")
-      allow(icims_connection).
-        to receive_message_chain(:namely_connection, :fields, :all) {
-        [icims_field]
-      }
-
-      expect(icims_connection).not_to be_missing_namely_field
-      expect(icims_connection).to be_found_namely_field
-    end
-  end
 end

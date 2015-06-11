@@ -1,0 +1,105 @@
+{
+  "action": "hire_candidate",
+  "payload": {
+    "application": {
+      "id": 20,
+      "credited_to": {
+        "id": 57,
+        "email": "bob_johnson1@localhost.com",
+        "name": "Robert Johnson"
+      },
+      "source": {
+        "id": 25,
+        "public_name": "Monster"
+      },
+      "candidate": {
+        "id": 19,
+        "first_name": "Johnny",
+        "last_name": "Smith",
+        "title": "Previous Title",
+        "phone_numbers": [
+          { 
+            "value": "518-555-1212",
+            "type": "work"
+          },
+          {
+            "value": "212-555-1212",
+            "type": "home"
+          }
+        ],
+        "email_addresses": [
+          { 
+            "value": "personal@example.com",
+            "type": "personal"
+          },
+          {
+            "value": "work@example.com",
+            "type": "work"
+          }
+        ],
+        "recruiter": {
+          "id": 55,
+          "email": "bob_johnson@localhost.com",
+          "name": "Bob Johnson"
+        },
+        "coordinator": {
+          "id": 56,
+          "email": "bob_johnson_approver1@localhost.com",
+          "name": "Robert J Approver"
+        },
+        "custom_fields": {
+          "desired_level": {
+            "name": "Desired Level",
+            "type": "short_text",
+            "value": "Senior"
+          },
+          "favorite_programming_language": {
+            "name": "Favorite Programming Language",
+            "type": "short_text",
+            "value": "Rails"
+          }}
+      },
+      "job": {
+        "id": 20,
+        "name": "Developer",
+        "open_date": "2014-11-20T22:49:14Z",
+        "close_date": "2014-11-25T22:49:14Z",
+        "requisition_id": null,
+        "departments": [
+          { // May repeat
+            "id": 7,
+            "name": "Technology"
+          }
+        ],
+        "offices": [
+          { // May repeat
+            "id": 13,
+            "name": "New York City",
+            "location": {
+              "name": "New York, NY"
+            }
+          },
+          {
+            "id": 14,
+            "name": "St. Louis",
+            "location": null
+          }
+        ],
+        "custom_fields": {
+          "approved": {
+            "name": "Approved",
+            "type": "boolean",
+            "value": true
+          },
+          "employment_type": {
+            "name": "Employment Type",
+            "type": "single_select",
+            "value": "Full-time"
+          }
+        }
+      },
+      "opening": {
+        "opening_id": "1234-56"
+      }
+    }}
+}

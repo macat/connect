@@ -8,20 +8,20 @@ describe Icims::CandidateImporter do
   let(:namely_conn) { double :namely_conn, profiles: namely_profiles }
   let(:params) { {} }
 
-  describe '#import' do
+  describe "#import" do
     let(:delayed) { double :delayed }
     let(:candidate) { double :candidate,
                       id: -1,
-                      firstname: 'Bob',
-                      lastname: 'Burgers',
-                      email: 'example@email.com',
-                      start_date: 'start_date',
-                      gender: 'Alien',
-                      home_address: 'Et'}
+                      firstname: "Bob",
+                      lastname: "Burgers",
+                      email: "example@email.com",
+                      start_date: "start_date",
+                      gender: "Alien",
+                      home_address: "Et" }
 
-    context 'when importing successfully' do
+    context "when importing successfully" do
       let(:namely_profiles) { double :profiles, create!: true }
-      it 'enqueue a successful mail delivery' do
+      it "enqueue a successful mail delivery" do
         allow_any_instance_of(Icims::Client).to receive(:candidate) { candidate }
         expect(delayed).to receive(:successful_import).with(user,
                                                             candidate)
@@ -29,9 +29,9 @@ describe Icims::CandidateImporter do
       end
     end
 
-    context 'when unsucessful import' do
+    context "when unsucessful import" do
       let(:namely_profiles) { double :profiles }
-      it 'enqueue an unsuccessful mail delivery' do
+      it "enqueue an unsuccessful mail delivery" do
         allow_any_instance_of(Icims::Client).to receive(:candidate) { candidate }
         allow(namely_profiles).
           to(receive(:create!) { raise Namely::FailedRequestError.new })
@@ -41,13 +41,13 @@ describe Icims::CandidateImporter do
       end
     end
 
-    context 'when unauthorized credentials in icims' do
+    context "when unauthorized credentials in icims" do
       let(:namely_profiles) { double :profiles }
-      it 'enqueue an unauthorized email' do
+      it "enqueue an unauthorized email" do
         allow_any_instance_of(Icims::Client).
-          to(receive(:candidate) { raise Icims::Client::Error.new 'Unauthorized'})
+          to(receive(:candidate) { raise Icims::Client::Error.new "Unauthorized"})
 
-        expect(delayed).to receive(:unauthorized_import).with(user, 'Unauthorized')
+        expect(delayed).to receive(:unauthorized_import).with(user, "Unauthorized")
         service.import
       end
     end

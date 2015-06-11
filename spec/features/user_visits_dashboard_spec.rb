@@ -119,6 +119,53 @@ feature "User visits their dashboard" do
     end
   end
 
+  context "with a Greenhouse connection, but no Greenhouse field on Namely" do
+    scenario "user is told that the Greenhouse field is missing" do
+      stub_namely_request("fields_without_greenhouse")
+      user = create(:user)
+      create(
+        :greenhouse_connection,
+        :connected,
+        user: user,
+        found_namely_field: false,
+      )
+
+      visit dashboard_path(as: user)
+
+      within(".greenhouse-account") do
+        expect(page).to have_content t(
+          "dashboards.show.missing_namely_field",
+          name: "greenhouse_id",
+        )
+      end
+    end
+  end
+
+  context "with a Greenhouse connection, and Greenhouse field exists on Namely" do
+    scenario "user can see the response url" do
+      allow(SecureRandom).to receive(:hex).and_return("secret_key")
+      stub_namely_request("fields_with_greenhouse")
+      user = create(:user)
+      connection = create(
+        :greenhouse_connection,
+        :connected,
+        user: user,
+        found_namely_field: true,
+      )
+
+      visit dashboard_path(as: user)
+
+      within(".greenhouse-account") do
+        expect(page).not_to have_content t(
+          "dashboards.show.missing_namely_field",
+          name: "greenhouse_id",
+        )
+        expect(page).
+          to have_content(greenhouse_candidate_imports_url(connection.secret_key))
+      end
+    end
+  end
+
   def stub_namely_request(fixture_file)
     stub_request(:get, /.*api\/v1\/profiles\/fields/)
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/#{ fixture_file }.json"))

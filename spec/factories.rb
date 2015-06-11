@@ -27,6 +27,24 @@ FactoryGirl.define do
     end
   end
 
+  factory :greenhouse_connection, class: "Greenhouse::Connection" do
+    user
+
+    trait :connected do
+      name "MY NAME"
+      secret_key "MY_TOKEN"
+    end
+
+    trait :disconnected do
+      name nil
+      secret_key nil
+    end
+
+    trait :with_namely_field do
+      found_namely_field true
+    end
+  end
+
   factory :user do
     sequence(:namely_user_id) { |n| "NAMELY-USER-#{n}" }
     subdomain ENV.fetch("TEST_NAMELY_SUBDOMAIN")
