@@ -8,10 +8,10 @@
 <section>
   <%= simple_form_for @jobvite_connection, html: {class: 'stacked'} do |f| %>
     <div class="form-row">
-      <%= f.input :api_key, placeholder: 'API Key', input_html: {class: 'half'} %>
+      <%= f.input :api_key, input_html: {class: 'half'} %>
     </div>
     <div class="form-row">
-      <%= f.input :secret, placeholder: 'Secret', input_html: {class: 'half'} %>
+      <%= f.input :secret, input_html: {class: 'half'} %>
     </div>
     <div class="-n-actions">
       <%= button_tag(type: 'submit', class: '-n-btn') do %>

@@ -1,0 +1,59 @@
+en:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+
+    labels:
+      icims_connection:
+        customer_id: "Customer ID"
+        key: "HMAC Key"
+        username: "Username"
+      greenhouse_connection:
+        name: "Name"
+      jobvite_connection:
+        api_key: "API key"
+        secret: "Secret"
+      namely_authentication:
+        subdomain: Subdomain
+    placeholders:
+      greenhouse_connection:
+        name: "Name"
+        secret_key: "Secret key"
+      icims_connection:
+        username: "Username"
+        key: "Key"
+        customer_id: "Customer ID"
+      jobvite_connection:
+        api_key: "API key"
+        secret: "Secret"
+      namely_authentication:
+        subdomain: yourcompany
+
+
+    # Examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+    # include_blanks:
+    #   defaults:
+    #     age: 'Rather not say'
+    # prompts:
+    #   defaults:
+    #     age: 'Select your age'

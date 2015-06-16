@@ -7,10 +7,10 @@
 
 <%= simple_form_for @greenhouse_connection, html: { class: "stacked" } do |f| %>
   <div class="form-row">
-    <%= f.input :name, placeholder: "Name", input_html: { class: "half" } %>
+    <%= f.input :name, input_html: { class: "half" } %>
   </div>
   <div class="form-row">
-    <%= f.input :secret_key, disabled: true, placeholder: "Secret Key", input_html: { class: "half" } %>
+    <%= f.input :secret_key, disabled: true, input_html: { class: "half" } %>
   </div>
   <div class="-n-actions">
     <%= button_tag(type: "submit", class: "-n-btn") do %>

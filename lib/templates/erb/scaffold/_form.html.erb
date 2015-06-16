@@ -1,0 +1,14 @@
+<%%= simple_form_for @<%= singular_table_name %>, html: { class: "stacked" } do |f| %>
+  <%- attributes.each do |attribute| -%>
+    <div class="form-row">
+      <%%= f.<%= attribute.reference? ? :association : :input %> :<%= attribute.name %>, input-html: { class: "half" } %>
+    </div>
+  <%- end -%>
+  </div>
+
+  <div class="-n-actions">
+    <%%= button_tag(type: "submit", class: "-n-btn") do %>
+      <%%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <%% end %>
+  </div>
+<%% end %>

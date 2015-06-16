@@ -7,13 +7,13 @@
 
 <%= simple_form_for @icims_connection, html: { class: "stacked" } do |f| %>
   <div class="form-row">
-    <%= f.input :username, placeholder: "Username", input_html: { class: "half" } %>
+    <%= f.input :username, input_html: { class: "half" } %>
   </div>
   <div class="form-row">
-    <%= f.input :key, placeholder: "Key", input_html: { class: "half" } %>
+    <%= f.input :key, input_html: { class: "half" } %>
   </div>
   <div class="form-row">
-    <%= f.input :customer_id, placeholder: "Customer ID", input_html: { class: "half" } %>
+    <%= f.input :customer_id, input_html: { class: "half" } %>
   </div>
   <div class="-n-actions">
     <%= button_tag(type: "submit", class: "-n-btn") do %>

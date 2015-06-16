@@ -98,24 +98,6 @@ en:
       email_address_title: "Email Address"
       reason: "Reason"
 
-  simple_form:
-    labels:
-      icims_connection:
-        customer_id: "Customer ID"
-        key: "HMAC Key"
-        username: "Username"
-      greenhouse_connection: 
-        name: "Name"
-      jobvite_connection:
-        api_key: "API key"
-        hired_workflow_state: "Workflow state of hired candidates"
-        secret: "Secret"
-      namely_authentication:
-        subdomain: Subdomain
-    placeholders:
-      namely_authentication:
-        subdomain: yourcompany
-
   status:
     client_error: "Service error: %{message}"
     missing_required_field: "Missing required fields [%{message}]"
