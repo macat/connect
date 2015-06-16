@@ -5,7 +5,13 @@
   <p><%= t(".slogan") %></p>
 </section>
 
-<%= simple_form_for @icims_connection, html: { class: "stacked" } do |f| %>
+<%= simple_form_for(
+  @connection_form,
+  as: :icims_connection,
+  url: icims_connection_path(@connection),
+  method: :put,
+  html: { class: "stacked" }
+) do |f| %>
   <div class="form-row">
     <%= f.input :username, input_html: { class: "half" } %>
   </div>

@@ -32,15 +32,18 @@ en:
         name: "Name"
         secret_key: "Secret key"
       icims_connection:
-        username: "Username"
-        key: "Key"
         customer_id: "Customer ID"
+        key: "HMAC Key"
+        username: "Username"
       jobvite_connection:
         api_key: "API key"
         secret: "Secret"
       namely_authentication:
         subdomain: yourcompany
-
+      net_suite_connection:
+        account_id: "Account ID"
+        email: "Email"
+        password: "Password"
 
     # Examples
     # labels:

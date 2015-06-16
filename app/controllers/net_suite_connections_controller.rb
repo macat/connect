@@ -1,27 +1,18 @@
 class NetSuiteConnectionsController < ApplicationController
-  def edit
-    net_suite_connection_request
-  end
-
-  def update
-    if net_suite_connection_request.update(request_params)
-      redirect_to dashboard_path
-    else
-      render :edit
-    end
-  end
+  #require "base_connections_controller"
+  include BaseConnectionsController
 
   private
 
-  def net_suite_connection_request
-    @net_suite_connection_request ||= NetSuite::ConnectionRequest.new(
-      client: client,
-      connection: net_suite_connection
-    )
+  def connection_type
+    :net_suite_connection
   end
 
-  def net_suite_connection
-    @net_suite_connection ||= current_user.net_suite_connection
+  def connection_form
+    @connection_form ||= NetSuite::ConnectionForm.new(
+      client: client,
+      connection: connection
+    )
   end
 
   def client
@@ -31,9 +22,7 @@ class NetSuiteConnectionsController < ApplicationController
     )
   end
 
-  def request_params
-    params.
-      require(:net_suite_connection).
-      permit(:account_id, :email, :password)
+  def form_params_keys
+    [:account_id, :email, :password]
   end
 end

@@ -1,5 +1,5 @@
 module NetSuite
-  class ConnectionRequest
+  class ConnectionForm
     include ActiveModel::Model
 
     attr_accessor :account_id, :email, :password

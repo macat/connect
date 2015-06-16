@@ -1,31 +1,18 @@
 class IcimsConnectionsController < ApplicationController
-  def edit
-    icims_connection
-  end
-
-  def update
-    ConnectionUpdater.new(icims_connection_params, icims_connection).update
-    redirect_to dashboard_path
-  rescue ConnectionUpdater::UpdateFailed
-    render :edit
-  end
-
-  def destroy
-    icims_connection.disconnect
-    redirect_to dashboard_path
-  end
+  #require "base_connections_controller"
+  include BaseConnectionsController
 
   private
 
-  def icims_connection_params
-    params.require(:icims_connection).permit(
-      :customer_id,
-      :key,
-      :username,
-    )
+  def connection_type
+    :icims_connection
   end
 
-  def icims_connection
-    @icims_connection ||= current_user.icims_connection
+  def connection_form_class
+    Icims::ConnectionForm
+  end
+
+  def form_params_keys
+    [:customer_id, :key, :username]
   end
 end

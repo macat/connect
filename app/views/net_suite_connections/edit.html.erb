@@ -6,7 +6,13 @@
 </section>
 
 <section>
-  <%= simple_form_for @net_suite_connection_request, as: :net_suite_connection, url: net_suite_connection_path(@net_suite_connection), method: :put, html: {class: 'stacked'} do |f| %>
+  <%= simple_form_for(
+    @connection_form,
+    as: :net_suite_connection,
+    url: net_suite_connection_path(@connection),
+    method: :put,
+    html: {class: 'stacked'}
+  ) do |f| %>
     <%= f.error :base %>
     <div class="form-row">
       <%= f.input :account_id, input_html: {class: 'half'} %>
