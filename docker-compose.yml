@@ -12,6 +12,8 @@ web:
     SECRET_KEY_BASE: development_secret
     NAMELY_CLIENT_ID: client_id
     NAMELY_CLIENT_SECRET: secret
+    CLOUD_ELEMENTS_ORGANIZATION_SECRET: aa
+    CLOUD_ELEMENTS_USER_SECRET: aa
     HOST: http://host
     TEST_JOBVITE_KEY: aa
     TEST_JOBVITE_SECRET: aa

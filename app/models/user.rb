@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_one :jobvite_connection, class_name: "Jobvite::Connection"
   has_one :icims_connection, class_name: "Icims::Connection"
   has_one :greenhouse_connection, class_name: "Greenhouse::Connection"
+  has_one :net_suite_connection, class_name: "NetSuite::Connection"
 
   def full_name
     Users::UserWithFullName.new(self).full_name
@@ -17,6 +18,10 @@ class User < ActiveRecord::Base
 
   def greenhouse_connection
     super || Greenhouse::Connection.create(user: self)
+  end
+
+  def net_suite_connection
+    super || NetSuite::Connection.create(user: self)
   end
 
   def namely_connection

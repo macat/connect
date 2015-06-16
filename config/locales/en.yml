@@ -31,6 +31,8 @@ en:
         update: "Connect"
       jobvite_connection:
         update: "Connect"
+      net_suite_connection:
+        update: "Connect"
       namely_authentication:
         submit: "Sign in"
     link_to:
@@ -85,6 +87,14 @@ en:
   jobvite_connections:
     edit:
       title: "Jobvite"
+      slogan: "Please fill out the following fields to connect to this application."
+
+  net_suite_connections:
+    description:
+      connected: Connected NetSuite Description
+      disconnected: Disconnected NetSuite Description
+    edit:
+      title: "NetSuite"
       slogan: "Please fill out the following fields to connect to this application."
 
   jobvite_imports:

@@ -4,6 +4,7 @@ describe User do
   describe "associations" do
     it { should have_one(:jobvite_connection) }
     it { should have_one(:icims_connection) }
+    it { should have_one(:net_suite_connection) }
   end
 
   describe "#jobvite_connection" do
@@ -23,6 +24,30 @@ describe User do
       expect(jobvite_connection).to be_a Jobvite::Connection
       expect(jobvite_connection).to be_persisted
       expect(jobvite_connection.user_id).to eq user.id
+    end
+  end
+
+  describe "#net_suite_connection" do
+    context "with an existing connection" do
+      it "returns the existing connection" do
+        user = create(:user)
+
+        net_suite_connection = create(:net_suite_connection, user: user)
+
+        expect(user.net_suite_connection).to eq net_suite_connection
+      end
+    end
+
+    context "with no existing connection" do
+      it "creates a new connection" do
+        user = create(:user)
+
+        net_suite_connection = user.net_suite_connection
+
+        expect(net_suite_connection).to be_a NetSuite::Connection
+        expect(net_suite_connection).to be_persisted
+        expect(net_suite_connection.user_id).to eq user.id
+      end
     end
   end
 

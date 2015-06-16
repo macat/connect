@@ -38,6 +38,7 @@ end
 group :test do
   gem "capybara_discoball", github: "thoughtbot/capybara_discoball"
   gem "capybara-webkit", ">= 1.2.0"
+  gem "climate_control"
   gem "database_cleaner"
   gem "formulaic"
   gem "headless"

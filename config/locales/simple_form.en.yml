@@ -21,6 +21,10 @@ en:
       jobvite_connection:
         api_key: "API key"
         secret: "Secret"
+      net_suite_connection:
+        account_id: "Account ID"
+        email: "Email"
+        password: "Password"
       namely_authentication:
         subdomain: Subdomain
     placeholders:

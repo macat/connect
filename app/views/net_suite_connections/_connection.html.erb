@@ -1,0 +1,22 @@
+<% if connection.enabled? %>
+  <article class="connection net-suite-account">
+    <% if connection.connected? %>
+      <h3>
+        <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
+      </h3>
+      <p>
+        <%= t("net_suite_connections.description.connected") %>
+      </p>
+    <% else %>
+      <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm" do %>
+        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+      <% end %>
+      <h3>
+        <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
+      </h3>
+      <p>
+        <%= t("net_suite_connections.description.disconnected") %>
+      </p>
+    <% end %>
+  </article>
+<% end %>

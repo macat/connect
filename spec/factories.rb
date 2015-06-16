@@ -1,4 +1,13 @@
 FactoryGirl.define do
+  factory :net_suite_connection, :class => 'NetSuite::Connection' do
+    user
+
+    trait :connected do
+      instance_id "123xy"
+      authorization "abc12z"
+    end
+  end
+
   factory :icims_connection, class: "Icims::Connection" do
     user
 

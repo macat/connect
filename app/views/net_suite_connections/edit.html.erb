@@ -1,0 +1,27 @@
+<%= render "subnav" %>
+
+<section id="subheader">
+  <h1><%= t(".title") %></h2>
+  <p><%= t(".slogan") %></p>
+</section>
+
+<section>
+  <%= simple_form_for @net_suite_connection_request, as: :net_suite_connection, url: net_suite_connection_path(@net_suite_connection), method: :put, html: {class: 'stacked'} do |f| %>
+    <%= f.error :base %>
+    <div class="form-row">
+      <%= f.input :account_id, input_html: {class: 'half'} %>
+    </div>
+    <div class="form-row">
+      <%= f.input :email, input_html: {class: 'half'} %>
+    </div>
+    <div class="form-row">
+      <%= f.input :password, input_html: {class: 'half'} %>
+    </div>
+    <div class="-n-actions">
+      <%= button_tag(type: 'submit', class: '-n-btn') do %>
+        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+
