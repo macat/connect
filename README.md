@@ -11,30 +11,83 @@ Planned integrations:
 
 ## Getting set up
 
-0. Install Docker & Docker Machine & Docker Compose
+### 0. Install VirtualBox
+
+Download from the [VirtualBox
+downloads](https://www.virtualbox.org/wiki/Downloads) page.
+
+### 1. Install Docker & boot2docker  & Docker Machine & Docker Compose
 
 osx:
 ```sh
 brew install docker-compose
 ```
 
-1. Build docker image
+### 2. Initialize and boot Docker container with `boot2docker`
+
+osx:
+```sh
+boot2docker init
+boot2docker up
+```
+
+### 3. Build docker image
 
 ```sh
 docker-compose build
 ```
 
-2. Run all services
+### 4. Run all services
 
 ```sh
 docker-compose up
 ```
 
-3. Run the tests:
+### 5. Set-up the database
+
+```sh
+docker-compose run rake db:setup
+```
+
+### 6. Run the tests:
 
 ```sh
 docker-compose run web rake
 ```
+
+### 7. Required accounts
+
+Make sure you have accounts or access for the following:
+
+* Heroku Staging
+* Namely (likely on a sandbox)
+
+### 8. Project-specific accounts
+
+Depending on what manner of integration you will be working on, you may also
+need one or more of the following:
+
+* NetSuite if you're adding a new NetSuite integration or working on an existing
+  NetSuite integration
+* Cloud Elements if you're working with a NetSuite integration or another
+  integration that works with Cloud Elements
+* Jobvite
+
+### Connecting API client
+
+* Log into the Sandbox
+* Go to "API" from the profile dropdown (looks like a person's head next to the
+  search bar)
+* Click "New API Client"
+* Fill in the form
+  * Name: Connect
+  * Website: `<name>-sandbox.namely.com`
+  * Redirect URI: `http://localhost:<port>/session/oauth_callback`
+* Make a note of the Client Identifier and Client Secret and add those to the
+  `web/environment` section of `docker-compose.yml` as `NAMELY_CLIENT_ID` and
+  `NAMELY_CLIENT_SECRET`
+
+## Test fixtures
 
 When changing feature specs that make API calls, you will need to rebuild one or
 more VCR fixtures (in `spec/fixtures/vcr_cassettes`). When running these specs
