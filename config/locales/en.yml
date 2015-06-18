@@ -23,9 +23,6 @@ en:
   subheader:
     slogan: "Namely Connect allows you to seamlessly integrate with 3rd party sites."
 
-  exceptions:
-    unimplemented_abstract_method: "You need to implement #%{method_name} in your connections controller."
-
   helpers:
     submit:
       icims_connection:

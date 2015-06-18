@@ -12,6 +12,10 @@ module Icims
       @connection = connection
     end
 
+    def allowed_parameters
+      [:customer_id, :key, :username]
+    end
+
     def update(attributes)
       self.attributes = attributes
       valid? && @connection.update!(attributes)

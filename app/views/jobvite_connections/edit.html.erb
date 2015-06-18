@@ -9,7 +9,7 @@
   <%= simple_form_for(
     @connection_form,
     as: :jobvite_connection,
-    url: jobvite_connection_path(@connection),
+    url: connections_url(:jobvite_connection),
     method: :put,
     html: { class: "stacked" }
   ) do |f| %>

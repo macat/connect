@@ -11,6 +11,10 @@ module Jobvite
       @connection = connection
     end
 
+    def allowed_parameters
+      [:api_key, :secret]
+    end
+
     def update(attributes)
       self.attributes = attributes
       valid? && @connection.update!(attributes)

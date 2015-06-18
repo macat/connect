@@ -12,9 +12,9 @@
     <% if connection.found_namely_field? %>
       <%= button_to t("dashboards.show.import_now"), polymorphic_path([connection.namespace, :imports]), class: "-n-btn" %>
     <% end %>
-    <%= render "disconnect_button", path: polymorphic_path(connection.route_key) %>
+    <%= render "disconnect_button", path: destroy_connections_path(:jobvite_connection) %>
   <% else %>
-    <%= link_to polymorphic_path([:edit, connection.route_key]), class: "-n-btn -n-btn-sm" do %>
+    <%= link_to edit_connections_path(:jobvite_connection), class: "-n-btn -n-btn-sm" do %>
       <%= fa_icon "plug", text: t("dashboards.show.connect") %>
     <% end %>
     <h3>

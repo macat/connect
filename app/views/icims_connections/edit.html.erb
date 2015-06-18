@@ -8,7 +8,7 @@
 <%= simple_form_for(
   @connection_form,
   as: :icims_connection,
-  url: icims_connection_path(@connection),
+  url: connections_url(:icims_connection),
   method: :put,
   html: { class: "stacked" }
 ) do |f| %>

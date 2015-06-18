@@ -13,6 +13,10 @@ module NetSuite
       @client = client
     end
 
+    def allowed_parameters
+      [:account_id, :email, :password]
+    end
+
     def update(attributes)
       self.attributes = attributes
       valid? && create_instance

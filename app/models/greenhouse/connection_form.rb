@@ -11,6 +11,10 @@ module Greenhouse
       @secret_key = connection.secret_key
     end
 
+    def allowed_parameters
+      [:name, :secret_key]
+    end
+
     def update(attributes)
       self.attributes = attributes
       valid? && @connection.update!(attributes)
