@@ -5,7 +5,13 @@
   <p><%= t(".slogan") %></p>
 </section>
 
-<%= simple_form_for @greenhouse_connection, html: { class: "stacked" } do |f| %>
+<%= simple_form_for(
+  @connection_form,
+  as: :greenhouse_connection,
+  url: greenhouse_connection_path(@connection),
+  method: :put,
+  html: { class: "stacked" }
+) do |f| %>
   <div class="form-row">
     <%= f.input :name, input_html: { class: "half" } %>
   </div>

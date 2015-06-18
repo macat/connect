@@ -6,7 +6,13 @@
 </section>
 
 <section>
-  <%= simple_form_for @jobvite_connection, html: {class: 'stacked'} do |f| %>
+  <%= simple_form_for(
+    @connection_form,
+    as: :jobvite_connection,
+    url: jobvite_connection_path(@connection),
+    method: :put,
+    html: { class: "stacked" }
+  ) do |f| %>
     <div class="form-row">
       <%= f.input :api_key, input_html: {class: 'half'} %>
     </div>

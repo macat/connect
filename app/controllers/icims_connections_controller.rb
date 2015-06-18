@@ -1,5 +1,4 @@
 class IcimsConnectionsController < ApplicationController
-  #require "base_connections_controller"
   include BaseConnectionsController
 
   private

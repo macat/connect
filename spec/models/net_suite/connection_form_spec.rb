@@ -5,14 +5,14 @@ describe NetSuite::ConnectionForm do
     context "with valid information" do
       it "updates the connection from the response" do
         client = stub_client(success: true, id: "abc", token: "def")
-        request_attributes = valid_request_attributes
+        form_attributes = valid_form_attributes
         connection = stub_connection
-        request = NetSuite::ConnectionForm.new(
+        form = NetSuite::ConnectionForm.new(
           connection: connection,
           client: client
         )
 
-        result = request.update(request_attributes)
+        result = form.update(form_attributes)
 
         expect(result).to eq(true)
         expect(connection).to have_received(:update!).with(
@@ -20,7 +20,7 @@ describe NetSuite::ConnectionForm do
           authorization: "def"
         )
         expect(client).
-          to have_received(:create_instance).with(request_attributes)
+          to have_received(:create_instance).with(form_attributes)
       end
     end
 
@@ -28,17 +28,17 @@ describe NetSuite::ConnectionForm do
       it "adds validation messages" do
         client = stub_client(success: true)
         connection = stub_connection
-        request = NetSuite::ConnectionForm.new(
+        form = NetSuite::ConnectionForm.new(
           connection: connection,
           client: client
         )
 
-        result = request.update({})
+        result = form.update({})
 
         expect(result).to eq(false)
         expect(connection).not_to have_received(:update!)
         expect(client).not_to have_received(:create_instance)
-        expect(request.errors.full_messages).to match_array([
+        expect(form.errors.full_messages).to match_array([
           "Account can't be blank",
           "Email can't be blank",
           "Password can't be blank"
@@ -46,26 +46,26 @@ describe NetSuite::ConnectionForm do
       end
     end
 
-    context "when the server request fails" do
+    context "when the server form fails" do
       it "adds validation errors from the server" do
         client = stub_client(success: false, message: "oops")
         connection = stub_connection
-        request = NetSuite::ConnectionForm.new(
+        form = NetSuite::ConnectionForm.new(
           connection: connection,
           client: client
         )
 
-        result = request.update(valid_request_attributes)
+        result = form.update(valid_form_attributes)
 
         expect(result).to eq(false)
         expect(connection).not_to have_received(:update!)
-        expect(request.errors.full_messages).
+        expect(form.errors.full_messages).
           to eq(%w(oops))
       end
     end
   end
 
-  def valid_request_attributes
+  def valid_form_attributes
     { account_id: "a", email: "b", password: "c" }
   end
 

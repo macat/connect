@@ -1,27 +1,17 @@
 class GreenhouseConnectionsController < ApplicationController
-  def edit
-    greenhouse_connection
-  end
-
-  def update
-    ConnectionUpdater.new(greenhouse_connection_params, greenhouse_connection).update
-    redirect_to dashboard_path
-  rescue ConnectionUpdater::UpdateFailed
-    render :edit
-  end
-
-  def destroy
-    greenhouse_connection.disconnect
-    redirect_to dashboard_path
-  end
+  include BaseConnectionsController
 
   private
 
-  def greenhouse_connection_params
-    params.require(:greenhouse_connection).permit(:name)
+  def connection_type
+    :greenhouse_connection
   end
 
-  def greenhouse_connection
-    @greenhouse_connection ||= current_user.greenhouse_connection
+  def connection_form_class
+    Greenhouse::ConnectionForm
+  end
+
+  def form_params_keys
+    [:name, :secret_key]
   end
 end
