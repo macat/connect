@@ -2,10 +2,12 @@ development: &default
   adapter: postgresql
   database: connect_development
   encoding: utf8
-  host: localhost
+  host: db
   min_messages: warning
-  pool: 2
+  pool: 10
+  port: 5432
   timeout: 5000
+  user: postgres
 
 test:
   <<: *default
