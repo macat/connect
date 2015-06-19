@@ -46,7 +46,7 @@ docker-compose up
 ### 5. Set-up the database
 
 ```sh
-docker-compose run rake db:setup
+docker-compose run web rake db:setup
 ```
 
 ### 6. Run the tests:
