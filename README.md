@@ -90,9 +90,8 @@ need one or more of the following:
 ## Test fixtures
 
 When changing feature specs that make API calls, you will need to rebuild one or
-more VCR fixtures (in `spec/fixtures/vcr_cassettes`). When running these specs
-without a saved VCR cassette, you will have to set the following environment
-variables in your `.env` file:
+more API fixtures (in `spec/fixtures`). When running these specs,
+you will have to set the following environment variables in your `.env` file:
 
 * `TEST_JOBVITE_KEY` and `TEST_JOBVITE_SECRET`: A valid Jobvite API key and
   secret.
