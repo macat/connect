@@ -9,12 +9,6 @@ module Greenhouse
       name.present?
     end
 
-    def missing_namely_field?
-      if connected?
-        UserCheckNamelyField.new(self).check?
-      end
-    end
-
     def disconnect
       update(name: nil)
     end

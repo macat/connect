@@ -29,18 +29,6 @@ RSpec.describe Greenhouse::Connection, :type => :model do
     end
   end
 
-  describe "#missing_namely_field?" do
-    it "doesn't check when not connected" do
-      greenhouse_connection = described_class.new
-      allow(greenhouse_connection).to receive(:check_namely_field)
-
-      greenhouse_connection.missing_namely_field?
-
-      expect(greenhouse_connection).not_to have_received(:check_namely_field)
-    end
-
-  end
-
   describe "#disconnect" do
     let(:greenhouse_connection) { create :greenhouse_connection,
                                   :connected, name: "crashoverride" }

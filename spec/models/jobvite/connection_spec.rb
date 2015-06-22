@@ -38,62 +38,6 @@ describe Jobvite::Connection do
     end
   end
 
-  describe "#missing_namely_field?" do
-    context "when the connection is not connected to Jobvite" do
-      it "returns false" do
-        connection = create(
-          :jobvite_connection,
-          :disconnected,
-          found_namely_field: false,
-        )
-
-        expect(connection).not_to be_missing_namely_field
-      end
-    end
-
-    context "when the field hasn't previously been found and does not exist" do
-      it "returns true" do
-        connection = create(
-          :jobvite_connection,
-          :connected,
-          found_namely_field: false,
-        )
-        stub_namely_connection(connection.user, field_names: [])
-
-        expect(connection).to be_missing_namely_field
-        expect(connection.reload.found_namely_field).to eq false
-      end
-    end
-
-    context "when the field hasn't previously been found but does exist" do
-      it "returns false and updates the connection" do
-        connection = create(
-          :jobvite_connection,
-          :connected,
-          found_namely_field: false,
-        )
-        stub_namely_connection(connection.user, field_names: ["jobvite_id"])
-
-        expect(connection).not_to be_missing_namely_field
-        expect(connection.reload.found_namely_field).to eq true
-      end
-    end
-
-    context "when the field has previously been found" do
-      it "returns false without hitting the Namely API" do
-        connection = create(
-          :jobvite_connection,
-          :connected,
-          found_namely_field: true,
-        )
-        stub_namely_connection(connection.user, field_names: ["jobvite_id"])
-
-        expect(connection).not_to be_missing_namely_field
-        expect(connection.user).not_to have_received(:namely_connection)
-      end
-    end
-  end
-
   def stub_namely_connection(user, field_names:)
     fields = field_names.map { |name| double("field", name: name) }
     fields_collection = double("fields", all: fields)
