@@ -19,6 +19,7 @@ module Greenhouse
 
     private
 
+    # TODO: refactor this method
     def basic_fields(payload)
       {
         first_name: candidate(payload).fetch("first_name"),
