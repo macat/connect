@@ -80,4 +80,52 @@ describe User do
       expect(user.access_token).to eql 'new_token'
     end
   end
+
+  describe ".ready_to_sync_with" do
+    it "returns users with a ready connection to the given integration" do
+      user = create(:user, first_name: "ready-with-given-service")
+      create(:net_suite_connection, :connected, :with_namely_field, user: user)
+      user = create(:user, first_name: "connected-without-field")
+      create(:net_suite_connection, :connected, user: user)
+      user = create(:user, first_name: "disconnected")
+      create(:net_suite_connection, user: user)
+      create(:user, first_name: "uninitialized")
+      user = create(:user, first_name: "ready-with-different-service")
+      create(:greenhouse_connection, :connected, :with_namely_field, user: user)
+
+      result = User.ready_to_sync_with(:net_suite)
+
+      expect(result.map(&:first_name)).to eq(%w(ready-with-given-service))
+    end
+  end
+
+  describe "#namely_profiles" do
+    it "returns profiles from its Namely connection" do
+      profiles = double(:namely_profiles)
+      stub_namely_connection profiles: profiles
+      user = User.new
+
+      result = user.namely_profiles
+
+      expect(result).to eq(profiles)
+    end
+  end
+
+  describe "#namely_fields" do
+    it "returns fields from its Namely connection" do
+      fields = double(:namely_fields)
+      stub_namely_connection fields: fields
+      user = User.new
+
+      result = user.namely_fields
+
+      expect(result).to eq(fields)
+    end
+  end
+
+  def stub_namely_connection(attributes)
+    namely_connection = double(:namely_connection, attributes)
+    allow(Namely::Connection).to receive(:new).and_return(namely_connection)
+    allow(Users::AccessTokenFreshener).to receive(:fresh_access_token)
+  end
 end

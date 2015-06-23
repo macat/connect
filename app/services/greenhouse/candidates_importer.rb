@@ -53,7 +53,7 @@ module Greenhouse
       NamelyImporter.new(
         namely_connection: user.namely_connection,
         attribute_mapper: Greenhouse::AttributeMapper.new(
-          user.namely_connection.fields.all
+          user.namely_fields.all
         )
       )
     end

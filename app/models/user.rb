@@ -4,6 +4,12 @@ class User < ActiveRecord::Base
   has_one :greenhouse_connection, class_name: "Greenhouse::Connection"
   has_one :net_suite_connection, class_name: "NetSuite::Connection"
 
+  def self.ready_to_sync_with(integration)
+    association = "#{integration}_connection"
+    joins(association.to_sym).
+      where(association.pluralize => { found_namely_field: true })
+  end
+
   def full_name
     Users::UserWithFullName.new(self).full_name
   end
@@ -22,6 +28,14 @@ class User < ActiveRecord::Base
 
   def net_suite_connection
     super || NetSuite::Connection.create(user: self)
+  end
+
+  def namely_profiles
+    namely_connection.profiles
+  end
+
+  def namely_fields
+    namely_connection.fields
   end
 
   def namely_connection

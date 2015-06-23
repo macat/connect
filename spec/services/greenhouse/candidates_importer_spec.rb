@@ -13,10 +13,14 @@ describe Greenhouse::CandidatesImporter do
   let(:secret_key) { 'secret_key' }
   let(:signature) { '120 signature' }
   let(:connection_repo) { double :connection_repo, find_by: connection }
-  let(:user) { double :user, namely_connection: namely_connection }
-  let(:namely_connection) do
-    double(:namely_connection, fields: double(:fields, all: namely_fields))
+  let(:user) do
+    double(
+      :user,
+      namely_connection: namely_connection,
+      namely_fields: double(:fields, all: namely_fields)
+    )
   end
+  let(:namely_connection) { double(:namely_connection) }
   let(:connection) { double :connection, user: user }
   subject(:candidates_importer) { described_class.new(mailer,
                                                       connection_repo,
