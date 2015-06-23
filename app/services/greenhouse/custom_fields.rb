@@ -13,7 +13,7 @@ module Greenhouse
       end
       @fields = Hash[supported.map do |_, field|
         if field_name = namely_field_by_label[field["name"]]
-          [field_name, convert(field)]
+          [field_name.to_sym, convert(field)]
         end
       end.compact]
     end

@@ -32,8 +32,8 @@ describe Greenhouse::CustomFields do
     end
     it "matches namely field name using title" do
       expect(described_class.match(payload_with_fields, namely_fields)).to eql(
-        "middle_name" => "test",
-        "job_title" => "ok"
+        middle_name: "test",
+        job_title: "ok"
       )
     end
   end
