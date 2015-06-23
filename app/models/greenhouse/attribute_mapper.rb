@@ -1,15 +1,14 @@
 module Greenhouse
   class AttributeMapper
+    # Initializes an attribute mapper using Namely Fields
+    def initialize(namely_fields)
+      @fields = namely_fields
+    end
+
     def call(payload)
-      {
-        first_name: candidate_for(application_for(payload)).fetch("first_name"),
-        last_name: candidate_for(application_for(payload)).fetch("last_name"),
-        email: email_for(candidate_for(application_for(payload))),
-        user_status: "active",
-        start_date: offer_for(application_for(payload)).fetch("starts_at"),
-        home: home_address_for(candidate_for(application_for(payload))),
-        namely_identifier_field => identifier(application_for(payload)).to_s,
-      }.merge(identify_fields(payload)).select { |_, value| value.present? }
+      custom_fields(payload).
+        merge(basic_fields(payload)).
+        select { |_, value| value.present? }
     end
 
     def namely_identifier_field
@@ -18,8 +17,26 @@ module Greenhouse
 
     private
 
-    def identify_fields(payload)
-      Greenhouse::CustomFieldsIdentifier.identify(payload)
+    def basic_fields(payload)
+      {
+        first_name: candidate_for(application_for(payload)).fetch("first_name"),
+        last_name: candidate_for(application_for(payload)).fetch("last_name"),
+        email: email_for(candidate_for(application_for(payload))),
+        user_status: "active",
+        start_date: offer_for(application_for(payload)).fetch("starts_at"),
+        home: home_address_for(candidate_for(application_for(payload))),
+        namely_identifier_field => identifier(application_for(payload)).to_s,
+        salary: salary_field(application_for(payload)),
+      }
+    end
+
+    def custom_fields(payload)
+      p = candidate_for(application_for(payload)).fetch("custom_fields", {})
+      if p.present?
+        Greenhouse::CustomFields.match(p, @fields)
+      else
+        {}
+      end
     end
 
     def candidate_for(payload)
@@ -32,6 +49,20 @@ module Greenhouse
 
     def application_for(payload)
       payload.fetch("application")
+    end
+
+    def salary_field(payload)
+      offer = offer_for(payload)
+      custom_fields = offer.fetch("custom_fields", {})
+      if custom_fields.present? && salary = custom_fields.fetch("salary")
+        {
+          yearly_amount: salary.fetch("value").fetch("amount"),
+          currency_type: salary.fetch("value").fetch("unit"),
+          date: offer.fetch("starts_at")
+        }
+      else
+        {}
+      end
     end
 
     def email_for(payload)
@@ -56,9 +87,9 @@ module Greenhouse
         home_address = home_address.find do |address|
           address.fetch("type") == "home"
         end || {}
-        home_address.fetch("value", "")
+        { address1: home_address.fetch("value", "") }
       else
-        ""
+        nil
       end
     end
   end

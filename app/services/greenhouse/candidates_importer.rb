@@ -23,8 +23,7 @@ module Greenhouse
         if import.success?
           mailer.delay.successful_import(
             user,
-            candidate_name.to_s,
-            identified_custom_fields)
+            candidate_name.to_s)
         else
           mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
         end
@@ -49,14 +48,11 @@ module Greenhouse
       connection.user
     end
 
-    def identified_custom_fields
-      CustomFieldsIdentifier.new(greenhouse_payload).field_names
-    end
-
     def namely_importer
       NamelyImporter.new(
         namely_connection: user.namely_connection,
-        attribute_mapper: Greenhouse::AttributeMapper.new
+        attribute_mapper: Greenhouse::AttributeMapper.new(
+          user.namely_connection.fields.all)
       )
     end
 
