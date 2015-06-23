@@ -1,0 +1,488 @@
+{
+  "fields": [
+    {
+      "id": "a2b5c84f-6aef-4346-be47-2446ffd31980",
+      "name": "image",
+      "label": "Image",
+      "type": "image",
+      "default": true,
+      "valid_format_info": "file id (UUID v4) e.g. f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "8bf5dfba-90cb-46bd-9170-1b5773087118",
+      "name": "first_name",
+      "label": "First name",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "d390aaca-44bd-4488-9b2f-15d6dab1b419",
+      "name": "middle_name",
+      "label": "Middle name",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "23ab9947-71b0-42b1-850e-6529fc6798cc",
+      "name": "last_name",
+      "label": "Last name",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "daa57f04-318e-405a-83ff-9bd68ab9d002",
+      "name": "preferred_name",
+      "label": "Preferred name",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "78bf0a4b-a0b5-4836-a7bb-62a13af45963",
+      "name": "job_title",
+      "label": "Job title",
+      "type": "referencehistory",
+      "default": true,
+      "valid_format_info": "a valid job title GUID.  You can get a list of job titles via the /job_titles API endpoint",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "dd59dc0b-a538-4a9c-9101-50e7a1d501cf",
+      "name": "job_change_reason",
+      "label": "Job change reason",
+      "type": "select",
+      "default": false,
+      "valid_format_info": "One of 'New Hire', 'Salary Change', 'Promotion', 'Transfer'",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "a87aa514-4771-4baf-9557-70d834323372",
+      "name": "start_date",
+      "label": "Start date",
+      "type": "date",
+      "default": true,
+      "valid_format_info": "YEAR-MM-DD e.g. 1986-08-05 OR 1986/8/05 OR 1986-8-5",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "b4e26ddd-6812-4425-b344-7411ab7e2ab8",
+      "name": "departure_date",
+      "label": "Departure date",
+      "type": "date",
+      "default": true,
+      "valid_format_info": "YEAR-MM-DD e.g. 1986-08-05 OR 1986/8/05 OR 1986-8-5",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "e9ba7cc4-c890-442b-95cc-fb12ad540379",
+      "name": "employee_id",
+      "label": "Employee number",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "f194ad61-8dc8-4e01-b8a4-1cba126da501",
+      "name": "email",
+      "label": "Company email",
+      "type": "email",
+      "default": true,
+      "valid_format_info": "email@example.com",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "d8acfd11-95c0-445e-a5f2-ba9ecf5a28f8",
+      "name": "personal_email",
+      "label": "Personal email",
+      "type": "email",
+      "default": true,
+      "valid_format_info": "email@example.com",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "96ee4433-4f5d-4f47-bcf2-44bf90208084",
+      "name": "dob",
+      "label": "Dob",
+      "type": "date",
+      "default": true,
+      "valid_format_info": "YEAR-MM-DD e.g. 1986-08-05 OR 1986/8/05 OR 1986-8-5",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "dfb1677e-875e-4743-8e1e-663680b45df4",
+      "name": "gender",
+      "label": "Gender",
+      "type": "select",
+      "default": true,
+      "valid_format_info": "One of 'Male', 'Female', 'Not specified'",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "55b8a8ba-1b21-4ef5-a077-3680af2cb29d",
+      "name": "marital_status",
+      "label": "Marital status",
+      "type": "select",
+      "default": true,
+      "valid_format_info": "One of 'Single', 'Married', 'Civil Partnership', 'Separated', 'Divorced'",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "16fa8618-605f-4db9-b37d-d61c98999e9d",
+      "name": "bio",
+      "label": "Bio",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "dc59bd06-8649-4fb1-b8a0-5df03cb87c18",
+      "name": "asset_management",
+      "label": "Asset management",
+      "type": "checkboxes",
+      "default": false,
+      "valid_format_info": "An array of valid choices e.g. ['Laptop', 'Beeper']",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "ba9fbc1d-4d47-4d80-a740-c7f51feb53d7",
+      "name": "laptop_asset_number",
+      "label": "Laptop asset number",
+      "type": "text",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "91295e76-f5a1-4c1b-8e43-d7c96dfd6692",
+      "name": "corporate_card_number",
+      "label": "Corporate card number",
+      "type": "text",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "c1384f05-0cd8-498a-9231-3a0282ac079a",
+      "name": "key_tag_number",
+      "label": "Key tag number",
+      "type": "text",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "eb321e65-6d5f-4efe-9675-d5663344d1c0",
+      "name": "linkedin_url",
+      "label": "Linkedin url",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "0d49b3cf-d87e-40bf-b405-58ae74850228",
+      "name": "office_main_number",
+      "label": "Office main number",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "08b54bc6-b448-4e36-aaa3-d87e2b26a95f",
+      "name": "office_direct_dial",
+      "label": "Office direct dial",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "55eb8663-f7b2-40a0-becd-3332ed6a4df7",
+      "name": "office_phone",
+      "label": "Office phone",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "bd02c673-2268-4119-9b9f-9dafc5bb37fe",
+      "name": "office_fax",
+      "label": "Office fax",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "cbed51b4-cf37-4589-921b-257113e466c2",
+      "name": "office_company_mobile",
+      "label": "Office company mobile",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "4f44b6bd-4efe-4a3e-97e5-435da1b47c62",
+      "name": "home_phone",
+      "label": "Home phone",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "6e5ea542-1a70-4692-9a93-3a283f7ff95e",
+      "name": "mobile_phone",
+      "label": "Mobile phone",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "60662c00-5566-4f9c-8e03-0645d71eb6c9",
+      "name": "home",
+      "label": "Home",
+      "type": "address",
+      "default": true,
+      "valid_format_info": "{\n        'address1': '111 Example Lane',\n        'address2': 'Apt ExampleB',\n        'city': 'ExampleVille',\n        'country_id':'a valid id from the /countries API endpoint',\n        'state_id':'a valid subdivision id for your country form the /countries endpoint',\n        'zip': '11111'\n      }",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "16597863-e19b-472a-afba-37353c382a02",
+      "name": "office",
+      "label": "Office",
+      "type": "address",
+      "default": true,
+      "valid_format_info": "{\n        'address1': '111 Example Lane',\n        'address2': 'Apt ExampleB',\n        'city': 'ExampleVille',\n        'country_id':'a valid id from the /countries API endpoint',\n        'state_id':'a valid subdivision id for your country form the /countries endpoint',\n        'zip': '11111'\n      }",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "4a7a7b94-f6a3-4140-9bd1-3ba862244eac",
+      "name": "emergency_contact",
+      "label": "Emergency contact",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "e8e039ce-a8fe-4bcc-ba8b-129bf9077525",
+      "name": "emergency_contact_phone",
+      "label": "Emergency contact phone",
+      "type": "text",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    },
+    {
+      "id": "c0431b45-002a-49a0-8506-171a10c81843",
+      "name": "netsuite_id",
+      "label": "NetSuite ID",
+      "type": "text",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "d08127d5-8719-4e27-a0c1-0d2452d7279e"
+      }
+    },
+    {
+      "id": "f563d115-a7f6-422f-b76b-2241317e1e68",
+      "name": "resume",
+      "label": "Resume",
+      "type": "file",
+      "default": true,
+      "valid_format_info": "file id (UUID v4) e.g. f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "links": {
+        "section": "30d15146-7570-4e4d-a271-3407b7eb376a"
+      }
+    },
+    {
+      "id": "dffd5b0e-e670-4db6-a065-fe79a9a71758",
+      "name": "current_job_description",
+      "label": "Current job description",
+      "type": "longtext",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "30d15146-7570-4e4d-a271-3407b7eb376a"
+      }
+    },
+    {
+      "id": "159d27fe-fe7a-4758-bc21-ffc381127aa0",
+      "name": "job_description",
+      "label": "Job description",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "30d15146-7570-4e4d-a271-3407b7eb376a"
+      }
+    },
+    {
+      "id": "e47b6074-d4b5-48e6-bdcc-aeb65d4a9073",
+      "name": "salary",
+      "label": "Salary",
+      "type": "salary",
+      "default": true,
+      "valid_format_info": "{\n        'yearly_amount':'valid integer or decimal reflecting annual pay',\n        'currency_type':'currency type identified by its ISO value.  Access /currency_types endpoint for a list'\n        'date':'at present, date will always be set to today when writing, and will show value when reading'\n      }",
+      "links": {
+        "section": "5550224f-77cd-49f3-9533-3d118b3d3c40"
+      }
+    },
+    {
+      "id": "fad1ff5b-7556-4d52-a4e9-4c26bb6c1491",
+      "name": "healthcare_info",
+      "label": "Healthcare info",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "5550224f-77cd-49f3-9533-3d118b3d3c40"
+      }
+    },
+    {
+      "id": "31f6e3c7-1d23-47d5-a51f-a03790205b7f",
+      "name": "dental_info",
+      "label": "Dental info",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "5550224f-77cd-49f3-9533-3d118b3d3c40"
+      }
+    },
+    {
+      "id": "c97101a6-0949-4037-97b9-848dad116529",
+      "name": "vision_plan_info",
+      "label": "Vision plan info",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "5550224f-77cd-49f3-9533-3d118b3d3c40"
+      }
+    },
+    {
+      "id": "a0773d25-51c6-40a9-8f0f-46e75d15516d",
+      "name": "life_insurance_info",
+      "label": "Life insurance info",
+      "type": "longtext",
+      "default": true,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "5550224f-77cd-49f3-9533-3d118b3d3c40"
+      }
+    },
+    {
+      "id": "95602774-686d-4041-8233-3d632cda5f19",
+      "name": "employee_handbook",
+      "label": "Employee handbook",
+      "type": "file",
+      "default": false,
+      "valid_format_info": "file id (UUID v4) e.g. f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "links": {
+        "section": "af941ef6-461f-4e09-aa14-534206ea5be4"
+      }
+    },
+    {
+      "id": "66d80be1-87bf-421a-8af0-ff8ca614be5d",
+      "name": "employee_wage_theft_prevention_act",
+      "label": "Employee wage theft prevention act",
+      "type": "file",
+      "default": false,
+      "valid_format_info": "file id (UUID v4) e.g. f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "links": {
+        "section": "af941ef6-461f-4e09-aa14-534206ea5be4"
+      }
+    },
+    {
+      "id": "17e3eaab-2d07-4534-b7a4-e8bd6746ba16",
+      "name": "user_status",
+      "label": "User status",
+      "type": "referenceselect",
+      "default": true,
+      "valid_format_info": "'active' OR 'inactive' ONLY",
+      "links": {
+        "section": "afe67e3d-7648-4df9-8436-7cc0538c8644"
+      }
+    }
+  ]
+}

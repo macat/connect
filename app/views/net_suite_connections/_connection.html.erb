@@ -7,6 +7,12 @@
       <p>
         <%= t("net_suite_connections.description.connected") %>
       </p>
+      <% if connection.missing_namely_field? %>
+        <%= t(
+          "dashboards.show.missing_namely_field",
+          name: connection.required_namely_field
+        ) %>
+      <% end %>
     <% else %>
       <%= link_to edit_connections_path(:net_suite_connection), class: "-n-btn -n-btn-sm" do %>
         <%= fa_icon "plug", text: t("dashboards.show.connect") %>

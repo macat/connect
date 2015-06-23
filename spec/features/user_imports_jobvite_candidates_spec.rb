@@ -7,11 +7,6 @@ feature "User imports jobvite candidates" do
   end
 
   before do
-    stub_request(:get, /.*api\/v1\/profiles\/fields/)
-      .to_return(status: 200, body: File.read("spec/fixtures/api_responses/fields_with_jobvite.json"))
-  end
-
-  before do
     stub_request(:get, "#{ api_host }/api/v1/profiles")
       .with(query: {access_token: ENV['TEST_NAMELY_ACCESS_TOKEN'], limit: 'all'})
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/empty_profiles.json"))
@@ -25,6 +20,7 @@ feature "User imports jobvite candidates" do
   end
 
   scenario "successfully without failed imported candidates" do
+    stub_namely_fields("fields_with_jobvite")
     stub_request(:post, "#{ api_host }/api/v1/profiles")
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/not_empty_profiles.json"))
 
@@ -45,6 +41,7 @@ feature "User imports jobvite candidates" do
   end
 
   scenario "successfully with failed import candidates" do
+    stub_namely_fields("fields_with_jobvite")
     stub_request(:post, "#{ api_host }/api/v1/profiles")
       .to_return(status: 200, body: File.read("spec/fixtures/api_responses/empty_profiles.json"))
 

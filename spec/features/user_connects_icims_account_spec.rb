@@ -1,15 +1,8 @@
 require "rails_helper"
 
 feature "User connects iCIMS account" do
-  before do
-    stub_request(:get, /.*api\/v1\/profiles\/fields/)
-      .to_return(
-        status: 200,
-        body: File.read("spec/fixtures/api_responses/fields_with_icims.json")
-      )
-  end
-
   scenario "successfully" do
+    stub_namely_fields("fields_with_icims")
     user = create(:user)
     allow(SecureRandom).to receive(:hex).and_return("api_key")
 

@@ -5,7 +5,7 @@ en:
       disconnect: "Disconnect"
       import_now: "Import now"
       sign_out: "Sign out"
-      missing_namely_field: "You need to add a '%{name}' custom field to your Namely account in order to import profiles. This field is used to avoid importing the same candidate multiple times."
+      missing_namely_field: "You need to add a '%{name}' custom field to your Namely account in order to synchronize profiles. This field is used to avoid importing or exporting the same candidate multiple times."
 
   date:
     formats:

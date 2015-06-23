@@ -2,6 +2,7 @@ require "rails_helper"
 
 feature "user connects NetSuite account" do
   scenario "successfully" do
+    stub_namely_fields("fields_with_net_suite")
     stub_create_instance(status: 200, body: { id: "123", token: "abcxyz" })
 
     visit_dashboard
