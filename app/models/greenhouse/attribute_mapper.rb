@@ -21,7 +21,8 @@ module Greenhouse
       {
         first_name: candidate_for(application_for(payload)).fetch("first_name"),
         last_name: candidate_for(application_for(payload)).fetch("last_name"),
-        email: email_for(candidate_for(application_for(payload))),
+        email: email_for(candidate_for(application_for(payload)), "work"),
+        personal_email: email_for(candidate_for(application_for(payload)), "personal"),
         user_status: "active",
         start_date: offer_for(application_for(payload)).fetch("starts_at"),
         home: home_address_for(candidate_for(application_for(payload))),
@@ -74,15 +75,15 @@ module Greenhouse
       end
     end
 
-    def email_for(payload)
-      email = payload.fetch("email_addresses", [])
-      if email
-        email = email.find do |email_address|
-          email_address.fetch("type") == "personal"
-        end || {}
-        email.fetch("value")
+    def email_for(payload, type)
+      addresses = payload.fetch("email_addresses", []) || []
+      email_address = addresses.find do |email_address|
+        email_address.fetch("type") == type
+      end
+      if email_address.present?
+        email_address.fetch("value")
       else
-        ""
+        nil
       end
     end
 

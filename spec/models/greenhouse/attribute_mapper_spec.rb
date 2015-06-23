@@ -19,7 +19,8 @@ describe Greenhouse::AttributeMapper do
       expect(mapper.call(greenhouse_candidate)).to eq(
         first_name: "Johnny",
         last_name: "Smith",
-        email: "personal@example.com",
+        personal_email: "personal@example.com",
+        email: "work@example.com",
         user_status: "active",
         start_date: "2015-01-23",
         home: { address1: "455 Broadway New York, NY 10280" },
@@ -36,7 +37,8 @@ describe Greenhouse::AttributeMapper do
         expect(mapper.call(greenhouse_candidate)).to eq(
           first_name: "Johnny",
           last_name: "Smith",
-          email: "personal@example.com",
+          personal_email: "personal@example.com",
+          email: "work@example.com",
           user_status: "active",
           start_date: "2015-01-23",
           home: { address1: "455 Broadway New York, NY 10280" },
@@ -55,7 +57,8 @@ describe Greenhouse::AttributeMapper do
         expect(mapper.call(greenhouse_candidate)).to eq(
           first_name: "Johnny",
           last_name: "Smith",
-          email: "personal@example.com",
+          personal_email: "personal@example.com",
+          email: "work@example.com",
           user_status: "active",
           greenhouse_id: "20",
           home: { address1: "" }
@@ -79,7 +82,7 @@ describe Greenhouse::AttributeMapper do
         expect(mapper.call(greenhouse_candidate)).to eq(
           first_name: "Johnny",
           last_name: "Smith",
-          email: "personal@example.com",
+          personal_email: "personal@example.com",
           user_status: "active",
           greenhouse_id: "greenhouse_id",
         )
