@@ -1,10 +1,16 @@
 module NetSuite
   class Client
     BASE_URL = "https://api.cloud-elements.com/elements/api-v2"
+    GENDER_MAP = {
+      "Male" => "_male",
+      "Female" => "_female",
+      "Not specified" => "_omitted",
+    }
 
-    def initialize(user_secret:, organization_secret:)
+    def initialize(user_secret:, organization_secret:, element_secret: nil)
       @user_secret = user_secret
       @organization_secret = organization_secret
+      @element_secret = element_secret
     end
 
     def create_instance(params)
@@ -24,12 +30,24 @@ module NetSuite
       )
     end
 
+    def create_employee(params)
+      post_json(
+        "/hubs/erp/employees",
+        "firstName" => params[:first_name],
+        "lastName" => params[:last_name],
+        "email" => params[:email],
+        "gender" => map_gender(params[:gender]),
+        "phone" => params[:phone],
+        "subsidiary" => { "internalId" => 1 }
+      )
+    end
+
     private
 
     def post_json(path, data)
       wrap_response do
         RestClient.post(
-          url("/instances"),
+          url(path),
           data.to_json,
           authorization: authorization,
           content_type: "application/json"
@@ -49,7 +67,22 @@ module NetSuite
     end
 
     def authorization
-      "User #{@user_secret}, Organization #{@organization_secret}"
+      secrets.
+        compact.
+        map { |name, secret| [name, secret].join(" ") }.
+        join(", ")
+    end
+
+    def secrets
+      {
+        "User" => @user_secret,
+        "Organization" => @organization_secret,
+        "Element" => @element_secret
+      }
+    end
+
+    def map_gender(namely_value)
+      GENDER_MAP[namely_value]
     end
 
     class Result

@@ -1,0 +1,8 @@
+<p>
+  <% if result.success? %>
+    Exported new employee: <%= result.first_name %> <%= result.last_name %>
+  <% else %>
+    Couldn't export: <%= result.first_name %> <%= result.last_name %>
+    (<%= result.message %>)
+  <% end %>
+</p>

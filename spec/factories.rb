@@ -6,6 +6,10 @@ FactoryGirl.define do
       instance_id "123xy"
       authorization "abc12z"
     end
+
+    trait :with_namely_field do
+      found_namely_field true
+    end
   end
 
   factory :icims_connection, class: "Icims::Connection" do

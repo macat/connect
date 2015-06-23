@@ -1,0 +1,44 @@
+{
+  "profiles": [
+    {
+      "id":"83809753-615b-44ee-914b-3821fe2ee7ae",
+      "first_name": "Sally",
+      "last_name": "Smith",
+      "email": "sally.smith@example.com",
+      "start_date":"07/18/2013",
+      "gender": "Female",
+      "job_title":
+      {
+        "id":"0c601728-2658-4677-a22b-1c8653b431ae",
+        "title":"CEO"
+      }
+    },
+    {
+      "id":"a759ba38-1522-443a-bdae-435d721eb316",
+      "first_name": "Mickey",
+      "last_name": "Moore",
+      "email": "mickey.moore@example.com",
+      "start_date":"04/03/2014",
+      "gender": "Male",
+      "job_title":
+      {
+        "id":"7ac05eec-4b6a-4ec6-bd08-f1c1572815c6",
+        "title":"COO"
+      }
+    },
+    {
+      "id":"3f51b510-1922-11e5-b939-0800200c9a66",
+      "first_name": "Tina",
+      "last_name": "Tech",
+      "email": "tina.tech@example.com",
+      "start_date":"01/16/2014",
+      "gender": "Female",
+      "job_title":
+      {
+        "id":"",
+        "title":"CTO"
+      },
+      "netsuite_id":"1234"
+    }
+  ]
+}

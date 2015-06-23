@@ -184,6 +184,7 @@ feature "User visits their dashboard" do
           "dashboards.show.missing_namely_field",
           name: "netsuite_id",
         )
+        expect(page).not_to have_export_button
       end
     end
   end
@@ -206,7 +207,12 @@ feature "User visits their dashboard" do
           "dashboards.show.missing_namely_field",
           name: "netsuite_id",
         )
+        expect(page).to have_export_button
       end
     end
+  end
+
+  def have_export_button
+    have_button t("dashboards.show.export_now")
   end
 end

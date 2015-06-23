@@ -3,6 +3,7 @@ en:
     show:
       connect: "Connect"
       disconnect: "Disconnect"
+      export_now: "Export now"
       import_now: "Import now"
       sign_out: "Sign out"
       missing_namely_field: "You need to add a '%{name}' custom field to your Namely account in order to synchronize profiles. This field is used to avoid importing or exporting the same candidate multiple times."
@@ -96,6 +97,12 @@ en:
     edit:
       title: "NetSuite"
       slogan: "Please fill out the following fields to connect to this application."
+
+  net_suite_exports:
+    create:
+      summary:
+        one: Processed 1 employee
+        other: Processed %{count} employees
 
   jobvite_imports:
     create:
