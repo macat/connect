@@ -55,11 +55,20 @@ module Greenhouse
       offer = offer_for(payload)
       custom_fields = offer.fetch("custom_fields", {})
       if custom_fields.present? && salary = custom_fields.fetch("salary")
-        {
-          yearly_amount: salary.fetch("value").fetch("amount"),
-          currency_type: salary.fetch("value").fetch("unit"),
-          date: offer.fetch("starts_at")
-        }
+        if salary.fetch("type") == "currency"
+          {
+            yearly_amount: salary.fetch("value").fetch("amount"),
+            currency_type: salary.fetch("value").fetch("unit"),
+            date: offer.fetch("starts_at")
+          }
+        else
+          {
+            yearly_amount: salary.fetch("value").to_i,
+            currency_type: "USD",
+            date: offer.fetch("starts_at")
+          }
+        end
+
       else
         {}
       end
