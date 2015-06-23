@@ -12,6 +12,12 @@ feature "user exports to net suite" do
       with(body: /Sally/).
       to_return(status: 200, body: { "internalId" => "123" }.to_json)
     stub_request(
+      :patch,
+      "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees/1234"
+    ).
+      with(body: /Tina/).
+      to_return(status: 200, body: { "internalId" => "1234" }.to_json)
+    stub_request(
       :post,
       "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
     ).
@@ -23,10 +29,10 @@ feature "user exports to net suite" do
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
 
-    expect(page).to have_content("Processed 2 employees")
+    expect(page).to have_content("Processed 3 employees")
     expect(page).to have_content("Exported new employee: Sally Smith")
+    expect(page).to have_content("Exported updates for employee: Tina Tech")
     expect(page).to have_content("Couldn't export: Mickey Moore")
     expect(page).to have_content("Bad Data")
-    expect(page).not_to have_content("Tina Tech")
   end
 end

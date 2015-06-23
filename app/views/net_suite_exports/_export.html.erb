@@ -1,0 +1,6 @@
+<% if employee.updated? %>
+  Exported updates for employee:
+<% else %>
+  Exported new employee:
+<% end %>
+<%= employee.first_name %> <%= employee.last_name %>

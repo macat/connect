@@ -6,7 +6,7 @@ module NetSuite
     end
 
     def perform
-      new_namely_profiles.map do |profile|
+      namely_profiles.map do |profile|
         export(profile)
       end
     end
@@ -17,36 +17,73 @@ module NetSuite
 
     private
 
-    def new_namely_profiles
-      namely_profiles.select do |profile|
-        profile["netsuite_id"].blank?
-      end
+    def export(profile)
+      Employee.new(profile, net_suite: @net_suite).export
     end
 
-    def export(profile)
-      response = @net_suite.create_employee(
-        first_name: profile.first_name,
-        last_name: profile.last_name,
-        email: profile.email,
-        gender: profile.gender,
-        phone: profile.home_phone
-      )
-
-      if response.success?
-        profile.update(netsuite_id: response["internalId"])
+    class Employee
+      def initialize(profile, net_suite:)
+        @profile = profile
+        @net_suite = net_suite
       end
 
-      Result.new(response, profile)
+      def export
+        if persisted?
+          update
+        else
+          create
+        end
+      end
+
+      private
+
+      def persisted?
+        id.present?
+      end
+
+      def update
+        response = @net_suite.update_employee(id, attributes)
+        Result.new(response, true, @profile)
+      end
+
+      def create
+        response = @net_suite.create_employee(attributes)
+
+        if response.success?
+          @profile.update(netsuite_id: response["internalId"])
+        end
+
+        Result.new(response, false, @profile)
+      end
+
+      def id
+        @profile["netsuite_id"]
+      end
+
+      def attributes
+        {
+          first_name: @profile.first_name,
+          last_name: @profile.last_name,
+          email: @profile.email,
+          gender: @profile.gender,
+          phone: @profile.home_phone
+        }
+      end
     end
 
     class Result
-      def initialize(response, profile)
+      def initialize(response, updated, profile)
         @response = response
+        @updated = updated
         @profile = profile
       end
 
       delegate :success?, to: :response
       delegate :email, :first_name, :last_name, to: :profile
+
+      def updated?
+        @updated
+      end
 
       def to_partial_path
         "net_suite_exports/result"

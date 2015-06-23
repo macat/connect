@@ -11,6 +11,7 @@ describe NetSuite::Export do
         results = perform_export(net_suite: net_suite, profiles: profiles)
 
         expect(results.map(&:success?)).to eq([true, true])
+        expect(results.map(&:updated?)).to eq([false, false])
         expect(results.map(&:email)).to eq(emails)
         profiles.each do |profile|
           expect(net_suite).to have_received(:create_employee).with(
@@ -26,13 +27,22 @@ describe NetSuite::Export do
     end
 
     context "with an already-exported employee" do
-      it "skips that result" do
-        profiles = [stub_profile({}, netsuite_id: "1234")]
-        net_suite = stub_net_suite
+      it "returns a result with updated profiles" do
+        profile = stub_profile({}, netsuite_id: "1234")
+        net_suite = stub_net_suite(success: true)
 
-        results = perform_export(net_suite: net_suite, profiles: profiles)
+        results = perform_export(net_suite: net_suite, profiles: [profile])
 
-        expect(results).to be_empty
+        expect(results.map(&:email)).to eq([profile.email])
+        expect(results.map(&:updated?)).to eq([true])
+        expect(net_suite).to have_received(:update_employee).with(
+          profile["netsuite_id"],
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          email: profile.email,
+          gender: profile.gender,
+          phone: profile.home_phone
+        )
       end
     end
 
@@ -85,6 +95,7 @@ describe NetSuite::Export do
       response = arguments.stringify_keys.except("success")
       allow(response).to receive(:success?).and_return(arguments[:success])
       allow(net_suite).to receive(:create_employee).and_return(response)
+      allow(net_suite).to receive(:update_employee).and_return(response)
     end
   end
 

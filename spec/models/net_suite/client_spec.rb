@@ -114,4 +114,52 @@ describe NetSuite::Client do
       end
     end
   end
+
+  describe "#update_employee" do
+    context "on HTTP success" do
+      it "returns successful data" do
+        employee = { internalId: "1949" }
+        stub_request(
+          :patch,
+          "https://api.cloud-elements.com/elements/api-v2" \
+          "/hubs/erp/employees/1949"
+        ).
+          with(
+            body: {
+              firstName: "Sally",
+              lastName: "Sitwell",
+              email: "sally@example.com",
+              gender: "_female",
+              phone: "123-123-1234",
+              subsidiary: { internalId: 1 }
+            }.to_json,
+            headers: {
+              "Authorization" => "User user-secret, " \
+                "Organization org-secret, " \
+                "Element element-secret",
+              "Content-Type" => "application/json"
+            }
+          ).
+          to_return(status: 200, body: employee.to_json)
+
+        client = NetSuite::Client.new(
+          user_secret: "user-secret",
+          organization_secret: "org-secret",
+          element_secret: "element-secret"
+        )
+
+        result = client.update_employee(
+          employee[:internalId],
+          email: "sally@example.com",
+          first_name: "Sally",
+          last_name: "Sitwell",
+          gender: "Female",
+          phone: "123-123-1234"
+        )
+
+        expect(result).to be_success
+        expect(result["internalId"]).to eq("1949")
+      end
+    end
+  end
 end

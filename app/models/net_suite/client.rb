@@ -14,7 +14,8 @@ module NetSuite
     end
 
     def create_instance(params)
-      post_json(
+      submit_json(
+        :post,
         "/instances",
         "configuration" => {
           "user.username" => params[:email],
@@ -31,8 +32,22 @@ module NetSuite
     end
 
     def create_employee(params)
-      post_json(
+      submit_json(
+        :post,
         "/hubs/erp/employees",
+        "firstName" => params[:first_name],
+        "lastName" => params[:last_name],
+        "email" => params[:email],
+        "gender" => map_gender(params[:gender]),
+        "phone" => params[:phone],
+        "subsidiary" => { "internalId" => 1 }
+      )
+    end
+
+    def update_employee(id, params)
+      submit_json(
+        :patch,
+        "/hubs/erp/employees/#{id}",
         "firstName" => params[:first_name],
         "lastName" => params[:last_name],
         "email" => params[:email],
@@ -44,9 +59,10 @@ module NetSuite
 
     private
 
-    def post_json(path, data)
+    def submit_json(method, path, data)
       wrap_response do
-        RestClient.post(
+        RestClient.public_send(
+          method,
           url(path),
           data.to_json,
           authorization: authorization,
