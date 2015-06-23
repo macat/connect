@@ -31,6 +31,11 @@ module NetSuite
         gender: profile.gender,
         phone: profile.home_phone
       )
+
+      if response.success?
+        profile.update(netsuite_id: response["internalId"])
+      end
+
       Result.new(response, profile)
     end
 

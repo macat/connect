@@ -6,7 +6,7 @@ describe NetSuite::Export do
       it "returns a result with created profiles" do
         emails = %w(one@example.com two@example.com)
         profiles = emails.map { |email| stub_profile(email: email) }
-        net_suite = stub_net_suite(success: true)
+        net_suite = stub_net_suite(success: true, internalId: "1234")
 
         results = perform_export(net_suite: net_suite, profiles: profiles)
 
@@ -20,6 +20,7 @@ describe NetSuite::Export do
             gender: profile.gender,
             phone: profile.home_phone
           )
+          expect(profile).to have_received(:update).with(netsuite_id: "1234")
         end
       end
     end
@@ -38,13 +39,14 @@ describe NetSuite::Export do
     context "with an invalid employee" do
       it "returns a failure result" do
         message = "invalid employee"
-        profiles = [stub_profile(email: "example")]
+        profile = stub_profile(email: "example")
         net_suite = stub_net_suite(success: false, message: message)
 
-        results = perform_export(net_suite: net_suite, profiles: profiles)
+        results = perform_export(net_suite: net_suite, profiles: [profile])
 
         expect(results.map(&:success?)).to eq([false])
         expect(results.map(&:message)).to eq([message])
+        expect(profile).not_to have_received(:update)
       end
     end
   end
@@ -69,6 +71,8 @@ describe NetSuite::Export do
           title: "CEO"
         }
       }.merge(overrides)
+
+      allow(profile).to receive(:update)
 
       attributes.each do |name, value|
         allow(profile).to receive(name).and_return(value)

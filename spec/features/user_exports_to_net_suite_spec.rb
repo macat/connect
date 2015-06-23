@@ -4,6 +4,7 @@ feature "user exports to net suite" do
   scenario "successfully" do
     user = create(:user)
     stub_namely_data("/profiles", "profiles_with_net_suite_fields")
+    stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(status: 200)
     stub_request(
       :post,
       "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
