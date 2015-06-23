@@ -31,13 +31,13 @@ describe Greenhouse::CustomFields do
     end
 
     it "filters out not supported fields" do
-      expect(described_class.match(payload: notsupported,
-                                   namely_fields: namely_fields)).to eql({})
+      expect(described_class.match(namely_fields: namely_fields,
+                                   payload: notsupported)).to eql({})
     end
 
     it "matches namely field name using title" do
-      expect(described_class.match(payload: payload_with_fields,
-                                   namely_fields: namely_fields)).to eql(
+      expect(described_class.match(namely_fields: namely_fields,
+                                   payload: payload_with_fields)).to eql(
         middle_name: "test",
         job_title: "ok"
       )
