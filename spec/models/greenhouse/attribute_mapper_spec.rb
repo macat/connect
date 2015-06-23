@@ -28,6 +28,24 @@ describe Greenhouse::AttributeMapper do
       )
     end
 
+    context "when salary field is a short_text" do
+      it "transforms a Greenhouse candidate into a Hash appropriate for the Namely API" do
+        greenhouse_candidate = JSON.parse(
+          File.read("spec/fixtures/api_requests/greenhouse_payload_salary_text.json"))["payload"]
+
+        expect(mapper.call(greenhouse_candidate)).to eq(
+          first_name: "Johnny",
+          last_name: "Smith",
+          email: "personal@example.com",
+          user_status: "active",
+          start_date: "2015-01-23",
+          home: { address1: "455 Broadway New York, NY 10280" },
+          greenhouse_id: "20",
+          salary: { yearly_amount: 70000, currency_type: "USD", date: "2015-01-23"},
+        )
+      end
+    end
+
     context "handle missing none mandatory fields" do
       it "return default values when not present in payload" do
         greenhouse_candidate = JSON.parse(
