@@ -55,7 +55,7 @@ module Greenhouse
     end
 
     def offer(payload)
-      application(payload).fetch("offer", {"starts_at" => ""})
+      application(payload).fetch("offer", { "starts_at" => "" })
     end
 
     def job(payload)

@@ -118,14 +118,15 @@ describe Greenhouse::AttributeMapper do
             ],
             "addresses" => nil
           },
-          "job"=> {
+          "job" => {
             "custom_fields" => {}
           },
-          "offer"=> {
+          "offer" => {
             "starts_at" => "2015-06-20",
             "custom_fields" => {}
           },
-          "id" => "greenhouse_id"}}
+          "id" => "greenhouse_id"
+        } }
 
         expect(mapper.call(greenhouse_candidate)).to eq(
           first_name: "Johnny",
@@ -145,14 +146,15 @@ describe Greenhouse::AttributeMapper do
             "email_addresses" => nil,
             "addresses" => nil
           },
-          "job"=> {
+          "job" => {
             "custom_fields" => {}
           },
-          "offer"=> {
+          "offer" => {
             "starts_at" => "2015-06-20",
             "custom_fields" => {}
           },
-          "id" => "greenhouse_id"}}
+          "id" => "greenhouse_id"
+        } }
 
         expect(mapper.call(greenhouse_candidate)).to eq(
           first_name: "Johnny",
