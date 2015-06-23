@@ -8,7 +8,6 @@ module Greenhouse
 
     def initialize(payload, namely_fields)
       namely_field_by_label = Hash[namely_fields.map { |f| [f.label, f.name] }]
-      @namely_fields = namely_fields
       supported = payload.select do |_, field|
         SUPPORTED_TYPES.include? field.fetch("type")
       end
