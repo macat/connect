@@ -353,17 +353,6 @@
       }
     },
     {
-      "id": "c0431b45-002a-49a0-8506-171a10c81843",
-      "name": "netsuite_id",
-      "label": "NetSuite ID",
-      "type": "text",
-      "default": false,
-      "valid_format_info": "generic text",
-      "links": {
-        "section": "d08127d5-8719-4e27-a0c1-0d2452d7279e"
-      }
-    },
-    {
       "id": "f563d115-a7f6-422f-b76b-2241317e1e68",
       "name": "resume",
       "label": "Resume",

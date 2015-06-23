@@ -16,7 +16,8 @@ feature "user exports to net suite" do
     ).
       with(body: /Mickey/).
       to_return(status: 400, body: { "message" => "Bad Data" }.to_json)
-    create(:net_suite_connection, :connected, :with_namely_field, user: user)
+    stub_namely_fields("fields_with_net_suite")
+    create(:net_suite_connection, :connected, user: user)
     visit dashboard_path(as: user)
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")

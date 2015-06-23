@@ -6,7 +6,7 @@ describe UserCheckNamelyField do
     context "connected and defined but not previously found" do
       it "returns false and updates the found namely field" do
         connection = stub_connection(
-          fields: %i(field_name),
+          fields: %w(field_name),
           found: false,
           required_field: :field_name
         )
@@ -22,7 +22,7 @@ describe UserCheckNamelyField do
     context "previously found" do
       it "returns false without updating" do
         connection = stub_connection(
-          fields: %i(field_name),
+          fields: %w(field_name),
           found: true,
           required_field: :field_name
         )
@@ -47,7 +47,7 @@ describe UserCheckNamelyField do
     context "connected and undefined" do
       it "returns true" do
         connection = stub_connection(
-          fields: %i(other_field_name),
+          fields: %w(other_field_name),
           found: false,
           required_field: :expected_field_name
         )

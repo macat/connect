@@ -28,7 +28,7 @@ class UserCheckNamelyField < SimpleDelegator
 
   def has_remote_field?
     namely_connection.fields.all.any? do |field|
-      field.name == required_namely_field
+      field.name == required_namely_field.to_s
     end
   end
 
