@@ -2,7 +2,7 @@ module Greenhouse
   class CustomFields
     SUPPORTED_TYPES = ["single_select", "short_text", "long_text", "number"]
 
-    def self.match(payload, namely_fields)
+    def self.match(namely_fields:, payload:)
       new(payload, namely_fields).to_h
     end
 
