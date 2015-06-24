@@ -1,10 +1,26 @@
 module NetSuite
   class Client
     BASE_URL = "https://api.cloud-elements.com/elements/api-v2"
+
+    def self.from_env
+      new(
+        user_secret: ENV["CLOUD_ELEMENTS_USER_SECRET"],
+        organization_secret: ENV["CLOUD_ELEMENTS_ORGANIZATION_SECRET"]
+      )
+    end
+
     def initialize(user_secret:, organization_secret:, element_secret: nil)
       @user_secret = user_secret
       @organization_secret = organization_secret
       @element_secret = element_secret
+    end
+
+    def authorize(element_secret)
+      self.class.new(
+        user_secret: @user_secret,
+        organization_secret: @organization_secret,
+        element_secret: element_secret
+      )
     end
 
     def create_instance(params)

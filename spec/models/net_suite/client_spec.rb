@@ -1,6 +1,50 @@
 require "rails_helper"
 
 describe NetSuite::Client do
+  describe ".from_env" do
+    it "finds authorization from the environment" do
+      env = {
+        "CLOUD_ELEMENTS_USER_SECRET" => "user-secret",
+        "CLOUD_ELEMENTS_ORGANIZATION_SECRET" => "org-secret"
+      }
+
+      ClimateControl.modify env do
+        stub_request(:post, /.*/)
+        client = NetSuite::Client.from_env
+
+        client.create_instance({})
+
+        expect(WebMock).to have_requested(:post, /.*/).with(
+          headers: {
+            "Authorization" => "User user-secret, Organization org-secret"
+          }
+        )
+      end
+    end
+  end
+
+  describe "#authorize" do
+    it "sets element authorization" do
+      stub_request(:post, /.*/)
+      client = NetSuite::Client.new(
+        user_secret: "user-secret",
+        organization_secret: "org-secret",
+      )
+
+      client.
+        authorize("element-secret").
+        create_instance({})
+
+      expect(WebMock).to have_requested(:post, /.*/).with(
+        headers: {
+          "Authorization" => "User user-secret, " \
+            "Organization org-secret, " \
+            "Element element-secret"
+        }
+      )
+    end
+  end
+
   describe "#create_instance" do
     context "on HTTP success" do
       it "returns successful data" do

@@ -26,7 +26,7 @@ class ConnectionFormFactory
     }
 
     if connection_form_class == NetSuite::ConnectionForm
-      arguments[:client] = net_suite_client
+      arguments[:client] = @connection.client
     end
 
     arguments
@@ -39,12 +39,5 @@ class ConnectionFormFactory
       "jobvite_connection" => Jobvite::ConnectionForm,
       "net_suite_connection" => NetSuite::ConnectionForm
     }
-  end
-
-  def net_suite_client
-    NetSuite::Client.new(
-      user_secret: ENV.fetch("CLOUD_ELEMENTS_USER_SECRET"),
-      organization_secret: ENV.fetch("CLOUD_ELEMENTS_ORGANIZATION_SECRET")
-    )
   end
 end

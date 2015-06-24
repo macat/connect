@@ -36,4 +36,21 @@ describe NetSuite::Connection do
       end
     end
   end
+
+  describe "#client" do
+    it "configures a client with its authorization" do
+      authorized_client = double(:authorized_client)
+      client_from_env = double(:client_from_env)
+      allow(NetSuite::Client).to receive(:from_env).and_return(client_from_env)
+      allow(client_from_env).
+        to receive(:authorize).
+        with("x").
+        and_return(authorized_client)
+      connection = NetSuite::Connection.new(authorization: "x")
+
+      result = connection.client
+
+      expect(result).to eq(authorized_client)
+    end
+  end
 end

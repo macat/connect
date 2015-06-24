@@ -12,4 +12,8 @@ class NetSuite::Connection < ActiveRecord::Base
   def required_namely_field
     :netsuite_id
   end
+
+  def client
+    NetSuite::Client.from_env.authorize(authorization)
+  end
 end
