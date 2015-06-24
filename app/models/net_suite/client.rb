@@ -1,12 +1,6 @@
 module NetSuite
   class Client
     BASE_URL = "https://api.cloud-elements.com/elements/api-v2"
-    GENDER_MAP = {
-      "Male" => "_male",
-      "Female" => "_female",
-      "Not specified" => "_omitted",
-    }
-
     def initialize(user_secret:, organization_secret:, element_secret: nil)
       @user_secret = user_secret
       @organization_secret = organization_secret
@@ -35,12 +29,7 @@ module NetSuite
       submit_json(
         :post,
         "/hubs/erp/employees",
-        "firstName" => params[:first_name],
-        "lastName" => params[:last_name],
-        "email" => params[:email],
-        "gender" => map_gender(params[:gender]),
-        "phone" => params[:phone],
-        "subsidiary" => { "internalId" => 1 }
+        params
       )
     end
 
@@ -48,12 +37,7 @@ module NetSuite
       submit_json(
         :patch,
         "/hubs/erp/employees/#{id}",
-        "firstName" => params[:first_name],
-        "lastName" => params[:last_name],
-        "email" => params[:email],
-        "gender" => map_gender(params[:gender]),
-        "phone" => params[:phone],
-        "subsidiary" => { "internalId" => 1 }
+        params
       )
     end
 
@@ -95,10 +79,6 @@ module NetSuite
         "Organization" => @organization_secret,
         "Element" => @element_secret
       }
-    end
-
-    def map_gender(namely_value)
-      GENDER_MAP[namely_value]
     end
 
     class Result

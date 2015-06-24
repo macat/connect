@@ -15,11 +15,13 @@ describe NetSuite::Export do
         expect(results.map(&:email)).to eq(emails)
         profiles.each do |profile|
           expect(net_suite).to have_received(:create_employee).with(
-            first_name: profile.first_name,
-            last_name: profile.last_name,
+            firstName: profile.first_name,
+            lastName: profile.last_name,
             email: profile.email,
-            gender: profile.gender,
-            phone: profile.home_phone
+            gender: "_female",
+            phone: profile.home_phone,
+            subsidiary: { internalId: 1 },
+            title: profile.job_title[:title]
           )
           expect(profile).to have_received(:update).with(netsuite_id: "1234")
         end
@@ -37,11 +39,13 @@ describe NetSuite::Export do
         expect(results.map(&:updated?)).to eq([true])
         expect(net_suite).to have_received(:update_employee).with(
           profile["netsuite_id"],
-          first_name: profile.first_name,
-          last_name: profile.last_name,
+          firstName: profile.first_name,
+          lastName: profile.last_name,
           email: profile.email,
-          gender: profile.gender,
-          phone: profile.home_phone
+          gender: "_female",
+          phone: profile.home_phone,
+          subsidiary: { internalId: 1 },
+          title: profile.job_title[:title]
         )
       end
     end

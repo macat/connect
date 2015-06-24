@@ -84,7 +84,8 @@ describe NetSuite::Client do
               email: "sally@example.com",
               gender: "_female",
               phone: "123-123-1234",
-              subsidiary: { internalId: 1 }
+              subsidiary: { internalId: 1 },
+              title: "CEO"
             }.to_json,
             headers: {
               "Authorization" => "User user-secret, " \
@@ -102,11 +103,13 @@ describe NetSuite::Client do
         )
 
         result = client.create_employee(
+          firstName: "Sally",
+          lastName: "Sitwell",
           email: "sally@example.com",
-          first_name: "Sally",
-          last_name: "Sitwell",
-          gender: "Female",
-          phone: "123-123-1234"
+          gender: "_female",
+          phone: "123-123-1234",
+          subsidiary: { internalId: 1 },
+          title: "CEO"
         )
 
         expect(result).to be_success
@@ -131,7 +134,8 @@ describe NetSuite::Client do
               email: "sally@example.com",
               gender: "_female",
               phone: "123-123-1234",
-              subsidiary: { internalId: 1 }
+              subsidiary: { internalId: 1 },
+              title: "CEO"
             }.to_json,
             headers: {
               "Authorization" => "User user-secret, " \
@@ -150,11 +154,13 @@ describe NetSuite::Client do
 
         result = client.update_employee(
           employee[:internalId],
+          firstName: "Sally",
+          lastName: "Sitwell",
           email: "sally@example.com",
-          first_name: "Sally",
-          last_name: "Sitwell",
-          gender: "Female",
-          phone: "123-123-1234"
+          gender: "_female",
+          phone: "123-123-1234",
+          subsidiary: { internalId: 1 },
+          title: "CEO",
         )
 
         expect(result).to be_success

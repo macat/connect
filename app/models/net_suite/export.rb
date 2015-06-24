@@ -22,6 +22,12 @@ module NetSuite
     end
 
     class Employee
+      GENDER_MAP = {
+        "Male" => "_male",
+        "Female" => "_female",
+        "Not specified" => "_omitted",
+      }
+
       def initialize(profile, net_suite:)
         @profile = profile
         @net_suite = net_suite
@@ -62,12 +68,18 @@ module NetSuite
 
       def attributes
         {
-          first_name: @profile.first_name,
-          last_name: @profile.last_name,
+          firstName: @profile.first_name,
+          lastName: @profile.last_name,
           email: @profile.email,
-          gender: @profile.gender,
-          phone: @profile.home_phone
+          gender: map_gender(@profile.gender),
+          phone: @profile.home_phone,
+          subsidiary: { internalId: 1 },
+          title: @profile.job_title[:title]
         }
+      end
+
+      def map_gender(namely_value)
+        GENDER_MAP[namely_value]
       end
     end
 
