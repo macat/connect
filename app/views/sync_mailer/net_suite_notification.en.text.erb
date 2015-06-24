@@ -1,0 +1,17 @@
+<%= @sync_results.succeeded_message %>
+
+<%= t(".succeeded_list") %>
+
+<% @sync_results.succeeded.each do |result| %>
+<%= result.first_name %> <%= result.last_name %>
+<% end -%>
+
+<%= @sync_results.failed_message %>
+
+<%= t(".failed_list") %>
+
+<% @sync_results.failed.each do |result| %>
+<%= result.first_name %> <%= result.last_name %>
+<% end -%>
+
+Namely

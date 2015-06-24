@@ -36,6 +36,7 @@ group :development, :test do
 end
 
 group :test do
+  gem "capybara-email"
   gem "capybara_discoball", github: "thoughtbot/capybara_discoball"
   gem "capybara-webkit", ">= 1.2.0"
   gem "climate_control"

@@ -2,9 +2,16 @@ search:
   paths:
     - "app/controllers"
     - "app/helpers"
+    - "app/mailers"
     - "app/presenters"
     - "app/views"
     - "app/models"
+  relative_roots:
+    - "app/controllers"
+    - "app/helpers"
+    - "app/mailers"
+    - "app/presenters"
+    - "app/views"
 
 ignore_unused:
   - activerecord.*

@@ -3,6 +3,7 @@ ENV["SHOW_FEATURE"] = "true"
 
 require File.expand_path("../../config/environment", __FILE__)
 
+require "capybara/email/rspec"
 require "rspec/rails"
 require "shoulda/matchers"
 

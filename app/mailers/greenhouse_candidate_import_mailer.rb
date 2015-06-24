@@ -1,7 +1,13 @@
 class GreenhouseCandidateImportMailer < ApplicationMailer
   def successful_import(user, candidate_name)
     @user = user
-    mail to: @user.email, subject: t(".subject", name: candidate_name)
+    mail(
+      to: @user.email,
+      subject: t(
+        "greenhouse_candidate_import_mailer.successful_import.subject",
+        name: candidate_name
+      )
+    )
   end
 
   def unsuccessful_import(user, candidate_name, status)
@@ -9,6 +15,12 @@ class GreenhouseCandidateImportMailer < ApplicationMailer
     @candidate_name = candidate_name
     @status = status
 
-    mail to: @user.email, subject: t(".subject", name: candidate_name)
+    mail(
+      to: @user.email,
+      subject: t(
+        "greenhouse_candidate_import_mailer.unsuccessful_import.subject",
+        name: candidate_name
+      )
+    )
   end
 end

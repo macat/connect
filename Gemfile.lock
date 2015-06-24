@@ -59,6 +59,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     capybara-webkit (1.5.0)
       capybara (>= 2.3.0, < 2.5.0)
       json
@@ -260,6 +263,7 @@ DEPENDENCIES
   awesome_print
   bourbon (~> 3.2.1)
   byebug
+  capybara-email
   capybara-webkit (>= 1.2.0)
   capybara_discoball!
   climate_control

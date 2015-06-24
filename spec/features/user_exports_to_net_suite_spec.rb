@@ -34,5 +34,20 @@ feature "user exports to net suite" do
     expect(page).to have_content("Exported updates for employee: Tina Tech")
     expect(page).to have_content("Couldn't export: Mickey Moore")
     expect(page).to have_content("Bad Data")
+
+    open_email user.email
+    expect(current_email).to have_text(
+      t(
+        "sync_mailer.net_suite_notification.succeeded",
+        employees: t("sync_mailer.net_suite_notification.employees", count: 2)
+      )
+    )
+
+    expect(current_email).to have_text(
+      t(
+        "sync_mailer.net_suite_notification.failed",
+        employees: t("sync_mailer.net_suite_notification.employees", count: 1)
+      )
+    )
   end
 end

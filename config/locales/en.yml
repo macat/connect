@@ -121,6 +121,17 @@ en:
     namely_error: "%{message}"
     not_connected: "No connected account"
 
+  sync_mailer:
+    net_suite_notification:
+      employees:
+        one: "%{count} employee"
+        other: "%{count} employees"
+      failed: "%{employees} not synchronized."
+      failed_list: "Here's who wasn't synchronized:"
+      subject: "%{employees} synced with NetSuite"
+      succeeded: "%{employees} synchronized with NetSuite successfully."
+      succeeded_list: "Here's who was synchronized:"
+
   time:
     formats:
       default:
