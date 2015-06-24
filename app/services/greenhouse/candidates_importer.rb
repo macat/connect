@@ -23,7 +23,8 @@ module Greenhouse
         if import.success?
           mailer.delay.successful_import(
             user,
-            candidate_name.to_s)
+            candidate_name.to_s
+          )
         else
           mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
         end
@@ -52,7 +53,8 @@ module Greenhouse
       NamelyImporter.new(
         namely_connection: user.namely_connection,
         attribute_mapper: Greenhouse::AttributeMapper.new(
-          user.namely_connection.fields.all)
+          user.namely_connection.fields.all
+        )
       )
     end
 

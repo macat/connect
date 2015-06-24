@@ -19,6 +19,7 @@ module Greenhouse
 
     private
 
+    # TODO: refactor this method
     def basic_fields(payload)
       {
         first_name: candidate(payload).fetch("first_name"),
@@ -36,7 +37,10 @@ module Greenhouse
     def custom_fields(payload)
       p = payload.fetch("custom_fields", {})
       if p.present?
-        Greenhouse::CustomFields.match(p, @namely_fields)
+        Greenhouse::CustomFields.match(
+          namely_fields: @namely_fields,
+          payload: p
+        )
       else
         {}
       end
@@ -64,7 +68,8 @@ module Greenhouse
 
     def salary_field(payload)
       custom_fields = offer(payload).fetch("custom_fields", {})
-      if custom_fields.present? && salary = custom_fields.fetch("salary")
+      salary = custom_fields.fetch("salary", nil)
+      if salary.present?
         if salary.fetch("type") == "currency"
           {
             yearly_amount: salary.fetch("value").fetch("amount"),
@@ -78,7 +83,6 @@ module Greenhouse
             date: offer(payload).fetch("starts_at")
           }
         end
-
       else
         {}
       end
