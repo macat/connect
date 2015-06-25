@@ -11,3 +11,10 @@ web:
    - "3000:3000"
   links:
    - db
+worker:
+  build: .
+  command: bundle exec rake jobs:work
+  volumes:
+   - .:/connect
+  links:
+   - db

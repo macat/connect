@@ -29,11 +29,7 @@ feature "user exports to net suite" do
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
 
-    expect(page).to have_content("Processed 3 employees")
-    expect(page).to have_content("Exported new employee: Sally Smith")
-    expect(page).to have_content("Exported updates for employee: Tina Tech")
-    expect(page).to have_content("Couldn't export: Mickey Moore")
-    expect(page).to have_content("Bad Data")
+    expect(page).to have_content(t("net_suite_exports.create.title"))
 
     open_email user.email
     expect(current_email).to have_text(

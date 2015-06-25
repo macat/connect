@@ -1,8 +1,0 @@
-<p>
-  <% if result.success? %>
-    <%= render "export", employee: result %>
-  <% else %>
-    Couldn't export: <%= result.first_name %> <%= result.last_name %>
-    (<%= result.message %>)
-  <% end %>
-</p>

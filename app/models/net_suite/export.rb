@@ -97,10 +97,6 @@ module NetSuite
         @updated
       end
 
-      def to_partial_path
-        "net_suite_exports/result"
-      end
-
       def message
         response["providerMessage"] || response["message"]
       end

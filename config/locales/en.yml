@@ -100,9 +100,8 @@ en:
 
   net_suite_exports:
     create:
-      summary:
-        one: Processed 1 employee
-        other: Processed %{count} employees
+      title: "Exporting to NetSuite"
+      slogan: "We are exporting your profiles to NetSuite and will send you an email as soon as the export is complete."
 
   jobvite_imports:
     create:

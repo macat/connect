@@ -6,10 +6,7 @@ module NetSuite
 
     def export
       @users.ready_to_sync_with(:net_suite).each do |user|
-        Export.new(
-          namely_profiles: user.namely_profiles.all,
-          net_suite: user.net_suite_connection.client
-        ).perform
+        Delayed::Job.enqueue NetSuiteExportJob.new(user.id)
       end
     end
   end

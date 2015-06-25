@@ -5,7 +5,7 @@ describe NetSuite::BulkExport do
 
   describe "#export" do
     context "with a fully connected user" do
-      it "creates an export for every user with a NetSuite connection" do
+      it "creates an export job for every user with a NetSuite connection" do
         user = create(:user)
         create(
           :net_suite_connection,
@@ -20,10 +20,11 @@ describe NetSuite::BulkExport do
 
         export user
 
-        expect(WebMock).to have_requested(
-          :post,
-          "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
-        ).twice
+        expect(WebMock).not_to have_exported_a_profile
+
+        Delayed::Worker.new.work_off
+
+        expect(WebMock).to have_exported_a_profile.twice
       end
     end
 
@@ -39,7 +40,7 @@ describe NetSuite::BulkExport do
 
         export user
 
-        expect(WebMock).not_to have_requested(:post, %r{.*})
+        expect(WebMock).not_to have_exported_a_profile
       end
     end
 
@@ -49,12 +50,19 @@ describe NetSuite::BulkExport do
 
         export user
 
-        expect(WebMock).not_to have_requested(:post, %r{.*})
+        expect(WebMock).not_to have_exported_a_profile
       end
     end
 
     def export(*users)
       NetSuite::BulkExport.new(User.where(id: users)).export
+    end
+
+    def have_exported_a_profile
+      have_requested(
+        :post,
+        "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
+      )
     end
   end
 end
