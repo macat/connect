@@ -1,6 +1,7 @@
 module Icims
   class AuthorizedRequest < SimpleDelegator
     HMAC_SHA256_HEADER = "x-icims-v1-hmac-sha256"
+    delegate :user, to: :connection
 
     def initialize(connection:, request:)
       super(request)
@@ -65,6 +66,9 @@ module Icims
       Rails.logger.info(r.payload)
       Rails.logger.info("ICIMS request END")
       r.execute
+    rescue RestClient::Unauthorized => exception
+      user.send_connection_notification("icims")
+      raise Unauthorized, exception.message
     end
 
     private
@@ -108,5 +112,7 @@ module Icims
     def hashed_payload
       digest.hexdigest(payload)
     end
+
+    class Unauthorized < StandardError; end
   end
 end

@@ -2,14 +2,21 @@ module NetSuite
   class Client
     BASE_URL = "https://api.cloud-elements.com/elements/api-v2"
 
-    def self.from_env
+    def self.from_env(user)
       new(
+        user: user,
         user_secret: ENV["CLOUD_ELEMENTS_USER_SECRET"],
         organization_secret: ENV["CLOUD_ELEMENTS_ORGANIZATION_SECRET"]
       )
     end
 
-    def initialize(user_secret:, organization_secret:, element_secret: nil)
+    def initialize(
+      user:,
+      user_secret:,
+      organization_secret:,
+      element_secret: nil
+    )
+      @user = user
       @user_secret = user_secret
       @organization_secret = organization_secret
       @element_secret = element_secret
@@ -17,6 +24,7 @@ module NetSuite
 
     def authorize(element_secret)
       self.class.new(
+        user: @user,
         user_secret: @user_secret,
         organization_secret: @organization_secret,
         element_secret: element_secret
@@ -90,6 +98,9 @@ module NetSuite
       Result.new(true, response)
     rescue RestClient::BadRequest => exception
       Result.new(false, exception.response)
+    rescue RestClient::Unauthorized => exception
+      @user.send_connection_notification("net_suite")
+      raise Unauthorized, exception.message
     end
 
     def url(path)
@@ -137,6 +148,8 @@ module NetSuite
         @json ||= JSON.parse(@response)
       end
     end
+
+    class Unauthorized < StandardError; end
 
     private_constant :Result
   end

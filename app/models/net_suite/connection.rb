@@ -26,7 +26,7 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def client
-    NetSuite::Client.from_env.authorize(authorization)
+    NetSuite::Client.from_env(user).authorize(authorization)
   end
 
   def disconnect

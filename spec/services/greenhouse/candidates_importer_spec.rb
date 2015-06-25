@@ -16,6 +16,7 @@ describe Greenhouse::CandidatesImporter do
   let(:user) do
     double(
       :user,
+      email: "test@example.com",
       namely_connection: namely_connection,
       namely_fields: double(:fields, all: namely_fields)
     )
@@ -36,7 +37,10 @@ describe Greenhouse::CandidatesImporter do
           }
         }
       end
+
       context 'when not proper signature is send' do
+        let(:user) { build_stubbed(:user) }
+
         it 'raises an error' do
           allow_any_instance_of(Greenhouse::ValidRequesterPolicy).to(
             receive(:valid?) { false })
@@ -44,6 +48,22 @@ describe Greenhouse::CandidatesImporter do
           expect {
             candidates_importer.import
           }.to raise_error(Greenhouse::CandidatesImporter::Unauthorized)
+        end
+
+        it "sends an invalid authentication message" do
+          allow_any_instance_of(Greenhouse::ValidRequesterPolicy).
+            to(receive(:valid?) { false })
+
+          mail = double(ConnectionMailer, deliver: true)
+          allow(ConnectionMailer).
+            to receive(:authentication_notification).
+            with(email: user.email, connection_type: "greenhouse").
+            and_return(mail)
+
+          expect { candidates_importer.import }.to raise_error(
+            Greenhouse::CandidatesImporter::Unauthorized
+          )
+          expect(mail).to have_received(:deliver)
         end
       end
     end

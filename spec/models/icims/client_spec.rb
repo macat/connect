@@ -23,8 +23,9 @@ describe Icims::Client do
             )
           connection = double(
             "icims_connection",
-            key: "MY_KEY",
             api_url: icims_customer_api_url,
+            key: "MY_KEY",
+            user: user_double,
             username: "USERNAME",
           )
           client = described_class.new(connection)
@@ -53,8 +54,9 @@ describe Icims::Client do
             )
           connection = double(
             "icims_connection",
-            key: "MY_KEY",
             api_url: icims_customer_api_url,
+            key: "MY_KEY",
+            user: user_double,
             username: "USERNAME",
           )
 
@@ -72,10 +74,12 @@ describe Icims::Client do
 
         connection = double(
           "icims_connection",
-          key: "MY_KEY",
           api_url: icims_customer_api_url,
+          key: "MY_KEY",
+          user: user_double,
           username: "USERNAME",
         )
+
         client = described_class.new(connection)
 
         expect { client.recent_hires }.
@@ -99,5 +103,9 @@ describe Icims::Client do
       lastname: "Doe",
       firstname: "Jane",
     }.merge(values).to_json
+  end
+
+  def user_double
+    build_stubbed(:user)
   end
 end

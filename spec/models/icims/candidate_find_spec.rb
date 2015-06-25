@@ -9,8 +9,9 @@ describe Icims::CandidateFind do
 
       connection = double(
         "icims_connection",
-        key: "MY_KEY",
         api_url: icims_customer_api_url,
+        key: "MY_KEY",
+        user: double(User),
         username: "USERNAME",
       )
 

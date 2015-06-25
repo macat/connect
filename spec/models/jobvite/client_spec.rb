@@ -23,9 +23,11 @@ describe Jobvite::Client do
         connection = double(
           "jobvite_connection",
           api_key: "MY_API_KEY",
-          secret: "MY_SECRET",
           hired_workflow_state: "Hired",
+          secret: "MY_SECRET",
+          user: user_double,
         )
+
         client = described_class.new(connection)
 
         recent_hires = client.recent_hires
@@ -53,10 +55,13 @@ describe Jobvite::Client do
           connection = double(
             "jobvite_connection",
             api_key: "MY_API_KEY",
-            secret: "MY_SECRET",
             hired_workflow_state: "Hired",
+            secret: "MY_SECRET",
+            user: user_double,
           )
-          client = described_class.new(connection) 
+
+          client = described_class.new(connection)
+
           expect(client.recent_hires.size).to eql 0
         end
       end
@@ -94,12 +99,15 @@ describe Jobvite::Client do
             ),
             headers: { "Content-Type" => "application/json" },
           )
+
         connection = double(
           "jobvite_connection",
           api_key: "MY_API_KEY",
-          secret: "MY_SECRET",
           hired_workflow_state: "Offer Accepted",
+          secret: "MY_SECRET",
+          user: user_double,
         )
+
         client = described_class.new(connection)
 
         recent_hires = client.recent_hires
@@ -119,15 +127,60 @@ describe Jobvite::Client do
         connection = double(
           "jobvite_connection",
           api_key: "MY_API_KEY",
-          secret: "MY_SECRET",
           hired_workflow_state: "Offer Accepted",
+          secret: "MY_SECRET",
+          user: user_double,
         )
+
         client = described_class.new(connection)
 
         expect { client.recent_hires }.
           to raise_exception(described_class::Error)
       end
     end
+
+    context "on authentication failure" do
+      it "returns invalid authentication message" do
+        stub_request(:get, "https://api.jobvite.com/api/v2/candidate").
+          with(
+            query: hash_including("api" => "MY_API_KEY", "sc" => "MY_SECRET")
+          ).
+          to_return(
+            body: <<-JSON
+              {
+                "status":"INVALID_KEY_SECRET",
+                "responseMessage":"an error message"
+              }
+            JSON
+          )
+
+        user = user_double
+        connection = double(
+          "jobvite_connection",
+          api_key: "MY_API_KEY",
+          hired_workflow_state: "Offer Accepted",
+          secret: "MY_SECRET",
+          user: user,
+        )
+
+        client = Jobvite::Client.new(connection)
+
+        mail = double(ConnectionMailer, deliver: true)
+        allow(ConnectionMailer).
+          to receive(:authentication_notification).
+          with(connection_type: "jobvite", email: user.email).
+          and_return(mail)
+
+        expect { client.recent_hires }.to raise_error(
+          Jobvite::Client::Unauthorized
+        )
+        expect(mail).to have_received(:deliver)
+      end
+    end
+  end
+
+  def user_double
+    build_stubbed(:user)
   end
 
   def sample_response(values = {})

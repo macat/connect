@@ -48,6 +48,21 @@ en:
       sign_in:
         prompt: "Sign in using"
 
+  connection_mailer:
+    authentication_notification:
+      notice: |
+        Your Namely Connect connection to %{integration} is raising an
+        authentication error.
+
+        Please check your account credentials for %{integration} in
+        Namely Connect.
+      subject: "Namely Connect: %{integration} has an authentication error"
+    integration_mapping:
+      greenhouse: "Greenhouse"
+      icims: "iCIMS"
+      jobvite: "Jobvite"
+      net_suite: "NetSuite"
+
   greenhouse_connections:
     description:
       connected_html: >
@@ -111,6 +126,9 @@ en:
       reason: "Reason"
 
   jobvite_connections:
+    authentication_error: >
+      Your Jobvite credentials appear to be invalid. Please disconnect Jobvite,
+      then reconnect Jobvite with updated credentials.
     description:
       connected_html: >
         <a href="http://www.jobvite.com/">Jobvite</a> is the leading recruiting
@@ -152,6 +170,7 @@ en:
       title: "NetSuite"
       slogan: >
         Please fill out the following fields to finalize this connection.
+
   net_suite_exports:
     create:
       title: "Exporting to NetSuite"

@@ -71,6 +71,21 @@ describe User do
     end
   end
 
+  describe "#send_connection_notification" do
+    it "sends an invalid authentication message" do
+      user = build_stubbed(:user)
+      mail = double(ConnectionMailer, deliver: true)
+      allow(ConnectionMailer).
+        to receive(:authentication_notification).
+        with(email: user.email, connection_type: "icims").
+        and_return(mail)
+
+      user.send_connection_notification("icims")
+
+      expect(mail).to have_received(:deliver)
+    end
+  end
+
   describe '#save_token_info' do 
     let(:user) { create :user }
 

@@ -60,4 +60,39 @@ feature "User imports jobvite candidates" do
 
     expect(page).to have_content t("jobvite_imports.create.not_imported_successfully")
   end
+
+  scenario "with bad authentication" do
+    stub_namely_fields("fields_with_jobvite")
+    stub_request(:get, /.*api.jobvite.com\/api\/v2\/candidate/).
+      to_return(status: 200, body: authentication_error_as_json)
+
+    user = create(:user)
+    create(
+      :jobvite_connection,
+      api_key: ENV.fetch("TEST_JOBVITE_KEY"),
+      secret: ENV.fetch("TEST_JOBVITE_SECRET"),
+      user: user
+    )
+
+    visit dashboard_path(as: user)
+    within(".jobvite-account") do
+      click_button t("dashboards.show.import_now")
+    end
+
+    expect(page).to have_error_message(
+      t("jobvite_connections.authentication_error").chomp
+    )
+    within(".jobvite-account") do
+      expect(page).to have_button(t("dashboards.show.import_now"))
+    end
+  end
+
+  def authentication_error_as_json
+    <<-JSON
+      {
+        "status": "INVALID_KEY_SECRET",
+        "responseMessage": "An error message"
+      }
+    JSON
+  end
 end

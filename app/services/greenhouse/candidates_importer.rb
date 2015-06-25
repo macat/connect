@@ -15,9 +15,9 @@ module Greenhouse
 
     def import
       if is_ping?
-        raise Unauthorized.new unless Greenhouse::ValidRequesterPolicy.new(
-          connection,
-          signature, params).valid?
+        if invalid_request?
+          raise_unauthorized_error_and_send_notification
+        end
       else
         import = namely_importer.single_import(greenhouse_payload)
         if import.success?
@@ -33,6 +33,14 @@ module Greenhouse
 
     private
 
+    def invalid_request?
+      !Greenhouse::ValidRequesterPolicy.new(
+        connection,
+        signature,
+        params
+      ).valid?
+    end
+
     def is_ping?
       greenhouse_payload.include? :web_hook_id
     end
@@ -43,6 +51,11 @@ module Greenhouse
 
     def greenhouse_payload
       params[:payload]
+    end
+
+    def raise_unauthorized_error_and_send_notification
+      user.send_connection_notification("greenhouse")
+      raise Unauthorized, "Invalid authentication to Greenhouse"
     end
 
     def user

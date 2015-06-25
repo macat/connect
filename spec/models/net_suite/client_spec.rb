@@ -10,7 +10,7 @@ describe NetSuite::Client do
 
       ClimateControl.modify env do
         stub_request(:post, /.*/)
-        client = NetSuite::Client.from_env
+        client = NetSuite::Client.from_env(build_stubbed(:user))
 
         client.create_instance({})
 
@@ -27,6 +27,7 @@ describe NetSuite::Client do
     it "sets element authorization" do
       stub_request(:post, /.*/)
       client = NetSuite::Client.new(
+        user: build_stubbed(:user),
         user_secret: "user-secret",
         organization_secret: "org-secret",
       )
@@ -75,6 +76,7 @@ describe NetSuite::Client do
           to_return(status: 200, body: instance.to_json)
 
         client = NetSuite::Client.new(
+          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret"
         )
@@ -101,6 +103,7 @@ describe NetSuite::Client do
           to_return(status: 400, body: { message: error }.to_json)
 
         client = NetSuite::Client.new(
+          user: build_stubbed(:user),
           user_secret: "x",
           organization_secret: "x"
         )
@@ -109,6 +112,38 @@ describe NetSuite::Client do
 
         expect(result).not_to be_success
         expect(result[:message]).to eq(error)
+      end
+    end
+
+    context "on authentication failure" do
+      it "sends an invalid authentication message" do
+        error = "Invalid Organization or User secret, or invalid Element" \
+                " token provided."
+
+        stub_request(
+          :post,
+          "https://api.cloud-elements.com/elements/api-v2/instances"
+        ).
+          to_return(status: 401, body: { message: error }.to_json)
+
+        user = build_stubbed(:user)
+
+        client = NetSuite::Client.new(
+          user: user,
+          user_secret: "x",
+          organization_secret: "x"
+        )
+
+        mail = double(ConnectionMailer, deliver: true)
+        allow(ConnectionMailer).
+          to receive(:authentication_notification).
+          with(email: user.email, connection_type: "net_suite").
+          and_return(mail)
+
+        expect { client.create_instance({}) }.to raise_error(
+          NetSuite::Client::Unauthorized
+        )
+        expect(mail).to have_received(:deliver)
       end
     end
   end
@@ -141,6 +176,7 @@ describe NetSuite::Client do
           to_return(status: 200, body: employee.to_json)
 
         client = NetSuite::Client.new(
+          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret",
           element_secret: "element-secret"
@@ -191,6 +227,7 @@ describe NetSuite::Client do
           to_return(status: 200, body: employee.to_json)
 
         client = NetSuite::Client.new(
+          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret",
           element_secret: "element-secret"
@@ -235,6 +272,7 @@ describe NetSuite::Client do
         to_return(status: 200, body: subsidiaries.to_json)
 
       client = NetSuite::Client.new(
+        user: build_stubbed(:user),
         user_secret: "user-secret",
         organization_secret: "org-secret",
         element_secret: "element-secret"

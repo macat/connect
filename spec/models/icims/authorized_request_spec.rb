@@ -93,6 +93,31 @@ describe Icims::AuthorizedRequest do
 
       expect(request).to have_been_requested
     end
+
+    context "an authentication error is returned" do
+      it "sends an invalid authentication message" do
+        stub_request(
+          :post,
+          post_request.url,
+        ).with(
+          headers: {
+            "Authorization" => authorized_request.authorization_header,
+          }
+        ).to_return(status: 401, body: errors.to_json)
+
+        mail = double(ConnectionMailer, deliver: true)
+        user = connection.user
+        allow(ConnectionMailer).
+          to receive(:authentication_notification).
+          with(email: user.email, connection_type: "icims").
+          and_return(mail)
+
+        expect { authorized_request.execute }.to raise_error(
+          Icims::AuthorizedRequest::Unauthorized
+        )
+        expect(mail).to have_received(:deliver)
+      end
+    end
   end
 
   def authorized_request(request = post_request)
@@ -104,6 +129,17 @@ describe Icims::AuthorizedRequest do
 
   def connection
     @connection ||= build(:icims_connection, :connected)
+  end
+
+  def errors
+    {
+      "errors" => [
+        {
+          "errorCode": 9,
+          "errorMessage": "Authentication credentials invalid"
+        }
+      ]
+    }
   end
 
   def post_request

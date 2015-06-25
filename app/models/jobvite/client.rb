@@ -1,7 +1,7 @@
 module Jobvite
   class Client
-    class Error < StandardError
-    end
+    class Error < StandardError; end
+    class Unauthorized < StandardError; end
 
     def self.recent_hires(connection)
       new(connection).recent_hires
@@ -12,7 +12,7 @@ module Jobvite
     end
 
     def recent_hires
-      CandidatePage.all(connection).flat_map { |page| page.candidates }
+      CandidatePage.all(connection).flat_map(&:candidates)
     end
 
     private
@@ -20,8 +20,12 @@ module Jobvite
     attr_reader :connection
 
     class CandidatePage
+      delegate :user, to: :connection
+
+      attr_reader :response_code
+
       def self.all(connection)
-        page = new(connection, 1)
+        page = new(connection: connection, start: 1)
         Enumerator.new do |yielder|
           while page
             yielder.yield page
@@ -30,22 +34,22 @@ module Jobvite
         end
       end
 
-      def initialize(connection, start)
+      def initialize(connection:, start: 1)
         @connection = connection
         @start = start
       end
 
       def candidates
-        if json_response.has_key?("errors")
-          raise Error, json_response["errors"]["messages"].to_sentence
-        else
-          json_response.fetch("candidates", {}).map { |hash| Candidate.new(hash) }
-        end
+        process_errors
+        json_response.fetch("candidates", {}).map { |hash| Candidate.new(hash) }
       end
 
       def next
         unless last_page?
-          self.class.new(connection, next_page_start)
+          self.class.new(
+            connection: connection,
+            start: next_page_start,
+          )
         end
       end
 
@@ -53,8 +57,32 @@ module Jobvite
 
       attr_reader :connection, :start
 
+      def invalid_secret_key
+        json_response.select do |key, value|
+          key == "status" && value == "INVALID_KEY_SECRET"
+        end
+      end
+
       def json_response
         @json_response ||= JSON.parse(RestClient.get(url))
+      end
+
+      def process_errors
+        raise_on_errors_message
+        raise_on_authenticaton_error
+      end
+
+      def raise_on_errors_message
+        if json_response.has_key?("errors")
+          raise Error, json_response["errors"]["messages"].to_sentence
+        end
+      end
+
+      def raise_on_authenticaton_error
+        if invalid_secret_key.present?
+          user.send_connection_notification("jobvite")
+          raise Unauthorized, json_response["responseMessage"]
+        end
       end
 
       def url
