@@ -40,13 +40,15 @@ describe Icims::AuthorizedRequest do
 
   describe "#string_to_sign" do
     it "returns a string to sign" do
-      signable_string = [
-        "x-icims-v1-hmac-sha256",
-        "#{Time.current.iso8601}",
-        "#{OpenSSL::Digest::SHA256.new(authorized_request.canonical_request)}",
-      ].join("\n")
-
       Timecop.freeze do
+        signable_string = [
+          "x-icims-v1-hmac-sha256",
+          "#{Time.current.iso8601}",
+          "#{OpenSSL::Digest::SHA256.new(
+            authorized_request.canonical_request)
+          }",
+        ].join("\n")
+
         expect(authorized_request.string_to_sign).to eq signable_string
       end
     end
