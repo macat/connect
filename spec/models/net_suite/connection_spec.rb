@@ -53,4 +53,14 @@ describe NetSuite::Connection do
       expect(result).to eq(authorized_client)
     end
   end
+
+  describe "#disconnect" do
+    it "clears connected fields" do
+      connection = create(:net_suite_connection, :connected)
+
+      connection.disconnect
+
+      expect(connection.reload).not_to be_connected
+    end
+  end
 end

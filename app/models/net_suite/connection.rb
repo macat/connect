@@ -16,4 +16,8 @@ class NetSuite::Connection < ActiveRecord::Base
   def client
     NetSuite::Client.from_env.authorize(authorization)
   end
+
+  def disconnect
+    update!(instance_id: nil, authorization: nil)
+  end
 end
