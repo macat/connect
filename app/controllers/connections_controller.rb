@@ -1,14 +1,14 @@
 class ConnectionsController < ApplicationController
-  def edit
+  def new
     connection_form
-    render edit_template
+    render new_template
   end
 
-  def update
+  def create
     if connection_form.update(form_params)
       redirect_to dashboard_path
     else
-      render edit_template
+      render new_template
     end
   end
 
@@ -30,8 +30,8 @@ class ConnectionsController < ApplicationController
     @connection ||= current_user.send(form_type)
   end
 
-  def edit_template
-    form_type.pluralize + "/edit"
+  def new_template
+    form_type.pluralize + "/new"
   end
 
   def form_params

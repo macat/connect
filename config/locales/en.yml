@@ -56,7 +56,7 @@ en:
         <a href="http://www.greenhouse.io/">Greenhouse</a> is software to
         optimize your entire recruiting process. Find better candidates, conduct
         more focused interviews, and make data-driven hiring decisions.
-    edit:
+    new:
       title: "Greenhouse"
       slogan: >
         Please fill out the following fields to connect to this application.
@@ -94,7 +94,7 @@ en:
         professionals to manage their organization's entire talent lifecycle
         from sourcing to recruitment marketing to applicant tracking to
         onboarding all within a single web-based application.
-    edit:
+    new:
       title: "iCIMS"
       slogan: >
         Please fill out the following fields to connect to this application.
@@ -124,7 +124,7 @@ en:
         applicant tracking, recruiting CRM and social recruiting software
         solutions from Jobvite to target the right talent and build the best
         teams.
-    edit:
+    new:
       title: "Jobvite"
       slogan: >
         Please fill out the following fields to connect to this application.
@@ -144,7 +144,7 @@ en:
     description:
       connected_html: Connected NetSuite Description
       disconnected_html: Disconnected NetSuite Description
-    edit:
+    new:
       title: "NetSuite"
       slogan: >
         Please fill out the following fields to connect to this application.

@@ -7,16 +7,18 @@
 
 <%= simple_form_for(
   @connection_form,
-  as: :greenhouse_connection,
-  url: connections_url(:greenhouse_connection),
-  method: :put,
+  as: :icims_connection,
+  url: connection_url(:icims_connection),
   html: { class: "stacked" }
 ) do |f| %>
   <div class="form-row">
-    <%= f.input :name, input_html: { class: "half" } %>
+    <%= f.input :username, input_html: { class: "half" } %>
   </div>
   <div class="form-row">
-    <%= f.input :secret_key, disabled: true, input_html: { class: "half" } %>
+    <%= f.input :key, input_html: { class: "half" } %>
+  </div>
+  <div class="form-row">
+    <%= f.input :customer_id, input_html: { class: "half" } %>
   </div>
   <div class="-n-actions">
     <%= button_tag(type: "submit", class: "-n-btn") do %>

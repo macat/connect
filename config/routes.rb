@@ -28,15 +28,15 @@ Rails.application.routes.draw do
   )
 
   get(
-    "/connections/:form_type/edit",
-    to: "connections#edit",
-    as: "edit_connections"
+    "/connections/:form_type/new",
+    to: "connections#new",
+    as: "new_connection"
   )
 
-  put(
+  post(
     "/connections/:form_type",
-    to: "connections#update",
-    as: "connections"
+    to: "connections#create",
+    as: "connection"
   )
 
   delete(

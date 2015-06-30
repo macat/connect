@@ -14,7 +14,7 @@
     <% end %>
     <%= render "disconnect_button", path: destroy_connections_path(:jobvite_connection) %>
   <% else %>
-    <%= link_to edit_connections_path(:jobvite_connection), class: "-n-btn -n-btn-sm" do %>
+    <%= link_to new_connection_path(:jobvite_connection), class: "-n-btn -n-btn-sm" do %>
       <%= fa_icon "plug", text: t("dashboards.show.connect") %>
     <% end %>
     <h3>
