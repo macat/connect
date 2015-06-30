@@ -6,7 +6,10 @@ en:
       export_now: "Export now"
       import_now: "Import now"
       sign_out: "Sign out"
-      missing_namely_field: "You need to add a '%{name}' custom field to your Namely account in order to synchronize profiles. This field is used to avoid importing or exporting the same candidate multiple times."
+      missing_namely_field: >
+        You need to add a '%{name}' custom field to your Namely account in order
+        to synchronize profiles. This field is used to avoid importing or
+        exporting the same candidate multiple times.
 
   date:
     formats:
@@ -22,7 +25,8 @@ en:
     signed_out: "Signed out"
 
   subheader:
-    slogan: "Namely Connect allows you to seamlessly integrate with 3rd party sites."
+    slogan: >
+      Namely Connect allows you to seamlessly integrate with 3rd party sites.
 
   helpers:
     submit:
@@ -44,21 +48,40 @@ en:
       sign_in:
         prompt: "Sign in using"
 
-  icims_connections:
-    edit:
-      title: "iCIMS"
-      slogan: "Please fill out the following fields to connect to this application."
-
   greenhouse_connections:
     edit:
       title: "Greenhouse"
-      slogan: "Please fill out the following fields to connect to this application."
+      slogan: >
+        Please fill out the following fields to connect to this application.
 
   greenhouse_candidate_import_mailer:
     successful_import:
       subject: "%{name} successfully added to Namely"
     unsuccessful_import:
       subject: "Unable to add %{name} to Namely"
+
+  icims_candidate_import_mailer:
+    successful_import:
+      subject: "%{name} successfully added to Namely"
+    unauthorized_import:
+      subject: >
+        You were unable to make this import because you are unauthorized
+    unsuccessful_import:
+      subject: "Unable to add %{name} to Namely"
+
+  icims_candidate_retry_imports:
+    show:
+      retry: >
+        To retry this import refresh this url or use the link provided in
+        your email
+      successful: "You have successfully imported %{name}"
+      unsuccessful: "Not able to import %{name}"
+
+  icims_connections:
+    edit:
+      title: "iCIMS"
+      slogan: >
+        Please fill out the following fields to connect to this application.
 
   icims_imports:
     create:
@@ -71,37 +94,11 @@ en:
       not_imported_successfully: "You did not import the following:"
       reason: "Reason"
 
-  icims_candidate_import_mailer:
-    successful_import:
-      subject: "%{name} successfully added to Namely"
-    unauthorized_import:
-      subject: "You were unable to make this import because you are unauthorized"
-    unsuccessful_import:
-      subject: "Unable to add %{name} to Namely"
-
-  icims_candidate_retry_imports:
-    show:
-      retry: "To retry this import refresh this url or use the link provided in your email"
-      successful: "You have successfully imported %{name}"
-      unsuccessful: "Not able to import %{name}"
-
   jobvite_connections:
     edit:
       title: "Jobvite"
-      slogan: "Please fill out the following fields to connect to this application."
-
-  net_suite_connections:
-    description:
-      connected: Connected NetSuite Description
-      disconnected: Disconnected NetSuite Description
-    edit:
-      title: "NetSuite"
-      slogan: "Please fill out the following fields to connect to this application."
-
-  net_suite_exports:
-    create:
-      title: "Exporting to NetSuite"
-      slogan: "We are exporting your profiles to NetSuite and will send you an email as soon as the export is complete."
+      slogan: >
+        Please fill out the following fields to connect to this application.
 
   jobvite_imports:
     create:
@@ -113,6 +110,22 @@ en:
       contact_number_title: "Contact Number"
       email_address_title: "Email Address"
       reason: "Reason"
+
+  net_suite_connections:
+    description:
+      connected: Connected NetSuite Description
+      disconnected: Disconnected NetSuite Description
+    edit:
+      title: "NetSuite"
+      slogan: >
+        Please fill out the following fields to connect to this application.
+
+  net_suite_exports:
+    create:
+      title: "Exporting to NetSuite"
+      slogan: >
+        We are exporting your profiles to NetSuite and will send you an email as
+        soon as the export is complete.
 
   status:
     client_error: "Service error: %{message}"
