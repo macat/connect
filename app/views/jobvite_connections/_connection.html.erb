@@ -4,7 +4,7 @@
       <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
     </h3>
     <p>
-    Jobvite is the leading recruiting platform for the social web. Today’s fastest-growing companies use applicant tracking,  recruiting CRM and social recruiting software solutions from Jobvite to target the right talent and build the best teams.
+      <%= t("jobvite_connections.description.connected_html") %>
     </p>
     <% if connection.missing_namely_field? %>
       <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
@@ -21,7 +21,7 @@
       <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
     </h3>
     <p>
-    <a href="http://www.jobvite.com/">Jobvite</a> is the leading recruiting platform for the social web. Today’s fastest-growing companies use applicant tracking,  recruiting CRM and social recruiting software solutions from Jobvite to target the right talent and build the best teams.
+      <%= t("jobvite_connections.description.disconnected_html") %>
     </p>
   <% end %>
 </article>

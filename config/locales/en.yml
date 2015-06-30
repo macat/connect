@@ -49,6 +49,13 @@ en:
         prompt: "Sign in using"
 
   greenhouse_connections:
+    description:
+      connected_html: >
+        Forthcoming.
+      disconnected_html: >
+        <a href="http://www.greenhouse.io/">Greenhouse</a> is software to
+        optimize your entire recruiting process. Find better candidates, conduct
+        more focused interviews, and make data-driven hiring decisions.
     edit:
       title: "Greenhouse"
       slogan: >
@@ -78,6 +85,15 @@ en:
       unsuccessful: "Not able to import %{name}"
 
   icims_connections:
+    description:
+      connected_html: >
+        Forthcoming.
+      disconnected_html: >
+        <a href="http://www.icims.com/">iCIMS</a>' Talent Platform is the
+        industry's premier talent acquisition solution that enables HR
+        professionals to manage their organization's entire talent lifecycle
+        from sourcing to recruitment marketing to applicant tracking to
+        onboarding all within a single web-based application.
     edit:
       title: "iCIMS"
       slogan: >
@@ -95,6 +111,19 @@ en:
       reason: "Reason"
 
   jobvite_connections:
+    description:
+      connected_html: >
+        <a href="http://www.jobvite.com/">Jobvite</a> is the leading recruiting
+        platform for the social web. Today’s fastest-growing companies use
+        applicant tracking, recruiting CRM and social recruiting software
+        solutions from Jobvite to target the right talent and build the best
+        teams.
+      disconnected_html: >
+        <a href="http://www.jobvite.com/">Jobvite</a> is the leading recruiting
+        platform for the social web. Today’s fastest-growing companies use
+        applicant tracking, recruiting CRM and social recruiting software
+        solutions from Jobvite to target the right talent and build the best
+        teams.
     edit:
       title: "Jobvite"
       slogan: >
@@ -113,8 +142,8 @@ en:
 
   net_suite_connections:
     description:
-      connected: Connected NetSuite Description
-      disconnected: Disconnected NetSuite Description
+      connected_html: Connected NetSuite Description
+      disconnected_html: Disconnected NetSuite Description
     edit:
       title: "NetSuite"
       slogan: >

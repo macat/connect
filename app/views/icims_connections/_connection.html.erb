@@ -3,6 +3,9 @@
     <h3>
       <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
     </h3>
+    <p>
+      <%= t("icims_connections.description.connected_html") %>
+    </p>
     <% if connection.missing_namely_field? %>
       <%= t("dashboards.show.missing_namely_field", name: connection.required_namely_field) %>
     <% end %>
@@ -19,7 +22,7 @@
       <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
     </h3>
     <p>
-    <a href="http://www.icims.com/">iCIMS</a>' Talent Platform is the industry's premier talent acquisition solution that enables HR professionals to manage their organization's entire talent lifecycle from sourcing to recruitment marketing to applicant tracking to onboarding all within a single web-based application.
+      <%= t("icims_connections.description.disconnected_html") %>
     </p>
   <% end %>
 </article>

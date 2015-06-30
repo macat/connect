@@ -5,7 +5,7 @@
         <%= fa_icon "check-circle", class: "connected", text: connection.readable_name %>
       </h3>
       <p>
-        <%= t("net_suite_connections.description.connected") %>
+        <%= t("net_suite_connections.description.connected_html") %>
       </p>
 
       <% if connection.missing_namely_field? %>
@@ -27,7 +27,7 @@
         <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
       </h3>
       <p>
-        <%= t("net_suite_connections.description.disconnected") %>
+        <%= t("net_suite_connections.description.disconnected_html") %>
       </p>
     <% end %>
   </article>
