@@ -8,7 +8,7 @@
 <section>
   <%= simple_form_for(
     @connection,
-    url: connection_url(:net_suite_connection),
+    url: integration_connection_path(:net_suite),
     html: {class: 'stacked'}
   ) do |f| %>
     <%= f.error :base %>

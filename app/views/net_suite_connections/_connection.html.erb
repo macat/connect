@@ -18,9 +18,9 @@
       <% if connection.found_namely_field? %>
         <%= button_to t("dashboards.show.export_now"), polymorphic_path([connection.namespace, :exports]), class: "-n-btn" %>
       <% end %>
-      <%= render "disconnect_button", path: destroy_connections_path(:net_suite_connection) %>
+      <%= render "disconnect_button", integration_id: :net_suite %>
     <% else %>
-      <%= link_to new_connection_path(:net_suite_connection), class: "-n-btn -n-btn-sm" do %>
+      <%= link_to new_integration_connection_path(:net_suite), class: "-n-btn -n-btn-sm" do %>
         <%= fa_icon "plug", text: t("dashboards.show.connect") %>
       <% end %>
       <h3>

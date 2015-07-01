@@ -1,11 +1,11 @@
 class ConnectionFormFactory
-  def self.create(connection:, form_type:)
-    new(connection: connection, form_type: form_type).create_instance
+  def self.create(connection:, integration_id:)
+    new(connection: connection, integration_id: integration_id).create_instance
   end
 
-  def initialize(connection:, form_type:)
+  def initialize(connection:, integration_id:)
     @connection = connection
-    @form_type = form_type
+    @integration_id = integration_id
   end
 
   def create_instance
@@ -17,7 +17,7 @@ class ConnectionFormFactory
   private
 
   def connection_form_class
-    connection_form_class_mapping.fetch(@form_type)
+    connection_form_class_mapping.fetch(@integration_id)
   end
 
   def connection_form_class_arguments
@@ -34,10 +34,10 @@ class ConnectionFormFactory
 
   def connection_form_class_mapping
     {
-      "greenhouse_connection" => Greenhouse::ConnectionForm,
-      "icims_connection" => Icims::ConnectionForm,
-      "jobvite_connection" => Jobvite::ConnectionForm,
-      "net_suite_connection" => NetSuite::ConnectionForm
+      "greenhouse" => Greenhouse::ConnectionForm,
+      "icims" => Icims::ConnectionForm,
+      "jobvite" => Jobvite::ConnectionForm,
+      "net_suite" => NetSuite::ConnectionForm
     }
   end
 end

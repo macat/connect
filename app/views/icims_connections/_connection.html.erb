@@ -13,9 +13,9 @@
     <% if connection.found_namely_field? %>
       <%= icims_candidate_imports_url(connection.api_key) %>
     <% end %>
-    <%= render "disconnect_button", path: destroy_connections_path(:icims_connection) %>
+    <%= render "disconnect_button", integration_id: :icims %>
   <% else %>
-    <%= link_to new_connection_path(:icims_connection), class: "-n-btn -n-btn-sm connect" do %>
+    <%= link_to new_integration_connection_path(:icims), class: "-n-btn -n-btn-sm connect" do %>
       <%= fa_icon "plug", text: t("dashboards.show.connect") %>
     <% end %>
     <h3>

@@ -9,7 +9,7 @@
   <%= simple_form_for(
     @connection_form,
     as: :net_suite_connection,
-    url: connection_url(:net_suite_connection),
+    url: integration_connection_path(:net_suite),
     html: {class: 'stacked'}
   ) do |f| %>
     <%= f.error :base %>

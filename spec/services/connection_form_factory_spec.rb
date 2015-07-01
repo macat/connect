@@ -4,28 +4,28 @@ describe ConnectionFormFactory do
   context ".create" do
     context "greenhouse_connection" do
       it "returns a connection form" do
-        connection_form = create_connection_form("greenhouse_connection")
+        connection_form = create_connection_form("greenhouse")
         expect(connection_form.class).to eq(Greenhouse::ConnectionForm)
       end
     end
 
     context "icims_connection" do
       it "returns a connection form" do
-        connection_form = create_connection_form("icims_connection")
+        connection_form = create_connection_form("icims")
         expect(connection_form.class).to eq(Icims::ConnectionForm)
       end
     end
 
     context "jobvite_connection" do
       it "returns a connection form" do
-        connection_form = create_connection_form("jobvite_connection")
+        connection_form = create_connection_form("jobvite")
         expect(connection_form.class).to eq(Jobvite::ConnectionForm)
       end
     end
 
     context "net_suite_connection" do
       it "returns a connection form" do
-        connection_form = create_connection_form("net_suite_connection")
+        connection_form = create_connection_form("net_suite")
         expect(connection_form.class).to eq(NetSuite::ConnectionForm)
       end
     end
@@ -36,21 +36,21 @@ describe ConnectionFormFactory do
         expect do
           ConnectionFormFactory.create(
             connection: connection,
-            form_type: "nonexistant_connection"
+            integration_id: "nonexistant_connection"
           )
         end.to raise_exception(KeyError)
       end
     end
   end
 
-  def create_connection_form(form_type)
+  def create_connection_form(integration_id)
     ConnectionFormFactory.create(
-      connection: create(form_type.to_sym, :connected),
-      form_type: form_type
+      connection: create(:"#{integration_id}_connection", :connected),
+      integration_id: integration_id
     )
   end
 
-  def allow_form_type(form_type)
-    expect { create_connection_form(form_type) }.not_to raise_exception
+  def allow_integration(id:)
+    expect { create_connection_form(id) }.not_to raise_exception
   end
 end

@@ -21,38 +21,13 @@ Rails.application.routes.draw do
   resources :icims_candidate_retry_imports, only: [:show]
   resource :session, only: [:new, :destroy]
 
+  resources :integrations, only: [] do
+    resource :connection, only: [:new, :create, :edit, :update, :destroy]
+  end
+
   get(
     "/session/oauth_callback",
     to: "sessions#oauth_callback",
     as: "session_oauth_callback"
-  )
-
-  get(
-    "/connections/:form_type/new",
-    to: "connections#new",
-    as: "new_connection"
-  )
-
-  post(
-    "/connections/:form_type",
-    to: "connections#create",
-    as: "connection"
-  )
-
-  get(
-    "/connections/:form_type/edit",
-    to: "connections#edit",
-    as: "edit_connection"
-  )
-
-  patch(
-    "/connections/:form_type",
-    to: "connections#update"
-  )
-
-  delete(
-    "/connections/:form_type",
-    to: "connections#destroy",
-    as: "destroy_connections"
   )
 end

@@ -8,7 +8,7 @@
 <%= simple_form_for(
   @connection_form,
   as: :greenhouse_connection,
-  url: connection_url(:greenhouse_connection),
+  url: integration_connection_path(:greenhouse),
   html: { class: "stacked" }
 ) do |f| %>
   <div class="form-row">
