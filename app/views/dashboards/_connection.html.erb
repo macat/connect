@@ -1,4 +1,4 @@
-<article class="connection <%= connection.namespace.to_s.dasherize %>-account">
+<article class="connection <%= connection.integration_id.to_s.dasherize %>-account">
   <% if connection.connected? %>
     <%= render "dashboards/connected_connection", connection: connection %>
   <% else %>

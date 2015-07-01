@@ -57,11 +57,6 @@ en:
         Please check your account credentials for %{integration} in
         Namely Connect.
       subject: "Namely Connect: %{integration} has an authentication error"
-    integration_mapping:
-      greenhouse: "Greenhouse"
-      icims: "iCIMS"
-      jobvite: "Jobvite"
-      net_suite: "NetSuite"
 
   greenhouse_connections:
     description:
@@ -177,6 +172,18 @@ en:
       slogan: >
         We are exporting your profiles to NetSuite and will send you an email as
         soon as the export is complete.
+
+  greenhouse:
+    name: Greenhouse
+
+  icims:
+    name: iCIMS
+
+  jobvite:
+    name: Jobvite
+
+  net_suite:
+    name: NetSuite
 
   status:
     client_error: "Service error: %{message}"

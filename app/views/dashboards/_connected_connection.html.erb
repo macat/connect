@@ -2,12 +2,12 @@
   <%= fa_icon(
     "check-circle",
     class: "connected",
-    text: connection.readable_name
+    text: t("#{connection.integration_id}.name")
   ) %>
 </h3>
 
 <p>
-  <%= t("#{connection.namespace}_connections.description.connected_html") %>
+  <%= t("#{connection.integration_id}_connections.description.connected_html") %>
 </p>
 
 <% if connection.missing_namely_field? %>
@@ -19,9 +19,9 @@
 
 <% if connection.found_namely_field? %>
   <%= render(
-    "#{connection.namespace}_connections/connected",
+    "#{connection.integration_id}_connections/connected",
     connection: connection
   ) %>
 <% end %>
 
-<%= render "disconnect_button", integration_id: connection.namespace %>
+<%= render "disconnect_button", integration_id: connection.integration_id %>

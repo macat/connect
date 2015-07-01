@@ -14,6 +14,6 @@ class ConnectionMailer < ApplicationMailer
   private
 
   def map_connection_type_to_integration(connection_type)
-    t("connection_mailer.integration_mapping.#{connection_type}")
+    t("#{connection_type}.name")
   end
 end

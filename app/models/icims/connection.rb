@@ -5,6 +5,10 @@ module Icims
     validates :api_key, uniqueness: true
     before_create :set_api_key
 
+    def integration_id
+      :icims
+    end
+
     def connected?
       username.present? && key.present? && customer_id.present?
     end

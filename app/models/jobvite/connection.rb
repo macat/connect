@@ -4,6 +4,10 @@ module Jobvite
 
     validates :hired_workflow_state, presence: true
 
+    def integration_id
+      :jobvite
+    end
+
     def connected?
       api_key.present? && secret.present?
     end

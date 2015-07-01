@@ -25,6 +25,10 @@ module Greenhouse
       "greenhouse_id"
     end
 
+    def integration_id
+      :greenhouse
+    end
+
     def set_secret_key
       self.secret_key = SecureRandom.hex(20)
     end

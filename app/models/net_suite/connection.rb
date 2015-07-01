@@ -3,6 +3,10 @@ class NetSuite::Connection < ActiveRecord::Base
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
+  def integration_id
+    :net_suite
+  end
+
   def connected?
     instance_id.present? && authorization.present?
   end
