@@ -8,6 +8,10 @@ module Jobvite
       api_key.present? && secret.present?
     end
 
+    def ready?
+      true
+    end
+
     def disconnect
       update(
         api_key: nil,

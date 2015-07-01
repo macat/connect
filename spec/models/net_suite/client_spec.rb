@@ -212,4 +212,38 @@ describe NetSuite::Client do
       end
     end
   end
+
+  describe "#subsidiaries" do
+    it "looks up subsidiaries" do
+      subsidiaries = [
+        { "internalId" => "1", "name" => "Apple" },
+        { "internalId" => "2", "name" => "Banana" }
+      ]
+      stub_request(
+        :get,
+        "https://api.cloud-elements.com/elements/api-v2" \
+        "/hubs/erp/lookups/subsidiary"
+      ).
+        with(
+          headers: {
+            "Authorization" => "User user-secret, " \
+            "Organization org-secret, " \
+            "Element element-secret",
+            "Content-Type" => "application/json"
+          }
+        ).
+        to_return(status: 200, body: subsidiaries.to_json)
+
+      client = NetSuite::Client.new(
+        user_secret: "user-secret",
+        organization_secret: "org-secret",
+        element_secret: "element-secret"
+      )
+
+      result = client.subsidiaries
+
+      expect(result).to be_success
+      expect(result.to_a).to eq(subsidiaries)
+    end
+  end
 end

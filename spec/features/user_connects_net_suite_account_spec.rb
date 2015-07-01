@@ -4,14 +4,24 @@ feature "user connects NetSuite account" do
   scenario "successfully" do
     stub_namely_fields("fields_with_net_suite")
     stub_create_instance(status: 200, body: { id: "123", token: "abcxyz" })
+    stub_lookup_subsidiaries(
+      status: 200,
+      body: [
+        { "internalId": "1", "name": "First" },
+        { "internalId": "2", "name": "Second" }
+      ]
+    )
 
     visit_dashboard
 
-    expect(net_suite).not_to have_link(t("dashboards.show.edit"))
+    expect(net_suite).
+      to have_text_from("net_suite_connections.description.disconnected_html")
     net_suite.click_link t("dashboards.show.connect")
 
-    submit_net_suite_form
-    expect(net_suite).not_to have_link(t("dashboards.show.connect"))
+    submit_net_suite_account_form
+    select_net_suite_subsidiary("Second")
+    expect(net_suite).
+      to have_text_from("net_suite_connections.description.connected_html")
   end
 
   scenario "with bad authentication" do
@@ -21,7 +31,7 @@ feature "user connects NetSuite account" do
 
     net_suite.click_link t("dashboards.show.connect")
 
-    submit_net_suite_form
+    submit_net_suite_account_form
     expect(page).to have_content("Not good")
   end
 
@@ -30,10 +40,15 @@ feature "user connects NetSuite account" do
     visit dashboard_path(as: user)
   end
 
-  def submit_net_suite_form
+  def submit_net_suite_account_form
     fill_in field("net_suite_connection.email"), with: "user@example.com"
     fill_in field("net_suite_connection.account_id"), with: "12345"
     fill_in field("net_suite_connection.password"), with: "secret"
+    click_button button("net_suite_connection.update")
+  end
+
+  def select_net_suite_subsidiary(name)
+    select name, from: field("net_suite_connection.subsidiary_id")
     click_button button("net_suite_connection.update")
   end
 
@@ -44,7 +59,21 @@ feature "user connects NetSuite account" do
     ).to_return(status: status, body: JSON.dump(body))
   end
 
+  def stub_lookup_subsidiaries(status:, body:)
+    stub_request(
+      :get,
+      "https://api.cloud-elements.com/" \
+        "elements/api-v2/hubs/erp/lookups/subsidiary"
+    ).to_return(status: status, body: JSON.dump(body))
+  end
+
   def net_suite
     page.find(".net-suite-account")
+  end
+
+  def have_text_from(key)
+    html = t(key)
+    text = Capybara.string(html).text
+    have_content(text)
   end
 end

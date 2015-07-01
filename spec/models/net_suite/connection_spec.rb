@@ -1,6 +1,11 @@
 require "rails_helper"
 
 describe NetSuite::Connection do
+  describe "validations" do
+    it { is_expected.to allow_value(nil).for(:subsidiary_id) }
+    it { is_expected.not_to allow_value("").for(:subsidiary_id) }
+  end
+
   describe "#connected?" do
     context "with saved authorization data" do
       it "returns true" do
@@ -37,20 +42,28 @@ describe NetSuite::Connection do
     end
   end
 
+  describe "#ready?" do
+    context "with a subsidiary" do
+      it "returns true" do
+        expect(NetSuite::Connection.new(subsidiary_id: "x")).to be_ready
+      end
+    end
+
+    context "without a subsidiary" do
+      it "returns false" do
+        expect(NetSuite::Connection.new(subsidiary_id: nil)).not_to be_ready
+      end
+    end
+  end
+
   describe "#client" do
     it "configures a client with its authorization" do
-      authorized_client = double(:authorized_client)
-      client_from_env = double(:client_from_env)
-      allow(NetSuite::Client).to receive(:from_env).and_return(client_from_env)
-      allow(client_from_env).
-        to receive(:authorize).
-        with("x").
-        and_return(authorized_client)
+      client = stub_client(authorization: "x")
       connection = NetSuite::Connection.new(authorization: "x")
 
       result = connection.client
 
-      expect(result).to eq(authorized_client)
+      expect(result).to eq(client)
     end
   end
 
@@ -61,6 +74,33 @@ describe NetSuite::Connection do
       connection.disconnect
 
       expect(connection.reload).not_to be_connected
+    end
+  end
+
+  describe "#subsidiaries" do
+    it "delegates to its client" do
+      subsidiaries = [
+        { "internalId" => "1", "name" => "Apple" },
+        { "internalId" => "2", "name" => "Banana" }
+      ]
+      connection = NetSuite::Connection.new(authorization: "x")
+      client = stub_client(authorization: "x")
+      allow(client).to receive(:subsidiaries).and_return(subsidiaries)
+
+      result = connection.subsidiaries
+
+      expect(result).to eq([%w(Apple 1), %w(Banana 2)])
+    end
+  end
+
+  def stub_client(authorization:)
+    double(:authorized_client).tap do |authorized_client|
+      client_from_env = double(:client_from_env)
+      allow(NetSuite::Client).to receive(:from_env).and_return(client_from_env)
+      allow(client_from_env).
+        to receive(:authorize).
+        with(authorization).
+        and_return(authorized_client)
     end
   end
 end

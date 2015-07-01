@@ -1,0 +1,30 @@
+<%= render "subnav" %>
+
+<section id="subheader">
+  <h1><%= t(".title") %></h2>
+  <p><%= t(".slogan") %></p>
+</section>
+
+<section>
+  <%= simple_form_for(
+    @connection,
+    url: connection_url(:net_suite_connection),
+    html: {class: 'stacked'}
+  ) do |f| %>
+    <%= f.error :base %>
+    <div class="form-row">
+      <%= f.input(
+        :subsidiary_id,
+        as: :select,
+        collection: @connection.subsidiaries,
+        input_html: {class: 'half'}
+      ) %>
+    </div>
+    <div class="-n-actions">
+      <%= button_tag(type: 'submit', class: '-n-btn') do %>
+        <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+

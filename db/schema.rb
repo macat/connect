@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150622200851) do
+ActiveRecord::Schema.define(version: 20150630183442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20150622200851) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "export_logs", force: true do |t|
+    t.integer  "connection_id",   null: false
+    t.string   "connection_type", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "export_logs", ["connection_id", "connection_type"], name: "index_export_logs_on_connection_id_and_connection_type", using: :btree
 
   create_table "greenhouse_connections", force: true do |t|
     t.datetime "created_at",                         null: false
@@ -75,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150622200851) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "found_namely_field", default: false, null: false
+    t.string   "subsidiary_id"
   end
 
   add_index "net_suite_connections", ["user_id"], name: "index_net_suite_connections_on_user_id", using: :btree

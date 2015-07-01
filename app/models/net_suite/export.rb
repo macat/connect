@@ -1,6 +1,7 @@
 module NetSuite
   class Export
-    def initialize(namely_profiles:, net_suite:)
+    def initialize(configuration:, namely_profiles:, net_suite:)
+      @configuration = configuration
       @namely_profiles = namely_profiles
       @net_suite = net_suite
     end
@@ -18,7 +19,11 @@ module NetSuite
     private
 
     def export(profile)
-      Employee.new(profile, net_suite: @net_suite).export
+      Employee.new(
+        profile,
+        configuration: @configuration,
+        net_suite: @net_suite
+      ).export
     end
 
     class Employee
@@ -28,7 +33,8 @@ module NetSuite
         "Not specified" => "_omitted",
       }
 
-      def initialize(profile, net_suite:)
+      def initialize(profile, configuration:, net_suite:)
+        @configuration = configuration
         @profile = profile
         @net_suite = net_suite
       end
@@ -73,7 +79,7 @@ module NetSuite
           email: @profile.email,
           gender: map_gender(@profile.gender),
           phone: @profile.home_phone,
-          subsidiary: { internalId: 1 },
+          subsidiary: { internalId: @configuration.subsidiary_id },
           title: @profile.job_title[:title]
         }
       end

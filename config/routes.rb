@@ -39,6 +39,17 @@ Rails.application.routes.draw do
     as: "connection"
   )
 
+  get(
+    "/connections/:form_type/edit",
+    to: "connections#edit",
+    as: "edit_connection"
+  )
+
+  patch(
+    "/connections/:form_type",
+    to: "connections#update"
+  )
+
   delete(
     "/connections/:form_type",
     to: "connections#destroy",

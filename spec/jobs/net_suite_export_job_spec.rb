@@ -19,7 +19,11 @@ describe NetSuiteExportJob do
       allow(User).to receive(:find).with(user_id).and_return(user)
       allow(NetSuite::Export).
         to receive(:new).
-        with(namely_profiles: all_profiles, net_suite: client).
+        with(
+          configuration: net_suite_connection,
+          namely_profiles: all_profiles,
+          net_suite: client
+        ).
         and_return(export)
       mail = double(SyncMailer, deliver: true)
       allow(SyncMailer).

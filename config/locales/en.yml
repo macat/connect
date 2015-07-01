@@ -148,7 +148,10 @@ en:
       title: "NetSuite"
       slogan: >
         Please fill out the following fields to connect to this application.
-
+    edit:
+      title: "NetSuite"
+      slogan: >
+        Please fill out the following fields to finalize this connection.
   net_suite_exports:
     create:
       title: "Exporting to NetSuite"

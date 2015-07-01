@@ -14,7 +14,7 @@ module NetSuite
     end
 
     def allowed_parameters
-      [:account_id, :email, :password]
+      [:account_id, :email, :password, :subsidiary_id]
     end
 
     def update(attributes)

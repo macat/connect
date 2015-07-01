@@ -9,6 +9,10 @@ module Icims
       username.present? && key.present? && customer_id.present?
     end
 
+    def ready?
+      true
+    end
+
     def api_url
       "https://api.icims.com/customers/#{customer_id}"
     end

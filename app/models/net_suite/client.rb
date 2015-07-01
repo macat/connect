@@ -57,6 +57,10 @@ module NetSuite
       )
     end
 
+    def subsidiaries
+      get_json("/hubs/erp/lookups/subsidiary")
+    end
+
     private
 
     def submit_json(method, path, data)
@@ -65,6 +69,16 @@ module NetSuite
           method,
           url(path),
           data.to_json,
+          authorization: authorization,
+          content_type: "application/json"
+        )
+      end
+    end
+
+    def get_json(path)
+      wrap_response do
+        RestClient.get(
+          url(path),
           authorization: authorization,
           content_type: "application/json"
         )
@@ -98,6 +112,8 @@ module NetSuite
     end
 
     class Result
+      include Enumerable
+
       def initialize(success, response)
         @success = success
         @response = response
@@ -108,13 +124,17 @@ module NetSuite
       end
 
       def [](attribute)
-        json[attribute]
+        json[attribute.to_s]
+      end
+
+      def each(&block)
+        json.each(&block)
       end
 
       private
 
       def json
-        @json ||= JSON.parse(@response).with_indifferent_access
+        @json ||= JSON.parse(@response)
       end
     end
 

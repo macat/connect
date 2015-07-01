@@ -7,8 +7,13 @@ describe NetSuite::Export do
         emails = %w(one@example.com two@example.com)
         profiles = emails.map { |email| stub_profile(email: email) }
         net_suite = stub_net_suite(success: true, internalId: "1234")
+        configuration = stub_configuration(subsidiary_id: "4567")
 
-        results = perform_export(net_suite: net_suite, profiles: profiles)
+        results = perform_export(
+          configuration: configuration,
+          net_suite: net_suite,
+          profiles: profiles
+        )
 
         expect(results.map(&:success?)).to eq([true, true])
         expect(results.map(&:updated?)).to eq([false, false])
@@ -20,7 +25,7 @@ describe NetSuite::Export do
             email: profile.email,
             gender: "_female",
             phone: profile.home_phone,
-            subsidiary: { internalId: 1 },
+            subsidiary: { internalId: "4567" },
             title: profile.job_title[:title]
           )
           expect(profile).to have_received(:update).with(netsuite_id: "1234")
@@ -31,9 +36,14 @@ describe NetSuite::Export do
     context "with an already-exported employee" do
       it "returns a result with updated profiles" do
         profile = stub_profile({}, netsuite_id: "1234")
+        configuration = stub_configuration(subsidiary_id: "4567")
         net_suite = stub_net_suite(success: true)
 
-        results = perform_export(net_suite: net_suite, profiles: [profile])
+        results = perform_export(
+          configuration: configuration,
+          net_suite: net_suite,
+          profiles: [profile]
+        )
 
         expect(results.map(&:email)).to eq([profile.email])
         expect(results.map(&:updated?)).to eq([true])
@@ -44,7 +54,7 @@ describe NetSuite::Export do
           email: profile.email,
           gender: "_female",
           phone: profile.home_phone,
-          subsidiary: { internalId: 1 },
+          subsidiary: { internalId: "4567" },
           title: profile.job_title[:title]
         )
       end
@@ -103,8 +113,16 @@ describe NetSuite::Export do
     end
   end
 
-  def perform_export(net_suite:, profiles:)
+  def stub_configuration(overrides = {})
+    double(
+      "configuration",
+      { subsidiary_id: "123" }.merge(overrides)
+    )
+  end
+
+  def perform_export(configuration: stub_configuration, net_suite:, profiles:)
     NetSuite::Export.new(
+      configuration: configuration,
       net_suite: net_suite,
       namely_profiles: profiles
     ).perform

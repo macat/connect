@@ -12,6 +12,7 @@ class NetSuiteExportJob
 
   def export
     NetSuite::Export.new(
+      configuration: user.net_suite_connection,
       namely_profiles: user.namely_profiles.all,
       net_suite: user.net_suite_connection.client
     ).perform

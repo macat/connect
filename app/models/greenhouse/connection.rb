@@ -9,6 +9,10 @@ module Greenhouse
       name.present?
     end
 
+    def ready?
+      true
+    end
+
     def disconnect
       update(name: nil)
     end

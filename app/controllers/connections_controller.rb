@@ -6,9 +6,22 @@ class ConnectionsController < ApplicationController
 
   def create
     if connection_form.update(form_params)
-      redirect_to dashboard_path
+      redirect_to after_save_path
     else
       render new_template
+    end
+  end
+
+  def edit
+    connection
+    render edit_template
+  end
+
+  def update
+    if connection.update(form_params)
+      redirect_to after_save_path
+    else
+      render edit_template
     end
   end
 
@@ -32,6 +45,18 @@ class ConnectionsController < ApplicationController
 
   def new_template
     form_type.pluralize + "/new"
+  end
+
+  def edit_template
+    form_type.pluralize + "/edit"
+  end
+
+  def after_save_path
+    if connection.ready?
+      dashboard_path
+    else
+      edit_connection_path(form_type)
+    end
   end
 
   def form_params

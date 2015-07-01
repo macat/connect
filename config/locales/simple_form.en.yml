@@ -25,6 +25,7 @@ en:
         account_id: "Account ID"
         email: "Email"
         password: "Password"
+        subsidiary_id: "Subsidiary"
       namely_authentication:
         subdomain: Subdomain
     placeholders:
