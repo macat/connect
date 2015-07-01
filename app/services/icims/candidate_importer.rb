@@ -17,8 +17,11 @@ module Icims
       else
         mailer.delay.unsuccessful_import(user, candidate, imported_result)
       end
-    rescue Icims::Client::Error => e
-      mailer.delay.unauthorized_import(user, e.message)
+    rescue Icims::Client::Error => exception
+      mailer.delay.unauthorized_import(user, exception.message)
+      Rails.logger.error(
+        "#{exception.class} error #{exception.message} for user_id: #{user.id}"
+      )
     end
 
     private

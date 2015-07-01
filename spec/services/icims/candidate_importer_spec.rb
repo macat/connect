@@ -1,9 +1,9 @@
-require_relative '../../../app/services/icims/candidate_importer'
+require "rails_helper"
 
 describe Icims::CandidateImporter do
   subject(:service) { described_class.new(connection, mailer, params) }
   let(:connection) { double :connection, user: user }
-  let(:user) { double :user, namely_connection: namely_conn }
+  let(:user) { double :user, id: 1, namely_connection: namely_conn }
   let(:mailer) { double :mailer, delay: delayed }
   let(:namely_conn) { double :namely_conn, profiles: namely_profiles }
   let(:params) { {} }
@@ -47,6 +47,10 @@ describe Icims::CandidateImporter do
         allow_any_instance_of(Icims::Client).
           to(receive(:candidate) { raise Icims::Client::Error.new "Unauthorized"})
 
+        user_id = user.id
+        expect(Rails.logger).to receive(:error).with(
+          "Icims::Client::Error error Unauthorized for user_id: #{user_id}"
+        )
         expect(delayed).to receive(:unauthorized_import).with(user, "Unauthorized")
         service.import
       end

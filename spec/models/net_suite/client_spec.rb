@@ -116,7 +116,7 @@ describe NetSuite::Client do
     end
 
     context "on authentication failure" do
-      it "sends an invalid authentication message" do
+      it "raises an Unauthorized exception" do
         error = "Invalid Organization or User secret, or invalid Element" \
                 " token provided."
 
@@ -134,16 +134,7 @@ describe NetSuite::Client do
           organization_secret: "x"
         )
 
-        mail = double(ConnectionMailer, deliver: true)
-        allow(ConnectionMailer).
-          to receive(:authentication_notification).
-          with(email: user.email, connection_type: "net_suite").
-          and_return(mail)
-
-        expect { client.create_instance({}) }.to raise_error(
-          NetSuite::Client::Unauthorized
-        )
-        expect(mail).to have_received(:deliver)
+        expect { client.create_instance({}) }.to raise_error(Unauthorized)
       end
     end
   end

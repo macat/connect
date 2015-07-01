@@ -7,6 +7,7 @@ require 'active_support/time'
 require_relative '../app/services/users/user_with_full_name'
 require_relative '../app/services/users/access_token_freshener'
 require_relative '../app/services/users/token_expiry'
+require_relative "../lib/exceptions"
 
 # http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|

@@ -99,7 +99,6 @@ module NetSuite
     rescue RestClient::BadRequest => exception
       Result.new(false, exception.response)
     rescue RestClient::Unauthorized => exception
-      @user.send_connection_notification("net_suite")
       raise Unauthorized, exception.message
     end
 
@@ -148,8 +147,6 @@ module NetSuite
         @json ||= JSON.parse(@response)
       end
     end
-
-    class Unauthorized < StandardError; end
 
     private_constant :Result
   end

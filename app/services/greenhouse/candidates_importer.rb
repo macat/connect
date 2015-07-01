@@ -55,7 +55,14 @@ module Greenhouse
 
     def raise_unauthorized_error_and_send_notification
       user.send_connection_notification("greenhouse")
-      raise Unauthorized, "Invalid authentication to Greenhouse"
+      exception_class = Greenhouse::CandidatesImporter::Unauthorized
+      error_message = "Invalid authentication for Greenhouse"
+
+      Rails.logger.error(
+        "#{exception_class} error #{error_message} for user_id: #{user.id}"
+      )
+
+      raise Unauthorized, error_message
     end
 
     def user
