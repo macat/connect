@@ -9,6 +9,10 @@ module Greenhouse
       name.present?
     end
 
+    def enabled?
+      true
+    end
+
     def ready?
       true
     end

@@ -9,6 +9,10 @@ module Icims
       username.present? && key.present? && customer_id.present?
     end
 
+    def enabled?
+      true
+    end
+
     def ready?
       true
     end

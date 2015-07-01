@@ -8,6 +8,10 @@ module Jobvite
       api_key.present? && secret.present?
     end
 
+    def enabled?
+      true
+    end
+
     def ready?
       true
     end

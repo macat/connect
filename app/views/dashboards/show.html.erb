@@ -1,5 +1,9 @@
 <%= render "subheader" %>
 
 <section>
-  <%= render @connections %>
+  <% @connections.each do |connection| %>
+    <% if connection.enabled? %>
+      <%= render "connection", connection: connection %>
+    <% end %>
+  <% end %>
 </section>

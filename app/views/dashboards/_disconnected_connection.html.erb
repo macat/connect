@@ -1,0 +1,9 @@
+<%= link_to new_integration_connection_path(connection.namespace), class: "-n-btn -n-btn-sm connect" do %>
+  <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+<% end %>
+<h3>
+  <%= fa_icon "minus-circle", class: "disconnected", text: connection.readable_name%>
+</h3>
+<p>
+  <%= t("#{connection.namespace}_connections.description.disconnected_html") %>
+</p>

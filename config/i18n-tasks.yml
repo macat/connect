@@ -23,3 +23,5 @@ ignore_unused:
   - titles.*
   - icims_candidate_import_mailer.*
   - greenhouse_candidate_import_mailer.*
+  - "*connections.description.disconnected_html"
+  - "*connections.description.connected_html"
