@@ -1,1 +1,3 @@
-class Unauthorized < StandardError; end
+class Unauthorized < StandardError
+  DEFAULT_MESSAGE = "Invalid authentication"
+end

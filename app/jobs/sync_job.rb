@@ -8,8 +8,7 @@ class SyncJob
     results = connection.sync
     deliver_sync_notification results
   rescue Unauthorized => exception
-    log_unauthorized_exception(exception)
-    deliver_unauthorized_notification
+    notifier.log_and_notify_of_unauthorized_exception(exception)
   end
 
   private
@@ -26,22 +25,16 @@ class SyncJob
     ).deliver
   end
 
-  def deliver_unauthorized_notification
-    user.send_connection_notification(@integration_id)
-  end
-
-  def integration_name
-    I18n.t("#{@integration_id}.name")
-  end
-
-  def log_unauthorized_exception(exception)
-    Rails.logger.error(
-      "#{exception.class} error #{exception.message} for user_id: #{user.id} " \
-      "with #{integration_name}"
+  def notifier
+    AuthenticationNotifier.new(
+      integration_id: integration_id,
+      user: user
     )
   end
 
   def user
     @user ||= User.find(@user_id)
   end
+
+  attr_reader :integration_id
 end

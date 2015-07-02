@@ -47,7 +47,7 @@ describe Greenhouse::CandidatesImporter do
 
           expect {
             candidates_importer.import
-          }.to raise_error(Greenhouse::CandidatesImporter::Unauthorized)
+          }.to raise_error(Unauthorized)
         end
 
         it "sends an invalid authentication message and logs an error" do
@@ -60,11 +60,11 @@ describe Greenhouse::CandidatesImporter do
             with(email: user.email, connection_type: "greenhouse").
             and_return(mail)
 
-          exception_class = Greenhouse::CandidatesImporter::Unauthorized
-          exception_message = "Invalid authentication for Greenhouse"
+          exception_class = Unauthorized
+          exception_message = "Invalid authentication"
           expect(Rails.logger).to receive(:error).with(
             "#{exception_class} error #{exception_message} for " \
-            "user_id: #{user.id}"
+            "user_id: #{user.id} with Greenhouse"
           )
           expect { candidates_importer.import }.to raise_error(
             exception_class

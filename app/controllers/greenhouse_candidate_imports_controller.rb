@@ -11,7 +11,7 @@ class GreenhouseCandidateImportsController < ApplicationController
       request.headers['Signature']).import
 
     render nothing: true, status: :ok
-  rescue Greenhouse::CandidatesImporter::Unauthorized
+  rescue Unauthorized
     render nothing: true, status: :unauthorized
   end
 

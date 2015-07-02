@@ -1,8 +1,12 @@
 module Greenhouse
   class CandidatesImporter
-    attr_reader :mailer, :params, :signature, :secret_key, :connection_repo
-
-    class Unauthorized < StandardError; end
+    attr_reader(
+      :connection_repo,
+      :mailer,
+      :params,
+      :secret_key,
+      :signature,
+    )
 
     def initialize(mailer, connection_repo, params, secret_key, signature)
       @params = params
@@ -54,15 +58,17 @@ module Greenhouse
     end
 
     def raise_unauthorized_error_and_send_notification
-      user.send_connection_notification("greenhouse")
-      exception_class = Greenhouse::CandidatesImporter::Unauthorized
-      error_message = "Invalid authentication for Greenhouse"
+      exception = Unauthorized.new(Unauthorized::DEFAULT_MESSAGE)
+      notifier.log_and_notify_of_unauthorized_exception(exception)
 
-      Rails.logger.error(
-        "#{exception_class} error #{error_message} for user_id: #{user.id}"
+      raise exception
+    end
+
+    def notifier
+      AuthenticationNotifier.new(
+        integration_id: "greenhouse",
+        user: user
       )
-
-      raise Unauthorized, error_message
     end
 
     def user
