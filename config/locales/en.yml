@@ -166,13 +166,6 @@ en:
       slogan: >
         Please fill out the following fields to finalize this connection.
 
-  net_suite_exports:
-    create:
-      title: "Exporting to NetSuite"
-      slogan: >
-        We are exporting your profiles to NetSuite and will send you an email as
-        soon as the export is complete.
-
   greenhouse:
     name: Greenhouse
 
@@ -184,6 +177,12 @@ en:
 
   net_suite:
     name: NetSuite
+    syncs:
+      create:
+        title: "Exporting to NetSuite"
+        slogan: >
+          We are exporting your profiles to NetSuite and will send you an email
+          as soon as the export is complete.
 
   status:
     client_error: "Service error: %{message}"
@@ -192,14 +191,14 @@ en:
     not_connected: "No connected account"
 
   sync_mailer:
-    net_suite_notification:
+    sync_notification:
       employees:
         one: "%{count} employee"
         other: "%{count} employees"
       failed: "%{employees} not synchronized."
       failed_list: "Here's who wasn't synchronized:"
-      subject: "%{employees} synced with NetSuite"
-      succeeded: "%{employees} synchronized with NetSuite successfully."
+      subject: "%{employees} synced with %{integration}"
+      succeeded: "%{employees} synchronized with %{integration} successfully."
       succeeded_list: "Here's who was synchronized:"
 
   time:

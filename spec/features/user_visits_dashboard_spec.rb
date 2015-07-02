@@ -43,7 +43,7 @@ feature "User visits their dashboard" do
           "dashboards.show.missing_namely_field",
           name: "jobvite_id",
         )
-        expect(page).to have_no_button t("dashboards.show.import_now")
+        expect(page).not_to have_import_button
       end
     end
   end
@@ -66,7 +66,7 @@ feature "User visits their dashboard" do
           "dashboards.show.missing_namely_field",
           name: "jobvite_id",
         )
-        expect(page).to have_button t("dashboards.show.import_now")
+        expect(page).to have_import_button
       end
     end
   end
@@ -210,6 +210,10 @@ feature "User visits their dashboard" do
         expect(page).to have_export_button
       end
     end
+  end
+
+  def have_import_button
+    have_button t("dashboards.show.import_now")
   end
 
   def have_export_button

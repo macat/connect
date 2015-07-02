@@ -29,6 +29,14 @@ class NetSuite::Connection < ActiveRecord::Base
       map { |subsidiary| [subsidiary["name"], subsidiary["internalId"]] }
   end
 
+  def sync
+    NetSuite::Export.new(
+      configuration: self,
+      namely_profiles: user.namely_profiles.all,
+      net_suite: client
+    ).perform
+  end
+
   def client
     NetSuite::Client.from_env(user).authorize(authorization)
   end

@@ -4,8 +4,6 @@ Rails.application.routes.draw do
 
   resources :jobvite_imports, only: [:create]
 
-  resource :net_suite_exports, only: [:create]
-
   post(
     "/icims_candidate_imports/:api_key",
     to: "icims_candidate_imports#create",
@@ -23,6 +21,7 @@ Rails.application.routes.draw do
 
   resources :integrations, only: [] do
     resource :connection, only: [:new, :create, :edit, :update, :destroy]
+    resource :sync, only: [:create]
   end
 
   get(

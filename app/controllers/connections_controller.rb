@@ -1,4 +1,4 @@
-class ConnectionsController < ApplicationController
+class ConnectionsController < IntegrationController
   def new
     connection_form
     render new_template
@@ -35,12 +35,8 @@ class ConnectionsController < ApplicationController
   def connection_form
     @connection_form ||= ConnectionFormFactory.create(
       connection: connection,
-      integration_id: params[:integration_id]
+      integration_id: integration_id
     )
-  end
-
-  def connection
-    @connection ||= current_user.send(connection_type)
   end
 
   def new_template
@@ -55,7 +51,7 @@ class ConnectionsController < ApplicationController
     if connection.ready?
       dashboard_path
     else
-      edit_integration_connection_path(params[:integration_id])
+      edit_integration_connection_path(integration_id)
     end
   end
 
@@ -63,9 +59,5 @@ class ConnectionsController < ApplicationController
     params.require(connection_type).permit(
       connection_form.allowed_parameters
     )
-  end
-
-  def connection_type
-    "#{params[:integration_id]}_connection"
   end
 end

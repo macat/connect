@@ -29,20 +29,22 @@ feature "user exports to net suite" do
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
 
-    expect(page).to have_content(t("net_suite_exports.create.title"))
+    expect(page).to have_content(t("net_suite.syncs.create.title"))
 
     open_email user.email
     expect(current_email).to have_text(
       t(
-        "sync_mailer.net_suite_notification.succeeded",
-        employees: t("sync_mailer.net_suite_notification.employees", count: 2)
+        "sync_mailer.sync_notification.succeeded",
+        employees: t("sync_mailer.sync_notification.employees", count: 2),
+        integration: "NetSuite"
       )
     )
 
     expect(current_email).to have_text(
       t(
-        "sync_mailer.net_suite_notification.failed",
-        employees: t("sync_mailer.net_suite_notification.employees", count: 1)
+        "sync_mailer.sync_notification.failed",
+        employees: t("sync_mailer.sync_notification.employees", count: 1),
+        integration: "NetSuite"
       )
     )
   end

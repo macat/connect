@@ -93,6 +93,32 @@ describe NetSuite::Connection do
     end
   end
 
+  describe "#sync" do
+    it "exports to NetSuite" do
+      all_profiles = double(:all_profiles)
+      namely_profiles = double(:namely_profiles, all: all_profiles)
+      client = stub_client(authorization: "x")
+      connection = create(:net_suite_connection, authorization: "x")
+      allow(connection.user).
+        to receive(:namely_profiles).
+        and_return(namely_profiles)
+      results = double(:results)
+      export = double(NetSuite::Export, perform: results)
+      allow(NetSuite::Export).
+        to receive(:new).
+        with(
+          configuration: connection,
+          namely_profiles: all_profiles,
+          net_suite: client
+        ).
+        and_return(export)
+
+      connection.sync
+
+      expect(export).to have_received(:perform)
+    end
+  end
+
   def stub_client(authorization:)
     double(:authorized_client).tap do |authorized_client|
       client_from_env = double(:client_from_env)

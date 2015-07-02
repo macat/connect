@@ -1,21 +1,22 @@
 class SyncMailer < ApplicationMailer
-  def net_suite_notification(email:, results:)
-    @sync_results = SyncResults.new(results)
+  def sync_notification(email:, integration_id:, results:)
+    @integration_id = integration_id
+    @sync_results = SyncResults.new(integration_id, results)
 
-    mail(
-      to: email,
-      subject: t(
-        "sync_mailer.net_suite_notification.subject",
-        employees: @sync_results.employees(
-          @sync_results.succeeded.count
-        )
-      )
-    )
+    mail(to: email, subject: @sync_results.subject)
   end
 
   class SyncResults
-    def initialize(results)
+    def initialize(integration_id, results)
+      @integration_id = integration_id
       @results = results
+    end
+
+    def subject
+      t(
+        "sync_mailer.sync_notification.subject",
+        employees: employees(succeeded.count)
+      )
     end
 
     def succeeded
@@ -23,8 +24,8 @@ class SyncMailer < ApplicationMailer
     end
 
     def succeeded_message
-      I18n.t(
-        "sync_mailer.net_suite_notification.succeeded",
+      t(
+        "sync_mailer.sync_notification.succeeded",
         employees: employees(succeeded.count)
       )
     end
@@ -34,17 +35,27 @@ class SyncMailer < ApplicationMailer
     end
 
     def failed_message
-      I18n.t(
-        "sync_mailer.net_suite_notification.failed",
+      t(
+        "sync_mailer.sync_notification.failed",
         employees: employees(failed.count)
       )
     end
 
     def employees(count)
-      I18n.t(
-        "sync_mailer.net_suite_notification.employees",
+      t(
+        "sync_mailer.sync_notification.employees",
         count: count
       )
+    end
+
+    private
+
+    def t(key, data = {})
+      I18n.t(key, data.merge(integration: integration))
+    end
+
+    def integration
+      I18n.t("#{@integration_id}.name")
     end
   end
 
