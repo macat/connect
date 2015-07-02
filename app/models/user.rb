@@ -55,10 +55,11 @@ class User < ActiveRecord::Base
     save
   end
 
-  def send_connection_notification(connection_type)
+  def send_connection_notification(connection_type:, message:)
     ConnectionMailer.authentication_notification(
       connection_type: connection_type,
-      email: email
+      email: email,
+      message: message
     ).deliver
   end
 end

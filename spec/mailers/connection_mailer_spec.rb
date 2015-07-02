@@ -5,9 +5,11 @@ describe ConnectionMailer do
   "describes the problem" do
     connection_type = "icims"
     email = "test@example.com"
+    exception = Unauthorized.new("I can't do that, Dave")
     mailer = ConnectionMailer.authentication_notification(
       connection_type: connection_type,
-      email: email
+      email: email,
+      message: exception.message
     )
 
     expect(mailer.subject).to eq(
@@ -21,6 +23,12 @@ describe ConnectionMailer do
       t(
         "connection_mailer.authentication_notification.notice",
         integration: "iCIMS"
+      )
+    )
+    expect(mailer.body.to_s).to include(
+      t(
+        "connection_mailer.authentication_notification.error_message",
+        message: exception.message
       )
     )
   end

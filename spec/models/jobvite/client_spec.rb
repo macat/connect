@@ -149,7 +149,7 @@ describe Jobvite::Client do
             body: <<-JSON
               {
                 "status":"INVALID_KEY_SECRET",
-                "responseMessage":"an error message"
+                "responseMessage":"An error message"
               }
             JSON
           )
@@ -166,13 +166,18 @@ describe Jobvite::Client do
         client = Jobvite::Client.new(connection)
 
         mail = double(ConnectionMailer, deliver: true)
+        exception = Unauthorized.new("An error message")
         allow(ConnectionMailer).
           to receive(:authentication_notification).
-          with(connection_type: "jobvite", email: user.email).
+          with(
+            connection_type: "jobvite",
+            email: user.email,
+            message: exception.message
+          ).
           and_return(mail)
 
         expect { client.recent_hires }.to raise_error(
-          Jobvite::Client::Unauthorized
+          Unauthorized
         )
         expect(mail).to have_received(:deliver)
       end

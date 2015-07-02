@@ -55,19 +55,22 @@ describe Greenhouse::CandidatesImporter do
             to(receive(:valid?) { false })
 
           mail = double(ConnectionMailer, deliver: true)
+          exception = Unauthorized.new(Unauthorized::DEFAULT_MESSAGE)
           allow(ConnectionMailer).
             to receive(:authentication_notification).
-            with(email: user.email, connection_type: "greenhouse").
+            with(
+              email: user.email,
+              connection_type: "greenhouse",
+              message: exception.message
+            ).
             and_return(mail)
 
-          exception_class = Unauthorized
-          exception_message = "Invalid authentication"
           expect(Rails.logger).to receive(:error).with(
-            "#{exception_class} error #{exception_message} for " \
+            "#{exception.class} error #{exception.message} for " \
             "user_id: #{user.id} with Greenhouse"
           )
           expect { candidates_importer.import }.to raise_error(
-            exception_class
+            exception.class
           )
           expect(mail).to have_received(:deliver)
         end

@@ -3,7 +3,14 @@ require "rails_helper"
 describe Icims::CandidateImporter do
   subject(:service) { described_class.new(connection, mailer, params) }
   let(:connection) { double :connection, user: user }
-  let(:user) { double :user, id: 1, namely_connection: namely_conn }
+  let(:user) do
+    double(
+      :user,
+      email: "test@example.com",
+      id: 1,
+      namely_connection: namely_conn
+    )
+  end
   let(:mailer) { double :mailer, delay: delayed }
   let(:namely_conn) { double :namely_conn, profiles: namely_profiles }
   let(:params) { {} }
@@ -43,15 +50,21 @@ describe Icims::CandidateImporter do
 
     context "when unauthorized credentials in icims" do
       let(:namely_profiles) { double :profiles }
-      it "enqueue an unauthorized email" do
+      it "logs the error and sends an authentication notification email" do
+        exception = Icims::Client::Error.new("Unauthorized")
         allow_any_instance_of(Icims::Client).
-          to(receive(:candidate) { raise Icims::Client::Error.new "Unauthorized"})
+          to(receive(:candidate) { raise exception })
 
         user_id = user.id
+        allow(user).to receive(:send_connection_notification).
+          with(connection_type: "icims", message: exception.message)
         expect(Rails.logger).to receive(:error).with(
-          "Icims::Client::Error error Unauthorized for user_id: #{user_id}"
+          "Icims::Client::Error error Unauthorized for user_id: #{user_id} " \
+          "with iCIMS"
         )
-        expect(delayed).to receive(:unauthorized_import).with(user, "Unauthorized")
+        expect(user).to receive(:send_connection_notification).
+          with(connection_type: "icims", message: exception.message)
+
         service.import
       end
     end

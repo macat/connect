@@ -50,6 +50,10 @@ en:
 
   connection_mailer:
     authentication_notification:
+      error_message: |
+        You may find the following information about the error helpful:
+
+        %{message}
       notice: |
         Your Namely Connect connection to %{integration} is raising an
         authentication error.
@@ -80,9 +84,6 @@ en:
   icims_candidate_import_mailer:
     successful_import:
       subject: "%{name} successfully added to Namely"
-    unauthorized_import:
-      subject: >
-        You were unable to make this import because you are unauthorized
     unsuccessful_import:
       subject: "Unable to add %{name} to Namely"
 

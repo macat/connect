@@ -1,7 +1,7 @@
 class JobviteImportsController < ApplicationController
   def create
     @jobvite_imports_presenter = ImportsPresenter.new(importer.import)
-  rescue Jobvite::Client::Unauthorized
+  rescue Unauthorized
     flash[:error] = t("jobvite_connections.authentication_error")
     redirect_to dashboard_path
   end

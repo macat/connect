@@ -41,11 +41,15 @@ describe SyncJob do
         net_suite_connection: net_suite_connection
       )
       user_id = double(:user_id)
+      exception = Unauthorized.new("An error message")
       allow(net_suite_connection).to receive(:sync).
-        and_raise(Unauthorized, "An error message")
+        and_raise(exception)
       integration_id = "net_suite"
       allow(User).to receive(:find).with(user_id).and_return(user)
-      allow(user).to receive(:send_connection_notification).with(integration_id)
+      allow(user).to receive(:send_connection_notification).with(
+        connection_type: integration_id,
+        message: exception.message
+      )
       job = SyncJob.new(integration_id, user_id)
 
       expect(SyncMailer).not_to receive(:net_suite_notification)
@@ -57,7 +61,7 @@ describe SyncJob do
       job.perform
 
       expect(user).to have_received(:send_connection_notification).
-        with(integration_id)
+        with(connection_type: integration_id, message: exception.message)
     end
   end
 end

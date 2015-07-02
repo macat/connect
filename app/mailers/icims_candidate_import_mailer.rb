@@ -24,14 +24,4 @@ class IcimsCandidateImportMailer < ApplicationMailer
       )
     )
   end
-
-  def unauthorized_import(user, error_message)
-    @user = user
-    @error_message = error_message
-
-    mail(
-      to: @user.email,
-      subject: t("icims_candidate_import_mailer.unauthorized_import.subject")
-    )
-  end
 end

@@ -10,13 +10,16 @@ class AuthenticationNotifier
 
   def log_and_notify_of_unauthorized_exception(exception)
     log_unauthorized_exception(exception)
-    deliver_unauthorized_notification
+    deliver_unauthorized_notification(exception)
   end
 
   private
 
-  def deliver_unauthorized_notification
-    user.send_connection_notification(integration_id)
+  def deliver_unauthorized_notification(exception)
+    user.send_connection_notification(
+      connection_type: integration_id,
+      message: exception.message
+    )
   end
 
   def log_unauthorized_exception(exception)

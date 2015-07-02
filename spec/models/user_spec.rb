@@ -75,12 +75,20 @@ describe User do
     it "sends an invalid authentication message" do
       user = build_stubbed(:user)
       mail = double(ConnectionMailer, deliver: true)
+      exception = Unauthorized.new("Whoops")
       allow(ConnectionMailer).
         to receive(:authentication_notification).
-        with(email: user.email, connection_type: "icims").
+        with(
+          connection_type: "icims",
+          email: user.email,
+          message: exception.message,
+        ).
         and_return(mail)
 
-      user.send_connection_notification("icims")
+      user.send_connection_notification(
+        connection_type: "icims",
+        message: exception.message
+      )
 
       expect(mail).to have_received(:deliver)
     end

@@ -1,7 +1,6 @@
 module Jobvite
   class Client
     class Error < StandardError; end
-    class Unauthorized < StandardError; end
 
     def self.recent_hires(connection)
       new(connection).recent_hires
@@ -80,8 +79,12 @@ module Jobvite
 
       def raise_on_authenticaton_error
         if invalid_secret_key.present?
-          user.send_connection_notification("jobvite")
-          raise Unauthorized, json_response["responseMessage"]
+          exception = Unauthorized.new(json_response["responseMessage"])
+          user.send_connection_notification(
+            connection_type: "jobvite",
+            message: exception.message
+          )
+          raise exception
         end
       end
 

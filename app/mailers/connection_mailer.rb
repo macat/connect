@@ -1,6 +1,7 @@
 class ConnectionMailer < ApplicationMailer
-  def authentication_notification(connection_type:, email:)
+  def authentication_notification(connection_type:, email:, message:)
     @integration = map_connection_type_to_integration(connection_type)
+    @message = message
 
     mail(
       to: email,

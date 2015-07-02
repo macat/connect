@@ -18,13 +18,17 @@ module Icims
         mailer.delay.unsuccessful_import(user, candidate, imported_result)
       end
     rescue Icims::Client::Error => exception
-      mailer.delay.unauthorized_import(user, exception.message)
-      Rails.logger.error(
-        "#{exception.class} error #{exception.message} for user_id: #{user.id}"
-      )
+      notifier.log_and_notify_of_unauthorized_exception(exception)
     end
 
     private
+
+    def notifier
+      AuthenticationNotifier.new(
+        integration_id: "icims",
+        user: user
+      )
+    end
 
     def person_id
       params[:personId] || params[:id]
