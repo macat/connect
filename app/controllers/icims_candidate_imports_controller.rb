@@ -4,7 +4,7 @@ class IcimsCandidateImportsController < ApplicationController
 
   def create
     Icims::CandidateImporter.new(connection,
-                                 IcimsCandidateImportMailer,
+                                 CandidateImportMailer,
                                  params).import
     render nothing: true
   end

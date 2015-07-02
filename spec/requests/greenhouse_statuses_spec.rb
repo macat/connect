@@ -48,8 +48,13 @@ describe "Greenhouse new candidate" do
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("greenhouse_candidate_import_mailer.successful_import.subject", name: candidate_name))
+    expect(sent_email.subject).to include(
+      t(
+        "candidate_import_mailer.successful_import.subject",
+        candidate_name: candidate_name,
+        integration: "Greenhouse"
+      ).chomp
+    )
   end
 
   it "fails to create a new user in namely" do
@@ -63,8 +68,13 @@ describe "Greenhouse new candidate" do
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("greenhouse_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
+    expect(sent_email.subject).to include(
+      t(
+        "candidate_import_mailer.unsuccessful_import.subject",
+        candidate_name: candidate_name,
+        integration: "Greenhouse"
+      ).chomp
+    )
   end
 
   def greenhouse_ping

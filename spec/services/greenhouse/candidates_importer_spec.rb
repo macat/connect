@@ -60,7 +60,7 @@ describe Greenhouse::CandidatesImporter do
             to receive(:authentication_notification).
             with(
               email: user.email,
-              connection_type: "greenhouse",
+              integration_id: "greenhouse",
               message: exception.message
             ).
             and_return(mail)
@@ -88,11 +88,16 @@ describe Greenhouse::CandidatesImporter do
       end
       let(:importer) { double :importer, success?: true }
       let(:delay) { double :delay }
+      let(:candidate) { Greenhouse::CandidateName.new(params[:payload]) }
       before { allow_any_instance_of(Greenhouse::ValidRequesterPolicy).to(
           receive(:valid?) { true }) }
 
       it 'tries to import a candidate' do
-        allow(delay).to receive(:successful_import).with(user, "")
+        allow(delay).to receive(:successful_import).with(
+          candidate: candidate,
+          integration_id: "greenhouse",
+          email: user.email,
+        )
 
         expect_any_instance_of(NamelyImporter).to receive(:single_import).
           with(params[:payload]) { importer }
@@ -104,7 +109,11 @@ describe Greenhouse::CandidatesImporter do
         allow_any_instance_of(NamelyImporter).to receive(:single_import).
           with(params[:payload]) { importer }
 
-        expect(delay).to receive(:successful_import).with(user, "")
+        expect(delay).to receive(:successful_import).with(
+          candidate: candidate,
+          integration_id: "greenhouse",
+          email: user.email,
+        )
 
         candidates_importer.import
       end
@@ -115,7 +124,12 @@ describe Greenhouse::CandidatesImporter do
         it 'sends an failure email' do
           allow_any_instance_of(NamelyImporter).to receive(:single_import).
             with(params[:payload]) { importer }
-          expect(delay).to receive(:unsuccessful_import).with(user, '', importer)
+          expect(delay).to receive(:unsuccessful_import).with(
+            candidate: candidate,
+            email: user.email,
+            integration_id: "greenhouse",
+            status: importer
+          )
 
           candidates_importer.import
         end

@@ -1,5 +1,7 @@
 module Icims
   class CandidateImporter
+    INTEGRATION_ID = "icims"
+
     attr_reader :candidate, :imported_result, :params
 
     def initialize(connection, mailer, params)
@@ -13,9 +15,18 @@ module Icims
       @imported_result = namely_importer.single_import(candidate)
 
       if imported_result.success?
-        mailer.delay.successful_import(user, candidate)
+        mailer.delay.successful_import(
+          candidate: candidate,
+          email: user.email,
+          integration_id: INTEGRATION_ID
+        )
       else
-        mailer.delay.unsuccessful_import(user, candidate, imported_result)
+        mailer.delay.unsuccessful_import(
+          candidate: candidate,
+          email: user.email,
+          integration_id: INTEGRATION_ID,
+          status: imported_result
+        )
       end
     rescue Icims::Client::Error => exception
       notifier.log_and_notify_of_unauthorized_exception(exception)
@@ -25,7 +36,7 @@ module Icims
 
     def notifier
       AuthenticationNotifier.new(
-        integration_id: "icims",
+        integration_id: INTEGRATION_ID,
         user: user
       )
     end
@@ -48,8 +59,8 @@ module Icims
 
     def namely_importer
       NamelyImporter.new(
-        namely_connection: user.namely_connection,
         attribute_mapper: Icims::AttributeMapper.new,
+        namely_connection: user.namely_connection,
       )
     end
 

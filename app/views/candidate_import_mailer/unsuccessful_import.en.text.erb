@@ -1,0 +1,12 @@
+<%=
+  t(
+    ".message",
+    candidate_name: @candidate.name,
+    integration: @integration,
+    status_error: @status.error
+  )
+-%>
+
+<%= render "#{@integration_id}_retry" -%>
+
+Namely

@@ -39,7 +39,7 @@ describe AuthenticationNotifier do
 
       expect(user).to have_received(
         :send_connection_notification
-      ).with(connection_type: integration_id_stub, message: exception.message)
+      ).with(integration_id: integration_id_stub, message: exception.message)
     end
   end
 

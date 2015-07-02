@@ -49,6 +49,29 @@ en:
       sign_in:
         prompt: "Sign in using"
 
+  candidate_import_mailer:
+    successful_import:
+      message: |
+       The %{integration} Candidate Importer has successfully added
+       a new candidate, %{candidate_name} to Namely.
+      subject: >
+        %{integration} Candidate Importer successfully added
+        %{candidate_name} to Namely
+    unsuccessful_import:
+      icims_retry_instructions: >
+        Please fix these errors on iCIMS and click retry here:
+        %{icims_retry_link}
+      message: |
+        We were unable to add %{candidate_name} to Namely.
+
+        Reason:
+        %{status_error}
+
+        Please fix these errors with %{integration} and retry the import.
+      subject: >
+        %{integration} Candidate Importer unable to add %{candidate_name}
+        to Namely
+
   connection_mailer:
     authentication_notification:
       error_message: |
@@ -71,18 +94,6 @@ en:
         <a href="http://www.greenhouse.io/">Greenhouse</a> is software to
         optimize your entire recruiting process. Find better candidates, conduct
         more focused interviews, and make data-driven hiring decisions.
-
-  greenhouse_candidate_import_mailer:
-    successful_import:
-      subject: "%{name} successfully added to Namely"
-    unsuccessful_import:
-      subject: "Unable to add %{name} to Namely"
-
-  icims_candidate_import_mailer:
-    successful_import:
-      subject: "%{name} successfully added to Namely"
-    unsuccessful_import:
-      subject: "Unable to add %{name} to Namely"
 
   icims_candidate_retry_imports:
     show:

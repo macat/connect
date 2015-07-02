@@ -4,7 +4,7 @@ class GreenhouseCandidateImportsController < ApplicationController
 
   def create
     Greenhouse::CandidatesImporter.new(
-      GreenhouseCandidateImportMailer,
+      CandidateImportMailer,
       Greenhouse::Connection,
       greenhouse_candidate_import_params,
       params['secret_key'],

@@ -69,7 +69,7 @@ module Icims
     rescue RestClient::Unauthorized => exception
       unauthorized_exception = Unauthorized.new(exception.message)
       user.send_connection_notification(
-        connection_type: "icims",
+        integration_id: "icims",
         message: unauthorized_exception.message
       )
       raise unauthorized_exception

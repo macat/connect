@@ -20,7 +20,7 @@ class SyncJob
   def deliver_sync_notification(results)
     SyncMailer.sync_notification(
       email: user.email,
-      integration_id: @integration_id,
+      integration_id: integration_id,
       results: results
     ).deliver
   end

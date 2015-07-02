@@ -120,8 +120,8 @@ describe Icims::AuthorizedRequest do
         allow(ConnectionMailer).
           to receive(:authentication_notification).
           with(
-            connection_type: "icims",
             email: user.email,
+            integration_id: "icims",
             message: exception.message,
           ).
           and_return(mail)

@@ -170,8 +170,8 @@ describe Jobvite::Client do
         allow(ConnectionMailer).
           to receive(:authentication_notification).
           with(
-            connection_type: "jobvite",
             email: user.email,
+            integration_id: "jobvite",
             message: exception.message
           ).
           and_return(mail)

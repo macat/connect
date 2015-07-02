@@ -47,7 +47,7 @@ describe SyncJob do
       integration_id = "net_suite"
       allow(User).to receive(:find).with(user_id).and_return(user)
       allow(user).to receive(:send_connection_notification).with(
-        connection_type: integration_id,
+        integration_id: integration_id,
         message: exception.message
       )
       job = SyncJob.new(integration_id, user_id)
@@ -61,7 +61,7 @@ describe SyncJob do
       job.perform
 
       expect(user).to have_received(:send_connection_notification).
-        with(connection_type: integration_id, message: exception.message)
+        with(integration_id: integration_id, message: exception.message)
     end
   end
 end

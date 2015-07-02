@@ -1,5 +1,7 @@
 module Greenhouse
   class CandidatesImporter
+    INTEGRATION_ID = "greenhouse"
+
     attr_reader(
       :connection_repo,
       :mailer,
@@ -26,11 +28,17 @@ module Greenhouse
         import = namely_importer.single_import(greenhouse_payload)
         if import.success?
           mailer.delay.successful_import(
-            user,
-            candidate_name.to_s
+            candidate: candidate_name,
+            email: user.email,
+            integration_id: INTEGRATION_ID
           )
         else
-          mailer.delay.unsuccessful_import(user, candidate_name.to_s, import)
+          mailer.delay.unsuccessful_import(
+            candidate: candidate_name,
+            email: user.email,
+            integration_id: INTEGRATION_ID,
+            status: import
+          )
         end
       end
     end
@@ -66,7 +74,7 @@ module Greenhouse
 
     def notifier
       AuthenticationNotifier.new(
-        integration_id: "greenhouse",
+        integration_id: INTEGRATION_ID,
         user: user
       )
     end

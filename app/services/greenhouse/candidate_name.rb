@@ -1,7 +1,12 @@
 module Greenhouse
   class CandidateName < Struct.new(:payload)
+    def name
+      "#{candidate.fetch('first_name', '')} " \
+      "#{candidate.fetch('last_name', '')}".strip
+    end
+
     def to_s
-      "#{candidate.fetch('first_name','')} #{candidate.fetch('last_name','')}".strip
+      name
     end
 
     private

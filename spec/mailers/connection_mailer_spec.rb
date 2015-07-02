@@ -3,12 +3,12 @@ require "rails_helper"
 describe ConnectionMailer do
   it "provides integration name in the subject, addresses the email, and " \
   "describes the problem" do
-    connection_type = "icims"
+    integration_id = "icims"
     email = "test@example.com"
     exception = Unauthorized.new("I can't do that, Dave")
     mailer = ConnectionMailer.authentication_notification(
-      connection_type: connection_type,
       email: email,
+      integration_id: integration_id,
       message: exception.message
     )
 

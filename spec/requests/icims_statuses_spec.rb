@@ -22,8 +22,13 @@ describe "iCIMS new candidate" do
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("icims_candidate_import_mailer.successful_import.subject", name: candidate_name))
+    expect(sent_email.subject).to include(
+      t(
+        "candidate_import_mailer.successful_import.subject",
+        candidate_name: candidate_name,
+        integration: "iCIMS"
+      ).chomp
+    )
   end
 
   it "fails to create a new user in namely" do
@@ -34,8 +39,13 @@ describe "iCIMS new candidate" do
 
     expect(response.body).to be_blank
     expect(response.status).to eq 200
-    expect(sent_email.subject).
-      to eq(t("icims_candidate_import_mailer.unsuccessful_import.subject", name: candidate_name))
+    expect(sent_email.subject).to include(
+      t(
+        "candidate_import_mailer.unsuccessful_import.subject",
+        candidate_name: candidate_name,
+        integration: "iCIMS"
+      ).chomp
+    )
     expect(sent_email.body).
       to include(icims_candidate_retry_import_url(8986))
   end

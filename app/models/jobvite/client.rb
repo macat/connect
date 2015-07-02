@@ -81,7 +81,7 @@ module Jobvite
         if invalid_secret_key.present?
           exception = Unauthorized.new(json_response["responseMessage"])
           user.send_connection_notification(
-            connection_type: "jobvite",
+            integration_id: "jobvite",
             message: exception.message
           )
           raise exception

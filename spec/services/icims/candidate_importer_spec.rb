@@ -28,18 +28,25 @@ describe Icims::CandidateImporter do
 
     context "when importing successfully" do
       let(:namely_profiles) { double :profiles, create!: true }
-      it "enqueue a successful mail delivery" do
+      it "enqueues a successful mail delivery" do
         allow_any_instance_of(Icims::Client).to receive(:candidate) { candidate }
-        expect(delayed).to receive(:successful_import).with(user,
-                                                            candidate)
+        expect(delayed).to receive(:successful_import).
+          with(
+            candidate: candidate,
+            email: user.email,
+            integration_id: "icims",
+          )
+
         service.import
       end
     end
 
-    context "when unsucessful import" do
+    context "when importing unsuccessfully" do
       let(:namely_profiles) { double :profiles }
-      it "enqueue an unsuccessful mail delivery" do
-        allow_any_instance_of(Icims::Client).to receive(:candidate) { candidate }
+      it "enqueues an unsuccessful mail delivery" do
+        allow_any_instance_of(
+          Icims::Client
+        ).to receive(:candidate) { candidate }
         allow(namely_profiles).
           to(receive(:create!) { raise Namely::FailedRequestError.new })
 
@@ -57,13 +64,13 @@ describe Icims::CandidateImporter do
 
         user_id = user.id
         allow(user).to receive(:send_connection_notification).
-          with(connection_type: "icims", message: exception.message)
+          with(integration_id: "icims", message: exception.message)
         expect(Rails.logger).to receive(:error).with(
           "Icims::Client::Error error Unauthorized for user_id: #{user_id} " \
           "with iCIMS"
         )
         expect(user).to receive(:send_connection_notification).
-          with(connection_type: "icims", message: exception.message)
+          with(integration_id: "icims", message: exception.message)
 
         service.import
       end

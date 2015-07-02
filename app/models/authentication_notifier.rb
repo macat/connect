@@ -17,7 +17,7 @@ class AuthenticationNotifier
 
   def deliver_unauthorized_notification(exception)
     user.send_connection_notification(
-      connection_type: integration_id,
+      integration_id: integration_id,
       message: exception.message
     )
   end
