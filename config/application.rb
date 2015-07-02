@@ -15,6 +15,8 @@ Bundler.require(*Rails.groups)
 
 module Connect
   class Application < Rails::Application
+    require_relative "../lib/exceptions"
+
     config.i18n.enforce_available_locales = true
     config.active_record.default_timezone = :utc
 
