@@ -1,11 +1,17 @@
 class IcimsCandidateRetryImportsController < ApplicationController
   def show
-    service = Icims::CandidateImporter.new(connection,
-                                           CandidateImportMailer,
-                                           params)
+    service = CandidateImporter.new(
+      assistant_class: Icims::CandidateImportAssistant,
+      connection: connection,
+      mailer: CandidateImportMailer,
+      params: params
+    )
+
     service.import
-    @candidate_retry_presenter = Icims::CandidateRetryImportsPresenter.new(service.candidate,
-                                                                           service.imported_result)
+    @candidate_retry_presenter = Icims::CandidateRetryImportsPresenter.new(
+      service.import_assistant.candidate,
+      service.import_assistant.import_candidate
+    )
   end
 
   private

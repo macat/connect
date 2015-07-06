@@ -3,12 +3,13 @@ class GreenhouseCandidateImportsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def create
-    Greenhouse::CandidatesImporter.new(
-      CandidateImportMailer,
-      Greenhouse::Connection,
-      greenhouse_candidate_import_params,
-      params['secret_key'],
-      request.headers['Signature']).import
+    CandidateImporter.new(
+      assistant_arguments: assistant_arguments,
+      assistant_class: Greenhouse::CandidateImportAssistant,
+      connection: connection,
+      mailer: CandidateImportMailer,
+      params: greenhouse_candidate_import_params,
+    ).import
 
     render nothing: true, status: :ok
   rescue Unauthorized
@@ -16,6 +17,16 @@ class GreenhouseCandidateImportsController < ApplicationController
   end
 
   private
+
+  def assistant_arguments
+    { signature: request.headers["Signature"] }
+  end
+
+  def connection
+    Greenhouse::Connection.find_by!(
+      secret_key: params.fetch("secret_key")
+    )
+  end
 
   def greenhouse_candidate_import_params
     params.fetch(:greenhouse_candidate_import)
