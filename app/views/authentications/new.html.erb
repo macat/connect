@@ -1,0 +1,23 @@
+<%= render "subnav" %>
+
+<section id="subheader">
+  <h1><%= t("#{integration_id}.authentications.new.title") %></h2>
+  <p><%= t("#{integration_id}.authentications.new.slogan") %></p>
+</section>
+
+<%= simple_form_for(
+  @authentication,
+  url: integration_authentication_path(integration_id),
+  html: { class: "stacked" }
+) do |form| %>
+  <%= form.error :base %>
+  <%= render(
+    "#{integration_id}_connections/authentication_form",
+    form: form
+  ) %>
+  <div class="-n-actions">
+    <%= button_tag(type: "submit", class: "-n-btn") do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+  </div>
+<% end %>

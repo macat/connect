@@ -1,13 +1,13 @@
 require "rails_helper"
 
-describe NetSuite::ConnectionForm do
+describe NetSuite::Authentication do
   describe "#update" do
     context "with valid information" do
       it "updates the connection from the response" do
         client = stub_client(success: true, id: "abc", token: "def")
         form_attributes = valid_form_attributes
         connection = stub_connection
-        form = NetSuite::ConnectionForm.new(
+        form = NetSuite::Authentication.new(
           connection: connection,
           client: client
         )
@@ -28,7 +28,7 @@ describe NetSuite::ConnectionForm do
       it "adds validation messages" do
         client = stub_client(success: true)
         connection = stub_connection
-        form = NetSuite::ConnectionForm.new(
+        form = NetSuite::Authentication.new(
           connection: connection,
           client: client
         )
@@ -50,7 +50,7 @@ describe NetSuite::ConnectionForm do
       it "adds validation errors from the server" do
         client = stub_client(success: false, message: "oops")
         connection = stub_connection
-        form = NetSuite::ConnectionForm.new(
+        form = NetSuite::Authentication.new(
           connection: connection,
           client: client
         )

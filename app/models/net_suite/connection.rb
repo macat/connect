@@ -7,6 +7,10 @@ class NetSuite::Connection < ActiveRecord::Base
     :net_suite
   end
 
+  def allowed_parameters
+    [:subsidiary_id]
+  end
+
   def connected?
     instance_id.present? && authorization.present?
   end

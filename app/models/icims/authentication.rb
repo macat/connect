@@ -1,5 +1,5 @@
 module Icims
-  class ConnectionForm
+  class Authentication
     include ActiveModel::Model
 
     attr_accessor :customer_id, :key, :username

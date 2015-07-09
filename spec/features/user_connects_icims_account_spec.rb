@@ -13,9 +13,9 @@ feature "User connects iCIMS account" do
       click_link t("dashboards.show.connect")
     end
 
-    fill_in field("icims_connection.username"), with: "username"
-    fill_in field("icims_connection.key"), with: "key"
-    fill_in field("icims_connection.customer_id"), with: 1
+    fill_in field("icims_authentication.username"), with: "username"
+    fill_in field("icims_authentication.key"), with: "key"
+    fill_in field("icims_authentication.customer_id"), with: 1
     click_button button("icims_connection.update")
 
     within(".icims-account") do

@@ -12,4 +12,6 @@ class IntegrationController < ApplicationController
   def integration_id
     params[:integration_id]
   end
+
+  helper_method :integration_id
 end

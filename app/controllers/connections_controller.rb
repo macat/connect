@@ -1,27 +1,13 @@
 class ConnectionsController < IntegrationController
-  def new
-    connection_form
-    render new_template
-  end
-
-  def create
-    if connection_form.update(form_params)
-      redirect_to after_save_path
-    else
-      render new_template
-    end
-  end
-
   def edit
     connection
-    render edit_template
   end
 
   def update
-    if connection.update(form_params)
-      redirect_to after_save_path
+    if update_connection
+      redirect_to dashboard_path
     else
-      render edit_template
+      render :edit
     end
   end
 
@@ -32,32 +18,11 @@ class ConnectionsController < IntegrationController
 
   private
 
-  def connection_form
-    @connection_form ||= ConnectionFormFactory.create(
-      connection: connection,
-      integration_id: integration_id
-    )
+  def update_connection
+    connection.update(connection_params) && connection.ready?
   end
 
-  def new_template
-    connection_type.pluralize + "/new"
-  end
-
-  def edit_template
-    connection_type.pluralize + "/edit"
-  end
-
-  def after_save_path
-    if connection.ready?
-      dashboard_path
-    else
-      edit_integration_connection_path(integration_id)
-    end
-  end
-
-  def form_params
-    params.require(connection_type).permit(
-      connection_form.allowed_parameters
-    )
+  def connection_params
+    params.require(connection_type).permit(connection.allowed_parameters)
   end
 end

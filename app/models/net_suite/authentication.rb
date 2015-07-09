@@ -1,5 +1,5 @@
 module NetSuite
-  class ConnectionForm
+  class Authentication
     include ActiveModel::Model
 
     attr_accessor :account_id, :email, :password
@@ -14,7 +14,7 @@ module NetSuite
     end
 
     def allowed_parameters
-      [:account_id, :email, :password, :subsidiary_id]
+      [:account_id, :email, :password]
     end
 
     def update(attributes)

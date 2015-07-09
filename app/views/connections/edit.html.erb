@@ -1,0 +1,23 @@
+<%= render "subnav" %>
+
+<section id="subheader">
+  <h1><%= t("#{integration_id}.connections.edit.title") %></h2>
+  <p><%= t("#{integration_id}.connections.edit.slogan") %></p>
+</section>
+
+<%= simple_form_for(
+  @connection,
+  url: integration_connection_path(integration_id),
+  html: {class: 'stacked'}
+) do |form| %>
+  <%= form.error :base %>
+  <%= render(
+    "#{integration_id}_connections/form",
+    form: form
+  ) %>
+  <div class="-n-actions">
+    <%= button_tag(type: 'submit', class: '-n-btn') do %>
+      <%= fa_icon "plug", text: t("dashboards.show.connect") %>
+    <% end %>
+  </div>
+<% end %>

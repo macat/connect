@@ -13,7 +13,7 @@ feature "User connects Greenhouse account" do
       click_link t("dashboards.show.connect")
     end
 
-    fill_in field("greenhouse_connection.name"), with: "name"
+    fill_in field("greenhouse_authentication.name"), with: "name"
     click_button button("greenhouse_connection.update")
 
     within(".greenhouse-account") do

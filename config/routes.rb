@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :destroy]
 
   resources :integrations, only: [] do
-    resource :connection, only: [:new, :create, :edit, :update, :destroy]
+    resource :authentication, only: [:new, :create]
+    resource :connection, only: [:edit, :update, :destroy]
     resource :sync, only: [:create]
   end
 

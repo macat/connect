@@ -12,19 +12,20 @@ en:
       default_message: "Please review the problems below:"
 
     labels:
-      icims_connection:
+      icims_authentication:
         customer_id: "Customer ID"
         key: "HMAC Key"
         username: "Username"
-      greenhouse_connection:
+      greenhouse_authentication:
         name: "Name"
-      jobvite_connection:
+      jobvite_authentication:
         api_key: "API key"
         secret: "Secret"
-      net_suite_connection:
+      net_suite_authentication:
         account_id: "Account ID"
         email: "Email"
         password: "Password"
+      net_suite_connection:
         subsidiary_id: "Subsidiary"
       namely_authentication:
         subdomain: Subdomain

@@ -1,12 +1,12 @@
 require "rails_helper"
 
-describe Jobvite::ConnectionForm do
+describe Jobvite::Authentication do
   describe "#update" do
     context "with valid information" do
       it "updates the connection from the response" do
         connection = stub_connection(success: true)
         form_attributes = valid_form_attributes
-        form = Jobvite::ConnectionForm.new(
+        form = Jobvite::Authentication.new(
           connection: connection,
         )
 
@@ -23,7 +23,7 @@ describe Jobvite::ConnectionForm do
     context "with invalid fields" do
       it "adds validation messages" do
         connection = stub_connection(success: false)
-        form = Jobvite::ConnectionForm.new(
+        form = Jobvite::Authentication.new(
           connection: connection,
         )
 

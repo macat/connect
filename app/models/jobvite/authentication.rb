@@ -1,5 +1,5 @@
 module Jobvite
-  class ConnectionForm
+  class Authentication
     include ActiveModel::Model
 
     attr_accessor :api_key, :secret

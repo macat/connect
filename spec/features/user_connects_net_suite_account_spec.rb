@@ -41,9 +41,9 @@ feature "user connects NetSuite account" do
   end
 
   def submit_net_suite_account_form
-    fill_in field("net_suite_connection.email"), with: "user@example.com"
-    fill_in field("net_suite_connection.account_id"), with: "12345"
-    fill_in field("net_suite_connection.password"), with: "secret"
+    fill_in field("net_suite_authentication.email"), with: "user@example.com"
+    fill_in field("net_suite_authentication.account_id"), with: "12345"
+    fill_in field("net_suite_authentication.password"), with: "secret"
     click_button button("net_suite_connection.update")
   end
 

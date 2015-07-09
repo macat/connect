@@ -1,4 +1,4 @@
-class ConnectionFormFactory
+class AuthenticationFactory
   def self.create(connection:, integration_id:)
     new(connection: connection, integration_id: integration_id).create_instance
   end
@@ -25,7 +25,7 @@ class ConnectionFormFactory
       connection: @connection
     }
 
-    if connection_form_class == NetSuite::ConnectionForm
+    if connection_form_class == NetSuite::Authentication
       arguments[:client] = @connection.client
     end
 
@@ -34,10 +34,10 @@ class ConnectionFormFactory
 
   def connection_form_class_mapping
     {
-      "greenhouse" => Greenhouse::ConnectionForm,
-      "icims" => Icims::ConnectionForm,
-      "jobvite" => Jobvite::ConnectionForm,
-      "net_suite" => NetSuite::ConnectionForm
+      "greenhouse" => Greenhouse::Authentication,
+      "icims" => Icims::Authentication,
+      "jobvite" => Jobvite::Authentication,
+      "net_suite" => NetSuite::Authentication
     }
   end
 end

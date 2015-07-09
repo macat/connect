@@ -70,10 +70,6 @@ en:
         <a href="http://www.greenhouse.io/">Greenhouse</a> is software to
         optimize your entire recruiting process. Find better candidates, conduct
         more focused interviews, and make data-driven hiring decisions.
-    new:
-      title: "Greenhouse"
-      slogan: >
-        Please fill out the following fields to connect to this application.
 
   greenhouse_candidate_import_mailer:
     successful_import:
@@ -105,10 +101,6 @@ en:
         professionals to manage their organization's entire talent lifecycle
         from sourcing to recruitment marketing to applicant tracking to
         onboarding all within a single web-based application.
-    new:
-      title: "iCIMS"
-      slogan: >
-        Please fill out the following fields to connect to this application.
 
   icims_imports:
     create:
@@ -138,10 +130,6 @@ en:
         applicant tracking, recruiting CRM and social recruiting software
         solutions from Jobvite to target the right talent and build the best
         teams.
-    new:
-      title: "Jobvite"
-      slogan: >
-        Please fill out the following fields to connect to this application.
 
   jobvite_imports:
     create:
@@ -158,26 +146,43 @@ en:
     description:
       connected_html: Connected NetSuite Description
       disconnected_html: Disconnected NetSuite Description
-    new:
-      title: "NetSuite"
-      slogan: >
-        Please fill out the following fields to connect to this application.
-    edit:
-      title: "NetSuite"
-      slogan: >
-        Please fill out the following fields to finalize this connection.
 
   greenhouse:
     name: Greenhouse
+    authentications:
+      new:
+        title: "Greenhouse"
+        slogan: >
+          Please fill out the following fields to connect to this application.
 
   icims:
     name: iCIMS
+    authentications:
+      new:
+        title: "iCIMS"
+        slogan: >
+          Please fill out the following fields to connect to this application.
 
   jobvite:
     name: Jobvite
+    authentications:
+      new:
+        title: "Jobvite"
+        slogan: >
+          Please fill out the following fields to connect to this application.
 
   net_suite:
     name: NetSuite
+    authentications:
+      new:
+        title: "NetSuite"
+        slogan: >
+          Please fill out the following fields to connect to this application.
+    connections:
+      edit:
+        title: "NetSuite"
+        slogan: >
+          Please fill out the following fields to finalize this connection.
     syncs:
       create:
         title: "Exporting to NetSuite"

@@ -1,5 +1,5 @@
 module Greenhouse
-  class ConnectionForm
+  class Authentication
     include ActiveModel::Model
 
     attr_accessor :name, :secret_key
