@@ -35,6 +35,25 @@ feature "user connects NetSuite account" do
     expect(page).to have_content("Not good")
   end
 
+  scenario "with updated credentials" do
+    stub_namely_fields("fields_with_net_suite")
+    stub_create_instance(status: 200, body: { id: "123", token: "abcxyz" })
+    stub_lookup_subsidiaries(
+      status: 200,
+      body: [{ "internalId": "1", "name": "First" }]
+    )
+
+    visit_dashboard
+    net_suite.click_link t("dashboards.show.connect")
+    submit_net_suite_account_form
+    select_net_suite_subsidiary("First")
+
+    net_suite.click_link t("dashboards.show.edit")
+    submit_net_suite_account_form
+    expect(net_suite).
+      to have_text_from("net_suite_connections.description.connected_html")
+  end
+
   def visit_dashboard
     user = create(:user)
     visit dashboard_path(as: user)

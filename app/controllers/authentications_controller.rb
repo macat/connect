@@ -5,9 +5,21 @@ class AuthenticationsController < IntegrationController
 
   def create
     if authentication.update(authentication_params)
-      redirect_to after_save_path
+      redirect_to after_create_path
     else
       render :new
+    end
+  end
+
+  def edit
+    authentication
+  end
+
+  def update
+    if authentication.update(authentication_params)
+      redirect_to dashboard_path
+    else
+      render :edit
     end
   end
 
@@ -20,7 +32,7 @@ class AuthenticationsController < IntegrationController
     )
   end
 
-  def after_save_path
+  def after_create_path
     if connection.ready?
       dashboard_path
     else

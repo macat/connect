@@ -3,6 +3,7 @@ en:
     show:
       connect: "Connect"
       disconnect: "Disconnect"
+      edit: "Edit"
       export_now: "Export now"
       import_now: "Import now"
       sign_out: "Sign out"
@@ -154,6 +155,10 @@ en:
         title: "Greenhouse"
         slogan: >
           Please fill out the following fields to connect to this application.
+      edit:
+        title: "Greenhouse"
+        slogan: >
+          Please fill out the following fields to update your credentials.
 
   icims:
     name: iCIMS
@@ -162,6 +167,10 @@ en:
         title: "iCIMS"
         slogan: >
           Please fill out the following fields to connect to this application.
+      edit:
+        title: "iCIMS"
+        slogan: >
+          Please fill out the following fields to update your credentials.
 
   jobvite:
     name: Jobvite
@@ -170,6 +179,10 @@ en:
         title: "Jobvite"
         slogan: >
           Please fill out the following fields to connect to this application.
+      edit:
+        title: "Jobvite"
+        slogan: >
+          Please fill out the following fields to update your credentials.
 
   net_suite:
     name: NetSuite
@@ -178,6 +191,10 @@ en:
         title: "NetSuite"
         slogan: >
           Please fill out the following fields to connect to this application.
+      edit:
+        title: "NetSuite"
+        slogan: >
+          Please fill out the following fields to update your credentials.
     connections:
       edit:
         title: "NetSuite"
