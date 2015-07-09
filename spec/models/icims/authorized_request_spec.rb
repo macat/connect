@@ -3,7 +3,7 @@ require "rails_helper"
 describe Icims::AuthorizedRequest do
   describe "#headers" do
     it "request has the necessary information" do
-      expect(authorized_request.headers.keys).
+      expect(build_authorized_request.headers.keys).
         to match_array [
           "content-type",
           "host",
@@ -13,13 +13,15 @@ describe Icims::AuthorizedRequest do
     end
 
     it "sends a header with a hash of its payload" do
+      request = build_request
+      authorized_request = build_authorized_request(request: request)
       expect(authorized_request.headers["x-icims-content-sha256"]).
-        to eq OpenSSL::Digest::SHA256.new(post_request.payload).hexdigest
+        to eq OpenSSL::Digest::SHA256.new(request.payload).hexdigest
     end
 
     it "sends a header with formatted date time of its request" do
       Timecop.freeze(Time.current) do
-        expect(authorized_request.headers["x-icims-date"]).
+        expect(build_authorized_request.headers["x-icims-date"]).
           to eq Time.current.iso8601
       end
     end
@@ -33,13 +35,14 @@ describe Icims::AuthorizedRequest do
         headers: {},
       )
 
-      expect(authorized_request(request).canonical_request).
+      expect(build_authorized_request(request: request).canonical_request).
         to eq canonical_request(request)
     end
   end
 
   describe "#string_to_sign" do
     it "returns a string to sign" do
+      authorized_request = build_authorized_request
       Timecop.freeze do
         signable_string = [
           "x-icims-v1-hmac-sha256",
@@ -56,25 +59,29 @@ describe Icims::AuthorizedRequest do
 
   describe "#signature" do
     it "returns a signature" do
+      connection = build_connection
+      request = build_authorized_request(connection: connection)
       signed_string = OpenSSL::HMAC.hexdigest(
         OpenSSL::Digest::SHA256.new,
         connection.key,
-        authorized_request.string_to_sign,
+        request.string_to_sign,
       )
 
-      expect(authorized_request.signature).to eq signed_string
+      expect(request.signature).to eq signed_string
     end
   end
 
   describe "#authorization_header" do
     it "returns the value for the 'Authorization' header" do
+      connection = build_connection
+      request = build_authorized_request(connection: connection)
       header = [
         "x-icims-v1-hmac-sha256 user=#{connection.username}",
         "signedheaders=content-type;host;x-icims-content-sha256;x-icims-date",
-        "signature=#{authorized_request.signature}",
+        "signature=#{request.signature}",
       ].join(", ")
 
-      expect(authorized_request.authorization_header).to eq header
+      expect(request.authorization_header).to eq header
     end
   end
 
@@ -82,26 +89,28 @@ describe Icims::AuthorizedRequest do
     it "sends the request with the appropriate authorization header" do
       request = stub_request(
         :post,
-        post_request.url,
+        build_request.url,
       ).with(
         headers: {
-          "Authorization" => authorized_request.authorization_header,
+          "Authorization" => build_authorized_request.authorization_header,
         }
       )
 
-      authorized_request.execute
+      build_authorized_request.execute
 
       expect(request).to have_been_requested
     end
 
     context "an authentication error is returned" do
       it "sends an invalid authentication message" do
+        connection = build_connection
+        request = build_authorized_request(connection: connection)
         stub_request(
           :post,
-          post_request.url,
+          build_request.url,
         ).with(
           headers: {
-            "Authorization" => authorized_request.authorization_header,
+            "Authorization" => request.authorization_header,
           }
         ).to_return(status: 401, body: errors.to_json)
 
@@ -117,23 +126,21 @@ describe Icims::AuthorizedRequest do
           ).
           and_return(mail)
 
-        expect { authorized_request.execute }.to raise_error(
-          Unauthorized
-        )
+        expect { request.execute }.to raise_error(Unauthorized)
         expect(mail).to have_received(:deliver)
       end
     end
   end
 
-  def authorized_request(request = post_request)
-    @authorized_request ||= described_class.new(
-      connection: connection,
-      request: request,
-    )
+  def build_authorized_request(
+    request: build_request,
+    connection: build_connection
+  )
+    described_class.new(connection: connection, request: request)
   end
 
-  def connection
-    @connection ||= build(:icims_connection, :connected)
+  def build_connection
+    build(:icims_connection, :connected)
   end
 
   def errors
@@ -147,8 +154,8 @@ describe Icims::AuthorizedRequest do
     }
   end
 
-  def post_request
-    @request ||= RestClient::Request.new(
+  def build_request
+    RestClient::Request.new(
       method: :post,
       url: "https://api.icims.com/or-whatever",
       headers: {},
@@ -157,14 +164,15 @@ describe Icims::AuthorizedRequest do
   end
 
   def canonical_request(request)
+    headers = build_authorized_request(request: request).headers
     <<-REQUEST.strip_heredoc.strip
       #{request.method.upcase}
       /or-ya-know
       fields=stuff
       content-type:application/json
       host:api.icims.com
-      x-icims-content-sha256:#{authorized_request(request).headers["x-icims-content-sha256"]}
-      x-icims-date:#{authorized_request(request).headers["x-icims-date"]}
+      x-icims-content-sha256:#{headers["x-icims-content-sha256"]}
+      x-icims-date:#{headers["x-icims-date"]}
 
       content-type;host;x-icims-content-sha256;x-icims-date
     REQUEST
