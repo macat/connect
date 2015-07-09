@@ -148,64 +148,38 @@ en:
       connected_html: Connected NetSuite Description
       disconnected_html: Disconnected NetSuite Description
 
+  authentications:
+    new:
+      title: "Connect to %{integration}"
+      slogan: >
+        Please fill out the following fields to connect to this application.
+    edit:
+      title: "Update credentials for %{integration}"
+      slogan: >
+        Please fill out the following fields to update your credentials.
+
+  connections:
+    edit:
+      title: "Connect to %{integration}"
+      slogan: >
+        Please fill out the following fields to finalize this connection.
+  syncs:
+    create:
+      title: "Synchronizing with %{integration}"
+      slogan: >
+        We are synchronizing your profiles with %{integration} and will send you
+        an email as soon as synchronization is complete.
+
   greenhouse:
     name: Greenhouse
-    authentications:
-      new:
-        title: "Greenhouse"
-        slogan: >
-          Please fill out the following fields to connect to this application.
-      edit:
-        title: "Greenhouse"
-        slogan: >
-          Please fill out the following fields to update your credentials.
-
   icims:
     name: iCIMS
-    authentications:
-      new:
-        title: "iCIMS"
-        slogan: >
-          Please fill out the following fields to connect to this application.
-      edit:
-        title: "iCIMS"
-        slogan: >
-          Please fill out the following fields to update your credentials.
 
   jobvite:
     name: Jobvite
-    authentications:
-      new:
-        title: "Jobvite"
-        slogan: >
-          Please fill out the following fields to connect to this application.
-      edit:
-        title: "Jobvite"
-        slogan: >
-          Please fill out the following fields to update your credentials.
 
   net_suite:
     name: NetSuite
-    authentications:
-      new:
-        title: "NetSuite"
-        slogan: >
-          Please fill out the following fields to connect to this application.
-      edit:
-        title: "NetSuite"
-        slogan: >
-          Please fill out the following fields to update your credentials.
-    connections:
-      edit:
-        title: "NetSuite"
-        slogan: >
-          Please fill out the following fields to finalize this connection.
-    syncs:
-      create:
-        title: "Exporting to NetSuite"
-        slogan: >
-          We are exporting your profiles to NetSuite and will send you an email
-          as soon as the export is complete.
 
   status:
     client_error: "Service error: %{message}"

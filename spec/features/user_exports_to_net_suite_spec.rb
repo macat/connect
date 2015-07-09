@@ -29,7 +29,8 @@ feature "user exports to net suite" do
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
 
-    expect(page).to have_content(t("net_suite.syncs.create.title"))
+    expect(page).
+      to have_content(t("syncs.create.title", integration: t("net_suite.name")))
 
     open_email user.email
     expect(current_email).to have_text(

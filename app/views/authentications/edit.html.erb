@@ -1,8 +1,8 @@
 <%= render "subnav" %>
 
 <section id="subheader">
-  <h1><%= t("#{integration_id}.authentications.edit.title") %></h2>
-  <p><%= t("#{integration_id}.authentications.edit.slogan") %></p>
+  <h1><%= t(".title", integration: integration_name) %></h2>
+  <p><%= t(".slogan", integration: integration_name) %></p>
 </section>
 
 <%= simple_form_for(
