@@ -23,8 +23,7 @@ describe Jobvite::BulkImport do
 
       status = bulk_import.import
 
-      expect(Importer).to have_received(:new).with(first_user, anything)
-      expect(Importer).to have_received(:new).with(second_user, anything)
+      expect(Importer).to have_received(:new).twice
       expect(import_instance).to have_received(:import).twice
       expect(status).to be_an ImportResult
       expect(status[first_user]).to eq "Status"

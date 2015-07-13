@@ -1,6 +1,6 @@
 class Importer
   def initialize(
-    user,
+    user:,
     client:,
     connection:,
     namely_importer:

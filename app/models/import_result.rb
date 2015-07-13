@@ -1,4 +1,6 @@
 class ImportResult
+  include Enumerable
+
   delegate :[], :[]=, to: :results
 
   def initialize(attribute_mapper)
@@ -15,9 +17,9 @@ class ImportResult
     end.join
   end
 
-  def to_a
-    results.map do |candidate, result|
-      { candidate: candidate, result: result }
+  def each(&block)
+    results.each do |candidate, result|
+      block.call(candidate: candidate, result: result)
     end
   end
 

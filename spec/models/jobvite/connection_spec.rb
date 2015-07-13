@@ -38,6 +38,25 @@ describe Jobvite::Connection do
     end
   end
 
+  describe "#sync" do
+    it "uses the importer" do
+      jobvite_connection = create(:jobvite_connection)
+      candidate = double("candidate")
+      failure = double("failed_candidate_import", success?: false)
+      success = double("successful_candidate_import", success?: true)
+      results_hash = [{ result: success, candidate: candidate },
+                      { result: failure, candidate: candidate }]
+      importer = double("importer", import: results_hash)
+      allow(Importer).to receive(:new).and_return(importer)
+
+      results = jobvite_connection.sync
+
+      expect(importer).to have_received(:import)
+      expect(results[0]).to be_success
+      expect(results[1]).not_to be_success
+    end
+  end
+
   def stub_namely_connection(user, field_names:)
     fields = field_names.map { |name| double("field", name: name) }
     fields_collection = double("fields", all: fields)

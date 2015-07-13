@@ -23,20 +23,4 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(id: session[:current_user_id])
   end
   helper_method :current_user
-
-  def namely_importer(attribute_mapper:)
-    NamelyImporter.new(
-      attribute_mapper: attribute_mapper,
-      namely_connection: current_user.namely_connection,
-    )
-  end
-
-  def build_importer(client:, connection:, namely_importer:)
-    Importer.new(
-      current_user,
-      client: client,
-      connection: connection,
-      namely_importer: namely_importer,
-    )
-  end
 end

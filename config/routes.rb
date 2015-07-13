@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   root to: "homepages#show"
   resource :dashboard, only: [:show]
 
-  resources :jobvite_imports, only: [:create]
-
   post(
     "/icims_candidate_imports/:api_key",
     to: "icims_candidate_imports#create",

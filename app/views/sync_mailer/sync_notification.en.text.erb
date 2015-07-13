@@ -3,7 +3,7 @@
 <%= t(".succeeded_list") %>
 
 <% @sync_results.succeeded.each do |result| %>
-<%= result.first_name %> <%= result.last_name %>
+<%= result.name %>
 <% end -%>
 
 <%= @sync_results.failed_message %>
@@ -11,7 +11,7 @@
 <%= t(".failed_list") %>
 
 <% @sync_results.failed.each do |result| %>
-<%= result.first_name %> <%= result.last_name %>
+<%= result.name %>
 <% end -%>
 
 Namely

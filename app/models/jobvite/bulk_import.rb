@@ -20,7 +20,7 @@ module Jobvite
 
     def new_importer(user)
       Importer.new(
-        user,
+        user: user,
         connection: user.jobvite_connection,
         client: Client.new(user.jobvite_connection),
         namely_importer: NamelyImporter.new(

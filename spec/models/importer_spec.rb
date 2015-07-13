@@ -17,10 +17,10 @@ describe Importer do
           import: expected_status,
         )
         import = described_class.new(
-          user,
           client: client,
           connection: connection,
           namely_importer: namely_importer,
+          user: user,
         )
 
         status = import.import
@@ -44,10 +44,10 @@ describe Importer do
           and_raise(Icims::Client::Error, "Everything is broken")
         namely_importer = double("NamelyImporter")
         import = described_class.new(
-          user,
           client: client,
           connection: connection,
           namely_importer: namely_importer,
+          user: user,
         )
 
         status = import.import
@@ -68,18 +68,18 @@ describe Importer do
         connection = double("connection", connected?: true)
         client = double(
           "client",
+          class: Icims::Client,
           recent_hires: recent_hires,
-          class: Icims::Client
         )
         namely_importer = double("NamelyImporter")
         allow(namely_importer).
           to receive(:import).
           and_raise(Namely::FailedRequestError, "A Namely error")
         import = described_class.new(
-          user,
           client: client,
           connection: connection,
           namely_importer: namely_importer,
+          user: user,
         )
 
         status = import.import
@@ -97,10 +97,10 @@ describe Importer do
           namely_connection: double("Namely::Connection"),
         )
         importer = described_class.new(
-          user,
           client: double("client"),
           connection: double("connection", connected?: false),
-          namely_importer: double("namely_importer")
+          namely_importer: double("namely_importer"),
+          user: user,
         )
         status = nil
 

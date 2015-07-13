@@ -37,7 +37,17 @@ feature "User imports jobvite candidates" do
       click_button t("dashboards.show.import_now")
     end
 
-    expect(page).to have_content t("jobvite_imports.create.imported_successfully")
+    expect(page).to have_content t("syncs.create.slogan",
+                                   integration: "Jobvite")
+
+    open_email user.email
+    expect(current_email).to have_text(
+      t(
+        "sync_mailer.sync_notification.succeeded",
+        employees: t("sync_mailer.sync_notification.employees", count: 6),
+        integration: "Jobvite"
+      )
+    )
   end
 
   scenario "successfully with failed import candidates" do
@@ -58,7 +68,17 @@ feature "User imports jobvite candidates" do
       click_button t("dashboards.show.import_now")
     end
 
-    expect(page).to have_content t("jobvite_imports.create.not_imported_successfully")
+    expect(page).to have_content t("syncs.create.slogan",
+                                   integration: "Jobvite")
+
+    open_email user.email
+    expect(current_email).to have_text(
+      t(
+        "sync_mailer.sync_notification.failed",
+        employees: t("sync_mailer.sync_notification.employees", count: 6),
+        integration: "Jobvite"
+      )
+    )
   end
 
   scenario "with bad authentication" do
@@ -79,12 +99,16 @@ feature "User imports jobvite candidates" do
       click_button t("dashboards.show.import_now")
     end
 
-    expect(page).to have_error_message(
-      t("jobvite_connections.authentication_error").chomp
+    expect(page).to have_content t("syncs.create.slogan",
+                                   integration: "Jobvite")
+
+    open_email user.email
+    expect(current_email).to have_text(
+      t(
+        "connection_mailer.authentication_notification.notice",
+        integration: "Jobvite"
+      )
     )
-    within(".jobvite-account") do
-      expect(page).to have_button(t("dashboards.show.import_now"))
-    end
   end
 
   def authentication_error_as_json

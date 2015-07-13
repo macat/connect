@@ -97,7 +97,7 @@ module NetSuite
       end
 
       delegate :success?, to: :response
-      delegate :email, :first_name, :last_name, to: :profile
+      delegate :email, :name, to: :profile
 
       def updated?
         @updated
