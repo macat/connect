@@ -1,7 +1,10 @@
 class NetSuite::Connection < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :attribute_mapper, dependent: :destroy
+  belongs_to :user, dependent: :destroy
 
   validates :subsidiary_id, presence: true, allow_nil: true
+
+  after_create :build_attribute_mapper
 
   def integration_id
     :net_suite
@@ -47,5 +50,13 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def disconnect
     update!(instance_id: nil, authorization: nil)
+  end
+
+  private
+
+  def build_attribute_mapper
+    builder = NetSuite::AttributeMapperBuilder.new(user: user)
+    self.attribute_mapper = builder.build
+    save
   end
 end

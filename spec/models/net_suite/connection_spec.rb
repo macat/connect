@@ -6,6 +6,11 @@ describe NetSuite::Connection do
     it { is_expected.not_to allow_value("").for(:subsidiary_id) }
   end
 
+  describe "associations" do
+    it { should belong_to(:attribute_mapper).dependent(:destroy) }
+    it { should belong_to(:user).dependent(:destroy) }
+  end
+
   describe "#connected?" do
     context "with saved authorization data" do
       it "returns true" do
@@ -53,6 +58,22 @@ describe NetSuite::Connection do
       it "returns false" do
         expect(NetSuite::Connection.new(subsidiary_id: nil)).not_to be_ready
       end
+    end
+  end
+
+  describe "#attribute_mapper" do
+    it "returns the AttributeMapper built from an `after_create` hook" do
+      connection = NetSuite::Connection.new(
+        subsidiary_id: "x",
+        user: create(:user)
+      )
+
+      expect(connection.attribute_mapper).to be_nil
+
+      connection.save
+
+      expect(connection.attribute_mapper).to be_an_instance_of AttributeMapper
+      expect(connection.attribute_mapper).to be_persisted
     end
   end
 
