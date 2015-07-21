@@ -16,4 +16,22 @@ class AttributeMapper < ActiveRecord::Base
       )
     end
   end
+
+  def call(profile)
+    send(mapping_direction, profile)
+  end
+
+  private
+
+  def export(profile)
+    field_mappings.each_with_object({}) do |field_mapping, accumulator|
+      if profile[field_mapping.namely_field_name].present?
+        accumulator.merge!(
+          field_mapping.integration_field_name => profile[
+            field_mapping.namely_field_name
+          ]
+        )
+      end
+    end
+  end
 end

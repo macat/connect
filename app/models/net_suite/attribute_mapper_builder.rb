@@ -1,6 +1,6 @@
 class NetSuite::AttributeMapperBuilder
   def initialize(user:)
-    @attribute_mapper = AttributeMapper.new(
+    @attribute_mapper = ::AttributeMapper.new(
       mapping_direction: :export,
       user: user
     )
