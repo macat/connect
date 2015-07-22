@@ -6,6 +6,16 @@ class NetSuite::Connection < ActiveRecord::Base
 
   after_create :build_attribute_mapper
 
+  delegate :export, to: :attribute_mapper
+  delegate :post_handle, to: :attribute_mapper
+
+  def attribute_mapper
+    @attribute_mapper ||= NetSuite::AttributeMapper.new(
+      attribute_mapper: super,
+      configuration: self
+    )
+  end
+
   def integration_id
     :net_suite
   end

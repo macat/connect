@@ -68,11 +68,11 @@ describe NetSuite::Connection do
         user: create(:user)
       )
 
-      expect(connection.attribute_mapper).to be_nil
-
       connection.save
 
-      expect(connection.attribute_mapper).to be_an_instance_of AttributeMapper
+      expect(connection.attribute_mapper).to be_an_instance_of(
+        NetSuite::AttributeMapper
+      )
       expect(connection.attribute_mapper).to be_persisted
     end
   end
@@ -137,6 +137,18 @@ describe NetSuite::Connection do
       connection.sync
 
       expect(export).to have_received(:perform)
+    end
+  end
+
+  describe "#export" do
+    it { should delegate_method(:export).to(:attribute_mapper).as(:export) }
+  end
+
+  describe "#post_handle" do
+    it do
+      should delegate_method(
+        :post_handle
+      ).to(:attribute_mapper).as(:post_handle)
     end
   end
 

@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :attribute_mapper do
-    mapping_direction :export
     user
   end
 
