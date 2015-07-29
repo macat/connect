@@ -1,5 +1,5 @@
 class FieldMapping < ActiveRecord::Base
-  belongs_to :attribute_mapper, dependent: :destroy
+  belongs_to :attribute_mapper
 
   validates :attribute_mapper, presence: true
   validates :attribute_mapper_id, presence: true

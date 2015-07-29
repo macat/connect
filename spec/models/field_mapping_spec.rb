@@ -8,7 +8,7 @@ describe FieldMapping do
   end
 
   describe "associations" do
-    it { should belong_to(:attribute_mapper).dependent(:destroy) }
+    it { should belong_to(:attribute_mapper) }
   end
 
   describe "#integration_key" do
