@@ -17,6 +17,10 @@ module Greenhouse
       true
     end
 
+    def attribute_mapper?
+      false
+    end
+
     def disconnect
       update(name: nil)
     end

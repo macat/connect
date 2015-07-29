@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 20150727184245) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "export_logs", force: true do |t|
+    t.integer  "connection_id",   null: false
+    t.string   "connection_type", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "export_logs", ["connection_id", "connection_type"], name: "index_export_logs_on_connection_id_and_connection_type", using: :btree
+
   create_table "field_mappings", force: true do |t|
     t.string   "integration_field_name", null: false
     t.string   "namely_field_name",      null: false

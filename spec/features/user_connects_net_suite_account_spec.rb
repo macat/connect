@@ -20,6 +20,7 @@ feature "user connects NetSuite account" do
 
     submit_net_suite_account_form
     select_net_suite_subsidiary("Second")
+    save_attribute_mappings
     expect(net_suite).
       to have_text_from("net_suite_connections.description.connected_html")
   end
@@ -47,6 +48,7 @@ feature "user connects NetSuite account" do
     net_suite.click_link t("dashboards.show.connect")
     submit_net_suite_account_form
     select_net_suite_subsidiary("First")
+    save_attribute_mappings
 
     net_suite.click_link t("dashboards.show.edit")
     submit_net_suite_account_form
@@ -69,6 +71,10 @@ feature "user connects NetSuite account" do
   def select_net_suite_subsidiary(name)
     select name, from: field("net_suite_connection.subsidiary_id")
     click_button button("net_suite_connection.update")
+  end
+
+  def save_attribute_mappings
+    click_on t("attribute_mappings.edit.save")
   end
 
   def stub_create_instance(status:, body:)

@@ -1,4 +1,8 @@
 en:
+  attribute_mappings:
+    edit:
+      save: Save Field Map
+
   dashboards:
     show:
       connect: "Connect"
@@ -184,6 +188,14 @@ en:
     missing_required_field: "Missing required fields [%{message}]"
     namely_error: "%{message}"
     not_connected: "No connected account"
+
+  integration_fields:
+    email: "Email"
+    first_name: "First name"
+    gender: "Gender"
+    phone: "Phone"
+    title: "Title"
+    last_name: "Last name"
 
   sync_mailer:
     sync_notification:

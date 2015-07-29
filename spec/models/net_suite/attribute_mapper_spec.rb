@@ -22,9 +22,7 @@ describe NetSuite::AttributeMapper do
       field_mappings = netsuite_attribute_mapper.field_mappings
       export_profile_keys = field_mappings.map(&:integration_field_name)
 
-      export_attributes = netsuite_attribute_mapper.export(
-        stubbed_profile(stubbed_profile_data)
-      )
+      export_attributes = export
 
       expect(
         export_attributes.keys.to_set
@@ -36,9 +34,7 @@ describe NetSuite::AttributeMapper do
       profile_data = stubbed_profile_data
       delete_keys.each { |key| profile_data[key] = nil }
 
-      export_attributes = netsuite_attribute_mapper.export(
-        stubbed_profile(profile_data)
-      )
+      export_attributes = export(profile_data)
 
       expect(export_attributes).not_to have_key("email")
       expect(export_attributes).not_to have_key("lastName")
@@ -55,9 +51,7 @@ describe NetSuite::AttributeMapper do
 
         profile_data = stubbed_profile_data.merge(attributes)
 
-        export_attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
+        export_attributes = export(profile_data)
 
         expect(export_attributes["email"]).to eq(attributes[:email])
         expect(export_attributes["firstName"]).to eq(attributes[:first_name])
@@ -65,17 +59,12 @@ describe NetSuite::AttributeMapper do
         expect(export_attributes["lastName"]).to eq(attributes[:last_name])
       end
     end
-  end
 
-  describe "#post_handle" do
     context "gender mapping" do
       it "maps 'Female to _female'" do
         profile_data = stubbed_profile_data.merge(gender: "Female")
 
-        attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export(profile_data)
 
         expect(export_attributes["gender"]).to eq("_female")
       end
@@ -83,10 +72,7 @@ describe NetSuite::AttributeMapper do
       it "maps 'Male to _male'" do
         profile_data = stubbed_profile_data.merge(gender: "Male")
 
-        attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export(profile_data)
 
         expect(export_attributes["gender"]).to eq("_male")
       end
@@ -94,10 +80,7 @@ describe NetSuite::AttributeMapper do
       it "maps nil to '_omitted'" do
         profile_data = stubbed_profile_data.merge(gender: nil)
 
-        attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export(profile_data)
 
         expect(export_attributes["gender"]).to eq("_omitted")
       end
@@ -105,10 +88,7 @@ describe NetSuite::AttributeMapper do
       it "maps an empty string to '_omitted'" do
         profile_data = stubbed_profile_data.merge(gender: "")
 
-        attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export(profile_data)
 
         expect(export_attributes["gender"]).to eq("_omitted")
       end
@@ -120,10 +100,7 @@ describe NetSuite::AttributeMapper do
         job_title = stubbed_job_title(title)
         profile_data = stubbed_profile_data.merge(job_title)
 
-        attributes = netsuite_attribute_mapper.export(
-          stubbed_profile(profile_data)
-        )
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export(profile_data)
 
         expect(export_attributes["title"]).to eq(title)
       end
@@ -133,10 +110,7 @@ describe NetSuite::AttributeMapper do
           job_title = stubbed_job_title("")
           profile_data = stubbed_profile_data.merge(job_title)
 
-          attributes = netsuite_attribute_mapper.export(
-            stubbed_profile(profile_data)
-          )
-          export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+          export_attributes = export(profile_data)
 
           expect(export_attributes["title"]).to eq("")
         end
@@ -145,14 +119,17 @@ describe NetSuite::AttributeMapper do
 
     context "subsidiary_id" do
       it "provides a subsidiary_id from the configuration" do
-        attributes = netsuite_attribute_mapper.export(stubbed_profile)
-        export_attributes = netsuite_attribute_mapper.post_handle(attributes)
+        export_attributes = export
 
         expect(
           export_attributes["subsidiary"]
         ).to eq("internalId" => configuration.subsidiary_id)
       end
     end
+  end
+
+  def export(profile_data = stubbed_profile_data)
+    netsuite_attribute_mapper.export(stubbed_profile(profile_data))
   end
 
   def stubbed_profile_data
@@ -168,8 +145,8 @@ describe NetSuite::AttributeMapper do
   def stubbed_job_title(title)
     {
       job_title: {
-        id: "1234",
-        title: title
+        "id" => "1234",
+        "title" => title
       }
     }
   end

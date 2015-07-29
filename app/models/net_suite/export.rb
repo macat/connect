@@ -1,7 +1,7 @@
 module NetSuite
   class Export
-    def initialize(configuration:, namely_profiles:, net_suite:)
-      @configuration = configuration
+    def initialize(attribute_mapper:, namely_profiles:, net_suite:)
+      @attribute_mapper = attribute_mapper
       @namely_profiles = namely_profiles
       @net_suite = net_suite
     end
@@ -21,20 +21,14 @@ module NetSuite
     def export(profile)
       Employee.new(
         profile,
-        configuration: @configuration,
+        attribute_mapper: @attribute_mapper,
         net_suite: @net_suite
       ).export
     end
 
     class Employee
-      GENDER_MAP = {
-        "Male" => "_male",
-        "Female" => "_female",
-        "Not specified" => "_omitted",
-      }
-
-      def initialize(profile, configuration:, net_suite:)
-        @configuration = configuration
+      def initialize(profile, attribute_mapper:, net_suite:)
+        @attribute_mapper = attribute_mapper
         @profile = profile
         @net_suite = net_suite
       end
@@ -73,19 +67,7 @@ module NetSuite
       end
 
       def attributes
-        {
-          firstName: @profile.first_name,
-          lastName: @profile.last_name,
-          email: @profile.email,
-          gender: map_gender(@profile.gender),
-          phone: @profile.home_phone,
-          subsidiary: { internalId: @configuration.subsidiary_id },
-          title: @profile.job_title[:title]
-        }
-      end
-
-      def map_gender(namely_value)
-        GENDER_MAP[namely_value]
+        @attribute_mapper.export(@profile)
       end
     end
 

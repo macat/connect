@@ -16,22 +16,18 @@ class NetSuite::AttributeMapper
   end
 
   def export(profile)
-    attribute_mapper.export(profile)
-  end
-
-  def post_handle(exported_profile)
-    exported_profile["gender"] = map_gender(exported_profile["gender"])
-    exported_profile["subsidiary"] = set_subsidiary_id
-    exported_profile["title"] = format_job_title(exported_profile["title"])
-
-    exported_profile
+    attribute_mapper.export(profile).tap do |exported_profile|
+      exported_profile["gender"] = map_gender(exported_profile["gender"])
+      exported_profile["subsidiary"] = set_subsidiary_id
+      exported_profile["title"] = format_job_title(exported_profile["title"])
+    end
   end
 
   private
 
   def format_job_title(value)
     value = Hash(value)
-    value.fetch(:title) { "" }
+    value.fetch("title") { "" }
   end
 
   def map_gender(value)

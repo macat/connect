@@ -62,17 +62,15 @@ describe NetSuite::Connection do
   end
 
   describe "#attribute_mapper" do
-    it "returns the AttributeMapper built from an `after_create` hook" do
+    it "builds and saves an attribute mapper" do
       connection = NetSuite::Connection.new(
         subsidiary_id: "x",
         user: create(:user)
       )
 
-      connection.save
+      connection.save!
 
-      expect(connection.attribute_mapper).to be_an_instance_of(
-        NetSuite::AttributeMapper
-      )
+      expect(connection.attribute_mapper).to be_an_instance_of(AttributeMapper)
       expect(connection.attribute_mapper).to be_persisted
     end
   end
@@ -125,10 +123,18 @@ describe NetSuite::Connection do
         and_return(namely_profiles)
       results = double(:results)
       export = double(NetSuite::Export, perform: results)
+      attribute_mapper = double("attribute_mapper")
+      allow(NetSuite::AttributeMapper).
+        to receive(:new).
+        with(
+          attribute_mapper: connection.attribute_mapper,
+          configuration: connection
+        ).
+        and_return(attribute_mapper)
       allow(NetSuite::Export).
         to receive(:new).
         with(
-          configuration: connection,
+          attribute_mapper: attribute_mapper,
           namely_profiles: all_profiles,
           net_suite: client
         ).
@@ -141,14 +147,10 @@ describe NetSuite::Connection do
   end
 
   describe "#export" do
-    it { should delegate_method(:export).to(:attribute_mapper).as(:export) }
-  end
-
-  describe "#post_handle" do
     it do
-      should delegate_method(
-        :post_handle
-      ).to(:attribute_mapper).as(:post_handle)
+      should delegate_method(:export).
+        to(:net_suite_attribute_mapper).
+        as(:export)
     end
   end
 

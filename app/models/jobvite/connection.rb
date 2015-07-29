@@ -20,6 +20,10 @@ module Jobvite
       true
     end
 
+    def attribute_mapper?
+      false
+    end
+
     def disconnect
       update(
         api_key: nil,
@@ -28,7 +32,7 @@ module Jobvite
     end
 
     def required_namely_field
-      AttributeMapper.new.namely_identifier_field.to_s
+      Jobvite::AttributeMapper.new.namely_identifier_field.to_s
     end
 
     def sync

@@ -1,20 +1,12 @@
 class NetSuite::Connection < ActiveRecord::Base
-  belongs_to :attribute_mapper, dependent: :destroy
+  belongs_to :attribute_mapper,
+             dependent: :destroy,
+             class_name: "::AttributeMapper"
   belongs_to :user, dependent: :destroy
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
-  after_create :build_attribute_mapper
-
-  delegate :export, to: :attribute_mapper
-  delegate :post_handle, to: :attribute_mapper
-
-  def attribute_mapper
-    @attribute_mapper ||= NetSuite::AttributeMapper.new(
-      attribute_mapper: super,
-      configuration: self
-    )
-  end
+  delegate :export, to: :net_suite_attribute_mapper
 
   def integration_id
     :net_suite
@@ -30,6 +22,14 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def enabled?
     ENV["CLOUD_ELEMENTS_ORGANIZATION_SECRET"].present?
+  end
+
+  def attribute_mapper?
+    true
+  end
+
+  def attribute_mapper
+    super || create_attribute_mapper
   end
 
   def ready?
@@ -48,7 +48,7 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def sync
     NetSuite::Export.new(
-      configuration: self,
+      attribute_mapper: net_suite_attribute_mapper,
       namely_profiles: user.namely_profiles.all,
       net_suite: client
     ).perform
@@ -64,9 +64,17 @@ class NetSuite::Connection < ActiveRecord::Base
 
   private
 
-  def build_attribute_mapper
+  def create_attribute_mapper
     builder = NetSuite::AttributeMapperBuilder.new(user: user)
-    self.attribute_mapper = builder.build
-    save
+    builder.build.tap do |attribute_mapper|
+      update!(attribute_mapper: attribute_mapper)
+    end
+  end
+
+  def net_suite_attribute_mapper
+    @attribute_mapper ||= NetSuite::AttributeMapper.new(
+      attribute_mapper: attribute_mapper,
+      configuration: self
+    )
   end
 end

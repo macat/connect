@@ -1,0 +1,16 @@
+<tr>
+  <td>
+    <%= fields.label(
+      :namely_field_name,
+      t("integration_fields.#{field_mapping.integration_key}")
+    ) %>
+  </td>
+  <td>
+    <%= fields.input(
+      :namely_field_name,
+      collection: ::AttributeMapper::NAMELY_FIELDS.map(&:to_s),
+      label_method: :humanize,
+      label: false
+    ) %>
+  </td>
+</tr>
