@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def namely_profiles
-    namely_connection.profiles
+    namely_connection.profiles.all.map { |profile| Profile.new(profile) }
   end
 
   def namely_fields

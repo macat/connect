@@ -29,12 +29,9 @@ class AttributeMapper < ActiveRecord::Base
 
   def export(profile)
     field_mappings.each_with_object({}) do |field_mapping, accumulator|
-      if profile.send(field_mapping.namely_field_name).present?
-        accumulator.merge!(
-          field_mapping.integration_field_name => profile.send(
-            field_mapping.namely_field_name
-          )
-        )
+      value = profile[field_mapping.namely_field_name]
+      if value.present?
+        accumulator.merge!(field_mapping.integration_field_name => value)
       end
     end
   end

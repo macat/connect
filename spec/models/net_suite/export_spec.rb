@@ -5,7 +5,24 @@ describe NetSuite::Export do
     context "with new, valid employees" do
       it "returns a result with created profiles" do
         emails = %w(one@example.com two@example.com)
-        profiles = emails.map { |email| stub_profile(email: email) }
+        profile_data = [
+          {
+            email: "one@example.com",
+            first_name: "One",
+            last_name: "Last"
+          },
+          {
+            email: "two@example.com",
+            first_name: "Two",
+            last_name: "Last"
+          }
+        ]
+        profiles = profile_data.map { |profile| stub_profile(profile) }
+        emails = profile_data.map { |profile| profile[:email] }
+        names = profile_data.map do |profile|
+          "#{profile[:first_name]} #{profile[:last_name]}"
+        end
+
         net_suite = stub_net_suite(success: true, internalId: "1234")
         mapped_attributes = double("mapped_attributes")
         attribute_mapper = stub_attribute_mapper(to: mapped_attributes)
@@ -19,6 +36,7 @@ describe NetSuite::Export do
         expect(results.map(&:success?)).to eq([true, true])
         expect(results.map(&:updated?)).to eq([false, false])
         expect(results.map(&:email)).to eq(emails)
+        expect(results.map(&:name)).to eq(names)
         expect(net_suite).to have_received(:create_employee).
           with(mapped_attributes).
           exactly(2)
@@ -92,6 +110,10 @@ describe NetSuite::Export do
       attributes.each do |name, value|
         allow(profile).to receive(name).and_return(value)
       end
+
+      allow(profile).to receive(:name).and_return(
+        "#{profile.first_name} #{profile.last_name}"
+      )
     end
   end
 

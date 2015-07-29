@@ -104,8 +104,7 @@ describe NetSuite::Connection do
 
   describe "#sync" do
     it "exports to NetSuite" do
-      all_profiles = double(:all_profiles)
-      namely_profiles = double(:namely_profiles, all: all_profiles)
+      namely_profiles = double(:namely_profiles)
       client = stub_client(authorization: "x")
       connection = create(:net_suite_connection, authorization: "x")
       allow(connection.user).
@@ -125,7 +124,7 @@ describe NetSuite::Connection do
         to receive(:new).
         with(
           attribute_mapper: attribute_mapper,
-          namely_profiles: all_profiles,
+          namely_profiles: namely_profiles,
           net_suite: client
         ).
         and_return(export)

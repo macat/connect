@@ -30,7 +30,7 @@ describe NetSuite::AttributeMapper do
     end
 
     it "doesn't map empty values" do
-      delete_keys = [:email, :last_name]
+      delete_keys = ["email", "last_name"]
       profile_data = stubbed_profile_data
       delete_keys.each { |key| profile_data[key] = nil }
 
@@ -43,26 +43,26 @@ describe NetSuite::AttributeMapper do
     describe "value handling" do
       it "sets expected values in the profile for regular attributes" do
         attributes = {
-          email: "test@example.com",
-          first_name: "First",
-          home_phone: "919-555-1212",
-          last_name: "Last",
+          "email" => "test@example.com",
+          "first_name" => "First",
+          "home_phone" => "919-555-1212",
+          "last_name" => "Last",
         }
 
         profile_data = stubbed_profile_data.merge(attributes)
 
         export_attributes = export(profile_data)
 
-        expect(export_attributes["email"]).to eq(attributes[:email])
-        expect(export_attributes["firstName"]).to eq(attributes[:first_name])
-        expect(export_attributes["phone"]).to eq(attributes[:home_phone])
-        expect(export_attributes["lastName"]).to eq(attributes[:last_name])
+        expect(export_attributes["email"]).to eq(attributes["email"])
+        expect(export_attributes["firstName"]).to eq(attributes["first_name"])
+        expect(export_attributes["phone"]).to eq(attributes["home_phone"])
+        expect(export_attributes["lastName"]).to eq(attributes["last_name"])
       end
     end
 
     context "gender mapping" do
       it "maps 'Female to _female'" do
-        profile_data = stubbed_profile_data.merge(gender: "Female")
+        profile_data = stubbed_profile_data.merge("gender" => "Female")
 
         export_attributes = export(profile_data)
 
@@ -70,7 +70,7 @@ describe NetSuite::AttributeMapper do
       end
 
       it "maps 'Male to _male'" do
-        profile_data = stubbed_profile_data.merge(gender: "Male")
+        profile_data = stubbed_profile_data.merge("gender" => "Male")
 
         export_attributes = export(profile_data)
 
@@ -78,7 +78,7 @@ describe NetSuite::AttributeMapper do
       end
 
       it "maps nil to '_omitted'" do
-        profile_data = stubbed_profile_data.merge(gender: nil)
+        profile_data = stubbed_profile_data.merge("gender" => nil)
 
         export_attributes = export(profile_data)
 
@@ -86,7 +86,7 @@ describe NetSuite::AttributeMapper do
       end
 
       it "maps an empty string to '_omitted'" do
-        profile_data = stubbed_profile_data.merge(gender: "")
+        profile_data = stubbed_profile_data.merge("gender" => "")
 
         export_attributes = export(profile_data)
 
@@ -134,17 +134,17 @@ describe NetSuite::AttributeMapper do
 
   def stubbed_profile_data
     {
-      email: "test@example.com",
-      first_name: "First",
-      gender: "Female",
-      home_phone: "212-555-1212",
-      last_name: "Last"
+      "email" => "test@example.com",
+      "first_name" => "First",
+      "gender" => "Female",
+      "home_phone" => "212-555-1212",
+      "last_name" => "Last"
     }.merge(stubbed_job_title("Robot"))
   end
 
   def stubbed_job_title(title)
     {
-      job_title: {
+      "job_title" => {
         "id" => "1234",
         "title" => title
       }
@@ -152,6 +152,6 @@ describe NetSuite::AttributeMapper do
   end
 
   def stubbed_profile(data = stubbed_profile_data)
-    double(:profile, data)
+    Profile.new(data)
   end
 end

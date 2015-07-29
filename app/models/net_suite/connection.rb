@@ -49,7 +49,7 @@ class NetSuite::Connection < ActiveRecord::Base
   def sync
     NetSuite::Export.new(
       attribute_mapper: net_suite_attribute_mapper,
-      namely_profiles: user.namely_profiles.all,
+      namely_profiles: user.namely_profiles,
       net_suite: client
     ).perform
   end
