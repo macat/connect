@@ -51,4 +51,43 @@ describe AttributeMapper do
       ).to be_empty
     end
   end
+
+  describe "#namely_fields" do
+    it "returns mappable fields from a Namely connection" do
+      ["single_select", "short_text", "long_text", "number"]
+      models = [
+        double(name: "first_name", label: "First name", type: "text"),
+        double(name: "last_name", label: "Last name", type: "longtext"),
+        double(name: "gender", label: "Gender", type: "select"),
+        double(name: "email", label: "Email", type: "email"),
+        double(name: "job_title", label: "Job title", type: "referencehistory"),
+        double(name: "user_status", label: "Status", type: "referenceselect"),
+        stub_profile_field(type: "address"),
+        stub_profile_field(type: "checkboxes"),
+        stub_profile_field(type: "date"),
+        stub_profile_field(type: "file"),
+        stub_profile_field(type: "image"),
+        stub_profile_field(type: "salary"),
+      ]
+      fields = double("fields", all: models)
+      user = build_stubbed(:user)
+      allow(user).to receive(:namely_fields).and_return(fields)
+      attribute_mapper = AttributeMapper.new(user: user)
+
+      result = attribute_mapper.namely_fields
+
+      expect(result).to eq([
+        ["First name", "first_name"],
+        ["Last name", "last_name"],
+        ["Gender", "gender"],
+        ["Email", "email"],
+        ["Job title", "job_title"],
+        ["Status", "user_status"]
+      ])
+    end
+
+    def stub_profile_field(type:)
+      double(name: type, label: "#{type} field", type: type)
+    end
+  end
 end

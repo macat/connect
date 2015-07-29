@@ -8,8 +8,7 @@
   <td>
     <%= fields.input(
       :namely_field_name,
-      collection: ::AttributeMapper::NAMELY_FIELDS.map(&:to_s),
-      label_method: :humanize,
+      collection: namely_fields,
       label: false
     ) %>
   </td>

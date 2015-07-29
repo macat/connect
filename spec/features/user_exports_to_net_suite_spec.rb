@@ -38,6 +38,7 @@ feature "user exports to net suite" do
     click_button t("helpers.submit.net_suite_connection.update")
 
     select "Mobile phone", from: t("integration_fields.phone")
+    select "Custom field", from: t("integration_fields.email")
     click_on t("attribute_mappings.edit.save")
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
@@ -63,6 +64,12 @@ feature "user exports to net suite" do
     )
     expect(WebMock).
       to have_requested(:post, "#{cloud_elements}/employees").
-      with(body: hash_including(phone: "+46 70 818 12 34", title: "CEO"))
+      with(
+        body: hash_including(
+          email: "sally.secondary@example.com",
+          phone: "+46 70 818 12 34",
+          title: "CEO",
+        )
+      )
   end
 end

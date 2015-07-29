@@ -12,8 +12,9 @@
       <%= form.simple_fields_for(:field_mappings) do |fields| %>
         <%= render(
           "field_mapping",
+          field_mapping: fields.object,
           fields: fields,
-          field_mapping: fields.object
+          namely_fields: @attribute_mapper.namely_fields
         ) %>
       <% end %>
     </tbody>
