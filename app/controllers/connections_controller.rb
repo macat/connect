@@ -12,7 +12,7 @@ class ConnectionsController < IntegrationController
   end
 
   def destroy
-    connection.disconnect
+    connection.destroy
     redirect_to dashboard_path
   end
 

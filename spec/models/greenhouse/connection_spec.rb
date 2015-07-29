@@ -28,13 +28,4 @@ RSpec.describe Greenhouse::Connection, :type => :model do
       expect(greenhouse_connection.secret_key).to_not be_nil
     end
   end
-
-  describe "#disconnect" do
-    let(:greenhouse_connection) { create :greenhouse_connection,
-                                  :connected, name: "crashoverride" }
-    it "sets the name to be nil" do
-      greenhouse_connection.disconnect
-      expect(greenhouse_connection.name).to be_nil
-    end
-  end
 end

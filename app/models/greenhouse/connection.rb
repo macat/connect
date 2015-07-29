@@ -21,10 +21,6 @@ module Greenhouse
       false
     end
 
-    def disconnect
-      update(name: nil)
-    end
-
     def required_namely_field
       "greenhouse_id"
     end

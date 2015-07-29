@@ -23,21 +23,6 @@ describe Jobvite::Connection do
     end
   end
 
-  describe "#disconnect" do
-    it "sets the api_key and secret to nil" do
-      jobvite_connection = create(
-        :jobvite_connection,
-        api_key: "a",
-        secret: "b",
-      )
-
-      jobvite_connection.disconnect
-
-      expect(jobvite_connection.api_key).to be_nil
-      expect(jobvite_connection.secret).to be_nil
-    end
-  end
-
   describe "#sync" do
     it "uses the importer" do
       jobvite_connection = create(:jobvite_connection)

@@ -6,8 +6,8 @@ describe AttributeMapper do
   end
 
   describe "associations" do
-    it { should belong_to(:user).dependent(:destroy) }
-    it { should have_many(:field_mappings) }
+    it { should belong_to(:user) }
+    it { should have_many(:field_mappings).dependent(:destroy) }
   end
 
   describe "#build_field_mappings" do

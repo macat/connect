@@ -9,8 +9,8 @@ class AttributeMapper < ActiveRecord::Base
   )
   # Unsupported: address checkboxes date file image salary
 
-  belongs_to :user, dependent: :destroy
-  has_many :field_mappings
+  belongs_to :user
+  has_many :field_mappings, dependent: :destroy
 
   validates :user, presence: true
   validates :user_id, presence: true

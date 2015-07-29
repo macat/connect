@@ -8,7 +8,7 @@ describe NetSuite::Connection do
 
   describe "associations" do
     it { should belong_to(:attribute_mapper).dependent(:destroy) }
-    it { should belong_to(:user).dependent(:destroy) }
+    it { should belong_to(:user) }
   end
 
   describe "#connected?" do
@@ -83,16 +83,6 @@ describe NetSuite::Connection do
       result = connection.client
 
       expect(result).to eq(client)
-    end
-  end
-
-  describe "#disconnect" do
-    it "clears connected fields" do
-      connection = create(:net_suite_connection, :connected)
-
-      connection.disconnect
-
-      expect(connection.reload).not_to be_connected
     end
   end
 

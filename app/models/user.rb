@@ -1,9 +1,25 @@
 class User < ActiveRecord::Base
-  has_one :jobvite_connection, class_name: "Jobvite::Connection"
-  has_one :icims_connection, class_name: "Icims::Connection"
-  has_one :greenhouse_connection, class_name: "Greenhouse::Connection"
-  has_one :net_suite_connection, class_name: "NetSuite::Connection"
-  has_many :attribute_mappers
+  has_one(
+    :jobvite_connection,
+    class_name: "Jobvite::Connection",
+    dependent: :destroy
+  )
+  has_one(
+    :icims_connection,
+    class_name: "Icims::Connection",
+    dependent: :destroy
+  )
+  has_one(
+    :greenhouse_connection,
+    class_name: "Greenhouse::Connection",
+    dependent: :destroy
+  )
+  has_one(
+    :net_suite_connection,
+    class_name: "NetSuite::Connection",
+    dependent: :destroy
+  )
+  has_many :attribute_mappers, dependent: :destroy
 
   def self.ready_to_sync_with(integration)
     association = "#{integration}_connection"

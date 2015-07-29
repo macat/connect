@@ -26,19 +26,4 @@ describe Icims::Connection do
       expect(described_class.new(key: "key")).not_to be_connected
     end
   end
-
-  describe "#disconnect" do
-    it "sets the username,key and customer_id to nil" do
-      icims_connection = create(
-        :icims_connection,
-        username: "crashoverride",
-      )
-
-      icims_connection.disconnect
-
-      expect(icims_connection.customer_id).to be_nil
-      expect(icims_connection.key).to be_nil
-      expect(icims_connection.username).to be_nil
-    end
-  end
 end

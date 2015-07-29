@@ -25,14 +25,6 @@ module Icims
       "https://api.icims.com/customers/#{customer_id}"
     end
 
-    def disconnect
-      update(
-        customer_id: nil,
-        key: nil,
-        username: nil,
-      )
-    end
-
     def attribute_mapper?
       false
     end

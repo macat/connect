@@ -2,7 +2,7 @@ class NetSuite::Connection < ActiveRecord::Base
   belongs_to :attribute_mapper,
              dependent: :destroy,
              class_name: "::AttributeMapper"
-  belongs_to :user, dependent: :destroy
+  belongs_to :user
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
@@ -56,10 +56,6 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def client
     NetSuite::Client.from_env(user).authorize(authorization)
-  end
-
-  def disconnect
-    update!(instance_id: nil, authorization: nil)
   end
 
   private
