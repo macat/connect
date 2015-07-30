@@ -1,11 +1,11 @@
 require "rails_helper"
 
-describe NetSuite::BulkExport do
+describe BulkSync do
   include Features
 
-  describe "#export" do
+  describe "#sync" do
     context "with a fully connected user" do
-      it "creates an export job for every user with a NetSuite connection" do
+      it "creates an sync job for every user with the given connection" do
         user = create(:user)
         create(
           :net_suite_connection,
@@ -18,18 +18,18 @@ describe NetSuite::BulkExport do
         stub_request(:any, %r{.*/api-v2/hubs/erp/employees.*}).
           to_return(status: 200, body: { "internalId" => "123" }.to_json)
 
-        export user
+        queue_sync user
 
-        expect(WebMock).not_to have_exported_a_profile
+        expect(WebMock).not_to have_synced_a_profile
 
-        Delayed::Worker.new.work_off
+        run_queue
 
-        expect(WebMock).to have_exported_a_profile.twice
+        expect(WebMock).to have_synced_a_profile.twice
       end
     end
 
     context "with a user without a mapped Namely field" do
-      it "doesn't export" do
+      it "doesn't sync" do
         user = create(:user)
         create(
           :net_suite_connection,
@@ -38,27 +38,36 @@ describe NetSuite::BulkExport do
           user: user
         )
 
-        export user
+        queue_sync user
+        run_queue
 
-        expect(WebMock).not_to have_exported_a_profile
+        expect(WebMock).not_to have_synced_a_profile
       end
     end
 
     context "with a disconnected user" do
-      it "doesn't export" do
+      it "doesn't sync" do
         user = create(:user)
 
-        export user
+        queue_sync user
+        run_queue
 
-        expect(WebMock).not_to have_exported_a_profile
+        expect(WebMock).not_to have_synced_a_profile
       end
     end
 
-    def export(*users)
-      NetSuite::BulkExport.new(User.where(id: users)).export
+    def queue_sync(*users)
+      BulkSync.new(
+        integration_id: :net_suite,
+        users: User.where(id: users)
+      ).sync
     end
 
-    def have_exported_a_profile
+    def run_queue
+      Delayed::Worker.new.work_off
+    end
+
+    def have_synced_a_profile
       have_requested(
         :post,
         "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
