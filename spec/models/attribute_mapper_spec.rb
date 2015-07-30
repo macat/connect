@@ -62,9 +62,9 @@ describe AttributeMapper do
         double(name: "email", label: "Email", type: "email"),
         double(name: "job_title", label: "Job title", type: "referencehistory"),
         double(name: "user_status", label: "Status", type: "referenceselect"),
+        double(name: "start_date", label: "Started", type: "date"),
         stub_profile_field(type: "address"),
         stub_profile_field(type: "checkboxes"),
-        stub_profile_field(type: "date"),
         stub_profile_field(type: "file"),
         stub_profile_field(type: "image"),
         stub_profile_field(type: "salary"),
@@ -82,12 +82,45 @@ describe AttributeMapper do
         ["Gender", "gender"],
         ["Email", "email"],
         ["Job title", "job_title"],
-        ["Status", "user_status"]
+        ["Status", "user_status"],
+        ["Started", "start_date"],
       ])
     end
 
     def stub_profile_field(type:)
       double(name: type, label: "#{type} field", type: type)
+    end
+  end
+
+  describe "#import" do
+    it "maps field names" do
+      field_mappings = map_fields(
+        "first_name" => "firstName",
+        "last_name" => "lastName",
+        "birth_date" => "birthDate",
+      )
+      attribute_mapper = AttributeMapper.new(field_mappings: field_mappings)
+
+      result = attribute_mapper.import(
+        firstName: "First",
+        lastName: "Last",
+        birthDate: nil,
+        unknown: "Unknown"
+      )
+
+      expect(result).to eq(
+        first_name: "First",
+        last_name: "Last"
+      )
+    end
+  end
+
+  def map_fields(fields)
+    fields.map do |namely_field_name, integration_field_name|
+      FieldMapping.new(
+        namely_field_name: namely_field_name,
+        integration_field_name: integration_field_name
+      )
     end
   end
 end

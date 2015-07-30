@@ -193,9 +193,10 @@ en:
     email: "Email"
     first_name: "First name"
     gender: "Gender"
-    phone: "Phone"
-    title: "Title"
     last_name: "Last name"
+    phone: "Phone"
+    start_date: "Start date"
+    title: "Title"
 
   sync_mailer:
     sync_notification:

@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe Jobvite::Connection do
   describe "associations" do
+    it { should belong_to(:attribute_mapper).dependent(:destroy) }
     it { should belong_to(:user) }
   end
 
@@ -42,10 +43,35 @@ describe Jobvite::Connection do
     end
   end
 
+  describe "#attribute_mapper" do
+    it "builds and saves an attribute mapper" do
+      connection = build(:jobvite_connection)
+
+      connection.save!
+
+      expect(connection.attribute_mapper).to be_an_instance_of(AttributeMapper)
+      expect(connection.attribute_mapper).to be_persisted
+      expect(mapped_fields_for(connection.attribute_mapper)).
+        to match_array([
+          %w(first_name first_name),
+          %w(last_name last_name),
+          %w(email email),
+          %w(start_date start_date),
+          %w(gender gender),
+        ])
+    end
+  end
+
   def stub_namely_connection(user, field_names:)
     fields = field_names.map { |name| double("field", name: name) }
     fields_collection = double("fields", all: fields)
     namely_connection = double("namely_connection", fields: fields_collection)
     allow(user).to receive(:namely_connection).and_return(namely_connection)
+  end
+
+  def mapped_fields_for(attribute_mapper)
+    attribute_mapper.field_mappings.map do |field_mapping|
+      [field_mapping.integration_field_name, field_mapping.namely_field_name]
+    end
   end
 end

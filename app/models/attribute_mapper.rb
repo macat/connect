@@ -1,5 +1,6 @@
 class AttributeMapper < ActiveRecord::Base
   SUPPORTED_TYPES = %w(
+    date
     email
     longtext
     referencehistory
@@ -7,7 +8,7 @@ class AttributeMapper < ActiveRecord::Base
     select
     text
   )
-  # Unsupported: address checkboxes date file image salary
+  # Unsupported: address checkboxes file image salary
 
   belongs_to :user
   has_many :field_mappings, dependent: :destroy
@@ -32,6 +33,15 @@ class AttributeMapper < ActiveRecord::Base
       value = profile[field_mapping.namely_field_name]
       if value.present?
         accumulator.merge!(field_mapping.integration_field_name => value)
+      end
+    end
+  end
+
+  def import(attributes)
+    field_mappings.each_with_object({}) do |field_mapping, accumulator|
+      value = attributes[field_mapping.integration_field_name.to_sym]
+      if value.present?
+        accumulator.merge!(field_mapping.namely_field_name.to_sym => value)
       end
     end
   end

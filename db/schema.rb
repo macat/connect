@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727184245) do
+ActiveRecord::Schema.define(version: 20150730135326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,8 +91,10 @@ ActiveRecord::Schema.define(version: 20150727184245) do
     t.datetime "updated_at",                                      null: false
     t.string   "hired_workflow_state", default: "Offer Accepted", null: false
     t.boolean  "found_namely_field",   default: false,            null: false
+    t.integer  "attribute_mapper_id"
   end
 
+  add_index "jobvite_connections", ["attribute_mapper_id"], name: "index_jobvite_connections_on_attribute_mapper_id", using: :btree
   add_index "jobvite_connections", ["user_id"], name: "index_jobvite_connections_on_user_id", using: :btree
 
   create_table "net_suite_connections", force: true do |t|
