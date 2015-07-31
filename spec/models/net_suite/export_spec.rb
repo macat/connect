@@ -25,10 +25,10 @@ describe NetSuite::Export do
 
         net_suite = stub_net_suite(success: true, internalId: "1234")
         mapped_attributes = double("mapped_attributes")
-        attribute_mapper = stub_attribute_mapper(to: mapped_attributes)
+        normalizer = stub_normalizer(to: mapped_attributes)
 
         results = perform_export(
-          attribute_mapper: attribute_mapper,
+          normalizer: normalizer,
           net_suite: net_suite,
           profiles: profiles
         )
@@ -50,14 +50,14 @@ describe NetSuite::Export do
       it "returns a result with updated profiles" do
         profile = stub_profile({}, netsuite_id: "1234")
         mapped_attributes = double("mapped_attributes")
-        attribute_mapper = stub_attribute_mapper(
+        normalizer = stub_normalizer(
           from: profile,
           to: mapped_attributes
         )
         net_suite = stub_net_suite(success: true)
 
         results = perform_export(
-          attribute_mapper: attribute_mapper,
+          normalizer: normalizer,
           net_suite: net_suite,
           profiles: [profile]
         )
@@ -126,9 +126,9 @@ describe NetSuite::Export do
     end
   end
 
-  def stub_attribute_mapper(from: anything, to: double("attributes"))
-    double("attribute_mapper").tap do |attribute_mapper|
-      allow(attribute_mapper).
+  def stub_normalizer(from: anything, to: double("attributes"))
+    double("normalizer").tap do |normalizer|
+      allow(normalizer).
         to receive(:export).
         with(from).
         at_least(1).
@@ -137,12 +137,12 @@ describe NetSuite::Export do
   end
 
   def perform_export(
-    attribute_mapper: stub_attribute_mapper,
+    normalizer: stub_normalizer,
     net_suite:,
     profiles:
   )
     NetSuite::Export.new(
-      attribute_mapper: attribute_mapper,
+      normalizer: normalizer,
       net_suite: net_suite,
       namely_profiles: profiles
     ).perform

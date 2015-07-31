@@ -13,8 +13,8 @@ module Greenhouse
       @authentication_error = false
     end
 
-    def attribute_mapper
-      Greenhouse::AttributeMapper.new(
+    def normalizer
+      Normalizer.new(
         context.user.namely_fields.all
       )
     end

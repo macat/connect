@@ -31,7 +31,7 @@ class CandidateImporter
 
   def namely_importer
     NamelyImporter.new(
-      attribute_mapper: import_assistant.attribute_mapper,
+      normalizer: import_assistant.normalizer,
       namely_connection: user.namely_connection
     )
   end

@@ -1,7 +1,7 @@
 module NetSuite
   class Export
-    def initialize(attribute_mapper:, namely_profiles:, net_suite:)
-      @attribute_mapper = attribute_mapper
+    def initialize(normalizer:, namely_profiles:, net_suite:)
+      @normalizer = normalizer
       @namely_profiles = namely_profiles
       @net_suite = net_suite
     end
@@ -21,14 +21,14 @@ module NetSuite
     def export(profile)
       Employee.new(
         profile,
-        attribute_mapper: @attribute_mapper,
+        normalizer: @normalizer,
         net_suite: @net_suite
       ).export
     end
 
     class Employee
-      def initialize(profile, attribute_mapper:, net_suite:)
-        @attribute_mapper = attribute_mapper
+      def initialize(profile, normalizer:, net_suite:)
+        @normalizer = normalizer
         @profile = profile
         @net_suite = net_suite
       end
@@ -67,7 +67,7 @@ module NetSuite
       end
 
       def attributes
-        @attribute_mapper.export(@profile)
+        @normalizer.export(@profile)
       end
     end
 

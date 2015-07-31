@@ -30,7 +30,7 @@ module Icims
     end
 
     def required_namely_field
-      Icims::AttributeMapper.new.namely_identifier_field.to_s
+      Normalizer.new.namely_identifier_field.to_s
     end
 
     def set_api_key

@@ -27,16 +27,16 @@ describe Greenhouse::CandidateImportAssistant do
     end
   end
 
-  describe "#attribute_mapper" do
-    it "returns an attribute mapper object" do
+  describe "#normalizer" do
+    it "returns a normalizer object" do
       context = candidate_importer_double
       import_assistant = Greenhouse::CandidateImportAssistant.new(
         assistant_arguments: { signature: "foo" },
         context: context
       )
 
-      expect(import_assistant.attribute_mapper).to be_instance_of(
-        Greenhouse::AttributeMapper
+      expect(import_assistant.normalizer).to be_instance_of(
+        Greenhouse::Normalizer
       )
     end
   end

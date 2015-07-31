@@ -1,12 +1,10 @@
 class NetSuite::Connection < ActiveRecord::Base
-  belongs_to :attribute_mapper,
-             dependent: :destroy,
-             class_name: "::AttributeMapper"
+  belongs_to :attribute_mapper, dependent: :destroy
   belongs_to :user
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
-  delegate :export, to: :net_suite_attribute_mapper
+  delegate :export, to: :normalizer
 
   def integration_id
     :net_suite
@@ -56,7 +54,7 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def sync
     NetSuite::Export.new(
-      attribute_mapper: net_suite_attribute_mapper,
+      normalizer: normalizer,
       namely_profiles: user.namely_profiles,
       net_suite: client
     ).perform
@@ -68,8 +66,8 @@ class NetSuite::Connection < ActiveRecord::Base
 
   private
 
-  def net_suite_attribute_mapper
-    @attribute_mapper ||= NetSuite::AttributeMapper.new(
+  def normalizer
+    @normalizer ||= NetSuite::Normalizer.new(
       attribute_mapper: attribute_mapper,
       configuration: self
     )

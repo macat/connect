@@ -1,10 +1,6 @@
 module Jobvite
   class Connection < ActiveRecord::Base
-    belongs_to(
-      :attribute_mapper,
-      dependent: :destroy,
-      class_name: "::AttributeMapper"
-    )
+    belongs_to :attribute_mapper, dependent: :destroy
     belongs_to :user
 
     validates :hired_workflow_state, presence: true
@@ -41,7 +37,7 @@ module Jobvite
     end
 
     def required_namely_field
-      jobvite_attribute_mapper.namely_identifier_field.to_s
+      normalizer.namely_identifier_field.to_s
     end
 
     def sync
@@ -61,15 +57,13 @@ module Jobvite
 
     def namely_importer
       NamelyImporter.new(
-        attribute_mapper: jobvite_attribute_mapper,
+        normalizer: normalizer,
         namely_connection: user.namely_connection,
       )
     end
 
-    def jobvite_attribute_mapper
-      Jobvite::AttributeMapper.new(
-        attribute_mapper: attribute_mapper
-      )
+    def normalizer
+      Normalizer.new(attribute_mapper: attribute_mapper)
     end
 
     class Result

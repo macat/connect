@@ -1,5 +1,5 @@
 module Jobvite
-  class AttributeMapper
+  class Normalizer
     def initialize(attribute_mapper:)
       @attribute_mapper = attribute_mapper
     end

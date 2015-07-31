@@ -1,23 +1,23 @@
 require "rails_helper"
 
-describe NetSuite::AttributeMapper do
+describe NetSuite::Normalizer do
   let(:configuration) { double("configuration", subsidiary_id: "123") }
-  let(:netsuite_attribute_mapper) do
-    NetSuite::AttributeMapper.new(
+  let(:normalizer) do
+    NetSuite::Normalizer.new(
       attribute_mapper: create(:net_suite_connection).attribute_mapper,
       configuration: configuration
     )
   end
 
   describe "delegation" do
-    subject { netsuite_attribute_mapper }
+    subject { normalizer }
     it { should delegate_method(:field_mappings).to(:attribute_mapper) }
     it { should delegate_method(:mapping_direction).to(:attribute_mapper) }
   end
 
   describe "#export" do
     it "returns a converted data structure based on field mappings" do
-      field_mappings = netsuite_attribute_mapper.field_mappings
+      field_mappings = normalizer.field_mappings
       export_profile_keys = field_mappings.map(&:integration_field_name)
 
       export_attributes = export
@@ -127,7 +127,7 @@ describe NetSuite::AttributeMapper do
   end
 
   def export(profile_data = stubbed_profile_data)
-    netsuite_attribute_mapper.export(stubbed_profile(profile_data))
+    normalizer.export(stubbed_profile(profile_data))
   end
 
   def stubbed_profile_data

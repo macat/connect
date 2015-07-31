@@ -112,18 +112,18 @@ describe NetSuite::Connection do
         and_return(namely_profiles)
       results = double(:results)
       export = double(NetSuite::Export, perform: results)
-      attribute_mapper = double("attribute_mapper")
-      allow(NetSuite::AttributeMapper).
+      normalizer = double("normalizer")
+      allow(NetSuite::Normalizer).
         to receive(:new).
         with(
           attribute_mapper: connection.attribute_mapper,
           configuration: connection
         ).
-        and_return(attribute_mapper)
+        and_return(normalizer)
       allow(NetSuite::Export).
         to receive(:new).
         with(
-          attribute_mapper: attribute_mapper,
+          normalizer: normalizer,
           namely_profiles: namely_profiles,
           net_suite: client
         ).
@@ -138,7 +138,7 @@ describe NetSuite::Connection do
   describe "#export" do
     it do
       should delegate_method(:export).
-        to(:net_suite_attribute_mapper).
+        to(:normalizer).
         as(:export)
     end
   end

@@ -1,4 +1,4 @@
-class NetSuite::AttributeMapper
+class NetSuite::Normalizer
   GENDER_MAP = {
     "Male" => "_male",
     "Female" => "_female",

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Jobvite::AttributeMapper do
+describe Jobvite::Normalizer do
   describe "#call" do
     it "provides the attribute mapper with a normalized profile hash" do
       attribute_mapper = stub_attribute_mapper
