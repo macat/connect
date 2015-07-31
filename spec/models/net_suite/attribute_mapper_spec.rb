@@ -4,9 +4,7 @@ describe NetSuite::AttributeMapper do
   let(:configuration) { double("configuration", subsidiary_id: "123") }
   let(:netsuite_attribute_mapper) do
     NetSuite::AttributeMapper.new(
-      attribute_mapper: NetSuite::AttributeMapperBuilder.new(
-        user: create(:user),
-      ).build,
+      attribute_mapper: create(:net_suite_connection).attribute_mapper,
       configuration: configuration
     )
   end

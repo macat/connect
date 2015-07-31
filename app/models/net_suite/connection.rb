@@ -29,7 +29,15 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def attribute_mapper
-    super || create_attribute_mapper
+    AttributeMapperFactory.new(attribute_mapper: super, connection: self).
+      build_with_defaults(
+        "email" => "email",
+        "firstName" => "first_name",
+        "gender" => "gender",
+        "phone" => "home_phone",
+        "title" => "job_title",
+        "lastName" => "last_name",
+      )
   end
 
   def ready?
@@ -59,13 +67,6 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   private
-
-  def create_attribute_mapper
-    builder = NetSuite::AttributeMapperBuilder.new(user: user)
-    builder.build.tap do |attribute_mapper|
-      update!(attribute_mapper: attribute_mapper)
-    end
-  end
 
   def net_suite_attribute_mapper
     @attribute_mapper ||= NetSuite::AttributeMapper.new(

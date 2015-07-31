@@ -30,7 +30,14 @@ module Jobvite
     end
 
     def attribute_mapper
-      super || create_attribute_mapper
+      AttributeMapperFactory.new(attribute_mapper: super, connection: self).
+        build_with_defaults(
+          "first_name" => "first_name",
+          "last_name" => "last_name",
+          "email" => "email",
+          "start_date" => "start_date",
+          "gender" => "gender",
+        )
     end
 
     def required_namely_field
@@ -57,18 +64,6 @@ module Jobvite
         attribute_mapper: jobvite_attribute_mapper,
         namely_connection: user.namely_connection,
       )
-    end
-
-    def create_attribute_mapper
-      ::AttributeMapper.create!(user: user).tap do |attribute_mapper|
-        %w(first_name last_name email start_date gender).each do |field|
-          attribute_mapper.field_mappings.create!(
-            integration_field_name: field,
-            namely_field_name: field
-          )
-        end
-        update!(attribute_mapper: attribute_mapper)
-      end
     end
 
     def jobvite_attribute_mapper
