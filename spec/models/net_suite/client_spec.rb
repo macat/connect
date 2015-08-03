@@ -262,17 +262,41 @@ describe NetSuite::Client do
         ).
         to_return(status: 200, body: subsidiaries.to_json)
 
-      client = NetSuite::Client.new(
-        user: build_stubbed(:user),
-        user_secret: "user-secret",
-        organization_secret: "org-secret",
-        element_secret: "element-secret"
-      )
-
       result = client.subsidiaries
 
       expect(result).to be_success
       expect(result.to_a).to eq(subsidiaries)
     end
+  end
+
+  describe "#profile_fields" do
+    it "gets a currest list of NetSuite employee profile fields" do
+      fields = [
+        double(:employee_field),
+        double(:employee_field)
+      ]
+
+      fields_loader = instance_spy(
+        NetSuite::EmployeeFieldsLoader,
+        load_profile_fields: fields
+      )
+
+      netsuite_client = client
+
+      allow(NetSuite::EmployeeFieldsLoader).to receive(:new).
+        with(request: netsuite_client.request).
+        and_return(fields_loader)
+
+      expect(netsuite_client.profile_fields).to match_array(fields)
+    end
+  end
+
+  def client
+    NetSuite::Client.new(
+      user: build_stubbed(:user),
+      user_secret: "user-secret",
+      organization_secret: "org-secret",
+      element_secret: "element-secret"
+    )
   end
 end

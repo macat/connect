@@ -1,5 +1,10 @@
 module NetSuite
   class Client
+    REQUEST_BASE = "/hubs/erp"
+    EMPLOYEE_REQUEST = REQUEST_BASE + "/employees"
+    SUBSIDIARY_REQUEST = REQUEST_BASE + "/lookups/subsidiary"
+    INSTANCES = "/instances"
+
     delegate :get_json, to: :request
     delegate :submit_json, to: :request
 
@@ -35,7 +40,7 @@ module NetSuite
     def create_instance(params)
       submit_json(
         :post,
-        "/instances",
+        INSTANCES,
         "configuration" => {
           "user.username" => params[:email],
           "user.password" => params[:password],
@@ -53,7 +58,7 @@ module NetSuite
     def create_employee(params)
       submit_json(
         :post,
-        "/hubs/erp/employees",
+        EMPLOYEE_REQUEST,
         params
       )
     end
@@ -61,13 +66,19 @@ module NetSuite
     def update_employee(id, params)
       submit_json(
         :patch,
-        "/hubs/erp/employees/#{id}",
+        "#{EMPLOYEE_REQUEST}/#{id}",
         params
       )
     end
 
     def subsidiaries
-      get_json("/hubs/erp/lookups/subsidiary")
+      get_json(SUBSIDIARY_REQUEST)
+    end
+
+    def profile_fields
+      @profile_fields ||= NetSuite::EmployeeFieldsLoader.new(
+        request: request
+      ).load_profile_fields
     end
 
     def request
