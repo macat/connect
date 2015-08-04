@@ -1,6 +1,7 @@
 module NetSuite
   class Client
-    BASE_URL = "https://api.cloud-elements.com/elements/api-v2"
+    delegate :get_json, to: :request
+    delegate :submit_json, to: :request
 
     def self.from_env(user)
       new(
@@ -69,85 +70,12 @@ module NetSuite
       get_json("/hubs/erp/lookups/subsidiary")
     end
 
-    private
-
-    def submit_json(method, path, data)
-      wrap_response do
-        RestClient.public_send(
-          method,
-          url(path),
-          data.to_json,
-          authorization: authorization,
-          content_type: "application/json"
-        )
-      end
+    def request
+      @request ||= Request.new(
+        element_secret: @element_secret,
+        organization_secret: @organization_secret,
+        user_secret: @user_secret
+      )
     end
-
-    def get_json(path)
-      wrap_response do
-        RestClient.get(
-          url(path),
-          authorization: authorization,
-          content_type: "application/json"
-        )
-      end
-    end
-
-    def wrap_response
-      response = yield
-      Result.new(true, response)
-    rescue RestClient::BadRequest => exception
-      Result.new(false, exception.response)
-    rescue RestClient::Unauthorized => exception
-      raise Unauthorized, exception.message
-    end
-
-    def url(path)
-      "#{BASE_URL}#{path}"
-    end
-
-    def authorization
-      secrets.
-        compact.
-        map { |name, secret| [name, secret].join(" ") }.
-        join(", ")
-    end
-
-    def secrets
-      {
-        "User" => @user_secret,
-        "Organization" => @organization_secret,
-        "Element" => @element_secret
-      }
-    end
-
-    class Result
-      include Enumerable
-
-      def initialize(success, response)
-        @success = success
-        @response = response
-      end
-
-      def success?
-        @success
-      end
-
-      def [](attribute)
-        json[attribute.to_s]
-      end
-
-      def each(&block)
-        json.each(&block)
-      end
-
-      private
-
-      def json
-        @json ||= JSON.parse(@response)
-      end
-    end
-
-    private_constant :Result
   end
 end
