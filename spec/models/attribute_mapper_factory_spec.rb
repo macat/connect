@@ -23,8 +23,7 @@ describe AttributeMapperFactory do
 
     context "without an existing attribute mapper" do
       it "saves a new attribute mapper with the given defaults" do
-        user = create(:user)
-        connection = user.net_suite_connection
+        connection = create(:net_suite_connection)
         factory = AttributeMapperFactory.new(
           attribute_mapper: nil,
           connection: connection
@@ -33,7 +32,6 @@ describe AttributeMapperFactory do
         result = factory.build_with_defaults("firstName" => "first_name")
 
         expect(connection.reload.attribute_mapper_id).to eq(result.id)
-        expect(result.user).to eq(user)
         expect(mapped_fields_for(result)).to eq([%w(firstName first_name)])
       end
     end

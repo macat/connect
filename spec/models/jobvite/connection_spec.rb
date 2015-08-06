@@ -2,12 +2,12 @@ require "rails_helper"
 
 describe Jobvite::Connection do
   describe "associations" do
-    it { should belong_to(:attribute_mapper).dependent(:destroy) }
-    it { should belong_to(:user) }
+    it { is_expected.to belong_to(:attribute_mapper).dependent(:destroy) }
+    it { is_expected.to belong_to(:installation) }
   end
 
   describe "validations" do
-    it { should validate_presence_of(:hired_workflow_state) }
+    it { is_expected.to validate_presence_of(:hired_workflow_state) }
   end
 
   describe "#connected?" do
@@ -26,7 +26,12 @@ describe Jobvite::Connection do
 
   describe "#sync" do
     it "uses the importer" do
-      jobvite_connection = create(:jobvite_connection)
+      user = create(:user)
+      installation = user.installation
+      jobvite_connection = create(
+        :jobvite_connection,
+        installation: installation
+      )
       candidate = double("candidate")
       failure = double("failed_candidate_import", success?: false)
       success = double("successful_candidate_import", success?: true)
@@ -60,13 +65,6 @@ describe Jobvite::Connection do
           %w(gender gender),
         ])
     end
-  end
-
-  def stub_namely_connection(user, field_names:)
-    fields = field_names.map { |name| double("field", name: name) }
-    fields_collection = double("fields", all: fields)
-    namely_connection = double("namely_connection", fields: fields_collection)
-    allow(user).to receive(:namely_connection).and_return(namely_connection)
   end
 
   def mapped_fields_for(attribute_mapper)

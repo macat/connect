@@ -1,7 +1,7 @@
 module Jobvite
   class Connection < ActiveRecord::Base
     belongs_to :attribute_mapper, dependent: :destroy
-    belongs_to :user
+    belongs_to :installation
 
     validates :hired_workflow_state, presence: true
 
@@ -50,16 +50,20 @@ module Jobvite
       Importer.new(
         client: Jobvite::Client.new(self),
         connection: self,
+        namely_connection: namely_connection,
         namely_importer: namely_importer,
-        user: user,
       ).import
     end
 
     def namely_importer
       NamelyImporter.new(
         normalizer: normalizer,
-        namely_connection: user.namely_connection,
+        namely_connection: namely_connection,
       )
+    end
+
+    def namely_connection
+      installation.namely_connection
     end
 
     def normalizer

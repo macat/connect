@@ -7,8 +7,8 @@ describe NetSuite::Connection do
   end
 
   describe "associations" do
-    it { should belong_to(:attribute_mapper).dependent(:destroy) }
-    it { should belong_to(:user) }
+    it { is_expected.to belong_to(:attribute_mapper).dependent(:destroy) }
+    it { is_expected.to belong_to(:installation) }
   end
 
   describe "#connected?" do
@@ -65,7 +65,7 @@ describe NetSuite::Connection do
     it "builds and saves an attribute mapper" do
       connection = NetSuite::Connection.new(
         subsidiary_id: "x",
-        user: create(:user)
+        installation: create(:installation)
       )
 
       connection.save!
@@ -107,7 +107,7 @@ describe NetSuite::Connection do
       namely_profiles = double(:namely_profiles)
       client = stub_client(authorization: "x")
       connection = create(:net_suite_connection, authorization: "x")
-      allow(connection.user).
+      allow(connection.installation).
         to receive(:namely_profiles).
         and_return(namely_profiles)
       results = double(:results)

@@ -15,7 +15,7 @@ module Greenhouse
 
     def normalizer
       Normalizer.new(
-        context.user.namely_fields.all
+        context.installation.namely_connection.fields.all
       )
     end
 

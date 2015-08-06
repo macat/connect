@@ -8,21 +8,18 @@ module NetSuite
     delegate :get_json, to: :request
     delegate :submit_json, to: :request
 
-    def self.from_env(user)
+    def self.from_env
       new(
-        user: user,
         user_secret: ENV["CLOUD_ELEMENTS_USER_SECRET"],
         organization_secret: ENV["CLOUD_ELEMENTS_ORGANIZATION_SECRET"]
       )
     end
 
     def initialize(
-      user:,
       user_secret:,
       organization_secret:,
       element_secret: nil
     )
-      @user = user
       @user_secret = user_secret
       @organization_secret = organization_secret
       @element_secret = element_secret
@@ -30,7 +27,6 @@ module NetSuite
 
     def authorize(element_secret)
       self.class.new(
-        user: @user,
         user_secret: @user_secret,
         organization_secret: @organization_secret,
         element_secret: element_secret

@@ -1,7 +1,6 @@
 module Icims
   class Connection < ActiveRecord::Base
-    belongs_to :user
-    validates :user_id, presence: true
+    belongs_to :installation
     validates :api_key, uniqueness: true
     before_create :set_api_key
 

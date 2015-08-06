@@ -32,7 +32,6 @@ describe NetSuite::EmployeeFieldsLoader do
       request = NetSuite::Client.new(
         element_secret: "element-secret",
         organization_secret: "org-secret",
-        user: create(:user),
         user_secret: "user-secret",
       ).request
 

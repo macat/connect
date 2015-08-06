@@ -1,7 +1,6 @@
 module Greenhouse
   class Connection < ActiveRecord::Base
-    belongs_to :user
-    validates :user_id, presence: true
+    belongs_to :installation
     validates :secret_key, uniqueness: true
     before_create :set_secret_key
 

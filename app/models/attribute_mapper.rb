@@ -10,14 +10,9 @@ class AttributeMapper < ActiveRecord::Base
   )
   # Unsupported: address checkboxes file image salary
 
-  belongs_to :user
   has_many :field_mappings, dependent: :destroy
 
-  validates :user, presence: true
-  validates :user_id, presence: true
-
   accepts_nested_attributes_for :field_mappings
-
 
   def build_field_mappings(default_field_mapping)
     default_field_mapping.each_pair do |namely_field, integration_field|
@@ -44,13 +39,5 @@ class AttributeMapper < ActiveRecord::Base
         accumulator.merge!(field_mapping.namely_field_name.to_sym => value)
       end
     end
-  end
-
-  def namely_fields
-    user.
-      namely_fields.
-      all.
-      select { |field| SUPPORTED_TYPES.include?(field.type) }.
-      map { |field| [field.label, field.name] }
   end
 end

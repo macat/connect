@@ -14,7 +14,7 @@
           "field_mapping",
           field_mapping: fields.object,
           fields: fields,
-          namely_fields: @attribute_mapper.namely_fields
+          namely_fields: current_user.namely_fields_by_label
         ) %>
       <% end %>
     </tbody>

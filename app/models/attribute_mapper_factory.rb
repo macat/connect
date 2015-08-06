@@ -11,7 +11,7 @@ class AttributeMapperFactory
   private
 
   def assign_attribute_mapper(defaults)
-    AttributeMapper.create!(user: @connection.user).tap do |attribute_mapper|
+    AttributeMapper.create!.tap do |attribute_mapper|
       @connection.update!(attribute_mapper: attribute_mapper)
       defaults.each do |integration_field_name, namely_field_name|
         attribute_mapper.field_mappings.create!(

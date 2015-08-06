@@ -1,21 +1,12 @@
 require "rails_helper"
 
 describe AttributeMapper do
-  describe "validations" do
-    it { should validate_presence_of(:user) }
-  end
-
   describe "associations" do
-    it { should belong_to(:user) }
     it { should have_many(:field_mappings).dependent(:destroy) }
   end
 
   describe "#build_field_mappings" do
-    let(:attribute_mapper) do
-      AttributeMapper.new(
-        user: create(:user)
-      )
-    end
+    let(:attribute_mapper) { AttributeMapper.new }
 
     let(:default_field_mapping) do
       {
@@ -49,46 +40,6 @@ describe AttributeMapper do
       expect(
         attribute_mapper.field_mappings.reject(&:persisted?)
       ).to be_empty
-    end
-  end
-
-  describe "#namely_fields" do
-    it "returns mappable fields from a Namely connection" do
-      ["single_select", "short_text", "long_text", "number"]
-      models = [
-        double(name: "first_name", label: "First name", type: "text"),
-        double(name: "last_name", label: "Last name", type: "longtext"),
-        double(name: "gender", label: "Gender", type: "select"),
-        double(name: "email", label: "Email", type: "email"),
-        double(name: "job_title", label: "Job title", type: "referencehistory"),
-        double(name: "user_status", label: "Status", type: "referenceselect"),
-        double(name: "start_date", label: "Started", type: "date"),
-        stub_profile_field(type: "address"),
-        stub_profile_field(type: "checkboxes"),
-        stub_profile_field(type: "file"),
-        stub_profile_field(type: "image"),
-        stub_profile_field(type: "salary"),
-      ]
-      fields = double("fields", all: models)
-      user = build_stubbed(:user)
-      allow(user).to receive(:namely_fields).and_return(fields)
-      attribute_mapper = AttributeMapper.new(user: user)
-
-      result = attribute_mapper.namely_fields
-
-      expect(result).to eq([
-        ["First name", "first_name"],
-        ["Last name", "last_name"],
-        ["Gender", "gender"],
-        ["Email", "email"],
-        ["Job title", "job_title"],
-        ["Status", "user_status"],
-        ["Started", "start_date"],
-      ])
-    end
-
-    def stub_profile_field(type:)
-      double(name: type, label: "#{type} field", type: type)
     end
   end
 

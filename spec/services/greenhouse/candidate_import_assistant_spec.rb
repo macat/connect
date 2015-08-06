@@ -46,7 +46,13 @@ describe Greenhouse::CandidateImportAssistant do
       CandidateImporter,
       connection: double(:connection),
       params: {},
-      user: double(:user, namely_fields: double(:fields, all: true))
+      installation: double(
+        :installation,
+        namely_connection: double(
+          :namely_connection,
+          fields: double(:fields, all: true)
+        )
+      )
     )
   end
 

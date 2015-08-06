@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe Greenhouse::Connection, :type => :model do
   describe "associations" do
     subject { build(:greenhouse_connection) }
-    it { is_expected.to belong_to(:user) }
-    it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to belong_to(:installation) }
     it { is_expected.to validate_uniqueness_of(:secret_key) }
   end
 

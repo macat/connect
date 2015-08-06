@@ -1,6 +1,6 @@
 class NetSuite::Connection < ActiveRecord::Base
   belongs_to :attribute_mapper, dependent: :destroy
-  belongs_to :user
+  belongs_to :installation
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
@@ -55,13 +55,13 @@ class NetSuite::Connection < ActiveRecord::Base
   def sync
     NetSuite::Export.new(
       normalizer: normalizer,
-      namely_profiles: user.namely_profiles,
+      namely_profiles: installation.namely_profiles,
       net_suite: client
     ).perform
   end
 
   def client
-    NetSuite::Client.from_env(user).authorize(authorization)
+    NetSuite::Client.from_env.authorize(authorization)
   end
 
   private

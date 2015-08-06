@@ -67,8 +67,8 @@ feature "User imports jobvite candidates" do
     user = create(:user)
     create(
       :jobvite_connection,
-      user: user,
       api_key: ENV.fetch("TEST_JOBVITE_KEY"),
+      installation: user.installation,
       secret: ENV.fetch("TEST_JOBVITE_SECRET"),
     )
 
@@ -99,8 +99,8 @@ feature "User imports jobvite candidates" do
     create(
       :jobvite_connection,
       api_key: ENV.fetch("TEST_JOBVITE_KEY"),
+      installation: user.installation,
       secret: ENV.fetch("TEST_JOBVITE_SECRET"),
-      user: user
     )
 
     visit dashboard_path(as: user)

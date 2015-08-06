@@ -1,12 +1,12 @@
 class BulkSync
-  def initialize(integration_id:, users:)
+  def initialize(integration_id:, installations:)
     @integration_id = integration_id
-    @users = users
+    @installations = installations
   end
 
   def sync
-    @users.ready_to_sync_with(@integration_id).each do |user|
-      Delayed::Job.enqueue SyncJob.new(@integration_id, user.id)
+    @installations.ready_to_sync_with(@integration_id).each do |installations|
+      Delayed::Job.enqueue SyncJob.new(@integration_id, installations.id)
     end
   end
 end

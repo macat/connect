@@ -10,7 +10,7 @@ describe NetSuite::Client do
 
       ClimateControl.modify env do
         stub_request(:post, /.*/)
-        client = NetSuite::Client.from_env(build_stubbed(:user))
+        client = NetSuite::Client.from_env
 
         client.create_instance({})
 
@@ -27,7 +27,6 @@ describe NetSuite::Client do
     it "sets element authorization" do
       stub_request(:post, /.*/)
       client = NetSuite::Client.new(
-        user: build_stubbed(:user),
         user_secret: "user-secret",
         organization_secret: "org-secret",
       )
@@ -76,7 +75,6 @@ describe NetSuite::Client do
           to_return(status: 200, body: instance.to_json)
 
         client = NetSuite::Client.new(
-          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret"
         )
@@ -103,7 +101,6 @@ describe NetSuite::Client do
           to_return(status: 400, body: { message: error }.to_json)
 
         client = NetSuite::Client.new(
-          user: build_stubbed(:user),
           user_secret: "x",
           organization_secret: "x"
         )
@@ -126,10 +123,7 @@ describe NetSuite::Client do
         ).
           to_return(status: 401, body: { message: error }.to_json)
 
-        user = build_stubbed(:user)
-
         client = NetSuite::Client.new(
-          user: user,
           user_secret: "x",
           organization_secret: "x"
         )
@@ -167,7 +161,6 @@ describe NetSuite::Client do
           to_return(status: 200, body: employee.to_json)
 
         client = NetSuite::Client.new(
-          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret",
           element_secret: "element-secret"
@@ -218,7 +211,6 @@ describe NetSuite::Client do
           to_return(status: 200, body: employee.to_json)
 
         client = NetSuite::Client.new(
-          user: build_stubbed(:user),
           user_secret: "user-secret",
           organization_secret: "org-secret",
           element_secret: "element-secret"
@@ -293,7 +285,6 @@ describe NetSuite::Client do
 
   def client
     NetSuite::Client.new(
-      user: build_stubbed(:user),
       user_secret: "user-secret",
       organization_secret: "org-secret",
       element_secret: "element-secret"
