@@ -2,7 +2,10 @@
   <td>
     <%= fields.label(
       :namely_field_name,
-      t("integration_fields.#{field_mapping.integration_key}")
+      t(
+        "integration_fields.#{field_mapping.integration_key}",
+        default: field_mapping.integration_field_name.titleize
+      )
     ) %>
   </td>
   <td>

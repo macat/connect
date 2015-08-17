@@ -27,13 +27,15 @@ module Jobvite
 
     def attribute_mapper
       AttributeMapperFactory.new(attribute_mapper: super, connection: self).
-        build_with_defaults(
-          "first_name" => "first_name",
-          "last_name" => "last_name",
-          "email" => "email",
-          "start_date" => "start_date",
-          "gender" => "gender",
-        )
+        build_with_defaults do
+          {
+            "first_name" => "first_name",
+            "last_name" => "last_name",
+            "email" => "email",
+            "start_date" => "start_date",
+            "gender" => "gender",
+          }
+        end
     end
 
     def required_namely_field

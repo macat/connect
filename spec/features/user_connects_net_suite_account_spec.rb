@@ -3,6 +3,7 @@ require "rails_helper"
 feature "user connects NetSuite account" do
   scenario "successfully" do
     stub_namely_fields("fields_with_net_suite")
+    stub_net_suite_fields
     stub_create_instance(status: 200, body: { id: "123", token: "abcxyz" })
     stub_lookup_subsidiaries(
       status: 200,
@@ -38,6 +39,7 @@ feature "user connects NetSuite account" do
 
   scenario "with updated credentials" do
     stub_namely_fields("fields_with_net_suite")
+    stub_net_suite_fields
     stub_create_instance(status: 200, body: { id: "123", token: "abcxyz" })
     stub_lookup_subsidiaries(
       status: 200,
@@ -82,6 +84,15 @@ feature "user connects NetSuite account" do
       :post,
       "https://api.cloud-elements.com/elements/api-v2/instances"
     ).to_return(status: status, body: JSON.dump(body))
+  end
+
+  def stub_net_suite_fields
+    net_suite_employee =
+      File.read("spec/fixtures/api_responses/net_suite_employee.json")
+    stub_request(
+      :get,
+      %r{.*/elements/api-v2/hubs/erp/employees\?.*}
+    ).to_return(status: 200, body: net_suite_employee)
   end
 
   def stub_lookup_subsidiaries(status:, body:)

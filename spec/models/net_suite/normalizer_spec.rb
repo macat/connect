@@ -3,6 +3,10 @@ require "rails_helper"
 describe NetSuite::Normalizer do
   let(:configuration) { double("configuration", subsidiary_id: "123") }
   let(:normalizer) do
+    employee_json =
+      File.read("spec/fixtures/api_responses/net_suite_employee.json")
+    stub_request(:get, %r{.*/employees\?pageSize=.*}).
+      to_return(status: 200, body: employee_json)
     NetSuite::Normalizer.new(
       attribute_mapper: create(:net_suite_connection).attribute_mapper,
       configuration: configuration
@@ -17,14 +21,15 @@ describe NetSuite::Normalizer do
 
   describe "#export" do
     it "returns a converted data structure based on field mappings" do
-      field_mappings = normalizer.field_mappings
-      export_profile_keys = field_mappings.map(&:integration_field_name)
-
       export_attributes = export
 
-      expect(
-        export_attributes.keys.to_set
-      ).to be_superset(export_profile_keys.to_set)
+      expect(export_attributes.keys).to include(*%w(
+        email
+        firstName
+        gender
+        lastName
+        phone
+      ))
     end
 
     it "doesn't map empty values" do

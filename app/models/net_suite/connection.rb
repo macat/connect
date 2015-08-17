@@ -28,14 +28,7 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def attribute_mapper
     AttributeMapperFactory.new(attribute_mapper: super, connection: self).
-      build_with_defaults(
-        "email" => "email",
-        "firstName" => "first_name",
-        "gender" => "gender",
-        "phone" => "home_phone",
-        "title" => "job_title",
-        "lastName" => "last_name",
-      )
+      build_with_defaults { default_field_mappings }
   end
 
   def ready?
@@ -71,5 +64,32 @@ class NetSuite::Connection < ActiveRecord::Base
       attribute_mapper: attribute_mapper,
       configuration: self
     )
+  end
+
+  def default_field_mappings
+    remote_fields.merge!(premapped_fields)
+  end
+
+  def remote_fields
+    mappable_fields.each_with_object({}) do |profile_field, result|
+      result[profile_field.name] = nil
+    end
+  end
+
+  def mappable_fields
+    client.profile_fields.select do |profile_field|
+      profile_field.type == "text"
+    end
+  end
+
+  def premapped_fields
+    {
+      "email" => "email",
+      "firstName" => "first_name",
+      "gender" => "gender",
+      "phone" => "home_phone",
+      "title" => "job_title",
+      "lastName" => "last_name",
+    }
   end
 end

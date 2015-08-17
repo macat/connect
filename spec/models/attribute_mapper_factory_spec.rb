@@ -14,7 +14,7 @@ describe AttributeMapperFactory do
           connection: connection
         )
 
-        result = factory.build_with_defaults({})
+        result = factory.build_with_defaults { {} }
 
         expect(result).to eq(attribute_mapper)
         expect(connection.reload.attribute_mapper.id).to eq(attribute_mapper.id)
@@ -29,7 +29,7 @@ describe AttributeMapperFactory do
           connection: connection
         )
 
-        result = factory.build_with_defaults("firstName" => "first_name")
+        result = factory.build_with_defaults { { "firstName" => "first_name" } }
 
         expect(connection.reload.attribute_mapper_id).to eq(result.id)
         expect(mapped_fields_for(result)).to eq([%w(firstName first_name)])

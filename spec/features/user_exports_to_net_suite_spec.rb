@@ -5,6 +5,8 @@ feature "user exports to net suite" do
     user = create(:user)
     cloud_elements = "https://api.cloud-elements.com/elements/api-v2/hubs/erp"
     subsidiary_url = "#{cloud_elements}/lookups/subsidiary"
+    employee_json =
+      File.read("spec/fixtures/api_responses/net_suite_employee.json")
 
     stub_namely_data("/profiles", "profiles_with_net_suite_fields")
     stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(status: 200)
@@ -17,6 +19,8 @@ feature "user exports to net suite" do
     stub_request(:post, "#{cloud_elements}/employees").
       with(body: /Mickey/).
       to_return(status: 400, body: { "message" => "Bad Data" }.to_json)
+    stub_request(:get, %r{#{cloud_elements}/employees\?pageSize=.*}).
+      to_return(status: 200, body: employee_json)
     stub_namely_fields("fields_with_net_suite")
     stub_request(
       :post,
@@ -39,6 +43,7 @@ feature "user exports to net suite" do
 
     select "Mobile phone", from: t("integration_fields.phone")
     select "Custom field", from: t("integration_fields.email")
+    select "Preferred name", from: "Initials"
     click_on t("attribute_mappings.edit.save")
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")

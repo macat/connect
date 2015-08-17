@@ -65,13 +65,30 @@ describe NetSuite::Connection do
     it "builds and saves an attribute mapper" do
       connection = NetSuite::Connection.new(
         subsidiary_id: "x",
+        authorization: "x",
         installation: create(:installation)
       )
+      client = stub_client(authorization: "x")
+      profile_fields = [
+        double(name: "email", type: "text"),
+        double(name: "initials", type: "text"),
+        double(name: "unsupported", type: "file"),
+      ]
+      allow(client).to receive(:profile_fields).and_return(profile_fields)
 
       connection.save!
 
       expect(connection.attribute_mapper).to be_an_instance_of(AttributeMapper)
       expect(connection.attribute_mapper).to be_persisted
+      expect(mapped_fields(connection.attribute_mapper)).to match_array([
+        %w(email email),
+        %w(firstName first_name),
+        %w(gender gender),
+        %w(phone home_phone),
+        %w(title job_title),
+        %w(lastName last_name),
+        ["initials", nil],
+      ])
     end
   end
 
@@ -106,6 +123,7 @@ describe NetSuite::Connection do
     it "exports to NetSuite" do
       namely_profiles = double(:namely_profiles)
       client = stub_client(authorization: "x")
+      allow(client).to receive(:profile_fields).and_return([])
       connection = create(:net_suite_connection, authorization: "x")
       allow(connection.installation).
         to receive(:namely_profiles).
@@ -151,6 +169,12 @@ describe NetSuite::Connection do
         to receive(:authorize).
         with(authorization).
         and_return(authorized_client)
+    end
+  end
+
+  def mapped_fields(attribute_mapper)
+    attribute_mapper.field_mappings.map do |field_mapping|
+      [field_mapping.integration_field_name, field_mapping.namely_field_name]
     end
   end
 end
