@@ -27,14 +27,12 @@ module Jobvite
 
     def attribute_mapper
       AttributeMapperFactory.new(attribute_mapper: super, connection: self).
-        build_with_defaults do
-          {
-            "first_name" => "first_name",
-            "last_name" => "last_name",
-            "email" => "email",
-            "start_date" => "start_date",
-            "gender" => "gender",
-          }
+        build_with_defaults do |mappings|
+          mappings.map! "first_name", to: "first_name"
+          mappings.map! "last_name", to: "last_name"
+          mappings.map! "email", to: "email"
+          mappings.map! "start_date", to: "start_date"
+          mappings.map! "gender", to: "gender"
         end
     end
 

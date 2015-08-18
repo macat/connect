@@ -11,10 +11,10 @@ describe AttributeMapperFactory do
         )
         factory = AttributeMapperFactory.new(
           attribute_mapper: attribute_mapper,
-          connection: connection
+          connection: connection,
         )
 
-        result = factory.build_with_defaults { {} }
+        result = factory.build_with_defaults { |_| }
 
         expect(result).to eq(attribute_mapper)
         expect(connection.reload.attribute_mapper.id).to eq(attribute_mapper.id)
@@ -29,7 +29,12 @@ describe AttributeMapperFactory do
           connection: connection
         )
 
-        result = factory.build_with_defaults { { "firstName" => "first_name" } }
+        result = factory.build_with_defaults do |mappings|
+          mappings.create!(
+            integration_field_name: "firstName",
+            namely_field_name: "first_name",
+          )
+        end
 
         expect(connection.reload.attribute_mapper_id).to eq(result.id)
         expect(mapped_fields_for(result)).to eq([%w(firstName first_name)])

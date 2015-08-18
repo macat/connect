@@ -33,6 +33,38 @@ describe FieldMapping do
     end
   end
 
+  describe ".map!" do
+    context "for an existing field" do
+      it "leaves the existing field" do
+        attribute_mapper = create(:attribute_mapper)
+        create(
+          :field_mapping,
+          attribute_mapper: attribute_mapper,
+          integration_field_name: "integration",
+          namely_field_name: "mapped"
+        )
+
+        attribute_mapper.field_mappings.map!("integration")
+
+        result = FieldMapping.last
+        expect(result.integration_field_name).to eq("integration")
+        expect(result.namely_field_name).to eq("mapped")
+      end
+    end
+
+    context "for a new field" do
+      it "creates the field" do
+        attribute_mapper = create(:attribute_mapper)
+
+        attribute_mapper.field_mappings.map!("integration", to: "namely")
+
+        result = FieldMapping.last
+        expect(result.integration_field_name).to eq("integration")
+        expect(result.namely_field_name).to eq("namely")
+      end
+    end
+  end
+
   def integration_key(field_name:)
     FieldMapping.new(integration_field_name: field_name).integration_key
   end
