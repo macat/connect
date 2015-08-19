@@ -44,6 +44,7 @@ feature "user exports to net suite" do
     select "Mobile phone", from: t("integration_fields.phone")
     select "Custom field", from: t("integration_fields.email")
     select "Preferred name", from: "Initials"
+    select "LinkedIn URL", from: "Custentity Linkedin Url"
     click_on t("attribute_mappings.edit.save")
 
     find(".net-suite-account").click_on t("dashboards.show.export_now")
@@ -74,6 +75,15 @@ feature "user exports to net suite" do
           email: "sally.secondary@example.com",
           phone: "+46 70 818 12 34",
           title: "CEO",
+          customFieldList: {
+            customField: [
+              {
+                internalId: "2096",
+                scriptId: "custentity_linkedin_url",
+                value: "http://example.com/sally"
+              }
+            ]
+          }
         )
       )
   end

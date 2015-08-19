@@ -494,6 +494,17 @@
       "links": {
         "section": "347f2936-353a-11e5-a151-feff819cdc9f"
       }
+    },
+    {
+      "id": "9cde41b3-2449-4141-a895-67087687c05a",
+      "name": "linkedin",
+      "label": "LinkedIn URL",
+      "type": "text",
+      "default": false,
+      "valid_format_info": "generic text",
+      "links": {
+        "section": "347f2936-353a-11e5-a151-feff819cdc9f"
+      }
     }
   ]
 }

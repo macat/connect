@@ -8,17 +8,22 @@ describe AttributeMapper do
   describe "#import" do
     it "maps field names" do
       field_mappings = map_fields(
-        "first_name" => "firstName",
-        "last_name" => "lastName",
-        "birth_date" => "birthDate",
+        "firstName" => "first_name",
+        "lastName" => "last_name",
+        "birthDate" => "birth_date",
+        "url" => nil,
       )
-      attribute_mapper = AttributeMapper.new(field_mappings: field_mappings)
+      attribute_mapper = create(
+        :attribute_mapper,
+        field_mappings: field_mappings
+      )
 
       result = attribute_mapper.import(
         firstName: "First",
         lastName: "Last",
         birthDate: nil,
-        unknown: "Unknown"
+        unknown: "Unknown",
+        url: "http://example.com"
       )
 
       expect(result).to eq(
@@ -29,8 +34,9 @@ describe AttributeMapper do
   end
 
   def map_fields(fields)
-    fields.map do |namely_field_name, integration_field_name|
-      FieldMapping.new(
+    fields.map do |integration_field_name, namely_field_name|
+      create(
+        :field_mapping,
         namely_field_name: namely_field_name,
         integration_field_id: integration_field_name,
         integration_field_name: integration_field_name

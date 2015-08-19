@@ -13,7 +13,8 @@
         "id":"0c601728-2658-4677-a22b-1c8653b431ae",
         "title":"CEO"
       },
-      "custom_field":"sally.secondary@example.com"
+      "custom_field":"sally.secondary@example.com",
+      "linkedin":"http://example.com/sally"
     },
     {
       "id":"a759ba38-1522-443a-bdae-435d721eb316",

@@ -43,6 +43,11 @@
                     "internalId": "3992",
                     "scriptId": "custentity_2663_payment_method",
                     "value": false
+                },
+                {
+                    "internalId": "2096",
+                    "scriptId": "custentity_linkedin_url",
+                    "value": ""
                 }
             ]
         },

@@ -3,15 +3,29 @@ require "rails_helper"
 describe NetSuite::EmployeeFieldsLoader do
   describe "#retrieve_fields" do
     it "gets a currest list of NetSuite employee profile fields" do
-      stubbed_employee_data = stub_employee_data(
-        expenseLimit: 100,
-        firstName: "Ralph",
-        hireDate: Time.now.to_i,
-        isSalesRep: false,
-        lastName: "Bot",
-        officePhone: "212-555-1212",
-        subsidiary: {}
-      )
+      stubbed_employee_data = [
+        stub_employee_data(
+          firstName: "Channing"
+        ),
+        stub_employee_data(
+          expenseLimit: 100,
+          firstName: "Ralph",
+          hireDate: Time.now.to_i,
+          isSalesRep: false,
+          lastName: "Bot",
+          officePhone: "212-555-1212",
+          subsidiary: {},
+          customFieldList: {
+            customField: [
+              {
+                "internalId": "5796",
+                "scriptId": "custentity_rss_linkedin",
+                "value": "http://example.com/linkedin"
+              }
+            ]
+          },
+        )
+      ]
 
       stub_request(
         :get,
@@ -41,7 +55,7 @@ describe NetSuite::EmployeeFieldsLoader do
       types = fields.map(&:type)
       ids = fields.map(&:id)
 
-      expect(ids).to include(*%w(
+      expect(ids).to match_array(%w(
         expenseLimit
         firstName
         hireDate
@@ -49,31 +63,31 @@ describe NetSuite::EmployeeFieldsLoader do
         lastName
         officePhone
         subsidiary
+        custom:5796:custentity_rss_linkedin
       ))
-      expect(types).to include(*%w(boolean date fixnum object text))
-      expect(labels).to include(
+      expect(types.uniq).to match_array(%w(boolean date fixnum object text))
+      expect(labels).to match_array([
         "Expense Limit",
         "First Name",
         "Hire Date",
         "Is Sales Rep",
         "Last Name",
         "Office Phone",
-        "Subsidiary"
-      )
+        "Subsidiary",
+        "Custentity Rss Linkedin"
+      ])
     end
   end
 
   def stub_employee_data(options = {})
-    [
-      {
-        expenseLimit: 0,
-        firstName: "First",
-        hireDate: Time.now.to_i,
-        isSalesRep: false,
-        lastName: "Last",
-        officePhone: "919-555-0000",
-        subsidiary: {}
-      }.merge(options).deep_stringify_keys
-    ]
+    {
+      expenseLimit: 0,
+      firstName: "First",
+      hireDate: Time.now.to_i,
+      isSalesRep: false,
+      lastName: "Last",
+      officePhone: "919-555-0000",
+      subsidiary: {},
+    }.merge(options).deep_stringify_keys
   end
 end

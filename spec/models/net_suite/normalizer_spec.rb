@@ -2,19 +2,9 @@ require "rails_helper"
 
 describe NetSuite::Normalizer do
   let(:configuration) { double("configuration", subsidiary_id: "123") }
-  let(:normalizer) do
-    employee_json =
-      File.read("spec/fixtures/api_responses/net_suite_employee.json")
-    stub_request(:get, %r{.*/employees\?pageSize=.*}).
-      to_return(status: 200, body: employee_json)
-    NetSuite::Normalizer.new(
-      attribute_mapper: create(:net_suite_connection).attribute_mapper,
-      configuration: configuration
-    )
-  end
 
   describe "delegation" do
-    subject { normalizer }
+    subject { build_normalizer }
     it { should delegate_method(:field_mappings).to(:attribute_mapper) }
     it { should delegate_method(:mapping_direction).to(:attribute_mapper) }
   end
@@ -129,9 +119,63 @@ describe NetSuite::Normalizer do
         ).to eq("internalId" => configuration.subsidiary_id)
       end
     end
+
+    context "custom fields" do
+      it "generates a custom field list" do
+        profile_data = stubbed_profile_data.merge(
+          "facebook" => "http://example.com/facebook",
+          "linkedin" => "http://example.com/linkedin",
+        )
+        attribute_mapper = build_attribute_mapper
+        attribute_mapper.field_mappings.map!(
+          "custom:1234:linkedin_url",
+          to: "linkedin",
+          name: "LinkedIn URL"
+        )
+        attribute_mapper.field_mappings.map!(
+          "custom:5678:facebook_url",
+          to: "facebook",
+          name: "Facebook URL"
+        )
+        normalizer = build_normalizer(attribute_mapper: attribute_mapper)
+
+        export_attributes = export(profile_data, normalizer: normalizer)
+
+        expect(export_attributes["customFieldList"]).to include(
+          "customField" => include(
+            {
+              "internalId" => "1234",
+              "scriptId" => "linkedin_url",
+              "value" => "http://example.com/linkedin"
+            },
+            {
+              "internalId" => "5678",
+              "scriptId" => "facebook_url",
+              "value" => "http://example.com/facebook"
+            }
+          )
+        )
+        expect(export_attributes.keys.grep(/custom:/)).to be_empty
+      end
+    end
   end
 
-  def export(profile_data = stubbed_profile_data)
+  def build_normalizer(attribute_mapper: build_attribute_mapper)
+    NetSuite::Normalizer.new(
+      attribute_mapper: attribute_mapper,
+      configuration: configuration
+    )
+  end
+
+  def build_attribute_mapper
+    employee_json =
+      File.read("spec/fixtures/api_responses/net_suite_employee.json")
+    stub_request(:get, %r{.*/employees\?pageSize=.*}).
+      to_return(status: 200, body: employee_json)
+    create(:net_suite_connection).attribute_mapper
+  end
+
+  def export(profile_data = stubbed_profile_data, normalizer: build_normalizer)
     normalizer.export(stubbed_profile(profile_data))
   end
 

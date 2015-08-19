@@ -16,7 +16,11 @@ describe BulkSync do
         )
         stub_namely_data("/profiles", "profiles_with_net_suite_fields")
         stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(status: 200)
-        stub_request(:any, %r{.*/api-v2/hubs/erp/employees.*}).
+        stub_request(:get, %r{.*/api-v2/hubs/erp/employees}).
+          to_return(status: 200, body: [{ "internalId" => "123" }].to_json)
+        stub_request(:post, %r{.*/api-v2/hubs/erp/employees}).
+          to_return(status: 200, body: { "internalId" => "123" }.to_json)
+        stub_request(:patch, %r{.*/api-v2/hubs/erp/employees/.*}).
           to_return(status: 200, body: { "internalId" => "123" }.to_json)
 
         queue_sync installation
@@ -66,6 +70,11 @@ describe BulkSync do
 
     def run_queue
       Delayed::Worker.new.work_off
+
+      last_job = Delayed::Job.last
+      if last_job
+        raise last_job.last_error
+      end
     end
 
     def have_synced_a_profile

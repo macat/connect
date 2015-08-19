@@ -15,6 +15,14 @@ class FieldMapping < ActiveRecord::Base
     end
   end
 
+  def self.each_with_namely_field
+    all.each_with_object({}) do |field_mapping, result|
+      if field_mapping.namely_field_name?
+        yield field_mapping, result
+      end
+    end
+  end
+
   def integration_key
     integration_field_name.underscore.parameterize("_")
   end

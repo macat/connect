@@ -70,7 +70,40 @@ describe FieldMapping do
     end
   end
 
+  describe ".each_with_namely_field" do
+    it "yields each mapped field and returns the resulting hash" do
+      map_fields(
+        "firstName" => "first_name",
+        "lastName" => "last_name",
+        "url" => nil,
+      ).each(&:save!)
+      data = {
+        "firstName" => "First",
+        "lastName" => "Last",
+        "unknown" => "Unknown",
+        "url" => "http://example.com",
+      }
+
+      result = FieldMapping.each_with_namely_field do |mapping, accumulator|
+        value = data[mapping.integration_field_name]
+        accumulator[mapping.namely_field_name] = value
+      end
+
+      expect(result).to eq("first_name" => "First", "last_name" => "Last")
+    end
+  end
+
   def integration_key(field_name:)
     FieldMapping.new(integration_field_name: field_name).integration_key
+  end
+
+  def map_fields(fields)
+    fields.map do |integration_field_name, namely_field_name|
+      build(
+        :field_mapping,
+        namely_field_name: namely_field_name,
+        integration_field_name: integration_field_name
+      )
+    end
   end
 end

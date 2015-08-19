@@ -20,6 +20,7 @@ class NetSuite::Normalizer
       exported_profile["gender"] = map_gender(exported_profile["gender"])
       exported_profile["subsidiary"] = set_subsidiary_id
       exported_profile["title"] = format_job_title(exported_profile["title"])
+      convert_custom_fields(exported_profile)
     end
   end
 
@@ -36,6 +37,19 @@ class NetSuite::Normalizer
 
   def set_subsidiary_id
     { "internalId" => configuration.subsidiary_id }
+  end
+
+  def convert_custom_fields(profile)
+    custom_keys = profile.keys.grep(/^custom:/)
+    custom_field_values = custom_keys.map do |key|
+      (_, internal_id, script_id) = key.split(":", 3)
+      {
+        "internalId" => internal_id,
+        "scriptId" => script_id,
+        "value" => profile.delete(key),
+      }
+    end
+    profile["customFieldList"] = { "customField" => custom_field_values }
   end
 
   attr_reader :attribute_mapper, :configuration
