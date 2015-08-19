@@ -19,17 +19,11 @@ class NetSuite::Normalizer
     attribute_mapper.export(profile).tap do |exported_profile|
       exported_profile["gender"] = map_gender(exported_profile["gender"])
       exported_profile["subsidiary"] = set_subsidiary_id
-      exported_profile["title"] = format_job_title(exported_profile["title"])
       convert_custom_fields(exported_profile)
     end
   end
 
   private
-
-  def format_job_title(value)
-    value = Hash(value)
-    value.fetch("title") { "" }
-  end
 
   def map_gender(value)
     GENDER_MAP[value]

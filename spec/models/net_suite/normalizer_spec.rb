@@ -87,29 +87,6 @@ describe NetSuite::Normalizer do
       end
     end
 
-    context "job title" do
-      it "extracts the job_title name" do
-        title = "Robot"
-        job_title = stubbed_job_title(title)
-        profile_data = stubbed_profile_data.merge(job_title)
-
-        export_attributes = export(profile_data)
-
-        expect(export_attributes["title"]).to eq(title)
-      end
-
-      context "nil value" do
-        it "sets an empty string" do
-          job_title = stubbed_job_title("")
-          profile_data = stubbed_profile_data.merge(job_title)
-
-          export_attributes = export(profile_data)
-
-          expect(export_attributes["title"]).to eq("")
-        end
-      end
-    end
-
     context "subsidiary_id" do
       it "provides a subsidiary_id from the configuration" do
         export_attributes = export
@@ -186,15 +163,6 @@ describe NetSuite::Normalizer do
       "gender" => "Female",
       "home_phone" => "212-555-1212",
       "last_name" => "Last"
-    }.merge(stubbed_job_title("Robot"))
-  end
-
-  def stubbed_job_title(title)
-    {
-      "job_title" => {
-        "id" => "1234",
-        "title" => title
-      }
     }
   end
 
