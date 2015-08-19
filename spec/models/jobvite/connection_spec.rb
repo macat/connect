@@ -69,7 +69,7 @@ describe Jobvite::Connection do
 
   def mapped_fields_for(attribute_mapper)
     attribute_mapper.field_mappings.map do |field_mapping|
-      [field_mapping.integration_field_name, field_mapping.namely_field_name]
+      [field_mapping.integration_field_id, field_mapping.namely_field_name]
     end
   end
 end

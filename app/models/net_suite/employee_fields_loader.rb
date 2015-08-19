@@ -15,8 +15,8 @@ module NetSuite
     end
 
     def convert_employee_data_to_profile_fields(employee)
-      employee.map do |name, value|
-        NetSuite::EmployeeField.new(name: name, value: value)
+      employee.map do |id, value|
+        NetSuite::EmployeeField.new(id: id, name: id, value: value)
       end
     end
 

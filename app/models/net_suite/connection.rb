@@ -73,7 +73,7 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def map_remote_fields(mappings)
     mappable_fields.each do |profile_field|
-      mappings.map! profile_field.name
+      mappings.map! profile_field.id, name: profile_field.name
     end
   end
 
@@ -84,11 +84,11 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def map_standard_fields(mappings)
-    mappings.map! "email", to: "email"
-    mappings.map! "firstName", to: "first_name"
-    mappings.map! "gender", to: "gender"
-    mappings.map! "lastName", to: "last_name"
-    mappings.map! "phone", to: "home_phone"
-    mappings.map! "title", to: "job_title"
+    mappings.map! "email", to: "email", name: "Email"
+    mappings.map! "firstName", to: "first_name", name: "First name"
+    mappings.map! "gender", to: "gender", name: "Gender"
+    mappings.map! "lastName", to: "last_name", name: "Last name"
+    mappings.map! "phone", to: "home_phone", name: "Phone"
+    mappings.map! "title", to: "job_title", name: "Title"
   end
 end

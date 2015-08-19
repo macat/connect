@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150811181537) do
+ActiveRecord::Schema.define(version: 20150818175042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150811181537) do
     t.integer  "attribute_mapper_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "integration_field_id",   null: false
   end
 
   add_index "field_mappings", ["attribute_mapper_id"], name: "index_field_mappings_on_attribute_mapper_id", using: :btree

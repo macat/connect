@@ -4,7 +4,8 @@ FactoryGirl.define do
 
   factory :field_mapping do
     attribute_mapper
-    integration_field_name "firstName"
+    integration_field_name { integration_field_id.titleize }
+    integration_field_id "firstName"
     namely_field_name "first_name"
   end
 

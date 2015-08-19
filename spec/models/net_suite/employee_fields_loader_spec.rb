@@ -39,8 +39,19 @@ describe NetSuite::EmployeeFieldsLoader do
       fields = loader.load_profile_fields
       labels = fields.map(&:label)
       types = fields.map(&:type)
+      ids = fields.map(&:id)
 
-      expected_labels = [
+      expect(ids).to include(*%w(
+        expenseLimit
+        firstName
+        hireDate
+        isSalesRep
+        lastName
+        officePhone
+        subsidiary
+      ))
+      expect(types).to include(*%w(boolean date fixnum object text))
+      expect(labels).to include(
         "Expense Limit",
         "First Name",
         "Hire Date",
@@ -48,15 +59,7 @@ describe NetSuite::EmployeeFieldsLoader do
         "Last Name",
         "Office Phone",
         "Subsidiary"
-      ]
-
-      expected_labels.each do |expected_label|
-        expect(labels).to include(expected_label)
-      end
-
-      %w(boolean date fixnum object text).each do |type|
-        expect(types).to include(type)
-      end
+      )
     end
   end
 

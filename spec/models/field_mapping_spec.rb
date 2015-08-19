@@ -40,14 +40,14 @@ describe FieldMapping do
         create(
           :field_mapping,
           attribute_mapper: attribute_mapper,
-          integration_field_name: "integration",
+          integration_field_id: "integration",
           namely_field_name: "mapped"
         )
 
         attribute_mapper.field_mappings.map!("integration")
 
         result = FieldMapping.last
-        expect(result.integration_field_name).to eq("integration")
+        expect(result.integration_field_id).to eq("integration")
         expect(result.namely_field_name).to eq("mapped")
       end
     end
@@ -56,10 +56,15 @@ describe FieldMapping do
       it "creates the field" do
         attribute_mapper = create(:attribute_mapper)
 
-        attribute_mapper.field_mappings.map!("integration", to: "namely")
+        attribute_mapper.field_mappings.map!(
+          "integration",
+          to: "namely",
+          name: "Name",
+        )
 
         result = FieldMapping.last
-        expect(result.integration_field_name).to eq("integration")
+        expect(result.integration_field_id).to eq("integration")
+        expect(result.integration_field_name).to eq("Name")
         expect(result.namely_field_name).to eq("namely")
       end
     end

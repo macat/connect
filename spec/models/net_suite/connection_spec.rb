@@ -70,9 +70,9 @@ describe NetSuite::Connection do
       )
       client = stub_client(authorization: "x")
       profile_fields = [
-        double(name: "email", type: "text"),
-        double(name: "initials", type: "text"),
-        double(name: "unsupported", type: "file"),
+        double(id: "email", name: "email", type: "text"),
+        double(id: "initials", name: "initials", type: "text"),
+        double(id: "unsupported", name: "unsupported", type: "file"),
       ]
       allow(client).to receive(:profile_fields).and_return(profile_fields)
 
@@ -174,7 +174,7 @@ describe NetSuite::Connection do
 
   def mapped_fields(attribute_mapper)
     attribute_mapper.field_mappings.map do |field_mapping|
-      [field_mapping.integration_field_name, field_mapping.namely_field_name]
+      [field_mapping.integration_field_id, field_mapping.namely_field_name]
     end
   end
 end

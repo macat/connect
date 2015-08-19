@@ -1,8 +1,9 @@
 module NetSuite
   class EmployeeField
-    attr_reader :name, :value
+    attr_reader :id, :name, :value
 
-    def initialize(name:, value:)
+    def initialize(id:, name:, value:)
+      @id = id
       @name = name
       @value = value
     end

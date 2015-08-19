@@ -30,10 +30,7 @@ describe AttributeMapperFactory do
         )
 
         result = factory.build_with_defaults do |mappings|
-          mappings.create!(
-            integration_field_name: "firstName",
-            namely_field_name: "first_name",
-          )
+          mappings.map!("firstName", to: "first_name", name: "First name")
         end
 
         expect(connection.reload.attribute_mapper_id).to eq(result.id)
@@ -44,7 +41,7 @@ describe AttributeMapperFactory do
 
   def mapped_fields_for(attribute_mapper)
     attribute_mapper.field_mappings.map do |field_mapping|
-      [field_mapping.integration_field_name, field_mapping.namely_field_name]
+      [field_mapping.integration_field_id, field_mapping.namely_field_name]
     end
   end
 end

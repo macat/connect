@@ -5,9 +5,13 @@ class FieldMapping < ActiveRecord::Base
   validates :attribute_mapper_id, presence: true
   validates :integration_field_name, presence: true
 
-  def self.map!(field, to: nil)
-    if where(integration_field_name: field).empty?
-      create!(integration_field_name: field, namely_field_name: to)
+  def self.map!(id, name: nil, to: nil)
+    if where(integration_field_id: id).empty?
+      create!(
+        integration_field_id: id,
+        integration_field_name: name,
+        namely_field_name: to
+      )
     end
   end
 
