@@ -21,6 +21,7 @@ class AddInstallationIdToConnections < ActiveRecord::Migration
       :installation,
       foreign_key: true,
       index: true,
+      null: true,
       unique: true
     )
 
