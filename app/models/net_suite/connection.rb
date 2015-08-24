@@ -88,6 +88,9 @@ class NetSuite::Connection < ActiveRecord::Base
     mappings.map! "firstName", to: "first_name", name: "First name"
     mappings.map! "gender", to: "gender", name: "Gender"
     mappings.map! "lastName", to: "last_name", name: "Last name"
+    mappings.map! "middleName", to: "middle_name", name: "Middle name"
+    mappings.map! "mobilePhone", to: "mobile_phone", name: "Mobile phone"
+    mappings.map! "officePhone", to: "office_phone", name: "Office phone"
     mappings.map! "phone", to: "home_phone", name: "Phone"
     mappings.map! "title", to: "job_title", name: "Title"
   end

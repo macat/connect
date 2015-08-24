@@ -84,9 +84,12 @@ describe NetSuite::Connection do
         %w(email email),
         %w(firstName first_name),
         %w(gender gender),
+        %w(lastName last_name),
+        %w(middleName middle_name),
+        %w(mobilePhone mobile_phone),
+        %w(officePhone office_phone),
         %w(phone home_phone),
         %w(title job_title),
-        %w(lastName last_name),
         ["initials", nil],
       ])
     end
