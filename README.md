@@ -37,32 +37,38 @@ boot2docker up
 docker-compose build
 ```
 
-### 4. Run all services
+### 4. Setup Environment Variables
+
+```sh
+cp .sample.env .env
+```
+
+### 5. Run all services
 
 ```sh
 docker-compose up
 ```
 
-### 5. Set-up the database
+### 6. Set-up the database
 
 ```sh
 docker-compose run web rake db:setup
 ```
 
-### 6. Run the tests:
+### 7. Run the tests:
 
 ```sh
 docker-compose run web rake
 ```
 
-### 7. Required accounts
+### 8. Required accounts
 
 Make sure you have accounts or access for the following:
 
 * Heroku Staging
 * Namely (likely on a sandbox)
 
-### 8. Project-specific accounts
+### 9. Project-specific accounts
 
 Depending on what manner of integration you will be working on, you may also
 need one or more of the following:
