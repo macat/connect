@@ -76,7 +76,7 @@ describe User do
   end
 
   describe "#namely_fields_by_label" do
-    it "returns mappable fields from a Namely connection" do
+    it "returns mappable fields from a Namely connection alphabetically" do
       models = [
         double(name: "first_name", label: "First name", type: "text"),
         double(name: "last_name", label: "Last name", type: "longtext"),
@@ -84,7 +84,7 @@ describe User do
         double(name: "email", label: "Email", type: "email"),
         double(name: "job_title", label: "Job title", type: "referencehistory"),
         double(name: "user_status", label: "Status", type: "referenceselect"),
-        double(name: "start_date", label: "Started", type: "date"),
+        double(name: "start_date", label: "started", type: "date"),
         stub_profile_field(type: "address"),
         stub_profile_field(type: "checkboxes"),
         stub_profile_field(type: "file"),
@@ -98,13 +98,13 @@ describe User do
       result = user.namely_fields_by_label
 
       expect(result).to eq([
-        ["First name", "first_name"],
-        ["Last name", "last_name"],
-        ["Gender", "gender"],
         ["Email", "email"],
+        ["First name", "first_name"],
+        ["Gender", "gender"],
         ["Job title", "job_title"],
+        ["Last name", "last_name"],
+        ["started", "start_date"],
         ["Status", "user_status"],
-        ["Started", "start_date"],
       ])
     end
 

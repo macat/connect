@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
     namely_fields.
       all.
       select { |field| AttributeMapper::SUPPORTED_TYPES.include?(field.type) }.
+      sort_by { |field| field.label.downcase }.
       map { |field| [field.label, field.name] }
   end
 
