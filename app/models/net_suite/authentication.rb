@@ -25,7 +25,7 @@ module NetSuite
     private
 
     def create_instance
-      result = @client.create_instance(attributes)
+      result = @client.create_instance(self)
       if result.success?
         @connection.update!(
           instance_id: result[:id],

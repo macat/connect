@@ -20,7 +20,7 @@ describe NetSuite::Authentication do
           authorization: "def"
         )
         expect(client).
-          to have_received(:create_instance).with(form_attributes)
+          to have_received(:create_instance).with(form)
       end
     end
 
