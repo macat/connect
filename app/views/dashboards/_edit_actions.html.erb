@@ -1,0 +1,14 @@
+<%= link_to t("dashboards.show.edit_credentials"),
+  edit_integration_authentication_path(connection.integration_id),
+  class: "-n-btn -n-btn-sm -n-btn-link" %>
+
+<% if connection.configurable? %>
+  <%= link_to t("dashboards.show.edit_configuration"),
+    edit_integration_connection_path(connection.integration_id),
+    class: "-n-btn -n-btn-sm -n-btn-link" %>
+<% end %>
+
+<% if connection.attribute_mapper? %>
+  <%= link_to t("dashboards.show.edit_mappings"),
+    edit_integration_mapping_path(connection.integration_id) %>
+<% end %>

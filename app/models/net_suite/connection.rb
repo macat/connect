@@ -26,6 +26,10 @@ class NetSuite::Connection < ActiveRecord::Base
     true
   end
 
+  def configurable?
+    true
+  end
+
   def attribute_mapper
     AttributeMapperFactory.new(attribute_mapper: super, connection: self).
       build_with_defaults { |mappings| map_defaults(mappings) }

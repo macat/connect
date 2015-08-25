@@ -48,6 +48,10 @@ FactoryGirl.define do
       api_key nil
       secret nil
     end
+
+    trait :with_namely_field do
+      found_namely_field true
+    end
   end
 
   factory :greenhouse_connection, class: "Greenhouse::Connection" do

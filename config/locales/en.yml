@@ -7,7 +7,9 @@ en:
     show:
       connect: "Connect"
       disconnect: "Disconnect"
-      edit: "Edit"
+      edit_configuration: Edit Configuration
+      edit_credentials: Edit Credentials
+      edit_mappings: Edit Field Mappings
       export_now: "Export now"
       import_now: "Import now"
       sign_out: "Sign out"

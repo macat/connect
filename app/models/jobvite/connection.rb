@@ -25,6 +25,10 @@ module Jobvite
       true
     end
 
+    def configurable?
+      false
+    end
+
     def attribute_mapper
       AttributeMapperFactory.new(attribute_mapper: super, connection: self).
         build_with_defaults do |mappings|

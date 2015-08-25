@@ -28,6 +28,10 @@ module Icims
       false
     end
 
+    def configurable?
+      false
+    end
+
     def required_namely_field
       Normalizer.new.namely_identifier_field.to_s
     end

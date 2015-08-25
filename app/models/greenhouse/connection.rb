@@ -20,6 +20,10 @@ module Greenhouse
       false
     end
 
+    def configurable?
+      false
+    end
+
     def required_namely_field
       "greenhouse_id"
     end
