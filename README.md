@@ -90,8 +90,7 @@ need one or more of the following:
   * Website: `<name>-sandbox.namely.com`
   * Redirect URI: `http://localhost:<port>/session/oauth_callback`
 * Make a note of the Client Identifier and Client Secret and add those to the
-  `web/environment` section of `docker-compose.yml` as `NAMELY_CLIENT_ID` and
-  `NAMELY_CLIENT_SECRET`
+  `.env` file as `NAMELY_CLIENT_ID` and `NAMELY_CLIENT_SECRET`.
 
 ## Test fixtures
 
