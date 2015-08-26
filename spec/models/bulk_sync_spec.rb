@@ -3,6 +3,12 @@ require "rails_helper"
 describe BulkSync do
   include Features
 
+  describe ".sync" do
+    it "runs without error" do
+      expect { BulkSync.sync(:net_suite) }.not_to raise_error
+    end
+  end
+
   describe "#sync" do
     context "with a fully connected installation" do
       it "creates a sync job for each installation with the given connection" do

@@ -1,4 +1,8 @@
 class BulkSync
+  def self.sync(integration_id)
+    new(integration_id: integration_id, installations: Installation.all).sync
+  end
+
   def initialize(integration_id:, installations:)
     @integration_id = integration_id
     @installations = installations
