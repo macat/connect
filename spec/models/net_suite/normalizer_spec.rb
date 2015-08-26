@@ -17,6 +17,7 @@ describe NetSuite::Normalizer do
         email
         firstName
         gender
+        isInactive
         lastName
         phone
       ))
@@ -84,6 +85,24 @@ describe NetSuite::Normalizer do
         export_attributes = export(profile_data)
 
         expect(export_attributes["gender"]).to eq("_omitted")
+      end
+    end
+
+    context "isInactive" do
+      it "maps a user status of 'inactive' to true" do
+        profile_data = stubbed_profile_data.merge("user_status" => "inactive")
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes["isInactive"]).to be true
+      end
+
+      it "maps user_status of 'active' values to false" do
+        profile_data = stubbed_profile_data.merge("user_status" => "active")
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes["isInactive"]).to be false
       end
     end
 

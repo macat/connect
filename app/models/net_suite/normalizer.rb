@@ -18,6 +18,9 @@ class NetSuite::Normalizer
   def export(profile)
     attribute_mapper.export(profile).tap do |exported_profile|
       exported_profile["gender"] = map_gender(exported_profile["gender"])
+      exported_profile["isInactive"] = map_user_status(
+        exported_profile["isInactive"]
+      )
       exported_profile["subsidiary"] = set_subsidiary_id
       convert_custom_fields(exported_profile)
     end
@@ -27,6 +30,10 @@ class NetSuite::Normalizer
 
   def map_gender(value)
     GENDER_MAP[value]
+  end
+
+  def map_user_status(value)
+    value == "inactive"
   end
 
   def set_subsidiary_id

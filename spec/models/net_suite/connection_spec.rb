@@ -84,6 +84,7 @@ describe NetSuite::Connection do
         %w(email email),
         %w(firstName first_name),
         %w(gender gender),
+        %w(isInactive user_status),
         %w(lastName last_name),
         %w(middleName middle_name),
         %w(mobilePhone mobile_phone),
