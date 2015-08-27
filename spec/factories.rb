@@ -15,6 +15,7 @@ FactoryGirl.define do
     trait :connected do
       instance_id "123xy"
       authorization "abc12z"
+      subsidiary_required true
     end
 
     trait :with_namely_field do

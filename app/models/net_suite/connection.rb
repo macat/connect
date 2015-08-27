@@ -27,7 +27,7 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def configurable?
-    true
+    !subsidiary_optional?
   end
 
   def attribute_mapper
@@ -36,7 +36,7 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def ready?
-    subsidiary_id.present?
+    subsidiary_id.present? || subsidiary_optional?
   end
 
   def required_namely_field
@@ -62,6 +62,14 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   private
+
+  def subsidiary_optional?
+    if subsidiary_required.nil?
+      update!(subsidiary_required: subsidiaries.present?)
+    end
+
+    !subsidiary_required?
+  end
 
   def normalizer
     @normalizer ||= NetSuite::Normalizer.new(

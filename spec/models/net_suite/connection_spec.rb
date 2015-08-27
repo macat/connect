@@ -48,15 +48,86 @@ describe NetSuite::Connection do
   end
 
   describe "#ready?" do
-    context "with a subsidiary" do
+    context "with a subsidiary configured" do
       it "returns true" do
-        expect(NetSuite::Connection.new(subsidiary_id: "x")).to be_ready
+        connection = create(:net_suite_connection, subsidiary_id: "x")
+        expect(connection).to be_ready
       end
     end
 
-    context "without a subsidiary" do
+    context "uncached, with available subsidiaries but none configured" do
+      it "returns false and caches" do
+        connection = create(
+          :net_suite_connection,
+          authorization: "x",
+          subsidiary_id: nil,
+          subsidiary_required: nil
+        )
+        client = stub_client(authorization: "x")
+        allow(client).to receive(:subsidiaries).and_return([{ "name" => "x" }])
+        expect(connection).not_to be_ready
+        expect(connection.reload.subsidiary_required).to be(true)
+      end
+    end
+
+    context "cached with a required subsidiary but none configured" do
       it "returns false" do
-        expect(NetSuite::Connection.new(subsidiary_id: nil)).not_to be_ready
+        connection = create(
+          :net_suite_connection,
+          authorization: "x",
+          subsidiary_id: nil,
+          subsidiary_required: true
+        )
+        client = stub_client(authorization: "x")
+        allow(client).to receive(:subsidiaries).and_return([])
+        expect(connection).not_to be_ready
+      end
+    end
+
+    context "uncached, with no available subsidiaries" do
+      it "returns true" do
+        connection = create(
+          :net_suite_connection,
+          authorization: "x",
+          subsidiary_id: nil,
+          subsidiary_required: nil
+        )
+        client = stub_client(authorization: "x")
+        allow(client).to receive(:subsidiaries).and_return([])
+        expect(connection).to be_ready
+        expect(connection.reload.subsidiary_required).to be(false)
+      end
+    end
+
+    context "cached with no required subsidiary and none configured" do
+      it "returns true" do
+        connection = create(
+          :net_suite_connection,
+          authorization: "x",
+          subsidiary_id: nil,
+          subsidiary_required: false
+        )
+        client = stub_client(authorization: "x")
+        allow(client).to receive(:subsidiaries).and_return([{ "name" => "x" }])
+        expect(connection).to be_ready
+      end
+    end
+  end
+
+  describe "#configurable?" do
+    context "with an optional subsidiary" do
+      it "returns false" do
+        connection = NetSuite::Connection.new(subsidiary_required: false)
+
+        expect(connection).not_to be_configurable
+      end
+    end
+
+    context "with a required subsidiary" do
+      it "returns true" do
+        connection = NetSuite::Connection.new(subsidiary_required: true)
+
+        expect(connection).to be_configurable
       end
     end
   end
