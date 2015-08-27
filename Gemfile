@@ -10,6 +10,7 @@ gem "namely", "~> 0.2.1"
 gem "neat", "~> 1.5.1"
 gem "normalize-rails", "~> 3.0.0"
 gem "pg"
+gem "raygun4ruby"
 gem "recipient_interceptor"
 gem "rest-client"
 gem "sass-rails", "~> 4.0.3"
@@ -50,7 +51,6 @@ group :test do
 end
 
 group :staging, :production do
-  gem 'rails_12factor'
-  gem 'honeybadger'
+  gem "rails_12factor"
   gem "rack-timeout"
 end
