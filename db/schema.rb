@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818175042) do
+ActiveRecord::Schema.define(version: 20150825134808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,12 +58,13 @@ ActiveRecord::Schema.define(version: 20150818175042) do
   add_index "field_mappings", ["attribute_mapper_id"], name: "index_field_mappings_on_attribute_mapper_id", using: :btree
 
   create_table "greenhouse_connections", force: true do |t|
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "secret_key"
     t.string   "name"
-    t.boolean  "found_namely_field", default: false, null: false
-    t.integer  "installation_id",                    null: false
+    t.boolean  "found_namely_field",  default: false, null: false
+    t.integer  "installation_id",                     null: false
+    t.integer  "attribute_mapper_id"
   end
 
   add_index "greenhouse_connections", ["installation_id"], name: "index_greenhouse_connections_on_installation_id", using: :btree

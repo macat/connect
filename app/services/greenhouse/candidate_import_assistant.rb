@@ -15,7 +15,8 @@ module Greenhouse
 
     def normalizer
       Normalizer.new(
-        context.installation.namely_connection.fields.all
+        attribute_mapper: connection.attribute_mapper,
+        namely_fields: context.installation.namely_connection.fields.all
       )
     end
 
