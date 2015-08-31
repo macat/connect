@@ -20,7 +20,8 @@ feature "User connects Greenhouse account" do
 
     within(".greenhouse-account") do
       expect(page).to have_no_link t("dashboards.show.connect")
-      expect(page).to have_content(greenhouse_candidate_imports_url("greenhouse_key"))
+      expect(find_field(t("dashboards.show.webhook_label")).value).
+        to eq greenhouse_candidate_imports_url("greenhouse_key")
     end
   end
 end

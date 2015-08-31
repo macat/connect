@@ -12,7 +12,9 @@ en:
       edit_mappings: Edit Field Mappings
       export_now: "Export now"
       import_now: "Import now"
+      show_webhook: Show Webhook URL
       sign_out: "Sign out"
+      webhook_label: "Webhook URL:"
       missing_namely_field: >
         You need to add a '%{name}' custom field to your Namely account in order
         to synchronize profiles. This field is used to avoid importing or
