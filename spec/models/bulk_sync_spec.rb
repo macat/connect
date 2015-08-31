@@ -21,6 +21,7 @@ describe BulkSync do
           installation: installation
         )
         stub_namely_data("/profiles", "profiles_with_net_suite_fields")
+        stub_namely_fields("fields_with_net_suite")
         stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(status: 200)
         stub_request(:get, %r{.*/api-v2/hubs/erp/employees}).
           to_return(status: 200, body: [{ "internalId" => "123" }].to_json)

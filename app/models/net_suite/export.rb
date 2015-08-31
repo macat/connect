@@ -48,7 +48,7 @@ module NetSuite
       end
 
       def update
-        response = @net_suite.update_employee(id, attributes)
+        response = @net_suite.update_employee(id.to_s, attributes)
         Result.new(response, true, @profile)
       end
 

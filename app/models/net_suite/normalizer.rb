@@ -16,42 +16,74 @@ class NetSuite::Normalizer
   end
 
   def export(profile)
-    attribute_mapper.export(profile).tap do |exported_profile|
-      exported_profile["gender"] = map_gender(exported_profile["gender"])
-      exported_profile["isInactive"] = map_user_status(
-        exported_profile["isInactive"]
-      )
-      exported_profile["subsidiary"] = set_subsidiary_id
-      convert_custom_fields(exported_profile)
-    end
+    attributes = attribute_mapper.export(profile)
+    Export.new(attributes, @configuration.subsidiary_id).to_hash
   end
 
   private
 
-  def map_gender(value)
-    GENDER_MAP[value]
-  end
+  class Export
+    def initialize(attributes, subsidiary_id)
+      @attributes = attributes
+      @subsidiary_id = subsidiary_id
+    end
 
-  def map_user_status(value)
-    value == "inactive"
-  end
+    def to_hash
+      mapped_attributes.merge(string_attributes)
+    end
 
-  def set_subsidiary_id
-    { "internalId" => configuration.subsidiary_id }
-  end
+    private
 
-  def convert_custom_fields(profile)
-    custom_keys = profile.keys.grep(/^custom:/)
-    custom_field_values = custom_keys.map do |key|
-      (_, internal_id, script_id) = key.split(":", 3)
-      {
-        "internalId" => internal_id,
-        "scriptId" => script_id,
-        "value" => profile.delete(key),
+    def mapped_attributes
+      @mapped_attributes ||= {
+        "gender" => gender,
+        "isInactive" => user_status,
+        "subsidiary" => subsidiary,
+        "customFieldList" => custom_fields
       }
     end
-    profile["customFieldList"] = { "customField" => custom_field_values }
+
+    def string_attributes
+      string_keys.each_with_object({}) do |(key, value), result|
+        result[key] = value.to_s
+      end
+    end
+
+    def string_keys
+      @attributes.
+        except(*mapped_attributes.keys).
+        except(*custom_keys(@attributes))
+    end
+
+    def gender
+      GENDER_MAP[@attributes["gender"].to_s]
+    end
+
+    def user_status
+      @attributes["isInactive"].to_s == "inactive"
+    end
+
+    def subsidiary
+      { "internalId" => @subsidiary_id }
+    end
+
+    def custom_keys(attributes)
+      attributes.keys.grep(/^custom:/)
+    end
+
+    def custom_fields
+      custom_field_values = custom_keys(@attributes).map do |key|
+        (_, internal_id, script_id) = key.split(":", 3)
+        {
+          "internalId" => internal_id,
+          "scriptId" => script_id,
+          "value" => @attributes[key].to_s,
+        }
+      end
+      { "customField" => custom_field_values }
+    end
   end
 
-  attr_reader :attribute_mapper, :configuration
+  private_constant :Export
+  attr_reader :attribute_mapper
 end

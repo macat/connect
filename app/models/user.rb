@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
   end
 
   def namely_profiles
-    namely_connection.profiles.all.map { |profile| Profile.new(profile) }
+    namely_connection.profiles.all.map do |profile|
+      Profile.new(profile, fields: Fields::Collection.new(namely_connection))
+    end
   end
 
   def namely_fields_by_label

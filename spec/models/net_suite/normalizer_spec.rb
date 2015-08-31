@@ -13,13 +13,15 @@ describe NetSuite::Normalizer do
     it "returns a converted data structure based on field mappings" do
       export_attributes = export
 
-      expect(export_attributes.keys).to include(*%w(
+      expect(export_attributes.keys).to match_array(%w(
+        customFieldList
         email
         firstName
         gender
         isInactive
         lastName
         phone
+        subsidiary
       ))
     end
 
@@ -35,7 +37,7 @@ describe NetSuite::Normalizer do
     end
 
     describe "value handling" do
-      it "sets expected values in the profile for regular attributes" do
+      it "sets expected values in the profile for string attributes" do
         attributes = {
           "email" => "test@example.com",
           "first_name" => "First",
@@ -43,7 +45,7 @@ describe NetSuite::Normalizer do
           "last_name" => "Last",
         }
 
-        profile_data = stubbed_profile_data.merge(attributes)
+        profile_data = stubbed_profile_data(attributes)
 
         export_attributes = export(profile_data)
 
@@ -56,7 +58,7 @@ describe NetSuite::Normalizer do
 
     context "gender mapping" do
       it "maps 'Female to _female'" do
-        profile_data = stubbed_profile_data.merge("gender" => "Female")
+        profile_data = stubbed_profile_data("gender" => "Female")
 
         export_attributes = export(profile_data)
 
@@ -64,7 +66,7 @@ describe NetSuite::Normalizer do
       end
 
       it "maps 'Male to _male'" do
-        profile_data = stubbed_profile_data.merge("gender" => "Male")
+        profile_data = stubbed_profile_data("gender" => "Male")
 
         export_attributes = export(profile_data)
 
@@ -72,7 +74,7 @@ describe NetSuite::Normalizer do
       end
 
       it "maps nil to '_omitted'" do
-        profile_data = stubbed_profile_data.merge("gender" => nil)
+        profile_data = stubbed_profile_data("gender" => nil)
 
         export_attributes = export(profile_data)
 
@@ -80,7 +82,7 @@ describe NetSuite::Normalizer do
       end
 
       it "maps an empty string to '_omitted'" do
-        profile_data = stubbed_profile_data.merge("gender" => "")
+        profile_data = stubbed_profile_data("gender" => "")
 
         export_attributes = export(profile_data)
 
@@ -90,7 +92,7 @@ describe NetSuite::Normalizer do
 
     context "isInactive" do
       it "maps a user status of 'inactive' to true" do
-        profile_data = stubbed_profile_data.merge("user_status" => "inactive")
+        profile_data = stubbed_profile_data("user_status" => "inactive")
 
         export_attributes = export(profile_data)
 
@@ -98,7 +100,7 @@ describe NetSuite::Normalizer do
       end
 
       it "maps user_status of 'active' values to false" do
-        profile_data = stubbed_profile_data.merge("user_status" => "active")
+        profile_data = stubbed_profile_data("user_status" => "active")
 
         export_attributes = export(profile_data)
 
@@ -118,7 +120,7 @@ describe NetSuite::Normalizer do
 
     context "custom fields" do
       it "generates a custom field list" do
-        profile_data = stubbed_profile_data.merge(
+        profile_data = stubbed_profile_data(
           "facebook" => "http://example.com/facebook",
           "linkedin" => "http://example.com/linkedin",
         )
@@ -175,17 +177,25 @@ describe NetSuite::Normalizer do
     normalizer.export(stubbed_profile(profile_data))
   end
 
-  def stubbed_profile_data
-    {
-      "email" => "test@example.com",
-      "first_name" => "First",
-      "gender" => "Female",
-      "home_phone" => "212-555-1212",
-      "last_name" => "Last"
-    }
+  def stubbed_profile_data(overrides = {})
+    stub_string_values(
+      {
+        "email" => "test@example.com",
+        "first_name" => "First",
+        "gender" => "Female",
+        "home_phone" => "212-555-1212",
+        "last_name" => "Last",
+      }.merge(overrides)
+    )
   end
 
-  def stubbed_profile(data = stubbed_profile_data)
-    Profile.new(data)
+  def stub_string_values(values)
+    values.each_with_object({}) do |(name, value), result|
+      result[name] = Fields::StringValue.new(value)
+    end
+  end
+
+  def stubbed_profile(data)
+    data
   end
 end

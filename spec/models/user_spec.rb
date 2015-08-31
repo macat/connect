@@ -42,13 +42,15 @@ describe User do
     it "returns profiles from its Namely connection" do
       first_names = %w(Alice Bob)
       profile_list = first_names.map { |name| stub_namely_profile(name) }
+      field_list = [double(:field, name: "first_name", type: "text")]
 
       profiles = double(:namely_profiles, all: profile_list)
-      stub_namely_connection profiles: profiles
+      fields = double(:namely_fields, all: field_list)
+      stub_namely_connection profiles: profiles, fields: fields
       user = User.new
 
       profile_first_names = user.namely_profiles.map do |profile|
-        profile[:first_name]
+        profile["first_name"].to_raw
       end
 
       expect(profile_first_names).to match_array(first_names)
@@ -126,7 +128,7 @@ describe User do
   end
 
   def stub_namely_profile(first_name)
-    { first_name: first_name }
+    { "first_name" => first_name }
   end
 
   def stub_namely_connection(attributes)
