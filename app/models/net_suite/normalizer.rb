@@ -16,7 +16,7 @@ class NetSuite::Normalizer
   private
 
   class Export
-    include Constants
+    include ::NetSuite::Constants
 
     def initialize(attributes, subsidiary_id)
       @attributes = attributes
