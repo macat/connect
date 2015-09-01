@@ -151,6 +151,20 @@ describe Installation do
     end
   end
 
+  describe "#connection_to" do
+    it "returns the connection to the given integration" do
+      connection = build_stubbed(:net_suite_connection)
+      installation = build_stubbed(
+        :installation,
+        net_suite_connection: connection
+      )
+
+      result = installation.connection_to(:net_suite)
+
+      expect(result).to eq(connection)
+    end
+  end
+
   def stub_each(array, method_name)
     array.each do |item|
       allow(item).to receive(method_name)

@@ -29,6 +29,10 @@ class Installation < ActiveRecord::Base
       where(association.pluralize => { found_namely_field: true })
   end
 
+  def connection_to(integration_id)
+    public_send("#{integration_id}_connection")
+  end
+
   def jobvite_connection
     super || Jobvite::Connection.create!(installation: self)
   end
