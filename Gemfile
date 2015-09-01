@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.2.2"
 
-gem "rails", "4.1.6"
+gem "rails", "~> 4.1.6"
 gem "bourbon", "~> 3.2.1"
 gem "delayed_job_active_record"
 gem "email_validator"
