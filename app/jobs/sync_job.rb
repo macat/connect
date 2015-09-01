@@ -23,7 +23,7 @@ class SyncJob
         email: user.email,
         integration_id: integration_id,
         results: results
-      ).deliver
+      ).deliver_now
     end
   end
 

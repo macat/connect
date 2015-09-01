@@ -8,7 +8,7 @@ describe User do
   describe "#send_connection_notification" do
     it "sends an invalid authentication message" do
       user = build_stubbed(:user)
-      mail = double(ConnectionMailer, deliver: true)
+      mail = double(ConnectionMailer, deliver_now: true)
       exception = Unauthorized.new("Whoops")
       allow(ConnectionMailer).
         to receive(:authentication_notification).
@@ -24,14 +24,14 @@ describe User do
         message: exception.message
       )
 
-      expect(mail).to have_received(:deliver)
+      expect(mail).to have_received(:deliver_now)
     end
   end
 
-  describe '#save_token_info' do 
+  describe '#save_token_info' do
     let(:user) { create :user }
 
-    it 'saves new access token and access token expires in info' do 
+    it 'saves new access token and access token expires in info' do
       user.save_token_info('new_token', 'new_time')
 
       expect(user.access_token).to eql 'new_token'

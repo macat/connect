@@ -20,7 +20,7 @@ describe SyncJob do
         with(installation_id).
         and_return(installation)
       integration_id = "net_suite"
-      mail = double(SyncMailer, deliver: true)
+      mail = double(SyncMailer, deliver_now: true)
       allow(SyncMailer).
         to receive(:sync_notification).
         with(
@@ -34,7 +34,7 @@ describe SyncJob do
       job.perform
 
       expect(net_suite_connection).to have_received(:sync)
-      expect(mail).to have_received(:deliver)
+      expect(mail).to have_received(:deliver_now)
     end
   end
 

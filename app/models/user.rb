@@ -49,6 +49,6 @@ class User < ActiveRecord::Base
       email: email,
       integration_id: integration_id,
       message: message
-    ).deliver
+    ).deliver_now
   end
 end

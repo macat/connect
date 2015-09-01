@@ -112,7 +112,7 @@ describe Icims::AuthorizedRequest do
           }
         ).to_return(status: 401, body: errors.to_json)
 
-        mail = double(ConnectionMailer, deliver: true)
+        mail = double(ConnectionMailer, deliver_now: true)
         exception = Unauthorized.new("401 Unauthorized")
         allow(ConnectionMailer).
           to receive(:authentication_notification).
@@ -124,7 +124,7 @@ describe Icims::AuthorizedRequest do
           and_return(mail)
 
         expect { request.execute }.to raise_error(Unauthorized)
-        expect(mail).to have_received(:deliver)
+        expect(mail).to have_received(:deliver_now)
       end
     end
   end
