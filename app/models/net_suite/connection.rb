@@ -96,6 +96,7 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def map_standard_fields(mappings)
+    mappings.map! "address", to: "home", name: "Address"
     mappings.map! "email", to: "email", name: "Email"
     mappings.map! "firstName", to: "first_name", name: "First name"
     mappings.map! "gender", to: "gender", name: "Gender"

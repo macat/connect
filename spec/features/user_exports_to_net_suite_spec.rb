@@ -75,6 +75,27 @@ feature "user exports to net suite" do
           email: "sally.secondary@example.com",
           phone: "+46 70 818 12 34",
           title: "CEO",
+          addressbookList: {
+            addressbook: [
+              {
+                defaultShipping: true,
+                addressbookAddress: {
+                  zip: "02108",
+                  country: {
+                    value: "_unitedStates"
+                  },
+                  addr2: "Apt 123",
+                  addr1: "100 Pruder Street",
+                  city: "Boston",
+                  addr3: "",
+                  addressee: "Sally Smith",
+                  attention: "",
+                  state: "MA"
+                }
+              }
+            ],
+            replaceAll: true
+          },
           customFieldList: {
             customField: [
               {

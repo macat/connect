@@ -108,6 +108,56 @@ describe NetSuite::Normalizer do
       end
     end
 
+    context "address" do
+      it "maps to a NetSuite address hash" do
+        profile_data = stubbed_profile_data(
+          "first_name" => "Iggy",
+          "last_name" => "Igloo"
+        ).merge(
+          "home" => Fields::AddressValue.new(
+            "address1" => "123 Main Street",
+            "address2" => "Suite 501",
+            "city" => "Boston",
+            "state_id" => "MA",
+            "zip" => "11213",
+            "country_id" => "US"
+          )
+        )
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes["addressbookList"]).to eq(
+          "addressbook" => [
+            {
+              "defaultShipping" => true,
+              "addressbookAddress" => {
+                "zip" => "11213",
+                "country" => {
+                  "value" => "_unitedStates"
+                },
+                "addr2" => "Suite 501",
+                "addr1" => "123 Main Street",
+                "city" => "Boston",
+                "addr3" => "",
+                "addressee" => "Iggy Igloo",
+                "attention" => "",
+                "state" => "MA"
+              }
+            }
+          ],
+          "replaceAll" => true
+        )
+      end
+
+      it "removes a missing address" do
+        profile_data = stubbed_profile_data.merge("home" => nil)
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes).not_to have_key("addressbookList")
+      end
+    end
+
     context "subsidiary_id" do
       it "provides a subsidiary_id from the configuration" do
         export_attributes = export

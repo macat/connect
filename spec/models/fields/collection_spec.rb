@@ -33,6 +33,16 @@ describe Fields::Collection do
       end
     end
 
+    describe "for an address field" do
+      it "parses into an address object" do
+        address = { address1: "123 Main Street" }
+        result = export(type: "address", value: address)
+
+        expect(result).to be_a(Fields::AddressValue)
+        expect(result.to_raw).to eq(address)
+      end
+    end
+
     context "for a nil value" do
       it "returns nil" do
         result = export(type: "text", value: nil)

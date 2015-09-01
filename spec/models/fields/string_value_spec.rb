@@ -19,4 +19,10 @@ describe Fields::StringValue do
         to be_nil
     end
   end
+
+  describe "#to_address" do
+    it "returns nil" do
+      expect(Fields::StringValue.new("").to_address).to be_nil
+    end
+  end
 end

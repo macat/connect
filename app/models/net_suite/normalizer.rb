@@ -1,11 +1,4 @@
 class NetSuite::Normalizer
-  GENDER_MAP = {
-    "Male" => "_male",
-    "Female" => "_female",
-    "Not specified" => "_omitted",
-  }
-  GENDER_MAP.default = "_omitted"
-
   delegate :field_mappings, to: :attribute_mapper
   delegate :mapping_direction, to: :attribute_mapper
   delegate :persisted?, to: :attribute_mapper
@@ -23,13 +16,17 @@ class NetSuite::Normalizer
   private
 
   class Export
+    include Constants
+
     def initialize(attributes, subsidiary_id)
       @attributes = attributes
       @subsidiary_id = subsidiary_id
     end
 
     def to_hash
-      mapped_attributes.merge(string_attributes)
+      mapped_attributes.
+        merge(address_attributes).
+        merge(string_attributes)
     end
 
     private
@@ -52,11 +49,16 @@ class NetSuite::Normalizer
     def string_keys
       @attributes.
         except(*mapped_attributes.keys).
-        except(*custom_keys(@attributes))
+        except(*custom_keys(@attributes)).
+        except("address")
     end
 
     def gender
       GENDER_MAP[@attributes["gender"].to_s]
+    end
+
+    def country(namely_value)
+      COUNTRY_MAP[namely_value]
     end
 
     def user_status
@@ -81,6 +83,53 @@ class NetSuite::Normalizer
         }
       end
       { "customField" => custom_field_values }
+    end
+
+    def address_attributes
+      if address.present?
+        {
+          "addressbookList" => {
+            "addressbook" => addresses,
+            "replaceAll" => true
+          }
+        }
+      else
+        {}
+      end
+    end
+
+    def addresses
+      [
+        {
+          "defaultShipping" => true,
+          "addressbookAddress" => {
+            "zip" => address.zip,
+            "country" => {
+              "value" => country(address.country)
+            },
+            "addr1" => address.street1,
+            "addr2" => address.street2,
+            "addr3" => "",
+            "city" => address.city,
+            "addressee" => addressee,
+            "attention" => "",
+            "state" => address.state,
+          }
+        }
+      ]
+    end
+
+    def addressee
+      [
+        @attributes["firstName"],
+        @attributes["lastName"],
+      ].join(" ")
+    end
+
+    def address
+      if @attributes["address"]
+        @attributes["address"].to_address
+      end
     end
   end
 

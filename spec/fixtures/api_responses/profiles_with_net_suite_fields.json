@@ -14,7 +14,15 @@
         "title":"CEO"
       },
       "custom_field":"sally.secondary@example.com",
-      "linkedin":"http://example.com/sally"
+      "linkedin":"http://example.com/sally",
+      "home":{
+        "address1": "100 Pruder Street",
+        "address2": "Apt 123",
+        "city": "Boston",
+        "country_id":"US",
+        "state_id":"MA",
+        "zip": "02108"
+      }
     },
     {
       "id":"a759ba38-1522-443a-bdae-435d721eb316",

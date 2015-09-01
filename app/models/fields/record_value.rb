@@ -17,6 +17,10 @@ module Fields
       nil
     end
 
+    def to_address
+      nil
+    end
+
     private
 
     def non_id_key

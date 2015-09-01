@@ -19,4 +19,10 @@ describe Fields::DateValue do
         to eq(Date.new(1986, 8, 26))
     end
   end
+
+  describe "#to_address" do
+    it "returns nil" do
+      expect(Fields::DateValue.new("").to_address).to be_nil
+    end
+  end
 end

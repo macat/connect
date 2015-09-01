@@ -19,6 +19,10 @@ module Fields
       DateTime.strptime(@value, DATE_FORMAT).to_date
     end
 
+    def to_address
+      nil
+    end
+
     private_constant :DATE_FORMAT
   end
 end

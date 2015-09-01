@@ -16,5 +16,9 @@ module Fields
     def to_date
       nil
     end
+
+    def to_address
+      nil
+    end
   end
 end

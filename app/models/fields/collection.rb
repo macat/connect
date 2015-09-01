@@ -28,6 +28,8 @@ module Fields
         RecordValue
       when "date"
         DateValue
+      when "address"
+        AddressValue
       else
         StringValue
       end

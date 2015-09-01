@@ -162,6 +162,7 @@ describe NetSuite::Connection do
         %w(officePhone office_phone),
         %w(phone home_phone),
         %w(title job_title),
+        %w(address home),
         ["initials", nil],
       ])
     end
