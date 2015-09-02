@@ -32,6 +32,10 @@ module Icims
       false
     end
 
+    def has_activity_feed?
+      false
+    end
+
     def required_namely_field
       Normalizer.new.namely_identifier_field.to_s
     end

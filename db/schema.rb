@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827155439) do
+ActiveRecord::Schema.define(version: 20150902134111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,25 @@ ActiveRecord::Schema.define(version: 20150827155439) do
 
   add_index "net_suite_connections", ["attribute_mapper_id"], name: "index_net_suite_connections_on_attribute_mapper_id", using: :btree
   add_index "net_suite_connections", ["installation_id"], name: "index_net_suite_connections_on_installation_id", using: :btree
+
+  create_table "profile_events", force: :cascade do |t|
+    t.integer  "sync_summary_id", null: false
+    t.string   "profile_name",    null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.boolean  "successful",      null: false
+  end
+
+  add_index "profile_events", ["sync_summary_id"], name: "index_profile_events_on_sync_summary_id", using: :btree
+
+  create_table "sync_summaries", force: :cascade do |t|
+    t.integer  "connection_id",   null: false
+    t.string   "connection_type", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "sync_summaries", ["connection_type", "connection_id"], name: "index_sync_summaries_on_connection_type_and_connection_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at",                                                      null: false

@@ -1,0 +1,17 @@
+<article class="sync-summary">
+  <div class="sync-header">
+    <%= time_tag(
+      sync_summary.created_at,
+      t(
+        "sync_summary.time",
+        duration: time_ago_in_words(sync_summary.created_at)
+      )
+    ) %>
+    <h2>
+      <%= t "sync_summary.heading", count: sync_summary.profile_events.count %>
+    </h2>
+    <ol>
+      <%= render sync_summary.profile_events.ordered %>
+    </ol>
+  </div>
+</article>

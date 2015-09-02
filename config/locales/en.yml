@@ -5,6 +5,7 @@ en:
 
   dashboards:
     show:
+      activity_feed: View Activity Feed
       connect: "Connect"
       disconnect: "Disconnect"
       edit_configuration: Edit Configuration
@@ -56,6 +57,18 @@ en:
     show:
       sign_in:
         prompt: "Sign in using"
+
+  activity_feeds:
+    show:
+      title: "%{integration}: Activity Feed"
+      slogan: >
+        Below is a history of synchronization attempts with %{integration}.
+
+  sync_summary:
+    heading:
+      one: "Successfully synced one profile:"
+      other: "Successfully synced %{count} profiles:"
+    time: "%{duration} ago"
 
   candidate_import_mailer:
     successful_import:

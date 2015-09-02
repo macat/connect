@@ -29,6 +29,10 @@ module Jobvite
       false
     end
 
+    def has_activity_feed?
+      false
+    end
+
     def attribute_mapper
       AttributeMapperFactory.new(attribute_mapper: super, connection: self).
         build_with_defaults do |mappings|

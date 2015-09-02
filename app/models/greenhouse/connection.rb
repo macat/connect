@@ -41,6 +41,10 @@ module Greenhouse
       false
     end
 
+    def has_activity_feed?
+      false
+    end
+
     def required_namely_field
       "greenhouse_id"
     end

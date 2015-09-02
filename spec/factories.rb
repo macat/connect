@@ -21,6 +21,12 @@ FactoryGirl.define do
     trait :with_namely_field do
       found_namely_field true
     end
+
+    trait :ready do
+      connected
+      with_namely_field
+      subsidiary_id "45z"
+    end
   end
 
   factory :icims_connection, class: "Icims::Connection" do
@@ -73,6 +79,10 @@ FactoryGirl.define do
     end
   end
 
+  factory :sync_summary do
+    association :connection, factory: :net_suite_connection
+  end
+
   factory :user do
     sequence(:namely_user_id) { |n| "NAMELY-USER-#{n}" }
     subdomain { installation.subdomain }
@@ -89,5 +99,11 @@ FactoryGirl.define do
     factory :fixed_subdomain_installation do
       subdomain ENV.fetch("TEST_NAMELY_SUBDOMAIN")
     end
+  end
+
+  factory :profile_event do
+    sync_summary
+    profile_name "Example Name"
+    successful true
   end
 end

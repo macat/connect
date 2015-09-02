@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :destroy]
 
   resources :integrations, only: [] do
+    resource :activity_feed, only: :show
     resource :authentication, only: [:new, :create, :edit, :update]
     resource :connection, only: [:edit, :update, :destroy]
     resource :sync, only: [:create]

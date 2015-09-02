@@ -1,6 +1,7 @@
 class NetSuite::Connection < ActiveRecord::Base
   belongs_to :attribute_mapper, dependent: :destroy
   belongs_to :installation
+  has_many :sync_summaries, as: :connection
 
   validates :subsidiary_id, presence: true, allow_nil: true
 
@@ -28,6 +29,10 @@ class NetSuite::Connection < ActiveRecord::Base
 
   def configurable?
     !subsidiary_optional?
+  end
+
+  def has_activity_feed?
+    true
   end
 
   def attribute_mapper

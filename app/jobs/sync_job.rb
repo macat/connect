@@ -18,13 +18,11 @@ class SyncJob
   end
 
   def deliver_sync_notification(results)
-    installation.users.each do |user|
-      SyncMailer.sync_notification(
-        email: user.email,
-        integration_id: integration_id,
-        results: results
-      ).deliver_now
-    end
+    SyncNotifier.deliver(
+      results: results,
+      installation: installation,
+      integration_id: integration_id
+    )
   end
 
   def notifier
