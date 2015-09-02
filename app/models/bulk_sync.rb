@@ -9,8 +9,9 @@ class BulkSync
   end
 
   def sync
-    @installations.ready_to_sync_with(@integration_id).each do |installations|
-      Delayed::Job.enqueue SyncJob.new(@integration_id, installations.id)
+    @installations.ready_to_sync_with(@integration_id).each do |installation|
+      connection = installation.connection_to(@integration_id)
+      SyncJob.perform_later(connection)
     end
   end
 end

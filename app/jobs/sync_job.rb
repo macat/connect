@@ -1,40 +1,25 @@
-class SyncJob
-  def initialize(integration_id, installation_id)
-    @integration_id = integration_id
-    @installation_id = installation_id
-  end
-
-  def perform
+class SyncJob < ActiveJob::Base
+  def perform(connection)
     results = connection.sync
-    deliver_sync_notification results
+    deliver_sync_notification(connection, results)
   rescue Unauthorized => exception
-    notifier.log_and_notify_of_unauthorized_exception(exception)
+    deliver_unauthorized_notification(connection, exception)
   end
 
   private
 
-  def connection
-    installation.public_send("#{integration_id}_connection")
-  end
-
-  def deliver_sync_notification(results)
+  def deliver_sync_notification(connection, results)
     SyncNotifier.deliver(
       results: results,
-      installation: installation,
-      integration_id: integration_id
+      installation: connection.installation,
+      integration_id: connection.integration_id
     )
   end
 
-  def notifier
+  def deliver_unauthorized_notification(connection, exception)
     AuthenticationNotifier.new(
-      integration_id: integration_id,
-      installation: installation
-    )
+      integration_id: connection.integration_id,
+      installation: connection.installation
+    ).log_and_notify_of_unauthorized_exception(exception)
   end
-
-  def installation
-    @installation ||= Installation.find(@installation_id)
-  end
-
-  attr_reader :integration_id
 end
