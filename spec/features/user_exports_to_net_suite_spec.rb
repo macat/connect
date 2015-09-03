@@ -56,7 +56,7 @@ feature "user exports to net suite" do
     expect(current_email).to have_text(
       t(
         "sync_mailer.sync_notification.succeeded",
-        employees: t("sync_mailer.sync_notification.employees", count: 2),
+        count: 2,
         integration: "NetSuite"
       )
     )
@@ -64,7 +64,7 @@ feature "user exports to net suite" do
     expect(current_email).to have_text(
       t(
         "sync_mailer.sync_notification.failed",
-        employees: t("sync_mailer.sync_notification.employees", count: 1),
+        count: 1,
         integration: "NetSuite"
       )
     )

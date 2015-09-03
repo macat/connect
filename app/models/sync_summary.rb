@@ -2,6 +2,8 @@ class SyncSummary < ActiveRecord::Base
   belongs_to :connection, polymorphic: true
   has_many :profile_events, dependent: :destroy
 
+  delegate :integration_id, to: :connection
+
   def self.create_from_results!(results:, connection:)
     transaction do
       create!(connection: connection).tap do |sync_summary|

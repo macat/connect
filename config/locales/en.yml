@@ -220,13 +220,16 @@ en:
 
   sync_mailer:
     sync_notification:
-      employees:
-        one: "%{count} employee"
-        other: "%{count} employees"
-      failed: "%{employees} not synchronized."
+      failed:
+        one: "%{count} employee not synchronized."
+        other: "%{count} employees not synchronized."
       failed_list: "Here's who wasn't synchronized:"
-      subject: "%{employees} synced with %{integration}"
-      succeeded: "%{employees} synchronized with %{integration} successfully."
+      subject:
+        one: "%{count} employee synced with %{integration}"
+        other: "%{count} employees synced with %{integration}"
+      succeeded:
+        one: "%{count} employee synchronized with %{integration} successfully."
+        other: "%{count} employees synchronized with %{integration} successfully."
       succeeded_list: "Here's who was synchronized:"
 
   time:

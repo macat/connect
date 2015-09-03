@@ -12,9 +12,11 @@ describe SyncNotifier do
         with(integration_id).
         and_return(connection)
       results = double(:results)
-      mail = double(SyncMailer, deliver_now: true)
+      mail = double(SyncMailer, deliver_later: true)
+      sync_summary = double(:sync_summary)
       allow(SyncSummary).
-        to receive(:create_from_results!)
+        to receive(:create_from_results!).
+        and_return(sync_summary)
       allow(SyncMailer).
         to receive(:sync_notification).
         and_return(mail)
@@ -25,17 +27,16 @@ describe SyncNotifier do
         results: results,
       )
 
-      expect(SyncMailer).to have_received(:sync_notification).
-        with(
-          email: user.email,
-          integration_id: integration_id,
-          results: results
-        )
-      expect(mail).to have_received(:deliver_now)
       expect(SyncSummary).to have_received(:create_from_results!).with(
         connection: connection,
         results: results
       )
+      expect(SyncMailer).to have_received(:sync_notification).
+        with(
+          email: user.email,
+          sync_summary: sync_summary
+        )
+      expect(mail).to have_received(:deliver_later)
     end
   end
 end

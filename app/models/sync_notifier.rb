@@ -14,21 +14,20 @@ class SyncNotifier
   end
 
   def deliver
-    deliver_emails
-    record_sync_summary
+    sync_summary = record_sync_summary
+    deliver_emails(sync_summary)
   end
 
   private
 
   attr_reader :installation, :integration_id, :results
 
-  def deliver_emails
+  def deliver_emails(sync_summary)
     users.each do |user|
       SyncMailer.sync_notification(
         email: user.email,
-        integration_id: integration_id,
-        results: results
-      ).deliver_now
+        sync_summary: sync_summary
+      ).deliver_later
     end
   end
 
