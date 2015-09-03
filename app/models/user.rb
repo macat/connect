@@ -43,12 +43,4 @@ class User < ActiveRecord::Base
     self.access_token_expiry = Users::TokenExpiry.for(access_token_expires_in)
     save
   end
-
-  def send_connection_notification(integration_id:, message:)
-    ConnectionMailer.authentication_notification(
-      email: email,
-      integration_id: integration_id,
-      message: message
-    ).deliver_now
-  end
 end

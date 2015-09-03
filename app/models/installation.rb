@@ -49,12 +49,6 @@ class Installation < ActiveRecord::Base
     super || NetSuite::Connection.create!(installation: self)
   end
 
-  def send_connection_notification(*arguments)
-    users.each do |user|
-      user.send_connection_notification(*arguments)
-    end
-  end
-
   def namely_connection
     owner.namely_connection
   end

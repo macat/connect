@@ -101,26 +101,6 @@ describe Installation do
     end
   end
 
-  describe "#send_connection_notification" do
-    it "delegates to each users" do
-      users = [build_stubbed(:user), build_stubbed(:user)]
-      stub_each(users, :send_connection_notification)
-      message = "Whoops"
-      installation = Installation.new(users: users)
-
-      installation.send_connection_notification(
-        integration_id: "icims",
-        message: message
-      )
-
-      users.each do |user|
-        expect(user).
-          to have_received(:send_connection_notification).
-          with(integration_id: "icims", message: message)
-      end
-    end
-  end
-
   describe "#namely_connection" do
     it "delegates to its first user" do
       users = [build_stubbed(:user), build_stubbed(:user)]

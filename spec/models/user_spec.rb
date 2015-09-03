@@ -5,29 +5,6 @@ describe User do
     it { is_expected.to belong_to(:installation) }
   end
 
-  describe "#send_connection_notification" do
-    it "sends an invalid authentication message" do
-      user = build_stubbed(:user)
-      mail = double(ConnectionMailer, deliver_now: true)
-      exception = Unauthorized.new("Whoops")
-      allow(ConnectionMailer).
-        to receive(:authentication_notification).
-        with(
-          email: user.email,
-          integration_id: "icims",
-          message: exception.message,
-        ).
-        and_return(mail)
-
-      user.send_connection_notification(
-        integration_id: "icims",
-        message: exception.message
-      )
-
-      expect(mail).to have_received(:deliver_now)
-    end
-  end
-
   describe '#save_token_info' do
     let(:user) { create :user }
 

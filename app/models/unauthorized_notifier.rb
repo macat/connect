@@ -9,19 +9,21 @@ class UnauthorizedNotifier
   end
 
   def deliver
-    record_sync_summary
-    deliver_unauthorized_notification
+    sync_summary = record_sync_summary
+    deliver_unauthorized_notification(sync_summary)
   end
 
   private
 
   attr_reader :connection, :exception
 
-  def deliver_unauthorized_notification
-    installation.send_connection_notification(
-      integration_id: integration_id,
-      message: exception.message
-    )
+  def deliver_unauthorized_notification(sync_summary)
+    installation.users.each do |user|
+      ConnectionMailer.authentication_notification(
+        email: user.email,
+        sync_summary: sync_summary
+      ).deliver_later
+    end
   end
 
   def record_sync_summary
