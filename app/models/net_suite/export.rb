@@ -62,7 +62,7 @@ module NetSuite
       end
 
       def id
-        @profile["netsuite_id"]
+        @profile["netsuite_id"].to_s
       end
 
       def attributes
