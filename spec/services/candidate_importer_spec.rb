@@ -103,7 +103,7 @@ describe CandidateImporter do
         it "logs the error and sends an authentication notifcation email" do
           exception = Unauthorized.new(Unauthorized::DEFAULT_MESSAGE)
 
-          connection = connection_double
+          connection = connection_double(integration_id: "greenhouse")
           mailer = mailer_double
           params = { payload: { web_hook_id: -1 } }
           installation = connection.installation
@@ -146,7 +146,7 @@ describe CandidateImporter do
           allow_any_instance_of(Icims::Client).
             to(receive(:candidate) { raise exception })
 
-          connection = connection_double
+          connection = connection_double(integration_id: "icims")
           mailer = mailer_double
           installation = connection.installation
           installation_id = installation.id
@@ -188,8 +188,12 @@ describe CandidateImporter do
     )
   end
 
-  def connection_double(installation: installation_double)
-    double(:connection, installation: installation)
+  def connection_double(installation: installation_double, integration_id: "")
+    double(
+      :connection,
+      installation: installation,
+      integration_id: integration_id
+    )
   end
 
   def delayed_double

@@ -1,7 +1,6 @@
-class AuthenticationNotifier
-  def initialize(integration_id:, installation:)
-    @integration_id = integration_id
-    @installation = installation
+class UnauthorizedNotifier
+  def initialize(connection)
+    @connection = connection
   end
 
   def integration_name
@@ -14,6 +13,8 @@ class AuthenticationNotifier
   end
 
   private
+
+  attr_reader :connection
 
   def deliver_unauthorized_notification(exception)
     installation.send_connection_notification(
@@ -29,5 +30,11 @@ class AuthenticationNotifier
     )
   end
 
-  attr_reader :integration_id, :installation
+  def installation
+    connection.installation
+  end
+
+  def integration_id
+    connection.integration_id
+  end
 end
