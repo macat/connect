@@ -26,16 +26,14 @@ module NetSuite
 
     def create_instance
       result = @client.create_instance(self)
-      if result.success?
-        @connection.update!(
-          instance_id: result[:id],
-          authorization: result[:token]
-        )
-        true
-      else
-        errors.add(:base, result[:message])
-        false
-      end
+      @connection.update!(
+        instance_id: result["id"],
+        authorization: result["token"]
+      )
+      true
+    rescue NetSuite::ApiError => exception
+      errors.add(:base, exception.message)
+      false
     end
 
     def attributes

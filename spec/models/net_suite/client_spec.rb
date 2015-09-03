@@ -77,14 +77,13 @@ describe NetSuite::Client do
 
         result = client.create_instance(authentication)
 
-        expect(result).to be_success
-        expect(result[:id]).to eq instance_response["id"]
-        expect(result[:token]).to eq instance_response["token"]
+        expect(result["id"]).to eq instance_response["id"]
+        expect(result["token"]).to eq instance_response["token"]
       end
     end
 
     context "on HTTP failure" do
-      it "returns failure messages" do
+      it "raises an exception" do
         allow(NetSuite::Instance).to receive(:new).and_return({})
         error = "a failure"
         stub_request(
@@ -98,10 +97,8 @@ describe NetSuite::Client do
           organization_secret: "x"
         )
 
-        result = client.create_instance(double("Authentication"))
-
-        expect(result).not_to be_success
-        expect(result[:message]).to eq(error)
+        expect { client.create_instance(double("Authentication")) }.
+          to raise_error(NetSuite::ApiError)
       end
     end
 
@@ -171,7 +168,6 @@ describe NetSuite::Client do
           title: "CEO"
         )
 
-        expect(result).to be_success
         expect(result["internalId"]).to eq("1949")
       end
     end
@@ -222,7 +218,6 @@ describe NetSuite::Client do
           title: "CEO",
         )
 
-        expect(result).to be_success
         expect(result["internalId"]).to eq("1949")
       end
     end
@@ -251,7 +246,6 @@ describe NetSuite::Client do
 
       result = client.subsidiaries
 
-      expect(result).to be_success
       expect(result.to_a).to eq(subsidiaries)
     end
   end

@@ -48,18 +48,17 @@ module NetSuite
       end
 
       def update
-        response = @net_suite.update_employee(id.to_s, attributes)
-        Result.new(response, true, @profile)
+        request(updated: true) do
+          @net_suite.update_employee(id.to_s, attributes)
+        end
       end
 
       def create
-        response = @net_suite.create_employee(attributes)
-
-        if response.success?
+        request(updated: false) do
+          response = @net_suite.create_employee(attributes)
           @profile.update(netsuite_id: response["internalId"])
+          response
         end
-
-        Result.new(response, false, @profile)
       end
 
       def id
@@ -69,29 +68,47 @@ module NetSuite
       def attributes
         @normalizer.export(@profile)
       end
+
+      def request(updated:)
+        yield
+        Result.new(
+          success: true,
+          error: nil,
+          updated: updated,
+          profile: @profile
+        )
+      rescue NetSuite::ApiError => exception
+        Result.new(
+          success: false,
+          error: exception.message,
+          updated: updated,
+          profile: @profile
+        )
+      end
     end
 
     class Result
-      def initialize(response, updated, profile)
-        @response = response
+      def initialize(success:, error:, updated:, profile:)
+        @success = success
+        @error = error
         @updated = updated
         @profile = profile
       end
 
-      delegate :success?, to: :response
+      attr_reader :error
       delegate :email, :name, to: :profile
+
+      def success?
+        @success == true
+      end
 
       def updated?
         @updated
       end
 
-      def message
-        response["providerMessage"] || response["message"]
-      end
-
       protected
 
-      attr_reader :response, :profile
+      attr_reader :profile
     end
 
     private_constant :Result

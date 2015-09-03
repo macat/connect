@@ -23,7 +23,7 @@ describe NetSuite::Export do
           "#{profile[:first_name]} #{profile[:last_name]}"
         end
 
-        net_suite = stub_net_suite(success: true, internalId: "1234")
+        net_suite = stub_net_suite { { "internalId" => "1234" } }
         mapped_attributes = double("mapped_attributes")
         normalizer = stub_normalizer(to: mapped_attributes)
 
@@ -54,7 +54,7 @@ describe NetSuite::Export do
           from: profile,
           to: mapped_attributes
         )
-        net_suite = stub_net_suite(success: true)
+        net_suite = stub_net_suite { {} }
 
         results = perform_export(
           normalizer: normalizer,
@@ -71,14 +71,17 @@ describe NetSuite::Export do
 
     context "with an invalid employee" do
       it "returns a failure result" do
-        message = "invalid employee"
+        error = "invalid employee"
         profile = stub_profile(email: "example")
-        net_suite = stub_net_suite(success: false, message: message)
+        exception = NetSuite::ApiError.new(
+          { "message" => error }.to_json
+        )
+        net_suite = stub_net_suite { raise exception }
 
         results = perform_export(net_suite: net_suite, profiles: [profile])
 
         expect(results.map(&:success?)).to eq([false])
-        expect(results.map(&:message)).to eq([message])
+        expect(results.map(&:error)).to eq([error])
         expect(profile).not_to have_received(:update)
       end
     end
@@ -117,12 +120,10 @@ describe NetSuite::Export do
     end
   end
 
-  def stub_net_suite(arguments = {})
+  def stub_net_suite(&block)
     double("net_suite").tap do |net_suite|
-      response = arguments.stringify_keys.except("success")
-      allow(response).to receive(:success?).and_return(arguments[:success])
-      allow(net_suite).to receive(:create_employee).and_return(response)
-      allow(net_suite).to receive(:update_employee).and_return(response)
+      allow(net_suite).to receive(:create_employee, &block)
+      allow(net_suite).to receive(:update_employee, &block)
     end
   end
 
