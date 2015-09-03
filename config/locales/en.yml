@@ -64,6 +64,14 @@ en:
       slogan: >
         Below is a history of synchronization attempts with %{integration}.
 
+  sync_summaries:
+    authorization_error:
+      error_html: >
+        Unable to complete sync due to an authorization error.
+        The error returned was "%{error}". Please %{link} to correct this issue.
+      heading: Authorization Error
+      update_authorization: update the authorization information
+
   sync_summary:
     success_heading:
       one: "Successfully synced one profile:"

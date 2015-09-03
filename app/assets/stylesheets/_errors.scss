@@ -10,3 +10,11 @@
     color: $orange;
   }
 }
+
+.error {
+  h2 {
+    @extend .fa;
+    @extend .fa-exclamation-circle;
+    color: darken($error-color, 70);
+  }
+}

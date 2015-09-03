@@ -8,12 +8,8 @@ class UnauthorizedNotifier
     @exception = exception
   end
 
-  def integration_name
-    I18n.t("#{integration_id}.name")
-  end
-
   def deliver
-    log_unauthorized_exception
+    record_sync_summary
     deliver_unauthorized_notification
   end
 
@@ -28,10 +24,10 @@ class UnauthorizedNotifier
     )
   end
 
-  def log_unauthorized_exception
-    Rails.logger.error(
-      "#{exception.class} error #{exception.message} for " \
-      "installation_id: #{installation.id} with #{integration_name}"
+  def record_sync_summary
+    SyncSummary.create!(
+      connection: connection,
+      authorization_error: exception.message
     )
   end
 

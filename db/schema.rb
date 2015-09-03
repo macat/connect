@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902145916) do
+ActiveRecord::Schema.define(version: 20150903161836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,10 +131,11 @@ ActiveRecord::Schema.define(version: 20150902145916) do
   add_index "profile_events", ["sync_summary_id"], name: "index_profile_events_on_sync_summary_id", using: :btree
 
   create_table "sync_summaries", force: :cascade do |t|
-    t.integer  "connection_id",   null: false
-    t.string   "connection_type", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "connection_id",       null: false
+    t.string   "connection_type",     null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "authorization_error"
   end
 
   add_index "sync_summaries", ["connection_type", "connection_id"], name: "index_sync_summaries_on_connection_type_and_connection_id", using: :btree

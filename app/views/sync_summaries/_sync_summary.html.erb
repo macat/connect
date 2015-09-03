@@ -7,11 +7,17 @@
         duration: time_ago_in_words(sync_summary.created_at)
       )
     ) %>
-    <%= render "sync_summaries/profile_events",
-      status: "success",
-      profile_events: sync_summary.profile_events.successful %>
-    <%= render "sync_summaries/profile_events",
-      status: "failure",
-      profile_events: sync_summary.profile_events.failed %>
+
+    <% if sync_summary.authorization_error? %>
+      <%= render "sync_summaries/authorization_error",
+        sync_summary: sync_summary %>
+    <% else %>
+      <%= render "sync_summaries/profile_events",
+        status: "success",
+        profile_events: sync_summary.profile_events.successful %>
+      <%= render "sync_summaries/profile_events",
+        status: "failure",
+        profile_events: sync_summary.profile_events.failed %>
+    <% end %>
   </div>
 </article>

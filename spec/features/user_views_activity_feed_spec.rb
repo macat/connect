@@ -47,6 +47,22 @@ feature "User views activity feed" do
     expect(page).to have_text("Email is required")
   end
 
+  scenario "with authorization error" do
+    sync_summary = view_activity_feed do |connection|
+      create(
+        :sync_summary,
+        connection: connection,
+        authorization_error: "401 Unauthorized"
+      )
+    end
+
+    expect(page).to have_text(sync_summary.authorization_error)
+    click_link t("sync_summaries.authorization_error.update_authorization")
+    expect(current_path).to eq edit_integration_authentication_path(
+      sync_summary.integration_id
+    )
+  end
+
   def view_activity_feed
     user = create(:user)
     connection = create(
@@ -55,9 +71,9 @@ feature "User views activity feed" do
       installation: user.installation
     )
 
-    yield connection
-
-    visit dashboard_path(as: user)
-    find(".net-suite-account").click_link(t("dashboards.show.activity_feed"))
+    yield(connection).tap do
+      visit dashboard_path(as: user)
+      find(".net-suite-account").click_link(t("dashboards.show.activity_feed"))
+    end
   end
 end

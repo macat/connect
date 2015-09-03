@@ -1,44 +1,33 @@
 require "rails_helper"
 
 describe UnauthorizedNotifier do
-  describe "#integration_name" do
-    it "translates to a proper name" do
-      notifier = UnauthorizedNotifier.new(
-        connection: double(:connection, integration_id: :icims),
-        exception: double(:exception)
-      )
+  describe ".deliver" do
+    it "records a sync summary" do
+      connection = create(:net_suite_connection)
+      exception = double(:exception, message: "failed")
 
-      expect(notifier.integration_name).to eq("iCIMS")
-    end
-  end
-
-  describe "#deliver" do
-    it "logs the exception" do
-      connection = build_stubbed(:net_suite_connection)
-      exception = Unauthorized.new(Unauthorized::DEFAULT_MESSAGE)
-      notifier = UnauthorizedNotifier.new(
+      UnauthorizedNotifier.deliver(
         connection: connection,
         exception: exception
       )
-
-      expect(Rails.logger).to receive(:error).with(
-        "#{exception.class} error #{exception.message} for " \
-        "installation_id: #{connection.installation_id} " \
-        "with #{notifier.integration_name}"
+      summary = SyncSummary.find_by(
+        connection: connection,
+        authorization_error: exception.message
       )
 
-      notifier.deliver
+      expect(summary).to be_present
     end
 
     it "tells installation to send_connection_notification" do
       connection = build_stubbed(:net_suite_connection)
       exception = Unauthorized.new(Unauthorized::DEFAULT_MESSAGE)
       allow(connection.installation).to receive(:send_connection_notification)
+      allow(SyncSummary).to receive(:create!)
 
-      UnauthorizedNotifier.new(
+      UnauthorizedNotifier.deliver(
         connection: connection,
         exception: exception
-      ).deliver
+      )
 
       expect(connection.installation).to have_received(
         :send_connection_notification
