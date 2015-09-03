@@ -104,6 +104,5 @@ FactoryGirl.define do
   factory :profile_event do
     sync_summary
     profile_name "Example Name"
-    successful true
   end
 end

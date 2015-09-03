@@ -17,7 +17,7 @@ describe ProfileEvent do
     context "with a successful result" do
       it "creates a successful profile event" do
         sync_summary = create(:sync_summary)
-        result = double(:result, name: "Name", success?: true)
+        result = double(:result, name: "Name", error: nil)
 
         profile_event = sync_summary.profile_events.create_from_result!(result)
 
@@ -29,13 +29,37 @@ describe ProfileEvent do
     context "with an unsuccessful result" do
       it "creates an unsuccessful profile event" do
         sync_summary = create(:sync_summary)
-        result = double(:result, name: "Name", success?: false)
+        result = double(:result, name: "Name", error: "Failure")
 
         profile_event = sync_summary.profile_events.create_from_result!(result)
 
         expect(profile_event).to be_persisted
         expect(profile_event).not_to be_successful
       end
+    end
+  end
+
+  describe ".successful" do
+    it "returns profile events without errors" do
+      create(:profile_event, profile_name: "Success1", error: nil)
+      create(:profile_event, profile_name: "Failure", error: "Bad")
+      create(:profile_event, profile_name: "Success2", error: nil)
+
+      result = ProfileEvent.successful
+
+      expect(result.map(&:profile_name)).to match_array(%w(Success1 Success2))
+    end
+  end
+
+  describe ".failed" do
+    it "returns profile events with errors" do
+      create(:profile_event, profile_name: "Failure1", error: "Bad")
+      create(:profile_event, profile_name: "Success", error: nil)
+      create(:profile_event, profile_name: "Failure2", error: "Bad")
+
+      result = ProfileEvent.failed
+
+      expect(result.map(&:profile_name)).to match_array(%w(Failure1 Failure2))
     end
   end
 end

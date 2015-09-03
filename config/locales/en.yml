@@ -65,9 +65,12 @@ en:
         Below is a history of synchronization attempts with %{integration}.
 
   sync_summary:
-    heading:
+    success_heading:
       one: "Successfully synced one profile:"
       other: "Successfully synced %{count} profiles:"
+    failure_heading:
+      one: "Unable to sync one profile:"
+      other: "Unable to sync %{count} profiles:"
     time: "%{duration} ago"
 
   candidate_import_mailer:

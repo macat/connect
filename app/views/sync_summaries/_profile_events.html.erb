@@ -1,0 +1,10 @@
+<% if profile_events.any? %>
+  <div class="<%= status %>">
+    <h2>
+      <%= t "sync_summary.#{status}_heading", count: profile_events.count %>
+    </h2>
+    <ol>
+      <%= render profile_events.ordered %>
+    </ol>
+  </div>
+<% end %>

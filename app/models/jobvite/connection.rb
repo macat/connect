@@ -85,7 +85,7 @@ module Jobvite
       end
 
       delegate :name, to: :candidate
-      delegate :success?, to: :result
+      delegate :success?, :error, to: :result
 
       private
 

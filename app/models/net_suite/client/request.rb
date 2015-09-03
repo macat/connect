@@ -39,6 +39,7 @@ module NetSuite
           JSON.parse(response)
         end
       rescue RestClient::BadRequest => exception
+        Rails.logger.error "Bad Request: #{exception.response}"
         raise NetSuite::ApiError, exception.response
       rescue RestClient::Unauthorized => exception
         raise Unauthorized, exception.message

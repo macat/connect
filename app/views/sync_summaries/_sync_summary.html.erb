@@ -7,11 +7,11 @@
         duration: time_ago_in_words(sync_summary.created_at)
       )
     ) %>
-    <h2>
-      <%= t "sync_summary.heading", count: sync_summary.profile_events.count %>
-    </h2>
-    <ol>
-      <%= render sync_summary.profile_events.ordered %>
-    </ol>
+    <%= render "sync_summaries/profile_events",
+      status: "success",
+      profile_events: sync_summary.profile_events.successful %>
+    <%= render "sync_summaries/profile_events",
+      status: "failure",
+      profile_events: sync_summary.profile_events.failed %>
   </div>
 </article>

@@ -4,7 +4,7 @@ describe SyncSummary do
   describe ".create_from_results" do
     it "creates a sync summary for the connection with the given results" do
       names = %w(Billy Wendy Franko)
-      results = names.map { |name| double(:result, name: name, success?: true) }
+      results = names.map { |name| double(:result, name: name, error: nil) }
       connection = create(:net_suite_connection)
 
       summary = SyncSummary.create_from_results!(
