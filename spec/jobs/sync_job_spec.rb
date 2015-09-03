@@ -25,18 +25,13 @@ describe SyncJob do
     it "traps exception and alerts the user" do
       connection = build_stubbed(:net_suite_connection)
       exception = Unauthorized.new("An error message")
-      installation = connection.installation
       allow(connection).to receive(:sync).and_raise(exception)
-      allow(installation).to receive(:send_connection_notification)
-      allow(Rails.logger).to receive(:error)
+      allow(UnauthorizedNotifier).to receive(:deliver)
 
       SyncJob.perform_now(connection)
 
-      expect(Rails.logger).to have_received(:error).with(/Unauthorized error/)
-      expect(installation).to have_received(:send_connection_notification).with(
-        integration_id: connection.integration_id,
-        message: exception.message
-      )
+      expect(UnauthorizedNotifier).to have_received(:deliver).
+        with(connection: connection, exception: exception)
     end
   end
 end

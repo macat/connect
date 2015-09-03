@@ -36,8 +36,11 @@ class CandidateImporter
     )
   end
 
-  def notifier
-    UnauthorizedNotifier.new(connection)
+  def notify_of_unauthorized_exception(exception)
+    UnauthorizedNotifier.deliver(
+      connection: connection,
+      exception: exception
+    )
   end
 
   def installation

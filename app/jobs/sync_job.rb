@@ -17,7 +17,9 @@ class SyncJob < ActiveJob::Base
   end
 
   def deliver_unauthorized_notification(connection, exception)
-    UnauthorizedNotifier.new(connection).
-      log_and_notify_of_unauthorized_exception(exception)
+    UnauthorizedNotifier.deliver(
+      connection: connection,
+      exception: exception
+    )
   end
 end
