@@ -25,6 +25,14 @@ describe NetSuite::Normalizer do
       ))
     end
 
+    it "does not include custom fields in field mappings if opted out" do
+      ClimateControl.modify(NET_SUITE_CUSTOM_FIELDS_ENABLED: "false") do
+        export_attributes = export
+
+        expect(export_attributes.keys).not_to include("customFieldList")
+      end
+    end
+
     it "doesn't map empty values" do
       delete_keys = ["email", "last_name"]
       profile_data = stubbed_profile_data

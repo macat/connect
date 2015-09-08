@@ -26,7 +26,8 @@ class NetSuite::Normalizer
     def to_hash
       mapped_attributes.
         merge(address_attributes).
-        merge(string_attributes)
+        merge(string_attributes).
+        merge(custom_fields_attributes)
     end
 
     private
@@ -36,7 +37,6 @@ class NetSuite::Normalizer
         "gender" => gender,
         "isInactive" => user_status,
         "subsidiary" => subsidiary,
-        "customFieldList" => custom_fields
       }
     end
 
@@ -71,6 +71,14 @@ class NetSuite::Normalizer
 
     def custom_keys(attributes)
       attributes.keys.grep(/^custom:/)
+    end
+
+    def custom_fields_attributes
+      if ENV["NET_SUITE_CUSTOM_FIELDS_ENABLED"] == "true"
+        { "customFieldList" => custom_fields }
+      else
+        {}
+      end
     end
 
     def custom_fields

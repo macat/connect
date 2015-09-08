@@ -34,10 +34,14 @@ module NetSuite
     end
 
     def custom_fields(employee)
-      employee.
-        fetch("customFieldList", {}).
-        fetch("customField", []).
-        map { |field| custom_field(field) }
+      if ENV["NET_SUITE_CUSTOM_FIELDS_ENABLED"] == "true"
+        employee.
+          fetch("customFieldList", {}).
+          fetch("customField", []).
+          map { |field| custom_field(field) }
+      else
+        []
+      end
     end
 
     def custom_field(field)
