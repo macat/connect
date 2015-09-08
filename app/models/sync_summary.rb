@@ -12,6 +12,10 @@ class SyncSummary < ActiveRecord::Base
     end
   end
 
+  def self.ordered
+    order(created_at: :desc)
+  end
+
   def convert_results_to_profile_events(results)
     results.each do |result|
       profile_events.create_from_result!(result)

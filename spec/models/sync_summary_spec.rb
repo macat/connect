@@ -16,4 +16,13 @@ describe SyncSummary do
       expect(summary.profile_events.pluck(:profile_name)).to match_array(names)
     end
   end
+
+  describe ".ordered" do
+    it "orders by created_at, descending" do
+      oldest = create(:sync_summary)
+      newest = create(:sync_summary)
+
+      expect(SyncSummary.ordered).to eq [newest, oldest]
+    end
+  end
 end
