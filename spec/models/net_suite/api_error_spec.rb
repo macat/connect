@@ -5,7 +5,12 @@ describe NetSuite::ApiError do
     context "with a JSON message" do
       it "returns the encoded message" do
         message = "Error"
-        error = NetSuite::ApiError.new({ "providerMessage" => message }.to_json)
+        exception = double(
+          :exception,
+          response: { "providerMessage" => message }.to_json,
+          http_code: 499
+        )
+        error = NetSuite::ApiError.new(exception)
 
         result = error.message
 
@@ -16,7 +21,12 @@ describe NetSuite::ApiError do
     context "with a JSON provider message" do
       it "returns the encoded message" do
         message = "Error"
-        error = NetSuite::ApiError.new({ "message" => message }.to_json)
+        exception = double(
+          :exception,
+          response: { "message" => message }.to_json,
+          http_code: 499
+        )
+        error = NetSuite::ApiError.new(exception)
 
         result = error.message
 
@@ -26,7 +36,8 @@ describe NetSuite::ApiError do
 
     context "with JSON without a message" do
       it "returns a default message" do
-        error = NetSuite::ApiError.new({}.to_json)
+        exception = double(:exception, response: {}.to_json, http_code: 499)
+        error = NetSuite::ApiError.new(exception)
 
         result = error.message
 
@@ -36,7 +47,8 @@ describe NetSuite::ApiError do
 
     context "with an empty response" do
       it "returns a default message" do
-        error = NetSuite::ApiError.new(nil)
+        exception = double(:exception, response: nil, http_code: 499)
+        error = NetSuite::ApiError.new(exception)
 
         result = error.message
 

@@ -38,11 +38,13 @@ module NetSuite
         if response.present?
           JSON.parse(response)
         end
-      rescue RestClient::BadRequest => exception
-        Rails.logger.error "Bad Request: #{exception.response}"
-        raise NetSuite::ApiError, exception.response
       rescue RestClient::Unauthorized => exception
         raise Unauthorized, exception.message
+      rescue RestClient::Exception => exception
+        api_error = NetSuite::ApiError.new(exception)
+        Raygun.track_exception(api_error)
+        Rails.logger.error(api_error.to_s)
+        raise NetSuite::ApiError, exception
       end
 
       def url(path)

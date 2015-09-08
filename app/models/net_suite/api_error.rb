@@ -1,15 +1,22 @@
 module NetSuite
-  # Wraps BadRequest errors from Cloud Elements. Attempts to parse a
+  # Wraps HTTP errors from Cloud Elements. Attempts to parse a
   # human-readable error message from the response.
   class ApiError < StandardError
-    def initialize(response)
-      @response = response
+    attr_reader :http_code
+
+    def initialize(exception)
+      @response = exception.response
+      @http_code = exception.http_code
     end
 
     def message
       response_data["providerMessage"] ||
         response_data["message"] ||
         "Unknown error"
+    end
+
+    def to_s
+      "NetSuite API Error: #{http_code} - #{message}"
     end
 
     private

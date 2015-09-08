@@ -48,8 +48,12 @@ describe NetSuite::Authentication do
 
     context "when the server form fails" do
       it "adds validation errors from the server" do
-        exception = NetSuite::ApiError.new({ "message" => "oops" }.to_json)
-        client = stub_client { raise exception }
+        exception = double(
+          :exception,
+          response: { "message" => "oops" }.to_json,
+          http_code: 499
+        )
+        client = stub_client { raise NetSuite::ApiError, exception }
         connection = stub_connection
         form = NetSuite::Authentication.new(
           connection: connection,

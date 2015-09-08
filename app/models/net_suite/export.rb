@@ -80,7 +80,7 @@ module NetSuite
       rescue NetSuite::ApiError => exception
         Result.new(
           success: false,
-          error: exception.message,
+          error: exception.to_s,
           updated: updated,
           profile: @profile
         )
