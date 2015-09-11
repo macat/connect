@@ -41,10 +41,9 @@ module NetSuite
       rescue RestClient::Unauthorized => exception
         raise Unauthorized, exception.message
       rescue RestClient::Exception => exception
-        api_error = NetSuite::ApiError.new(exception)
-        Raygun.track_exception(api_error)
-        Rails.logger.error(api_error.to_s)
-        raise NetSuite::ApiError, exception
+        Raygun.track_exception(exception)
+        Rails.logger.error(exception)
+        raise NetSuite::ApiError, exception, exception.backtrace
       end
 
       def url(path)
