@@ -16,7 +16,11 @@ module Fields
     end
 
     def to_date
-      DateTime.strptime(@value, DATE_FORMAT).to_date
+      if @value.present?
+        DateTime.strptime(@value, DATE_FORMAT).to_date
+      end
+    rescue ArgumentError
+      nil
     end
 
     def to_address

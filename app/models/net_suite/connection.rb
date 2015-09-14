@@ -112,5 +112,11 @@ class NetSuite::Connection < ActiveRecord::Base
     mappings.map! "officePhone", to: "office_phone", name: "Office phone"
     mappings.map! "phone", to: "home_phone", name: "Phone"
     mappings.map! "title", to: "job_title", name: "Title"
+
+    mappings.map!(
+      "releaseDate",
+      to: "departure_date",
+      name: "Release Date"
+    )
   end
 end

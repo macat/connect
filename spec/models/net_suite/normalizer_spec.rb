@@ -22,6 +22,8 @@ describe NetSuite::Normalizer do
         lastName
         phone
         subsidiary
+        releaseDate
+        nullFieldList
       ))
     end
 
@@ -176,6 +178,22 @@ describe NetSuite::Normalizer do
       end
     end
 
+    context "releaseDate" do
+      it "maps departure date string to milliseconds since epoch" do
+        date = Date.today
+        date_string = date.strftime("%m/%d/%Y")
+        profile_data = stubbed_profile_data.merge(
+          "departure_date" => Fields::DateValue.new(date_string)
+        )
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes["releaseDate"]).to eq(
+          date.to_datetime.to_i * 1000
+        )
+      end
+    end
+
     context "custom fields" do
       it "generates a custom field list" do
         profile_data = stubbed_profile_data(
@@ -214,6 +232,21 @@ describe NetSuite::Normalizer do
         expect(export_attributes.keys.grep(/custom:/)).to be_empty
       end
     end
+
+    context "null scalar fields" do
+      it "moves keys with null scalar values to the nullFieldList" do
+        profile_data = stubbed_profile_data.merge(
+          "departure_date" => nil
+        )
+
+        export_attributes = export(profile_data)
+
+        expect(export_attributes.keys).not_to include("releaseDate")
+        expect(export_attributes["nullFieldList"]).to match_array([
+          "releaseDate"
+        ])
+      end
+    end
   end
 
   def build_normalizer(attribute_mapper: build_attribute_mapper)
@@ -244,7 +277,7 @@ describe NetSuite::Normalizer do
         "home_phone" => "212-555-1212",
         "last_name" => "Last",
       }.merge(overrides)
-    )
+    ).merge("departure_date" => Fields::DateValue.new("01/01/2016"))
   end
 
   def stub_string_values(values)

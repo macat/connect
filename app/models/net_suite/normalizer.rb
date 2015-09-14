@@ -37,6 +37,7 @@ class NetSuite::Normalizer
         "gender" => gender,
         "isInactive" => user_status,
         "subsidiary" => subsidiary,
+        "releaseDate" => release_date,
       }
     end
 
@@ -63,6 +64,14 @@ class NetSuite::Normalizer
 
     def user_status
       @attributes["isInactive"].to_s == "inactive"
+    end
+
+    def release_date
+      date = @attributes.fetch("releaseDate", Fields::NullValue.new).to_date
+
+      if date.present?
+        date.to_datetime.to_i * 1.second.in_milliseconds
+      end
     end
 
     def subsidiary

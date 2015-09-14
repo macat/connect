@@ -18,6 +18,14 @@ describe Fields::DateValue do
       expect(Fields::DateValue.new("08/26/1986").to_date).
         to eq(Date.new(1986, 8, 26))
     end
+
+    it "is nil for empty string values" do
+      expect(Fields::DateValue.new("").to_date).to be nil
+    end
+
+    it "is nil for things that don't parse to a date" do
+      expect(Fields::DateValue.new("foo").to_date).to be nil
+    end
   end
 
   describe "#to_address" do
