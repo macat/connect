@@ -236,7 +236,7 @@ describe NetSuite::Normalizer do
     context "null scalar fields" do
       it "moves keys with null scalar values to the nullFieldList" do
         profile_data = stubbed_profile_data.merge(
-          "departure_date" => nil
+          "departure_date" => Fields::DateValue.new(nil)
         )
 
         export_attributes = export(profile_data)

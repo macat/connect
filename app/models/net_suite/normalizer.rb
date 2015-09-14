@@ -24,10 +24,12 @@ class NetSuite::Normalizer
     end
 
     def to_hash
-      mapped_attributes.
-        merge(address_attributes).
-        merge(string_attributes).
-        merge(custom_fields_attributes)
+      with_null_field_list(
+        mapped_attributes.
+          merge(address_attributes).
+          merge(string_attributes).
+          merge(custom_fields_attributes)
+      )
     end
 
     private
@@ -147,6 +149,14 @@ class NetSuite::Normalizer
       if @attributes["address"]
         @attributes["address"].to_address
       end
+    end
+
+    def with_null_field_list(fields)
+      fields.tap do |mapped_fields|
+        mapped_fields["nullFieldList"] = mapped_fields.select do |_, value|
+          value.nil?
+        end.keys
+      end.compact
     end
   end
 
