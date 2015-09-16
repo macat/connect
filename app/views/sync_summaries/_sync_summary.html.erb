@@ -14,10 +14,10 @@
     <% else %>
       <%= render "sync_summaries/profile_events",
         status: "success",
-        profile_events: sync_summary.profile_events.successful %>
+        profile_events: sync_summary.successful_profile_events %>
       <%= render "sync_summaries/profile_events",
         status: "failure",
-        profile_events: sync_summary.profile_events.failed %>
+        profile_events: sync_summary.failed_profile_events %>
     <% end %>
   </div>
 </article>

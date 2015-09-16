@@ -1,6 +1,16 @@
 class SyncSummary < ActiveRecord::Base
   belongs_to :connection, polymorphic: true
   has_many :profile_events, dependent: :destroy
+  has_many(
+    :successful_profile_events,
+    -> { successful.ordered },
+    class_name: "ProfileEvent"
+  )
+  has_many(
+    :failed_profile_events,
+    -> { failed.ordered },
+    class_name: "ProfileEvent"
+  )
 
   delegate :integration_id, to: :connection
 
