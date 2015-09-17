@@ -17,24 +17,37 @@ describe ProfileEvent do
     context "with a successful result" do
       it "creates a successful profile event" do
         sync_summary = create(:sync_summary)
-        result = double(:result, name: "Name", error: nil)
+        result = double(
+          :result,
+          name: "Name",
+          error: nil,
+          profile_id: "abc123"
+        )
 
         profile_event = sync_summary.profile_events.create_from_result!(result)
 
         expect(profile_event).to be_persisted
         expect(profile_event).to be_successful
+        expect(profile_event.profile_name).to eq("Name")
+        expect(profile_event.profile_id).to eq("abc123")
       end
     end
 
     context "with an unsuccessful result" do
       it "creates an unsuccessful profile event" do
         sync_summary = create(:sync_summary)
-        result = double(:result, name: "Name", error: "Failure")
+        result = double(
+          :result,
+          name: "Name",
+          error: "Failure",
+          profile_id: "abc123"
+        )
 
         profile_event = sync_summary.profile_events.create_from_result!(result)
 
         expect(profile_event).to be_persisted
         expect(profile_event).not_to be_successful
+        expect(profile_event.profile_id).to eq("abc123")
       end
     end
   end

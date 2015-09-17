@@ -22,4 +22,13 @@
     color: $grey-75;
     font-weight: bold;
   }
+
+  .button_to {
+    float: right;
+  }
+
+  input {
+    @extend .-n-btn;
+    @extend .-n-btn-sm;
+  }
 }

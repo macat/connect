@@ -25,6 +25,10 @@ Rails.application.routes.draw do
     resource :mapping, only: [:edit, :update]
   end
 
+  resources :sync_summaries, only: [] do
+    resource :retry, only: [:create, :show]
+  end
+
   get(
     "/session/oauth_callback",
     to: "sessions#oauth_callback",

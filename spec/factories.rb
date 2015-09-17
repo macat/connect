@@ -103,6 +103,7 @@ FactoryGirl.define do
 
   factory :profile_event do
     sync_summary
+    sequence(:profile_id) { |n| "namely-#{n}-id" }
     profile_name "Example Name"
   end
 end

@@ -1,5 +1,9 @@
 module NetSuite
   class Export
+    def self.perform(**args)
+      new(args).perform
+    end
+
     def initialize(normalizer:, namely_profiles:, net_suite:)
       @normalizer = normalizer
       @namely_profiles = namely_profiles
@@ -97,6 +101,10 @@ module NetSuite
 
       attr_reader :error
       delegate :email, :name, to: :profile
+
+      def profile_id
+        @profile.id
+      end
 
       def success?
         @success == true

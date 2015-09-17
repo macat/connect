@@ -81,6 +81,9 @@ en:
       other: "Unable to sync %{count} profiles:"
     time: "%{duration} ago"
 
+  profile_event:
+    retry: "Retry"
+
   candidate_import_mailer:
     successful_import:
       message: |
@@ -192,6 +195,13 @@ en:
       title: "Connect to %{integration}"
       slogan: >
         Please fill out the following fields to finalize this connection.
+
+  retries:
+    show:
+      title: Retrying Failed Profiles
+      slogan: >
+        We are synchronizing the failed profiles and will send you an email as
+        soon as synchronization is complete.
   syncs:
     create:
       title: "Synchronizing with %{integration}"

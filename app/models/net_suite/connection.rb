@@ -55,11 +55,11 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def sync
-    NetSuite::Export.new(
-      normalizer: normalizer,
-      namely_profiles: installation.namely_profiles,
-      net_suite: client
-    ).perform
+    perform_export(installation.namely_profiles)
+  end
+
+  def retry(sync_summary)
+    perform_export(sync_summary.failed_profiles)
   end
 
   def client
@@ -67,6 +67,14 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   private
+
+  def perform_export(profiles)
+    NetSuite::Export.perform(
+      normalizer: normalizer,
+      namely_profiles: profiles,
+      net_suite: client
+    )
+  end
 
   def subsidiary_optional?
     if subsidiary_required.nil?

@@ -4,7 +4,11 @@ class ProfileEvent < ActiveRecord::Base
   # Intended to be called via the association from a SyncSummary which will
   # provide the required `sync_summary_id` attribute.
   def self.create_from_result!(result)
-    create!(profile_name: result.name, error: result.error)
+    create!(
+      profile_id: result.profile_id,
+      profile_name: result.name,
+      error: result.error
+    )
   end
 
   def self.ordered

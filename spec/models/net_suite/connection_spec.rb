@@ -197,17 +197,15 @@ describe NetSuite::Connection do
   end
 
   describe "#sync" do
-    it "exports to NetSuite" do
+    it "exports all namely profiles to NetSuite" do
       namely_profiles = double(:namely_profiles)
-      client = stub_client(authorization: "x")
-      allow(client).to receive(:profile_fields).and_return([])
       connection = create(:net_suite_connection, authorization: "x")
       allow(connection.installation).
         to receive(:namely_profiles).
         and_return(namely_profiles)
-      results = double(:results)
-      export = double(NetSuite::Export, perform: results)
       normalizer = double("normalizer")
+      client = stub_client(authorization: "x")
+      allow(client).to receive(:profile_fields).and_return([])
       allow(NetSuite::Normalizer).
         to receive(:new).
         with(
@@ -215,18 +213,42 @@ describe NetSuite::Connection do
           configuration: connection
         ).
         and_return(normalizer)
-      allow(NetSuite::Export).
-        to receive(:new).
-        with(
-          normalizer: normalizer,
-          namely_profiles: namely_profiles,
-          net_suite: client
-        ).
-        and_return(export)
+      allow(NetSuite::Export).to receive(:perform)
 
       connection.sync
 
-      expect(export).to have_received(:perform)
+      expect(NetSuite::Export).to have_received(:perform).with(
+        normalizer: normalizer,
+        namely_profiles: namely_profiles,
+        net_suite: client
+      )
+    end
+  end
+
+  describe "#retry" do
+    it "exports the provided profiles to NetSuite" do
+      namely_profiles = double(:namely_profiles)
+      sync_summary = double(:sync_summary, failed_profiles: namely_profiles)
+      connection = create(:net_suite_connection, authorization: "x")
+      normalizer = double("normalizer")
+      client = stub_client(authorization: "x")
+      allow(client).to receive(:profile_fields).and_return([])
+      allow(NetSuite::Normalizer).
+        to receive(:new).
+        with(
+          attribute_mapper: connection.attribute_mapper,
+          configuration: connection
+        ).
+        and_return(normalizer)
+      allow(NetSuite::Export).to receive(:perform)
+
+      connection.retry(sync_summary)
+
+      expect(NetSuite::Export).to have_received(:perform).with(
+        normalizer: normalizer,
+        namely_profiles: namely_profiles,
+        net_suite: client
+      )
     end
   end
 

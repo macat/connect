@@ -6,15 +6,20 @@ describe NetSuite::Export do
       it "returns a result with created profiles" do
         profile_data = [
           {
+            id: "abc123",
+            email: "one@example.com",
             first_name: "One",
             last_name: "Last"
           },
           {
+            id: "def456",
+            email: "two@example.com",
             first_name: "Two",
             last_name: "Last"
           }
         ]
         profiles = profile_data.map { |profile| stub_profile(profile) }
+        ids = profile_data.map { |profile| profile[:id] }
         names = profile_data.map do |profile|
           "#{profile[:first_name]} #{profile[:last_name]}"
         end
@@ -32,6 +37,7 @@ describe NetSuite::Export do
         expect(results.map(&:success?)).to eq([true, true])
         expect(results.map(&:updated?)).to eq([false, false])
         expect(results.map(&:name)).to eq(names)
+        expect(results.map(&:profile_id)).to eq(ids)
         expect(net_suite).to have_received(:create_employee).
           with(mapped_attributes).
           exactly(2)
@@ -100,7 +106,7 @@ describe NetSuite::Export do
         netsuite_id: ""
       }.merge(overrides)
 
-      stub_attributes(profile, attributes.merge(overrides))
+      stub_attributes(profile, attributes)
       allow(profile).to receive(:update)
       allow(profile).to receive(:name).and_return(
         "#{attributes[:first_name]} #{attributes[:last_name]}"
@@ -115,6 +121,8 @@ describe NetSuite::Export do
         with(name.to_s).
         and_return(Fields::StringValue.new(value))
     end
+
+    allow(profile).to receive(:id).and_return(attributes[:id])
   end
 
   def stub_net_suite(&block)

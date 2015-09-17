@@ -6,6 +6,10 @@ class Profile
     @fields = fields
   end
 
+  def id
+    @namely_profile[:id]
+  end
+
   def name
     "#{namely_profile[:first_name]} #{namely_profile[:last_name]}"
   end

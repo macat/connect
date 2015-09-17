@@ -23,6 +23,18 @@ describe Profile do
     end
   end
 
+  describe "#id" do
+    it "returns the raw ID" do
+      profile_data = { id: "uvx" }
+      fields = double(:fields)
+      profile = Profile.new(profile_data, fields: fields)
+
+      result = profile.id
+
+      expect(result).to eq("uvx")
+    end
+  end
+
   describe "#name" do
     it "returns #first_name #last_name" do
       profile_data = {

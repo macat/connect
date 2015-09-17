@@ -1,37 +1,21 @@
 require "rails_helper"
 
 describe SyncJob do
-  describe "#perform" do
-    it "runs an export and emails the results" do
-      connection = build_stubbed(:net_suite_connection)
-      results = double(:results)
-      allow(connection).to receive(:sync).and_return(results)
-      allow(SyncNotifier).to receive(:deliver)
+  it "runs a sync" do
+    connection = build_stubbed(:net_suite_connection)
+    allow(connection).to receive(:sync).and_return([])
 
-      SyncJob.perform_now(connection)
+    SyncJob.perform_now(connection)
 
-      expect(connection).to have_received(:sync)
-      expect(SyncNotifier).
-        to have_received(:deliver).
-        with(
-          results: results,
-          integration_id: connection.integration_id,
-          installation: connection.installation
-        )
-    end
+    expect(connection).to have_received(:sync)
   end
 
-  context "authentication failure" do
-    it "traps exception and alerts the user" do
-      connection = build_stubbed(:net_suite_connection)
-      exception = Unauthorized.new("An error message")
-      allow(connection).to receive(:sync).and_raise(exception)
-      allow(UnauthorizedNotifier).to receive(:deliver)
+  it "notifies of results" do
+    connection = double(:connection)
+    allow(Notifier).to receive(:execute)
 
-      SyncJob.perform_now(connection)
+    SyncJob.perform_now(connection)
 
-      expect(UnauthorizedNotifier).to have_received(:deliver).
-        with(connection: connection, exception: exception)
-    end
+    expect(Notifier).to have_received(:execute).with(connection)
   end
 end

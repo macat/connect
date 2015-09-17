@@ -87,6 +87,10 @@ module Jobvite
       delegate :name, to: :candidate
       delegate :success?, :error, to: :result
 
+      def profile_id
+        ""
+      end
+
       private
 
       attr_reader :candidate, :result
