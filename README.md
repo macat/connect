@@ -133,6 +133,11 @@ The credentials for these shared accounts can be found in the comments of this
 [iCIMS]: https://preview5test.icims.com/icims2/servlet/icims2?module=Root&action=login&hashed=993052824
 [Trello]: https://trello.com/c/wNianPJX/116-account-credentials
 
+## Integration Documentation
+
+Overview documentation on the integrations may be located in the `/doc`
+directory of this repository.
+
 ## Regenerating Test Fixtures
 
 When changing feature specs that make API calls, you will need to rebuild one or
