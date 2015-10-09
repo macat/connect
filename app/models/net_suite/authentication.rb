@@ -11,6 +11,7 @@ module NetSuite
 
     def initialize(connection:, client:)
       @connection = connection
+      @installation = connection.installation
       @client = client
     end
 
@@ -24,11 +25,11 @@ module NetSuite
     end
 
     def user_id
-      @connection.installation.owner.namely_user_id
+      @installation.namely_user_id
     end
 
     def company_id
-      @connection.installation.subdomain
+      @installation.subdomain
     end
 
     def app_id
