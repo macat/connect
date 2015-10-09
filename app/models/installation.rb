@@ -57,8 +57,6 @@ class Installation < ActiveRecord::Base
     owner.namely_profiles
   end
 
-  private
-
   def owner
     users.first
   end
