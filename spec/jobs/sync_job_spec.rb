@@ -20,7 +20,7 @@ describe SyncJob do
   end
 
   context 'when the connection is lockable' do
-    let(:connection) { build_stubbed(:net_suite_connection) }
+    let(:connection) { double(:connection, lockable?: true, sync: []) }
 
     before do
       allow(connection).to receive(:locked?).and_return(lock_state)
@@ -39,6 +39,7 @@ describe SyncJob do
     end
 
     context 'and it is unlocked' do
+      let(:connection) { build(:net_suite_connection, :ready) }
       let(:lock_state) { false }
 
       it 'runs a sync' do
