@@ -27,6 +27,10 @@ FactoryGirl.define do
       with_namely_field
       subsidiary_id "45z"
     end
+
+    trait :locked do
+      locked true
+    end
   end
 
   factory :icims_connection, class: "Icims::Connection" do

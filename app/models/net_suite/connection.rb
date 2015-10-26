@@ -7,6 +7,10 @@ class NetSuite::Connection < ActiveRecord::Base
 
   delegate :export, to: :normalizer
 
+  def lockable?
+    true
+  end
+
   def integration_id
     :net_suite
   end
