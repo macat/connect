@@ -41,7 +41,8 @@ class AttributeMapper < ActiveRecord::Base
 
   def apply_default_fields(result, attributes)
     DEFAULT_FIELDS.each_with_object(result) do |key, hash|
-      hash[key] = attributes[key]
+      value = attributes[key]
+      hash[key] = value if value.present?
     end
   end
 end

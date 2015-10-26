@@ -51,7 +51,6 @@ module Jobvite
 
     def sync
       import_results.map do |result|
-        Rails.logger.info "attempting to import #{result[:candidate].name} candidate from jobvite"
         Result.new(**result)
       end
     end
