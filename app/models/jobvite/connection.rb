@@ -39,6 +39,7 @@ module Jobvite
           mappings.map! "first_name", to: "first_name", name: "First name"
           mappings.map! "last_name", to: "last_name", name: "Last name"
           mappings.map! "email", to: "email", name: "Email"
+          mappings.map! "personal_email", to: "personal_email", name: "Email"
           mappings.map! "start_date", to: "start_date", name: "Start date"
           mappings.map! "gender", to: "gender", name: "Gender"
         end
@@ -49,7 +50,10 @@ module Jobvite
     end
 
     def sync
-      import_results.map { |result| Result.new(**result) }
+      import_results.map do |result|
+        Rails.logger.info "attempting to import #{result[:candidate].name} candidate from jobvite"
+        Result.new(**result)
+      end
     end
 
     private
