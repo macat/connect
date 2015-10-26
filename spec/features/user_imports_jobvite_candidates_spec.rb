@@ -52,7 +52,8 @@ feature "User imports jobvite candidates" do
           profiles: a_collection_including(
             hash_including(
               "preferred_name" => "Roger",
-              "email" => "roger@gmail.com"
+              "email" => "roger@gmail.com",
+              "user_status" => "active",
             )
           )
         )
