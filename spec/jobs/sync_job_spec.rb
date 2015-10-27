@@ -39,7 +39,7 @@ describe SyncJob do
     end
 
     context 'and it is unlocked' do
-      let(:connection) { build(:net_suite_connection, :ready) }
+      let(:connection) { build_stubbed(:net_suite_connection, :ready) }
       let(:lock_state) { false }
 
       it 'runs a sync' do

@@ -43,6 +43,7 @@ module NetSuite
       rescue RestClient::Exception => exception
         Raygun.track_exception(exception)
         Rails.logger.error(exception)
+        Rails.logger.error(exception.response.body)
         raise NetSuite::ApiError, exception, exception.backtrace
       end
 
