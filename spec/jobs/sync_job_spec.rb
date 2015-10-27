@@ -1,15 +1,6 @@
 require "rails_helper"
 
 describe SyncJob do
-  it "runs a sync" do
-    connection = build_stubbed(:net_suite_connection)
-    allow(connection).to receive(:sync).and_return([])
-
-    SyncJob.perform_now(connection)
-
-    expect(connection).to have_received(:sync)
-  end
-
   it "notifies of results" do
     connection = double(:connection, lockable?: false)
     allow(Notifier).to receive(:execute)
@@ -20,6 +11,8 @@ describe SyncJob do
   end
 
   context 'when the connection is lockable' do
+    let(:user) { create(:user) }
+    let(:installation) { user.installation }
     let(:connection) { double(:connection, lockable?: true, sync: []) }
 
     before do
@@ -39,7 +32,7 @@ describe SyncJob do
     end
 
     context 'and it is unlocked' do
-      let(:connection) { build_stubbed(:net_suite_connection, :ready) }
+      let(:connection) { build_stubbed(:net_suite_connection, :ready, installation: installation) }
       let(:lock_state) { false }
 
       it 'runs a sync' do
