@@ -7,6 +7,10 @@ class NetSuite::Connection < ActiveRecord::Base
 
   delegate :export, to: :normalizer
 
+  def lockable?
+    true
+  end
+
   def integration_id
     :net_suite
   end
@@ -55,7 +59,10 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def sync
+    update_attribute(:locked, true)
     perform_export(installation.namely_profiles)
+  ensure
+    update_attribute(:locked, false)
   end
 
   def retry(sync_summary)
