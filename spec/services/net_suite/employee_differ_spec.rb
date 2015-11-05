@@ -2,8 +2,17 @@ require 'rails_helper'
 
 describe NetSuite::EmployeeDiffer do
   describe '#different?' do
+    let(:attribute_mapper) { create(:attribute_mapper) }
+
+    before do
+      create(:field_mapping,
+        attribute_mapper: attribute_mapper,
+        integration_field_id: "firstName",
+        namely_field_name: "first_name")
+    end
+
     subject(:differ) do
-      described_class.new(namely_profile: namely, netsuite_employee: netsuite)
+      described_class.new(mapper: attribute_mapper, namely_profile: namely, netsuite_employee: netsuite)
     end
 
     context 'when the Namely Profile has changed' do
