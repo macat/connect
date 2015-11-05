@@ -17,6 +17,10 @@ module NetSuite
       @netsuite_employee = netsuite_employee
     end
 
+    # Performs a simple check to see if all applicable fields from Netsuite
+    # match a Namely profile.
+    #
+    # @return [Boolean] True if any field mismatches, false otherwise
     def different?
       !FIELD_CHECK.all? do |namely, netsuite|
         namely_value = normalize_value(@namely_profile.public_send(namely))
