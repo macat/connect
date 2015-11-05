@@ -24,6 +24,15 @@ describe NetSuite::EmployeeDiffer do
       end
     end
 
+    context 'when the Namely Profile has space as padding differences' do
+      let(:namely) { build(:namely_profile, first_name: "Bob ") }
+      let(:netsuite) { build(:netsuite_profile, first_name: " Bob") }
+
+      it 'returns false' do
+        expect(differ).to_not be_different
+      end
+    end
+
     context 'when the Namely Profile has not changed' do
       let(:namely) { build(:namely_profile) }
       let(:netsuite) { build(:netsuite_profile) }
