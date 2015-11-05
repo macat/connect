@@ -110,4 +110,45 @@ FactoryGirl.define do
     sequence(:profile_id) { |n| "namely-#{n}-id" }
     profile_name "Example Name"
   end
+
+  # These factories are not backed by a database
+  factory :namely_profile, class: "Namely::Model" do
+    id "123-123-123"
+    first_name "Bob"
+    last_name "Ross"
+    middle_name "Happy Tree"
+    email "bob.ross@namely.com"
+    personal_email "bobross@pbs.org"
+    netsuite_id nil
+
+    initialize_with do
+      Namely::Model.new(nil, {
+        id: id,
+        first_name: first_name,
+        last_name: last_name,
+        middle_name: middle_name,
+        email: email,
+        personal_email: personal_email,
+        netsite_id: netsuite_id,
+      })
+    end
+  end
+
+  factory :netsuite_profile, class: Hash do
+    first_name "Bob"
+    last_name "Ross"
+    middle_name "Happy Tree"
+    email "bob.ross@namely.com"
+    id nil
+
+    initialize_with do
+      {
+        "firstName" => first_name,
+        "lastName" => last_name,
+        "middleName" => middle_name,
+        "email" => email,
+        "internalId" => id,
+      }
+    end
+  end
 end
