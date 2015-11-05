@@ -3,13 +3,6 @@ module NetSuite
   # to figure out if there is a difference between the 2 based on simple
   # heuristics
   class EmployeeDiffer
-    FIELD_CHECK = {
-      first_name: "firstName",
-      last_name: "lastName",
-      middle_name: "middleName",
-      email: "email",
-    }
-
     # @param namely_profile An object representing a namely profile
     # @param netsuite_employee An object representing an employee record on NetSuite
     # @param mapper [AttributeMapper] An attribute mapper to perform the correct diffs against
