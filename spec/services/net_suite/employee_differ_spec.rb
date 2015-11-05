@@ -42,10 +42,4 @@ describe NetSuite::EmployeeDiffer do
       end
     end
   end
-
-  describe '#changes' do
-    context 'when the Namely Profile has changed' do
-      it 'returns a hash with the attribute and difference as value'
-    end
-  end
 end
