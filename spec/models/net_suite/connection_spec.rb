@@ -198,7 +198,8 @@ describe NetSuite::Connection do
 
   describe "#sync" do
     it "exports all namely profiles to NetSuite" do
-      namely_profiles = double(:namely_profiles)
+      namely_profile = double(:namely_profile)
+      namely_profiles = [namely_profile]
       connection = create(:net_suite_connection, authorization: "x")
       allow(connection.installation).
         to receive(:namely_profiles).
@@ -219,7 +220,7 @@ describe NetSuite::Connection do
 
       expect(NetSuite::Export).to have_received(:perform).with(
         normalizer: normalizer,
-        namely_profiles: namely_profiles,
+        namely_profile: namely_profile,
         net_suite: client
       )
     end
@@ -227,7 +228,8 @@ describe NetSuite::Connection do
 
   describe "#retry" do
     it "exports the provided profiles to NetSuite" do
-      namely_profiles = double(:namely_profiles)
+      namely_profile = double(:namely_profile)
+      namely_profiles = [namely_profile]
       sync_summary = double(:sync_summary, failed_profiles: namely_profiles)
       connection = create(:net_suite_connection, authorization: "x")
       normalizer = double("normalizer")
@@ -246,7 +248,7 @@ describe NetSuite::Connection do
 
       expect(NetSuite::Export).to have_received(:perform).with(
         normalizer: normalizer,
-        namely_profiles: namely_profiles,
+        namely_profile: namely_profile,
         net_suite: client
       )
     end

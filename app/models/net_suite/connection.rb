@@ -73,7 +73,7 @@ class NetSuite::Connection < ActiveRecord::Base
   private
 
   def perform_export(profiles)
-    profiles.each do |profile|
+    profiles.map do |profile|
       NetSuite::Export.perform(
         normalizer: normalizer,
         namely_profile: profile,
