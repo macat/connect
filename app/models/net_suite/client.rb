@@ -68,6 +68,12 @@ module NetSuite
       )
     end
 
+    def employees
+      Rails.logger.debug { "Get employees" }
+
+      get_json(EMPLOYEE_REQUEST)
+    end
+
     def subsidiaries
       get_json(SUBSIDIARY_REQUEST)
     end

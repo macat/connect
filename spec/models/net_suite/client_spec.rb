@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe NetSuite::Client do
+  include Features
   describe ".from_env" do
     it "finds authorization from the environment" do
       env = {
@@ -261,6 +262,30 @@ describe NetSuite::Client do
       result = client.subsidiaries
 
       expect(result.to_a).to eq(subsidiaries)
+    end
+  end
+
+  describe "#employees" do
+    it "looks up employees" do
+      stub_request(
+        :get,
+        "https://api.cloud-elements.com/elements/api-v2" \
+        "/hubs/erp/employees"
+      ).
+        with(
+          headers: {
+            "Authorization" => "User user-secret, " \
+            "Organization org-secret, " \
+            "Element element-secret",
+            "Content-Type" => "application/json"
+          }
+        ).
+        to_return(status: 200, body: namely_fixture('net_suite_employees'))
+
+      result = client.employees
+
+      expect(result.length).to eq(5)
+      expect(result).to all(be_kind_of(Hash))
     end
   end
 
