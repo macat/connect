@@ -4,46 +4,34 @@ describe NetSuite::Export do
   describe "#perform" do
     context "with new, valid employees" do
       it "returns a result with created profiles" do
-        profile_data = [
-          {
-            id: "abc123",
-            email: "one@example.com",
-            first_name: "One",
-            last_name: "Last"
-          },
-          {
-            id: "def456",
-            email: "two@example.com",
-            first_name: "Two",
-            last_name: "Last"
-          }
-        ]
-        profiles = profile_data.map { |profile| stub_profile(profile) }
-        ids = profile_data.map { |profile| profile[:id] }
-        names = profile_data.map do |profile|
-          "#{profile[:first_name]} #{profile[:last_name]}"
-        end
+        profile_data = {
+          id: "abc123",
+          email: "one@example.com",
+          first_name: "One",
+          last_name: "Last"
+        }
+        profile = stub_profile(profile_data)
+        id = profile_data[:id]
+        name = "#{profile_data[:first_name]} #{profile_data[:last_name]}"
 
         net_suite = stub_net_suite { { "internalId" => "1234" } }
         mapped_attributes = double("mapped_attributes")
         normalizer = stub_normalizer(to: mapped_attributes)
 
-        results = perform_export(
+        result = perform_export(
           normalizer: normalizer,
           net_suite: net_suite,
-          profiles: profiles
+          namely_profile: profile
         )
 
-        expect(results.map(&:success?)).to eq([true, true])
-        expect(results.map(&:updated?)).to eq([false, false])
-        expect(results.map(&:name)).to eq(names)
-        expect(results.map(&:profile_id)).to eq(ids)
+        expect(result.success?).to eq(true)
+        expect(result.updated?).to eq(false)
+        expect(result.name).to eq(name)
+        expect(result.profile_id).to eq(id)
         expect(net_suite).to have_received(:create_employee).
           with(mapped_attributes).
-          exactly(2)
-        profiles.each do |profile|
-          expect(profile).to have_received(:update).with(netsuite_id: "1234")
-        end
+          exactly(1)
+        expect(profile).to have_received(:update).with(netsuite_id: "1234")
       end
     end
 
@@ -57,13 +45,13 @@ describe NetSuite::Export do
         )
         net_suite = stub_net_suite { {} }
 
-        results = perform_export(
+        result = perform_export(
           normalizer: normalizer,
           net_suite: net_suite,
-          profiles: [profile]
+          namely_profile: profile
         )
 
-        expect(results.map(&:updated?)).to eq([true])
+        expect(result.updated?).to eq(true)
         expect(net_suite).to have_received(:update_employee).
           with("1234", mapped_attributes)
       end
@@ -80,10 +68,10 @@ describe NetSuite::Export do
         error = NetSuite::ApiError.new(exception)
         net_suite = stub_net_suite { raise error }
 
-        results = perform_export(net_suite: net_suite, profiles: [profile])
+        result = perform_export(net_suite: net_suite, namely_profile: profile)
 
-        expect(results.map(&:success?)).to eq([false])
-        expect(results.map(&:error)).to eq([error.to_s])
+        expect(result.success?).to be(false)
+        expect(result.error).to eq(error.to_s)
         expect(profile).not_to have_received(:update)
       end
     end
@@ -145,12 +133,12 @@ describe NetSuite::Export do
   def perform_export(
     normalizer: stub_normalizer,
     net_suite:,
-    profiles:
+    namely_profile:
   )
     NetSuite::Export.new(
       normalizer: normalizer,
       net_suite: net_suite,
-      namely_profiles: profiles
+      namely_profile: namely_profile
     ).perform
   end
 end

@@ -16,7 +16,7 @@ module NetSuite
 
     protected
 
-    attr_reader :namely_profiles
+    attr_reader :namely_profile
 
     private
 
