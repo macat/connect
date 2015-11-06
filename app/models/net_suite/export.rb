@@ -4,16 +4,14 @@ module NetSuite
       new(args).perform
     end
 
-    def initialize(normalizer:, namely_profiles:, net_suite:)
+    def initialize(normalizer:, namely_profile:, net_suite:)
       @normalizer = normalizer
-      @namely_profiles = namely_profiles
+      @namely_profile = namely_profile
       @net_suite = net_suite
     end
 
     def perform
-      namely_profiles.map do |profile|
-        export(profile)
-      end
+      export(namely_profile)
     end
 
     protected

@@ -59,10 +59,7 @@ class NetSuite::Connection < ActiveRecord::Base
   end
 
   def sync
-    update_attribute(:locked, true)
     perform_export(installation.namely_profiles)
-  ensure
-    update_attribute(:locked, false)
   end
 
   def retry(sync_summary)
@@ -76,11 +73,13 @@ class NetSuite::Connection < ActiveRecord::Base
   private
 
   def perform_export(profiles)
-    NetSuite::Export.perform(
-      normalizer: normalizer,
-      namely_profiles: profiles,
-      net_suite: client
-    )
+    profiles.each do |profile|
+      NetSuite::Export.perform(
+        normalizer: normalizer,
+        namely_profile: profile,
+        net_suite: client
+      )
+    end
   end
 
   def subsidiary_optional?
