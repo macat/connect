@@ -11,49 +11,56 @@ module NetSuite
     end
 
     def perform
-      namely_profiles.map do |profile|
-        export(profile)
+      matcher.results.map do |result|
+        employee = Employee.new(profile: result.profile,
+                                attributes: result.namely_employee,
+                                net_suite: net_suite)
+
+        if result.matched?
+          differ = NetSuite::EmployeeDiffer.new(
+            namely_employee: normalize(result.namely_employee),
+            netsuite_employee: result.netsuite_employee)
+
+
+          if differ.different?
+            employee.update(result.netsuite_employee["internalId"])
+          end
+        else
+          employee.create
+        end
       end
     end
 
-    protected
-
-    attr_reader :namely_profiles
-
     private
 
-    def export(profile)
-      Employee.new(
-        profile,
-        normalizer: @normalizer,
-        net_suite: @net_suite
-      ).export
+    attr_reader :namely_profiles, :net_suite, :normalizer
+
+    def matcher
+      @matcher ||= Matcher.new(
+        mapper: normalizer,
+        fields: ["email"],
+        profiles: namely_profiles,
+        employees: net_suite.employees)
+    end
+
+    def normalize(employee)
+      NetSuite::DiffNormalizer.normalize(employee)
     end
 
     class Employee
-      def initialize(profile, normalizer:, net_suite:)
-        @normalizer = normalizer
+      def initialize(profile:, attributes:, net_suite:)
+        @attributes = attributes
         @profile = profile
         @net_suite = net_suite
       end
 
-      def export
-        if persisted?
-          update
-        else
-          create
-        end
-      end
-
-      private
-
-      def persisted?
-        id.present?
-      end
-
-      def update
+      def update(id)
         request(updated: true) do
-          @net_suite.update_employee(id.to_s, attributes)
+          response = @net_suite.update_employee(id, attributes)
+          unless id == @profile.netsuite_id
+            @profile.update(netsuite_id: id) 
+          end
+          response
         end
       end
 
@@ -65,13 +72,9 @@ module NetSuite
         end
       end
 
-      def id
-        @profile["netsuite_id"].to_s
-      end
+      private
 
-      def attributes
-        @normalizer.export(@profile)
-      end
+      attr_reader :attributes
 
       def request(updated:)
         yield

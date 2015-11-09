@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe NetSuite::Export do
   describe "#perform" do
+    let(:employee_data) { [] }
     context "with new, valid employees" do
       it "returns a result with created profiles" do
         profile_data = [
@@ -25,7 +26,7 @@ describe NetSuite::Export do
         end
 
         net_suite = stub_net_suite { { "internalId" => "1234" } }
-        mapped_attributes = double("mapped_attributes")
+        mapped_attributes = {"netsuite_id" => "", }
         normalizer = stub_normalizer(to: mapped_attributes)
 
         results = perform_export(
@@ -48,9 +49,38 @@ describe NetSuite::Export do
     end
 
     context "with an already-exported employee" do
+      let(:employee_data) do
+        [
+          {
+            "firstName" => "Alex",
+            "lastName" => "Test",
+            "internalId" => "1234",
+            "email" => "alex@example.com"
+          }
+        ]
+      end
       it "returns a result with updated profiles" do
         profile = stub_profile(netsuite_id: "1234")
-        mapped_attributes = double("mapped_attributes")
+        mapped_attributes = {
+          "internalId" => "1234",
+          "firstName" => profile.first_name,
+          "lastName" => profile.last_name,
+          "email" => profile.email,
+          "addressbookList" => {
+            "addressbook" => [
+              {
+                "defaultShipping" => true,
+                "addressbookAddress" => {
+                  "addr1" => "",
+                  "addr2" => "",
+                  "city" => "",
+                  "state" => "",
+                  "zip" => "",
+                }
+              }
+            ]
+          }
+        }
         normalizer = stub_normalizer(
           from: profile,
           to: mapped_attributes
@@ -87,6 +117,12 @@ describe NetSuite::Export do
         expect(profile).not_to have_received(:update)
       end
     end
+
+    context "with unmatched employees" do
+    end
+
+    context "with matched employees that don't have a netsuite_id" do
+    end
   end
 
   def build_namely_connection
@@ -94,41 +130,21 @@ describe NetSuite::Export do
   end
 
   def stub_profile(overrides = {})
-    double(:profile).tap do |profile|
-      attributes = {
-        id: "83809753-615b-44ee-914b-3821fe2ee7ae",
-        first_name: "Sally",
-        last_name: "Smith",
-        email: "sally.smith@example.com",
-        start_date: "07/18/2013",
-        gender: "Female",
-        home_phone: "123-123-1234",
-        netsuite_id: ""
-      }.merge(overrides)
+    profile = build(:namely_profile, overrides)
 
-      stub_attributes(profile, attributes)
-      allow(profile).to receive(:update)
-      allow(profile).to receive(:name).and_return(
-        "#{attributes[:first_name]} #{attributes[:last_name]}"
-      )
-    end
-  end
+    allow(profile).to receive(:update)
+    allow(profile).to receive(:name).and_return(
+      "#{profile.first_name} #{profile.last_name}"
+    )
 
-  def stub_attributes(profile, attributes)
-    attributes.each do |name, value|
-      allow(profile).
-        to receive(:[]).
-        with(name.to_s).
-        and_return(Fields::StringValue.new(value))
-    end
-
-    allow(profile).to receive(:id).and_return(attributes[:id])
+    profile
   end
 
   def stub_net_suite(&block)
     double("net_suite").tap do |net_suite|
       allow(net_suite).to receive(:create_employee, &block)
       allow(net_suite).to receive(:update_employee, &block)
+      allow(net_suite).to receive(:employees).and_return(employee_data)
     end
   end
 

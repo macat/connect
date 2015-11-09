@@ -9,6 +9,7 @@ class NetSuite::DiffNormalizer
   end
 
   def normalize
+    # TODO: Handle nil keys
     address = employee['addressbookList']["addressbook"].find do |address|
       address["defaultShipping"] == true
     end["addressbookAddress"]

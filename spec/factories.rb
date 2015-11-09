@@ -121,6 +121,9 @@ FactoryGirl.define do
     personal_email "bobross@pbs.org"
     home({})
     netsuite_id nil
+    start_date "07/18/2013"
+    gender "Female"
+    home_phone "123-123-1234"
 
     initialize_with do
       Namely::Model.new(nil, {
@@ -131,7 +134,7 @@ FactoryGirl.define do
         email: email,
         personal_email: personal_email,
         home: home.stringify_keys,
-        netsite_id: netsuite_id,
+        netsuite_id: netsuite_id,
       })
     end
   end

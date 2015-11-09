@@ -10,7 +10,7 @@ module NetSuite
       @employees = employees
       @profiles = profiles
       @mapper = mapper
-      @employees_by_id = Hash[@employees.map { |e| [e["InternalId"], e] }]
+      @employees_by_id = Hash[@employees.map { |e| [e["internalId"], e] }]
     end
 
     # Returns matched pairs of profiles
@@ -18,7 +18,7 @@ module NetSuite
     def results
       @results ||= profiles.map do |profile|
         namely_employee = normalize(profile)
-        employee = match_employee(namely_employee)
+        employee = match_employee(profile, namely_employee)
         Result.new(profile, namely_employee, employee)
       end
     end
@@ -33,10 +33,10 @@ module NetSuite
 
     attr_reader :employees, :profiles, :employees_by_id, :mapper, :fields
 
-    def match_employee(namely_employee)
+    def match_employee(profile, namely_employee)
       employee = nil
-      if namely_employee["netsuite_id"] && @employees_by_id.has_key?(namely_employee["netsuite_id"])
-        return employees_by_id[namely_employee["netsuite_id"]]
+      if profile.netsuite_id.present? && @employees_by_id.has_key?(profile.netsuite_id)
+        return employees_by_id[profile.netsuite_id]
       else
         return employees.find do |employee|
           fields.all? { |field| employee[field] == namely_employee[field] }
