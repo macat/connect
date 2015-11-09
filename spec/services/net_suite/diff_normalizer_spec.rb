@@ -24,6 +24,8 @@ describe NetSuite::DiffNormalizer do
     end
 
     it "returns a normalized hash" do
+      profile["home"] = Fields::AddressValue.new(profile["home"])
+      
       employee = NetSuite::Normalizer.new(attribute_mapper: attribute_mapper, configuration: configuration).export(profile)
 
       result = NetSuite::DiffNormalizer.normalize(employee)

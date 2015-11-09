@@ -130,7 +130,7 @@ FactoryGirl.define do
         middle_name: middle_name,
         email: email,
         personal_email: personal_email,
-        home: Fields::AddressValue.new(home.stringify_keys),
+        home: home.stringify_keys,
         netsite_id: netsuite_id,
       })
     end
