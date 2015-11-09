@@ -6,7 +6,7 @@ describe NetSuite::Matcher do
       "lastName" => "Wonderland",
       "firstName" => "Alex",
       "email" => "alex@example.com",
-      "InternalId" => "TEST",
+      "internalId" => "TEST",
     }
   end
   let(:employee2) do
@@ -14,7 +14,7 @@ describe NetSuite::Matcher do
       "lastName" => "Wonderland",
       "firstName" => "Alice",
       "email" => "alice@example.com",
-      "InternalId" => "TEST2",
+      "internalId" => "TEST2",
     }
   end
   let(:employee3) do
@@ -22,75 +22,110 @@ describe NetSuite::Matcher do
       "lastName" => "Wonderland",
       "firstName" => "None",
       "email" => "none@example.com",
-      "InternalId" => "TEST3",
+      "internalId" => "TEST3",
     }
   end
   let(:profile1) do
-    {
-      "lastName" => "Wonderlandee",
-      "firstName" => "Alex",
+    build(:namely_profile, {
+      "last_name" => "Wonderlandee",
+      "first_name" => "Alex",
       "email" => "alex@example.com",
-      "InternalId" => "TEST",
-    }
+      "netsuite_id" => "TEST",
+    })
   end
   let(:profile2) do
-    {
-      "lastName" => "Wonderland",
-      "firstName" => "Alice",
+    build(:namely_profile, {
+      "last_name" => "Wonderland",
+      "first_name" => "Alice",
       "email" => "test@example.com",
-      "InternalId" => "TEST2",
-    }
+      "netsuite_id" => "TEST2",
+    })
   end
   let(:profile3) do
-    {
-      "firstName" => "None",
-      "lastName" => "Wonderland",
+    build(:namely_profile, {
+      "first_name" => "None",
+      "last_name" => "Wonderland",
       "email" => "alice@example.com",
-      "InternalId" => "",
-    }
+      "netsuite_id" => "",
+    })
   end
+
+  let(:attribute_mapper) { create(:attribute_mapper) }
+
+  before do
+    FactoryGirl.create(:field_mapping,
+      attribute_mapper: attribute_mapper,
+      integration_field_id: "firstName",
+      namely_field_name: "first_name")
+    FactoryGirl.create(:field_mapping,
+      attribute_mapper: attribute_mapper,
+      integration_field_id: "lastName",
+      namely_field_name: "last_name")
+    FactoryGirl.create(:field_mapping,
+      attribute_mapper: attribute_mapper,
+      integration_field_id: "email",
+      namely_field_name: "email")
+  end
+
   describe "#matched" do
     context "when netsuite_id matches" do
       it "returns list of matched objects" do
         matcher = described_class.new(
+          mapper: attribute_mapper,
           fields: ["email"],
-          namely_employees: [
+          profiles: [
             profile1, profile2
           ],
-          netsuite_employees: [
+          employees: [
             employee1, employee2
           ],
         )
-        expect(matcher.matched_pairs).to eq([{netsuite_employee: employee1, namely_employee: profile1}])
-        expect(matcher.unmatched_namely_employees).to eq([profile2])
+
+        results = matcher.results
+        expect(results.length).to be(2)
+        expect(results.map { |result| {p: result.profile, r: result.matched?} }).to match_array([
+          {p: profile1, r: true},
+          {p: profile2, r: false}
+        ])
       end
     end
     context "when netsuite_id doesn't match" do
       it "uses the fields list to match objects" do
         matcher = described_class.new(
+          mapper: attribute_mapper,
           fields: ["email"],
-          namely_employees: [
+          profiles: [
             profile2, profile3
           ],
-          netsuite_employees: [
+          employees: [
             employee2, employee3
           ],
         )
-        expect(matcher.matched_pairs).to eq([{netsuite_employee: employee2, namely_employee: profile3}])
-        expect(matcher.unmatched_namely_employees).to eq([profile2])
+        results = matcher.results
+        expect(results.length).to be(2)
+        expect(results.map { |result| {p: result.profile, r: result.matched?} }).to match_array([
+          {p: profile3, r: true},
+          {p: profile2, r: false}
+        ])
       end
       it "uses the fields list to match objects" do
         matcher = described_class.new(
+          mapper: attribute_mapper,
           fields: ["firstName", "lastName"],
-          namely_employees: [
+          profiles: [
             profile2, profile3, profile1
           ],
-          netsuite_employees: [
+          employees: [
             employee2, employee3, employee1
           ],
         )
-        expect(matcher.matched_pairs).to eq([{netsuite_employee: employee2, namely_employee: profile2}, {netsuite_employee: employee3, namely_employee: profile3}])
-        expect(matcher.unmatched_namely_employees).to eq([profile1])
+        results = matcher.results
+        expect(results.length).to be(3)
+        expect(results.map { |result| {p: result.profile, r: result.matched?} }).to match_array([
+          {p: profile1, r: false},
+          {p: profile2, r: true},
+          {p: profile3, r: true}
+        ])
       end
     end
   end
