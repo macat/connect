@@ -9,21 +9,25 @@ class NetSuite::DiffNormalizer
   end
 
   def normalize
-    if employee.has_key?("addressbookList")
-      address = employee["addressbookList"]["addressbook"].find do |address|
-        address["defaultShipping"] == true
-      end["addressbookAddress"]
+    employee["defaultAddress"] = ""
 
-      #TODO: Handle country!
-      employee["defaultAddress"] = "#{ address["addr1"] }<br>#{ address["addr2"] }<br>#{ address["city"] } #{ address["state"] } #{ address["zip"] }<br>United States"
-      
-    else
-      employee["defaultAddress"] = ""
+    if (addressbook_list = employee["addressbookList"]) &&
+       (address_book = addressbook_list["addressbook"])
+
+      default_address = address_book.find do |address|
+        address["defaultShipping"] == true
+      end
+
+      if default_address.present? && address = default_address["addressbookAddress"]
+        #TODO: Handle country!
+        employee["defaultAddress"] = "#{ address["addr1"] }<br>#{ address["addr2"] }<br>#{ address["city"] } #{ address["state"] } #{ address["zip"] }<br>United States"
+      end
     end
+
     employee
   end
 
   private
 
   attr_reader :employee
-end 
+end

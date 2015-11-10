@@ -11,7 +11,7 @@ describe NetSuite::DiffNormalizer do
           state_id: "NY",
           zip: "11222",
           country_id: "US"
-        })  
+        })
     end
     let(:configuration) { double(:config, subsidiary_id: 222) }
     let(:attribute_mapper) { create(:attribute_mapper) }
@@ -25,7 +25,6 @@ describe NetSuite::DiffNormalizer do
 
     it "returns a normalized hash" do
       profile["home"] = Fields::AddressValue.new(profile["home"])
-      
       employee = NetSuite::Normalizer.new(attribute_mapper: attribute_mapper, configuration: configuration).export(profile)
 
       result = NetSuite::DiffNormalizer.normalize(employee)

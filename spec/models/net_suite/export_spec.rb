@@ -119,9 +119,105 @@ describe NetSuite::Export do
     end
 
     context "with unmatched employees" do
+      let(:employee_data) do
+        [
+          {
+            "firstName" => "Alex",
+            "lastName" => "Test",
+            "internalId" => "1234",
+            "email" => "alex@example.com"
+          }
+        ]
+      end
+      it "returns a result with updated profiles" do
+        profile = stub_profile(netsuite_id: "42332", email: "test@example.com")
+        mapped_attributes = {
+          "internalId" => "42332",
+          "firstName" => profile.first_name,
+          "lastName" => profile.last_name,
+          "email" => profile.email,
+          "addressbookList" => {
+            "addressbook" => [
+              {
+                "defaultshipping" => true,
+                "addressbookaddress" => {
+                  "addr1" => "",
+                  "addr2" => "",
+                  "city" => "",
+                  "state" => "",
+                  "zip" => "",
+                }
+              }
+            ]
+          }
+        }
+        normalizer = stub_normalizer(
+          from: profile,
+          to: mapped_attributes
+        )
+        net_suite = stub_net_suite { {} }
+
+        results = perform_export(
+          normalizer: normalizer,
+          net_suite: net_suite,
+          profiles: [profile]
+        )
+
+        expect(results.map(&:updated?)).to eq([false])
+        expect(net_suite).to have_received(:create_employee).
+          with(mapped_attributes)
+      end
     end
 
     context "with matched employees that don't have a netsuite_id" do
+      let(:employee_data) do
+        [
+          {
+            "firstName" => "Alex",
+            "lastName" => "Test",
+            "internalId" => "1234",
+            "email" => "alex@example.com"
+          }
+        ]
+      end
+      it "returns a result with updated profiles" do
+        profile = stub_profile(netsuite_id: "", email: "alex@example.com")
+        mapped_attributes = {
+          "internalId" => "",
+          "firstName" => profile.first_name,
+          "lastName" => profile.last_name,
+          "email" => profile.email,
+          "addressbookList" => {
+            "addressbook" => [
+              {
+                "defaultshipping" => true,
+                "addressbookaddress" => {
+                  "addr1" => "",
+                  "addr2" => "",
+                  "city" => "",
+                  "state" => "",
+                  "zip" => "",
+                }
+              }
+            ]
+          }
+        }
+        normalizer = stub_normalizer(
+          from: profile,
+          to: mapped_attributes
+        )
+        net_suite = stub_net_suite { {} }
+
+        results = perform_export(
+          normalizer: normalizer,
+          net_suite: net_suite,
+          profiles: [profile]
+        )
+
+        expect(results.map(&:updated?)).to eq([true])
+        expect(net_suite).to have_received(:update_employee).
+          with("1234", mapped_attributes)
+      end
     end
   end
 
