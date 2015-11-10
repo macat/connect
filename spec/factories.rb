@@ -119,7 +119,11 @@ FactoryGirl.define do
     middle_name "Happy Tree"
     email "bob.ross@namely.com"
     personal_email "bobross@pbs.org"
+    home({})
     netsuite_id nil
+    start_date "07/18/2013"
+    gender "Female"
+    home_phone "123-123-1234"
 
     initialize_with do
       Namely::Model.new(nil, {
@@ -129,7 +133,8 @@ FactoryGirl.define do
         middle_name: middle_name,
         email: email,
         personal_email: personal_email,
-        netsite_id: netsuite_id,
+        home: home.stringify_keys,
+        netsuite_id: netsuite_id,
       })
     end
   end

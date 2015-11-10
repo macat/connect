@@ -3,62 +3,49 @@ module NetSuite
   # netsuite_id or provided fields to match on (names or emails for example).
   class Matcher
     # @param fields [Array} List of Netsuite fields to match objects
-    # @param namely_profiles [Array] Namely profile list
-    # @param netsuite_employees [Array] Netsuite employee list
-    def initialize(fields:, namely_employees:, netsuite_employees:)
+    # @param profiles [Array] Namely profile list
+    # @param employees [Array] Netsuite employee list
+    def initialize(mapper:, fields:, profiles:, employees:)
       @fields = fields
-      @employees = netsuite_employees
-      @namely_employees = namely_employees
-      @employees_by_id = Hash[@employees.map { |e| [e["InternalId"], e] }]
-      @matched_pairs = []
-      @unmatched_namely_employees = []
+      @employees = employees
+      @profiles = profiles
+      @mapper = mapper
+      @employees_by_id = Hash[@employees.map { |e| [e["internalId"], e] }]
     end
 
     # Returns matched pairs of profiles
     # @return [Array] An array of hashes containing the profiles that were matched together
-    def matched_pairs
-      match_lists
-
-      @matched_pairs
+    def results
+      @results ||= profiles.map do |profile|
+        namely_employee = normalize(profile)
+        employee = match_employee(profile, namely_employee)
+        Result.new(profile, namely_employee, employee)
+      end
     end
 
-    # Returns the namely profiles that could not be matched
-    # @return [Array] Namely Profiles
-    def unmatched_namely_employees
-      match_lists
-      
-      @unmatched_namely_employees
+    class Result < Struct.new(:profile, :namely_employee, :netsuite_employee)
+      def matched?
+        netsuite_employee.present?
+      end
     end
 
     private
 
-    attr_reader :employees, :namely_employees, :employees_by_id, :mapper, :fields
+    attr_reader :employees, :profiles, :employees_by_id, :mapper, :fields
 
-    def match_lists
-      return if @matched
-
-      namely_employees.each do |namely_employee|
-        employee = match_employee(namely_employee, employees)
-
-        if employee
-          @matched_pairs << { namely_employee: namely_employee, netsuite_employee: employee}
-        else
-          @unmatched_namely_employees << namely_employee
-        end
-      end
-
-      @matched = true
-    end
-
-    def match_employee(namely_employee, employees)
+    def match_employee(profile, namely_employee)
       employee = nil
-      if namely_employee["netsuite_id"] && @employees_by_id.has_key?(namely_employee["netsuite_id"])
-        return employees_by_id[namely_employee["netsuite_id"]]
+      if profile["netsuite_id"].present? && @employees_by_id.has_key?(profile["netsuite_id"].to_s)
+        return employees_by_id[profile["netsuite_id"].to_s]
       else
         return employees.find do |employee|
           fields.all? { |field| employee[field] == namely_employee[field] }
         end
       end
+    end
+
+    def normalize(profile)
+      mapper.export(profile)
     end
   end
 end
