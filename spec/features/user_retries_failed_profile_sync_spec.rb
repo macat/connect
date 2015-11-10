@@ -14,7 +14,6 @@ feature "User retries failed profile sync" do
     click_on t("profile_event.retry")
     visit_activity_feed(connection, user)
 
-    save_page
     expect(page).to have_text("Successfully synced one profile")
   end
 
