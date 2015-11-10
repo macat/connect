@@ -35,8 +35,8 @@ module NetSuite
 
     def match_employee(profile, namely_employee)
       employee = nil
-      if profile.netsuite_id.present? && @employees_by_id.has_key?(profile.netsuite_id)
-        return employees_by_id[profile.netsuite_id]
+      if profile["netsuite_id"].present? && @employees_by_id.has_key?(profile["netsuite_id"].to_s)
+        return employees_by_id[profile["netsuite_id"].to_s]
       else
         return employees.find do |employee|
           fields.all? { |field| employee[field] == namely_employee[field] }

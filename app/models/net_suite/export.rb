@@ -21,7 +21,6 @@ module NetSuite
             namely_employee: normalize(result.namely_employee),
             netsuite_employee: result.netsuite_employee)
 
-
           if differ.different?
             employee.update(result.netsuite_employee["internalId"])
           end
@@ -57,8 +56,8 @@ module NetSuite
       def update(id)
         request(updated: true) do
           response = @net_suite.update_employee(id, attributes)
-          unless id == @profile.netsuite_id
-            @profile.update(netsuite_id: id) 
+          unless id == @profile["netsuite_id"].to_s
+            @profile.update(netsuite_id: id)
           end
           response
         end
