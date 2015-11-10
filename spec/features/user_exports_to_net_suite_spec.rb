@@ -8,6 +8,12 @@ feature "user exports to net suite" do
     employee_json =
       File.read("spec/fixtures/api_responses/net_suite_employee.json")
 
+    stub_request(
+      :get,
+      "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
+    ).to_return(
+      body: [{internalId: "1234", firstName: "TT"}].to_json
+    )
     stub_namely_data("/profiles", "profiles_with_net_suite_fields")
     stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(status: 200)
     stub_request(:post, "#{cloud_elements}/employees").
