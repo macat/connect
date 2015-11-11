@@ -25,26 +25,28 @@ describe NetSuite::Export do
           "#{profile[:first_name]} #{profile[:last_name]}"
         end
 
-        net_suite = stub_net_suite { { "internalId" => "1234" } }
+        net_suite_connection = stub_net_suite_connection { { "internalId" => "1234" } }
         mapped_attributes = {"netsuite_id" => "", }
         normalizer = stub_normalizer(to: mapped_attributes)
 
-        results = perform_export(
-          normalizer: normalizer,
-          net_suite: net_suite,
-          profiles: profiles
+        expect_create_job(
+          net_suite_connection.id,
+          profiles[0].id,
+          profiles[0].name,
+          mapped_attributes,
+        )
+        expect_create_job(
+          net_suite_connection.id,
+          profiles[1].id,
+          profiles[1].name,
+          mapped_attributes,
         )
 
-        expect(results.map(&:success?)).to eq([true, true])
-        expect(results.map(&:updated?)).to eq([false, false])
-        expect(results.map(&:name)).to eq(names)
-        expect(results.map(&:profile_id)).to eq(ids)
-        expect(net_suite).to have_received(:create_employee).
-          with(mapped_attributes).
-          exactly(2)
-        profiles.each do |profile|
-          expect(profile).to have_received(:update).with(netsuite_id: "1234")
-        end
+        perform_export(
+          normalizer: normalizer,
+          net_suite_connection: net_suite_connection,
+          profiles: profiles
+        )
       end
     end
 
@@ -85,36 +87,21 @@ describe NetSuite::Export do
           from: profile,
           to: mapped_attributes
         )
-        net_suite = stub_net_suite { {} }
+        net_suite_connection = stub_net_suite_connection { { "internalId" => "1234" } }
+
+        expect_update_job(
+          net_suite_connection.id,
+          profile.id,
+          profile.name,
+          mapped_attributes,
+          "1234"
+        )
 
         results = perform_export(
           normalizer: normalizer,
-          net_suite: net_suite,
+          net_suite_connection: net_suite_connection,
           profiles: [profile]
         )
-
-        expect(results.map(&:updated?)).to eq([true])
-        expect(net_suite).to have_received(:update_employee).
-          with("1234", mapped_attributes)
-      end
-    end
-
-    context "with an invalid employee" do
-      it "returns a failure result" do
-        profile = stub_profile
-        exception = double(
-          :exception,
-          response: { "message" => "invalid employee" }.to_json,
-          http_code: 499
-        )
-        error = NetSuite::ApiError.new(exception)
-        net_suite = stub_net_suite { raise error }
-
-        results = perform_export(net_suite: net_suite, profiles: [profile])
-
-        expect(results.map(&:success?)).to eq([false])
-        expect(results.map(&:error)).to eq([error.to_s])
-        expect(profile).not_to have_received(:update)
       end
     end
 
@@ -155,17 +142,20 @@ describe NetSuite::Export do
           from: profile,
           to: mapped_attributes
         )
-        net_suite = stub_net_suite { {} }
+        net_suite_connection = stub_net_suite_connection { { } }
+
+        expect_create_job(
+          net_suite_connection.id,
+          profile.id,
+          profile.name,
+          mapped_attributes
+        )
 
         results = perform_export(
           normalizer: normalizer,
-          net_suite: net_suite,
+          net_suite_connection: net_suite_connection,
           profiles: [profile]
         )
-
-        expect(results.map(&:updated?)).to eq([false])
-        expect(net_suite).to have_received(:create_employee).
-          with(mapped_attributes)
       end
     end
 
@@ -206,17 +196,21 @@ describe NetSuite::Export do
           from: profile,
           to: mapped_attributes
         )
-        net_suite = stub_net_suite { {} }
+        net_suite_connection = stub_net_suite_connection { {} }
+
+        expect_update_job(
+          net_suite_connection.id,
+          profile.id,
+          profile.name,
+          mapped_attributes,
+          "1234"
+        )
 
         results = perform_export(
           normalizer: normalizer,
-          net_suite: net_suite,
+          net_suite_connection: net_suite_connection,
           profiles: [profile]
         )
-
-        expect(results.map(&:updated?)).to eq([true])
-        expect(net_suite).to have_received(:update_employee).
-          with("1234", mapped_attributes)
       end
     end
   end
@@ -236,11 +230,15 @@ describe NetSuite::Export do
     profile
   end
 
-  def stub_net_suite(&block)
-    double("net_suite").tap do |net_suite|
+  def stub_net_suite_connection(&block)
+    client = double("net_suite_client").tap do |net_suite|
       allow(net_suite).to receive(:create_employee, &block)
       allow(net_suite).to receive(:update_employee, &block)
       allow(net_suite).to receive(:employees).and_return(employee_data)
+    end
+
+    double("net_suite_connection", client: client).tap do |connection|
+      allow(connection).to receive(:id).and_return(22)
     end
   end
 
@@ -254,14 +252,40 @@ describe NetSuite::Export do
     end
   end
 
+  def expect_update_job(profile_id, profile_name, connection_id, attributes, netsuite_id)
+    expect(NetSuiteExportJob).to receive(:perform_later).
+      with(
+        "update",
+        2,
+        profile_id,
+        profile_name,
+        connection_id,
+        attributes,
+        netsuite_id
+      )
+  end
+
+  def expect_create_job(profile_id, profile_name, connection_id, attributes)
+    expect(NetSuiteExportJob).to receive(:perform_later).
+      with(
+        "create",
+        2,
+        profile_id,
+        profile_name,
+        connection_id,
+        attributes
+      )
+  end
+
   def perform_export(
     normalizer: stub_normalizer,
-    net_suite:,
+    net_suite_connection:,
     profiles:
   )
     NetSuite::Export.new(
+      summary_id: 2,
       normalizer: normalizer,
-      net_suite: net_suite,
+      net_suite_connection: net_suite_connection,
       namely_profiles: profiles
     ).perform
   end

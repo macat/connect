@@ -218,9 +218,10 @@ describe NetSuite::Connection do
       connection.sync
 
       expect(NetSuite::Export).to have_received(:perform).with(
+        summary_id: SyncSummary.last.id,
         normalizer: normalizer,
         namely_profiles: namely_profiles,
-        net_suite: client
+        net_suite_connection: connection
       )
     end
   end
@@ -245,9 +246,10 @@ describe NetSuite::Connection do
       connection.retry(sync_summary)
 
       expect(NetSuite::Export).to have_received(:perform).with(
+        summary_id: SyncSummary.last.id,
         normalizer: normalizer,
         namely_profiles: namely_profiles,
-        net_suite: client
+        net_suite_connection: connection
       )
     end
   end

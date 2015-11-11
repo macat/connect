@@ -76,10 +76,14 @@ class NetSuite::Connection < ActiveRecord::Base
   private
 
   def perform_export(profiles)
+    summary = SyncSummary.create(
+      connection: self
+    )
     NetSuite::Export.perform(
+      summary_id: summary.id,
       normalizer: normalizer,
       namely_profiles: profiles,
-      net_suite: client
+      net_suite_connection: self,
     )
   end
 

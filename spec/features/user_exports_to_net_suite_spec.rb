@@ -58,22 +58,7 @@ feature "user exports to net suite" do
     expect(page).
       to have_content(t("syncs.create.title", integration: t("net_suite.name")))
 
-    open_email user.email
-    expect(current_email).to have_text(
-      t(
-        "sync_mailer.sync_notification.succeeded",
-        count: 2,
-        integration: "NetSuite"
-      )
-    )
 
-    expect(current_email).to have_text(
-      t(
-        "sync_mailer.sync_notification.failed",
-        count: 1,
-        integration: "NetSuite"
-      )
-    )
     expect(WebMock).
       to have_requested(:post, "#{cloud_elements}/employees").
       with(
