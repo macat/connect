@@ -8,6 +8,7 @@ module NetSuite
     end
 
     def update
+      Rails.logger.info "Updating NetSuite employee: #{netsuite_id}"
       request(updated: true) do
         response = netsuite_client.update_employee(netsuite_id, attributes)
         profile.update(netsuite_id: netsuite_id)
@@ -16,8 +17,12 @@ module NetSuite
     end
 
     def create
+      Rails.logger.info "Creating NetSuite employee from Namely Profile: #{profile.id}"
       request(updated: false) do
         response = netsuite_client.create_employee(attributes)
+
+        Rails.logger.info "Updating Namely profile #{profile.id} with NetSuite ID: #{response["internalId"]}"
+
         profile.update(netsuite_id: response["internalId"])
         response
       end
