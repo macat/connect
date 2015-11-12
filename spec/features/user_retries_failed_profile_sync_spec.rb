@@ -5,6 +5,7 @@ feature "User retries failed profile sync" do
     user = create(:user)
     connection = create_connection_for(user)
     create_failed_profile_event_for(connection)
+    stub_profile_update
     stub_netsuite_employees
     stub_namely_data("/profiles", "profiles_with_net_suite_fields")
     stub_namely_fields("fields_with_net_suite")
@@ -13,6 +14,8 @@ feature "User retries failed profile sync" do
     visit_activity_feed(connection, user)
     click_on t("profile_event.retry")
     visit_activity_feed(connection, user)
+
+    save_page
 
     expect(page).to have_text("Successfully synced one profile")
   end
@@ -51,6 +54,13 @@ feature "User retries failed profile sync" do
       "https://api.cloud-elements.com/elements/api-v2/hubs/erp/employees"
     ).to_return(
       body: [{internalId: "1234", firstName: "TT"}].to_json
+    )
+  end
+
+  def stub_profile_update
+    stub_request(:put, %r{.*api/v1/profiles/.*}).to_return(
+      status: 200,
+      body: [{id: "3f51b510-1922-11e5-b939-0800200c9a66", first_name: "Tina Tech"}].to_json
     )
   end
 

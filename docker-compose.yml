@@ -15,6 +15,22 @@ web:
     WEB_CONCURRENCY: 1
   links:
    - db
+
+test:
+  build: .
+  command: bundle exec rspec
+  volumes:
+   - .:/connect
+  ports:
+   - "80:3000"
+  env_file:
+    - .env
+  environment:
+    WEB_CONCURRENCY: 1
+    DATABSE_URL: postgres://postgres:@db/connect_test
+  links:
+   - db
+
 worker:
   build: .
   command: bundle exec rake jobs:work
