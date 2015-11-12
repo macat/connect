@@ -2,6 +2,13 @@ db:
   image: postgres:9.4
   ports:
    - "5432"
+
+sqs:
+  build: .
+  dockerfile: Dockerfile-sqs
+  ports:
+    - "3434"
+
 web:
   build: .
   command: bundle exec unicorn -p 3000 -c ./config/unicorn.rb
@@ -13,8 +20,11 @@ web:
     - .env
   environment:
     WEB_CONCURRENCY: 1
+    AWS_SQS_ENDPOINT: http://sqs:3434
   links:
    - db
+   - sqs
+
 worker:
   build: .
   command: bundle exec rake jobs:work
@@ -22,5 +32,8 @@ worker:
    - .:/connect
   env_file:
     - .env
+  environment:
+    AWS_SQS_ENDPOINT: http://sqs:3434
   links:
-   - db
+    - db
+    - sqs

@@ -1,0 +1,7 @@
+# FAKE SQS Server for running jobs
+
+FROM ruby:2.2.2
+RUN gem install fake_sqs
+EXPOSE 3434
+RUN mkdir -p /var/lib/sqs
+CMD /usr/local/bundle/bin/fake_sqs -p 3434 --no-daemonize

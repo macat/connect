@@ -1,0 +1,6 @@
+concurrency: 25
+delay: 5
+queues:
+  - [high_priority, 6]
+  - [default, 2]
+  - [low_priority, 1]
