@@ -15,10 +15,13 @@ module NetSuite
     def perform
       matcher.results.each do |result|
         if result.matched?
+          Rails.logger.info "Matched result: #{result.profile.id}"
+
           differ = NetSuite::EmployeeDiffer.new(
             namely_employee: normalize(result.namely_employee),
             netsuite_employee: result.netsuite_employee)
           if differ.different?
+            Rails.logger.info "Different result: #{result.profile.id}"
             NetSuiteExportJob.perform_later(
               "update",
               summary_id,
@@ -30,6 +33,7 @@ module NetSuite
             )
           end
         else
+          Rails.logger.info "Match failed: #{result.profile.id}"
           NetSuiteExportJob.perform_later(
             "create",
             summary_id,
